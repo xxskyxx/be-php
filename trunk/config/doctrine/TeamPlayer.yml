@@ -1,0 +1,26 @@
+# Учетная запись игрока в команде
+TeamPlayer:
+  tableName: team_players
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Кто
+    web_user_id: { type: integer, notnull: true }
+    # В какой команде
+    team_id: { type: integer, notnull: true, default: 0 }
+  # Признак капитана
+    is_leader: { type: boolean, notnull: true, default: false }
+  indexes:
+    # Дублировать записи не имеет смысла
+    ui_webuser_team:
+      type: unique
+      fields:
+        - web_user_id
+        - team_id    
+  relations:
+    WebUser:
+      # При удалении пользователя он исключается из команды
+      onDelete: CASCADE
+    Team:
+      foreignAlias: teamPlayers
+      # При удалении команды из нее исключаются все игроки
+      onDelete: CASCADE

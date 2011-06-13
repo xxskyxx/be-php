@@ -1,0 +1,23 @@
+TaskConstraint:
+# Правила перехода между парой заданий
+  tableName: task_constraints
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+  # Опорное задание
+    task_id: { type: integer, notnull: true }
+  # Целевое задание (не всегда актуально, целостность через БД не поддерживается)
+    target_task_id: { type: integer, notnull: true, default: 0 }
+  # Корректировка приоритета при переходе
+    priority_shift: { type: integer, notnull: true, default: 0 }
+  relations:
+    Task:
+      foreignAlias: taskConstraints
+      # При удалении задания удаляются все его ограничения
+      onDelete: CASCADE
+  indexes:
+  # Переход с опорного задания на другое должен быть уникален
+    ui_game_task_next_task:
+      type: unique
+      fields:
+        - task_id
+        - target_task_id

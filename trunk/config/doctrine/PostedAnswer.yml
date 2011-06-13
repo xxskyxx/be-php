@@ -1,0 +1,37 @@
+# Введенный командой ответ, ожидающий проверки
+PostedAnswer:
+  tableName: posted_answers
+  columns:
+    id: { type: integer, notnull: true, primary: true, autoincrement: true }
+    # Состояние задания к которому был введен ответ
+    task_state_id: { type: integer, notnull: true }
+    # Введенное значение
+    value: { type: string(64), notnull: true }
+    # Время ввода (время Unix)
+    post_time: { type: integer, notnull: true }
+    # Игрок, который ввел ответ
+    web_user_id: { type: integer }
+    # Если ответ правильный, то здесь ссылка на соответствующий ответ
+    answer_id: { type: integer }
+    # Статус ответа (на проверке / верный / неверный )
+    status: { type: integer, notnull: true, default: 0 }
+  relations:
+    TaskState:
+      foreignAlias: postedAnswers
+      # При удалении состояния задания удаляются все достижения по этому заданию
+      onDelete: CASCADE
+    Answer:
+      # При удалении ответа убираем ссылку
+      # Cтатус становится неадекватным! Но по идее, при первой же перепроверке ответов, такой ответ станет неверным.
+      onDelete: SET NULL
+    WebUser:
+      foreignAlias: postedAnswers
+      # При удалении игрока все его ответы сохраняются.
+      onDelete: SET NULL
+  indexes:
+    # Каждое значение вводится только один раз
+    ui_state_value:
+      type: unique
+      fields:
+        - task_state_id
+        - value

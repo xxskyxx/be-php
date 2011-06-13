@@ -1,0 +1,56 @@
+/* 
+    Document   : body
+    Created on : 02.03.2011, 21:20:42
+    Author     : vozdvin
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+html { font-size: 1em; color: GreenYellow; }
+
+body {
+  background: #091936 url(/images/bg_border.png) 0 0 repeat-x;
+  text-align: justify;
+  font-family: Verdana, Helvetica, Sans-Serif;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  margin-left: auto;
+  margin-right: auto;
+/*  width:   95%; font-size: 100%   /**/
+  width: 780px; font-size: 100%   /**/
+/*  width: 320px; font-size: 70%; /**/
+/*  width: 240px; font-size: 60%; /**/
+/*  width: 176px; font-size: 50%; /**/
+}
+
+span { /* padding: 0 1px 0 1px; */ text-indent: 0 }
+
+div { /* margin: 1px 0 1px 0 */ }
+
+h1, h2, h3, h4, h5, h6 { color: Lime; text-align: left; font-family: Arial, Helvetica, Sans-serif; font-size: 1em; font-weight: bold }
+h1 { color: White;  font-size: 1.7em; margin: 0.5em 0 0.25em 0; padding-left: 8% }
+h2 { color: Orange; font-size: 1.5em; margin: 0.5em 0 0.25em 0; padding-left: 6% }
+h3 { color: Yellow; font-size: 1.3em; margin: 0.4em 0 0.25em 0; padding-left: 4%; border-top: Solid 1px Lime; padding-top: 0.25em }
+h4 { color: White;  font-size: 1.1em; margin: 0.3em 0 0      0; padding-left: 2% }
+h5 { color: Lime;   font-size: 1em;   margin: 0.3em 0 0      0 }
+
+table { border-top: Solid 1px SkyBlue; border-left: Solid 1px SkyBlue; vertical-align: top; empty-cells: show }
+td, th { border-right: Solid 1px SkyBlue; border-bottom: Solid 1px SkyBlue; padding: 0.1em 0.25em 0.1em 0.25em }
+th { font-weight: bold; color: PaleGreen }
+td { text-align: left }
+tbody th { text-align: right }
+thead th, tfoot td { text-align: center }
+
+ul { padding: 0 0 0 1ex; margin: 0 0 0 0; padding-left: 3ex }
+ul li { text-align: justify }
+
+p { margin: 0 0 0 0; text-indent: 3ex; text-align: justify }
+li p { margin: 0 0 0 0; text-indent: 0 }
+
+a:link,
+a:visited { color: Aquamarine; text-decoration: underline }
+a:hover,
+a:active  { color: White;  text-decoration: none }

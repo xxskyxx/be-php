@@ -1,0 +1,29 @@
+# Запись о выдаче/запрещении определенного права конкретному пользователю
+GrantedPermission:
+  tableName: granted_permissions
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Кому выдано
+    web_user_id: { type: integer, notnull: true }
+    # Что выдано
+    permission_id: { type: integer, notnull: true, default: 0 }
+    # Фильтрация по id, может относитсья к любому объекту
+    filter_id: { type: integer, notnull: true, default: 0 }
+    # Признак запрета, если стоит то соответствующее действие запрещено
+    deny: { type: boolean, notnull: true, default: false }
+  indexes:
+    # Исключение deny из индекса гарантирует, что право будет либо разрешено, либо запрещено
+    ui_webuser_permission_filter:
+      type: unique
+      fields:
+        - web_user_id
+        - permission_id
+        - filter_id
+  relations:
+    WebUser:
+      foreignAlias: grantedPermissions
+      # При удалении пользователя все его разрешения удаляются
+      onDelete: CASCADE
+    Permission:
+      # При удалении разрешения все записи о его выдаче удаляются
+      onDelete: CASCADE

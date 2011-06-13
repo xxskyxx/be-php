@@ -1,0 +1,25 @@
+GameCandidate:
+# Текущее состояние команды на игре
+  tableName: game_candidates
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+  # Какая команда
+    team_id: { type: integer, notnull: true }
+  # На какую игру подала заявку
+    game_id: { type: integer, notnull: true }
+  relations:
+    Team:
+      foreignAlias: gameCandidates
+    # При удалении команды удаляются все её заявки на игры
+      onDelete: CASCADE
+    Game:
+      foreignAlias: gameCandidates
+    # При удалении игры удаляются все заявки на нее
+      onDelete: CASCADE
+  indexes:
+    # Команда может иметь только одну заявку на игру
+    ui_team_game:
+      type: unique
+      fields:
+        - team_id
+        - game_id

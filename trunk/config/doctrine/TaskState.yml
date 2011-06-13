@@ -1,0 +1,47 @@
+# Текущее состояние задания команды
+TaskState:
+  tableName: task_states
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Состояние команды
+    team_state_id: { type: integer, notnull: true }
+    # Какое задание
+    task_id: { type: integer, notnull: true }
+    # Время назначения (время Unix)
+    given_at: { type: integer, notnull: true }
+    # Время разрешения старта (время Unix)
+    started_at: { type: integer, notnull: true, default: 0 }
+    # Время, когда команда ознакомилась с заданием (время Unix)
+    accepted_at: { type: integer, notnull: true, default: 0 }
+    # Суммарное время простоя задания, секунды
+    task_idle_time: { type: integer, notnull: true, default: 0 }
+    # Время завершения (время Unix)
+    done_at: { type: integer, notnull: true, default: 0 }
+    # Сколько на задание времени реально потрачено, секунды
+    task_time_spent: { type: integer, notnull: true, default: 0 }
+    # Признак подтверждения завершения задания
+    closed: { type: boolean, notnull: true, default: false }
+    # Код состояния
+    status: { type: integer, notnull: true, default: 0 }
+    # Когда было последнее обновление состояния (время Unix)
+    task_last_update: { type: integer, notnull: true }
+    # Использованные подсказки
+    #usedTips: Doctrine_Collection<UsedTips>
+    # Введенные ответы
+    #postedAnswers: Doctrine_Collection<PostedAnswers>
+  relations:
+    TeamState:
+      foreignAlias: taskStates
+      # При удалении состояния команды удаляются все статусы заданий
+      onDelete: CASCADE
+    Task:
+      foreignAlias: taskStates
+      # При удалении задания удаляются все его выдачи
+      onDelete: CASCADE
+  indexes:
+    # Задание может быть выдано только один раз.
+    ui_team_state_task:
+      type: unique
+      fields:
+        - team_state_id
+        - task_id

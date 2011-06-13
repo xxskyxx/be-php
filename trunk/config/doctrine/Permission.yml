@@ -1,0 +1,8 @@
+# Право на что-либо
+Permission:
+  tableName: permissions
+  columns:
+    # Таблица заполняется только один раз, после чего используется только для чтения.
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Подробное описание права, нужно составлять как продолжение фразы "Пользователь имеет право ..."
+    description: string(255)

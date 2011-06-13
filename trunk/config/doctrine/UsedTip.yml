@@ -1,0 +1,28 @@
+# Использованная командой подсказка
+UsedTip:
+  tableName: used_tips
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Состояние задания к которому была выдана подсказка
+    task_state_id: { type: integer, notnull: true }
+    # Ссылка на подсказку
+    tip_id: { type: integer, notnull: true }
+    # Состояние подсказки
+    status: { type: integer, notnull: true, default: 0 }
+    # Момент использования подсказки (время Unix)
+    used_since: { type: integer, notnull: true }
+  relations:
+    TaskState:
+      foreignAlias: usedTips
+      # При удалении состояния задания удаляются все достижения по этому заданию
+      onDelete: CASCADE
+    Tip:
+      # При удалении подсказки удаляются все случаи ее использования
+      onDelete: CASCADE
+  indexes:
+    # Каждая подсказка выдается только один раз
+    ui_state_tip:
+      type: unique
+      fields:
+        - task_state_id
+        - tip_id

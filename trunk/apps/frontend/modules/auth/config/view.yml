@@ -1,0 +1,6 @@
+all:
+  metas:
+    title: "Учетные записи"
+
+  has_layout: true
+  layout: authLayout

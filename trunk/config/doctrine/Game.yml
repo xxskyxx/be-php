@@ -1,0 +1,56 @@
+# Игра
+Game:
+  tableName: games
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Название
+    name: { type: string(16), notnull: true }
+    # Подробное описание
+    description: { type: clob, notnull: true }
+    # Команда организаторов
+    team_id: { type: integer }
+    # Резервное поле для хранения имени команды-организатора на момент начала игры, используется в архивных целях.
+    team_name_backup: { type: string(255) }
+    # Дата стартового брифинга
+    start_briefing_datetime: { type: datetime, notnull: true }
+    # Дата начала игры
+    start_datetime: { type: datetime, notnull: true }
+    # Дата принудительного окончания игры
+    stop_datetime: { type: datetime, notnull: true }
+    # Дата финишного брифинга
+    finish_briefing_datetime: { type: datetime, notnull: true }
+    # Времени на игру по умолчанию, мин
+    time_per_game: { type: integer, notnull: true, default: 540 }
+    # Времени на задание по умолчанию, мин
+    time_per_task: { type: integer, notnull: true, default: 90 }
+    # Интервал между подсказками по умолчанию, мин
+    time_per_tip: { type: integer, notnull: true, default: 30 }
+    # Максимальное количество попыток подбора кода
+    try_count: { type: integer, notnull: true, default: 10 }
+    # Интервал автоматического пересчета, сек
+    update_interval: { type: integer, notnull: true, default: 5 }
+    # Пересчет состояния по запросу команд
+    teams_can_update: { type: boolean, notnull: true, default: false }
+    # Название формулировки задания по умолчанию
+    task_define_default_name: { type: string(32), notnull: true, default: Загадка }
+    # Название подсказок по умолчанию
+    task_tip_prefix: { type: string(32), notnull: true, default: Подсказка }
+    # Состояние игры
+    status: { type: integer, notnull: true, default: 0 }
+    # Фактическое время старта игры (Время Unix)
+    started_at: { type: integer, notnull: true  }
+    # Фактическое время финиша игры (Время Unix)
+    finished_at: { type: integer, notnull: true  }
+    # Когда было последнее обновление состояния (Время Unix)
+    game_last_update: { type: integer, notnull: true }
+    # Задания игры
+    #tasks: Doctrine_Collection<Task>
+    # Состояния участвующих команд (он же список зарегистрированных)
+    #teamStates: Doctrine_Collection<TeamState>
+    # Заявки на игру
+    #gameCandidates: Doctrine_Collection<GameCandidate>
+  relations:
+    Team:
+      foreignAlias: games
+      # При удалении команды-организатора игра должна сохраниться
+      onDelete: SET NULL

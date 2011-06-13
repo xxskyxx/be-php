@@ -1,0 +1,48 @@
+# Текущее состояние команды на игре
+TeamState:  
+  tableName: team_states
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Какая команда
+    team_id: { type: integer, notnull: true }
+    # На какой игре
+    game_id: { type: integer, notnull: true }
+    # Задежка старта, мин
+    start_delay: { type: integer, notnull: true, default: 0 }
+    # Разрешение на использование ИИ выбора заданий.
+    ai_enabled: { type: boolean, notnull: true, default: true }
+    # Фактическое время старта на игре (время Unix)
+    started_at: { type: integer, notnull: true, default: 0 }
+    # Фактическое время финиша на игре (время Unix)
+    finished_at: { type: integer, notnull: true, default: 0 }
+    # Код состояния
+    status: { type: integer, notnull: true, default: 0 }
+    # Текущее задание (ссылка бывает битая, но ее целостность не обеспечить через СУБД)
+    task_state_id: { type: integer, notnull: true, default: 0 }
+    # Следующее задание
+    task_id: { type: integer }
+    # Когда было последнее обновление состояния (время Unix)
+    team_last_update: { type: integer, notnull: true }
+    # Игрового времени реально потрачено, секунды (сумма заданий + корректировки)
+    game_time_spent: { type: integer, notnull: true, default: 0 }
+    # Полученные задания (их состояния)
+    #taskStates: Doctrine_Collection<TaskState>
+  relations:
+    Team:
+      foreignAlias: teamStates
+      # При удалении команды удаляются все ее статусы на играх
+      onDelete: CASCADE
+    Game:
+      foreignAlias: teamStates
+      # При удалении игры удаляются все данные прогресса команд
+      onDelete: CASCADE
+    Task:
+      # При удалении задания отменяются все его назначеня как следующего
+      onDelete: SET NULL
+  indexes:
+    # Команда может иметь только один статус на игре
+    ui_team_game:
+      type: unique
+      fields:
+        - team_id
+        - game_id
