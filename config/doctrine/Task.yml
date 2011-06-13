@@ -1,0 +1,38 @@
+# Задание
+Task:
+  tableName: tasks
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Краткое название
+    name: { type: string(32), notnull: true }
+    # Общее время на задание, мин (Если 0 - брать из настроек игры)
+    time_per_task_local: { type: integer, notnull: true, default : 0 }
+    # Признак ручного старта, т.е. после выдачи старт заданию дает руководитель игры.
+    manual_start: { type: boolean, notnull: true, default: false }
+    # Число попыток подбора ответа максимальное
+    try_count_local: { type: integer, notnull: true, default : 0 }
+    # Приоритет задания, когда свободно.
+    priority_free: { type: integer, notnull: true, default: 0 }
+    # Приоритет задания, когда занято хотя бы одной командой.
+    priority_busy: { type: integer, notnull: true, default: 0 }
+    # Сдвиг приоритета на каждую команду.
+    priority_per_team: { type: integer, notnull: true, default: -10 }
+    # Максимальное количество команд на задании, 0 - не ограничивать.
+    max_teams: { type: integer, notnull: true, default: 0 }
+    # Признак полной блокировки, т.е. задание считается отсутствующим.
+    locked: { type: boolean, notnull: true, default: false }
+    # Игра
+    game_id: { type: integer, notnull: true }
+    # Подсказки
+    #tips: Doctrine_Collection<Tip>
+    # Ответы
+    #answers: Doctrine_Collection<Answer>
+    # Кому выдавалось (включает и текущие, и выполненные задания)
+    #taskStates: Doctrine_Collection<TaskState>
+    # Ограничения
+    #taskConstraints: Doctrine_Collection<TaskConstraint>
+  relations:
+    Game:
+      foreignAlias: tasks
+    # При удалении игры удаляются все ее задания
+      onDelete: CASCADE

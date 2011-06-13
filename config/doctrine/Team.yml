@@ -1,0 +1,19 @@
+# Команда
+Team:
+  tableName: teams
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Краткое название
+    name: { type: string(32), notnull: true }
+    # Полное название
+    full_name: string(255)
+    # Регистрационные записи игроков
+    #teamPlayers: Doctrine_Collection<TeamPlayer>
+    # Заявки в состав
+    #teamCandidates: Doctrine_Collection<TeamCandidate>
+    # Организованные командой игры
+    #games: Doctrine_Collection<Game>
+    # Поданные заявки на игры
+    #gameCandidates: Doctrine_Collection<GameCandidate>
+    # Состония на играх
+    #teamStates: Doctrine_Collection<GameCandidate>

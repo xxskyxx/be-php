@@ -1,0 +1,24 @@
+TeamCandidate:
+# Запрос на вступление угрока в команду
+  tableName: team_candidates
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+  # Кто
+    web_user_id: { type: integer, notnull: true }
+  # В какую команду
+    team_id: { type: integer, notnull: true, default: 0 }
+  relations:
+    WebUser:
+      # При удалении пользователя он исключается из заявок
+      onDelete: CASCADE
+    Team:
+      foreignAlias: teamCandidates
+      # При удалении команды удаляются все заявки в нее
+      onDelete: CASCADE
+  indexes:
+  # В одну команду только одна заявка
+    ui_webuser_team:
+      type: unique
+      fields:
+        - web_user_id
+        - team_id

@@ -1,0 +1,19 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+default:
+  http_metas:
+    content-type: text/html; charset=utf-8
+
+  metas:
+    title:        Beaver's Engine
+    description:  Beaver's Engine for interactive online games
+    language:     en
+    robots:       index, follow
+
+  stylesheets:    [common.css, highlights.css, special.css]
+
+  javascripts:    []
+
+  has_layout:     true
+  layout:         layout

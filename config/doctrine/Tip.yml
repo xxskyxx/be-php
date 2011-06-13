@@ -1,0 +1,24 @@
+# Подсказка
+Tip:
+  tableName: tips
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Задание
+    task_id: { type: integer, notnull: true }
+    # Название
+    name: { type: string(64), notnull: true }
+    # Формулировка
+    define: { type: clob, notnull: true }
+    # Задержка отправки
+    delay: { type: integer, notnull: true, default 0 }
+    # Ответ, после ввода которого выдается эта подсказка.
+    answer_id: { type: integer }
+  relations:
+    Task:
+      foreignAlias: tips
+    # При удалении задания удаляются все его подсказки
+      onDelete: CASCADE
+    Answer:
+      foreignAlias: tips
+    # При удалении ответа обнуляются ссылки на него
+      onDelete: SET NULL

@@ -1,0 +1,46 @@
+/* 
+    Document   : tables
+    Created on : 02.03.2011, 21:20:50
+    Author     : vozdvin
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+div.loginDisplay { text-align: Right; }
+
+div.menu { margin-top: 0.25em; color: Yellow; background-color: Navy; border: Solid 1px DarkTurquoise }
+div.menu ul { padding: 0.25ex 0.25em 0.5ex 0.25em; list-style: none; vertical-align: middle }
+div.menu ul li { font-weight: bold; display: inline; vertical-align: middle }
+div.menu ul li a,
+div.menu ul li a:visited { color: Aqua; text-decoration: none; border-bottom: Solid Aqua 1px }
+div.menu ul li a:hover,
+div.menu ul li a:active  { color: White; text-decoration: none; background-color: Blue; border-bottom: none }
+
+div.homeHeader { border-bottom: Solid 1px Lime; margin-bottom: 0.5em }
+div.homeHeader h1,
+div.homeHeader h2,
+div.homeHeader h3 { margin-left: auto; margin-right: auto; text-align: center; border: none }
+
+div.footer { text-align: Right; border-top: Solid 1px Lime; margin-top: 0.5em }
+div.footer div.first { font-style: Italic; }
+div.footer div.next  { font-style: Italic; font-size: smaller }
+
+div.imageButton { display: inline-block; vertical-align: middle }
+
+div.spaceBefore { margin-top: 0.75em }
+div.spaceAfter  { margin-bottom: 0.75em }
+div.hr { border-top: Solid 1px Lime; margin-top: 0.5em; padding-top: 0.5em }
+
+table.noBorder, table.noBorder th, table.noBorder td { border: none }
+th.bottomWeakBorder,
+td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px DarkSlateGrey }
+
+table.tabControl { width: 100%; border: none }
+table.tabControl th.tabTitle       { border: none; border-bottom: Solid 1px SkyBlue }
+table.tabControl th.tabTitleActive { background-color: #091936; border: Solid 1px SkyBlue; border-top: Solid 3px SkyBlue; border-bottom: none }
+table.tabControl td.tabSheet       { background: Black url(/images/bg_main.png) 0 0 repeat-x; border: none; padding-top: 0.4em }
+
