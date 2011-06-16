@@ -187,7 +187,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   public function getLastDoneTaskState()
   {
-    //TODO: Оптимизировать через прямой запрос к БД.
     $res = false;
     if ($this->taskStates->count() <= 0)
     {
@@ -581,7 +580,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     foreach ($this->taskStates as $taskState)
     {
       if (($taskState->status == TaskState::TASK_DONE_SUCCESS)
-          && ($this->finished_at < $taskState->done_at)) //TODO: Зачем вторая часть условия?
+          && ($this->finished_at < $taskState->done_at))
       {
         $this->finished_at = $taskState->done_at;
       }
