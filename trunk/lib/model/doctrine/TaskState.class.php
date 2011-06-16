@@ -211,9 +211,6 @@ class TaskState extends BaseTaskState implements IStored, IAuth
    */
   public function canBeStarted()
   {
-    //TODO: Нужен учет перегруженности задания, т.к...
-    //...если это задание выдано как единственное доступное, но оно сейчас перегружено,
-    //то автоматический старт ему давать нельзя (вручную можно).
     if ($this->Task->manual_start)
     {
       return false;
@@ -363,7 +360,6 @@ class TaskState extends BaseTaskState implements IStored, IAuth
             }
             //else - ни задание, ни игра не закончились.
           }
-          //TODO: Логика выбора результата задания.
         }
         break;
 

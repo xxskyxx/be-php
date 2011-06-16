@@ -66,8 +66,9 @@ class Timing
 
   /**
    * Конвертирует строку вида "ГГГГ-ММ-ДД ЧЧ:ММ:СС" в метку времени Unix.
+   * 
    * @todo Надо это как-то нормально реализовать, а не так криво. Как вообще mySql хранит timestamp?
-   *
+   * 
    * @param   string  $dateStr
    * @return  integer
    */
@@ -339,21 +340,13 @@ class Utils
 
   /**
    * Формирует HTML-код для отображения строки по вертикали.
+   * 
+   * @todo: Пока заглушка, надо разобраться, как вставлять пробелы в UTF8-строку.
+   * 
    * @return string
    */
   public static function renderVertical($sourceString)
   {
-    //TODO: Разобраться со вставкой пробелов в UTF-8 строку.
-    /*
-    $srcStr = utf8_decode($sourceString);
-    $chars = strlen($srcStr);
-    $destStr = '';
-    for ($i = 0; $i < $chars; $i++)
-    {
-      $destStr .= utf8_encode(' ').utf8_encode($srcStr[$i]);
-    }
-    return '<div style="display:inline-block;width:2ex">'.$destStr.'</div>';
-    */
     return $sourceString;
   }
   
