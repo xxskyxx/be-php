@@ -29,7 +29,7 @@ class TaskConstraint extends BaseTaskConstraint implements IStored, IAuth
 
   static function isModerator(WebUser $account)
   {
-    return Game::isModeraotr($account);
+    return Game::isModerator($account);
   }
 
   function canBeManaged(WebUser $account)

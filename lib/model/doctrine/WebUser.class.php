@@ -103,7 +103,6 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
    */
   public function can($permissionId, $filterId)
   {
-    $res = new Doctrine_Collection('GrantedPermission');
     foreach ($this->grantedPermissions as $grantedPermission)
     {
       if ((($grantedPermission->permission_id == $permissionId)
@@ -112,10 +111,10 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
               || ($grantedPermission->filter_id == 0))
           && ($grantedPermission->deny == 0))
       {
-        $res->add($grantedPermission);
+        return true;
       }
     }
-    return ($res->count() > 0) ? $res : false;
+    return false;
   }
 
   /**
@@ -128,7 +127,6 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
    */
   public function canExact($permissionId, $filterId)
   {
-    $res = new Doctrine_Collection('GrantedPermission');
     foreach ($this->grantedPermissions as $grantedPermission)
     {
       if (($grantedPermission->permission_id == $permissionId)
@@ -136,10 +134,10 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
               || ($grantedPermission->filter_id == 0))
           && ($grantedPermission->deny == 0))
       {
-        $res->add($grantedPermission);
+        return true;
       }
     }
-    return ($res->count() > 0) ? $res : false;    
+    return false;
   }
 
   /**
@@ -161,10 +159,10 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
               || ($grantedPermission->filter_id == 0))
           && ($grantedPermission->deny != 0))
       {
-        $res->add($grantedPermission);
+        return true;
       }
     }
-    return ($res->count() > 0) ? $res : false;    
+    return false;
   }
 
   /**

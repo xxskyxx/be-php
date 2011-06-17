@@ -46,24 +46,44 @@ class Game extends BaseGame implements IStored, IAuth
 
   function canBeManaged(WebUser $account)
   {
-    return (($this->team_id > 0)
-        ? $this->Team->isLeader($account)
-        : false)
-    || $account->can(Permission::GAME_MODER, $this->id);
+    $res = false;
+    //Если известна команда организаторов
+    if ($this->team_id > 0)
+    {
+      //Если пользователь - капитан организаторов
+      if ($this->Team->isLeader($account))
+      {
+        $res = true;
+      }
+    }
+    //Если разрешение еще не нашли
+    if (!$res)
+    {
+      //Возможно пользователь может модерировать эту игру
+      $res = $account->can(Permission::GAME_MODER, $this->id);
+    }
+    return $res;
   }
 
   function canBeObserved(WebUser $account)
   {
-    // Игру могут смотреть:
-    // - организаторы игры,
-    // - приравненные к организаторам игры,
-    // - кто угодно, если игра сдана в архив.
-    $isGameActor = ($this->team_id > 0)
-        ? $this->Team->isPlayer($account)
-        : false;
-    return $isGameActor
-    || $account->can(Permission::GAME_ACTOR, $this->id)
-    || $this->status == Game::GAME_ARCHIVED;
+    $res = false;
+    //Если известна команда организаторов
+    if ($this->team_id > 0)
+    {
+      //Если пользователь - организатор
+      if ($this->Team->isPlayer($account))
+      {
+        $res = true;
+      }
+    }
+    //Если разрешение еще не нашли
+    if (!$res)
+    {
+      //Возможно пользователь может принимать участие в организации этой игры
+      $res = $account->can(Permission::GAME_ACTOR, $this->id);
+    }
+    return $res;
   }
 
   //// Public ////
@@ -490,8 +510,8 @@ class Game extends BaseGame implements IStored, IAuth
    * - ключ tasks
    *    - ключ - id заданий
    *      - ключи - порядковый номер сообщения в рамках задания
- *          - ключ errLevel - уровень проблемы
- *          - ключ msg - само сообщение
+   *        - ключ errLevel - уровень проблемы
+   *        - ключ msg - само сообщение
    *
    * @param   WebUser   $actor  Исполнитель
    * @return  mixed             True при успешной проверке, иначе протокол проверки.
