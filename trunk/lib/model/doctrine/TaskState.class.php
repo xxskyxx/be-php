@@ -61,7 +61,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
    * 
    * @param WebUser $account 
    */
-  function canUpdateState(WebUser $account)
+  public function canUpdateState(WebUser $account)
   {
     if (!$this->TeamState->Game->teams_can_update)
     {
