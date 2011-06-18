@@ -136,7 +136,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     }
     //Обновим данные о затратах времени на задания.
     //Данные включают рассчет длительности текущего задания, если оно есть.
-    $this->updateTime();
+    $this->updateGameSpentTime();
     return $this->game_time_spent;
   }
 
@@ -213,7 +213,9 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   public function canGetTask(Task $task)
   {
-    if ($this->isKnownTask($task) || $task->locked)
+    //Если задание уже выдавалось или оно блокировано
+    if (($this->findKnownTaskState($task) !== false)
+        || $task->locked)
     {
       return false;
     }
@@ -309,24 +311,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   }
 
   /**
-   * Проверяет, выдавалось ли указанное задание команде.
-   *
-   * @param   Task      $task   Задание на проверку.
-   * @return  boolean
-   */
-  public function isKnownTask(Task $task)
-  {
-    foreach ($this->taskStates as $taskState)
-    {
-      if ($task->id == $taskState->task_id)
-      {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
    * Ищет состояние задания, соответствующее указанному заданию.
    *
    * @param   Task              $task   Задание на проверку.
@@ -418,8 +402,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       case TeamState::TEAM_WAIT_START:
         if (($this->Game->isActive()) && (time() >= $this->getActualStartDateTime()))
         {
-//          $res = $this->reset($actor);
-          $res = /*($res === true) ? */$this->start($actor)/* : $res*/;
+          $res = $this->start($actor);
         }
         else
         {
@@ -618,10 +601,11 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       $this->Task = null;
     }
     else
-    { // Назначим следующее задание
-      if ($this->isKnownTask($task))
+    { 
+      // Назначим следующее задание
+      if ($this->findKnownTaskState($task) !== false)
       {
-        return 'Команда '.$this->Team->name.' уже выполняла задание '.$task->name;
+        return 'Команда '.$this->Team->name.' уже получала задание '.$task->name;
       }
       $this->task_id = $task->id;
     }
@@ -645,7 +629,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       return 'Команда '.$this->Team->name.' еще не закончила задание '.$currentTaskStatus->Task->name;
     }
-    if ($this->isKnownTask($task))
+    if ($this->findKnownTaskState($task) !== false)
     {
       return 'Команда '.$this->Team->name.' уже получала задание '.$task->name;
     }
@@ -701,7 +685,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     $this->task_state_id = 0;
 
     $this->status = TeamState::TEAM_WAIT_TASK;
-    $this->updateTime();
+    $this->updateGameSpentTime();
     return true;
   }
 
@@ -748,7 +732,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       //Задание будет закрыто в следующем цикле пересчета.
     }
 
-    $this->updateTime();
+    $this->updateGameSpentTime();
     return true;
   }
 
@@ -762,12 +746,13 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   protected function autoSelectNextTask()
   {
-     //Если команде уже назначено следующее задание
+    sfContext::getInstance()->getLogger()->info('called TeamState::autoSelectNextTask()');
+    //Если команде уже назначено следующее задание
     if ($this->task_id > 0)
     {
       return;
     }    
-    //Определим текущие приоритеты заданий и максимальный приоритет.
+    //Определим текущие приоритеты заданий и максимальный из них.
     $candidates = array();
     $candidatesCount = 0;
     $maxPriority = null;
@@ -787,37 +772,35 @@ class TeamState extends BaseTeamState implements IStored, IAuth
         $candidatesCount++;
       }
     };
-    //Нет ни одного доступного задания?
+    // Нет ни одного доступного задания?
     if ($candidatesCount == 0)
     {
+      // Просто выход, это уже не забота ИИ
       return;
     }
-    //Доступно только одно задание? Тогда выбирать не приходится.
+    // Доступно только одно задание?
     if ($candidatesCount == 1)
     {
+      // Тогда выбирать не приходится.
       $this->task_id = $candidates[0]['task_id'];
       $this->save();
       return;
     }
-    //Отсортируем результаты
     
-    //В начале списка - задания с максимальным приоритетом, возьмем его.
-    $maxPriority = $candidates[0]['priority'];
-    
-    //Выберем задания с максимальным приоритетом и сосчитаем их.
-    $candidates2 = array();
-    $candidates2MaxIndex = 0;
+    // Отберем задания с максимальным приоритетом и сосчитаем их.
+    $finalCandidates = array();
+    $finalCandidatesMaxIndex = 0;
     foreach ($candidates as $candidate)
     {
       if ($candidate['priority'] == $maxPriority)
       {
-        array_push($candidates2, $candidate);
-        $candidates2MaxIndex++;
+        array_push($finalCandidates, $candidate);
+        $finalCandidatesMaxIndex++;
       }
     }
     
-    //Выберем случайное из отобранных заданий в качестве следующего.
-    $this->task_id = $candidates[rand(0, $candidates2MaxIndex - 1)]['task_id'];
+    // Выберем случайное из отобранных заданий в качестве следующего.
+    $this->task_id = $finalCandidates[rand(0, $finalCandidatesMaxIndex - 1)]['task_id'];
     $this->save();
     return;
   }
@@ -832,11 +815,14 @@ class TeamState extends BaseTeamState implements IStored, IAuth
 
   /**
    * Пересчитывает игровое время по завершенным заданиям.
+   * Внимение! Не выполняет save(), надо выполнят вызывающему.
    */
-  protected function updateTime()
+  protected function updateGameSpentTime()
   {
     // Рассчитаем затраченное на игре время как сумму времен известных заданий.
     // Завершенные значения вернут данные из БД, текущее задание само сосчитает.
+    // В БД затраченное время хранится с учетом корректировок, т.е. если
+    // время задания не входит в игровое, там хранится 0.
     $timeSpent = 0;
     foreach ($this->taskStates as $taskState)
     {
