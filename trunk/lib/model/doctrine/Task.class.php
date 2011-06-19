@@ -45,7 +45,26 @@ class Task extends BaseTask implements IStored, IAuth
   //// Public ////
 
   /**
-   * Возвращает список команд, которые находятся на задании в данный момент.
+   * Возвращает список состояний заданий команд, которые получили это задание,
+   * но еще не ознакомились с ним.
+   * 
+   * @return  Doctrine_Collection   Или false, если не найдено.
+   */
+  public function getQueuedTaskStates()
+  {
+    $res = new Doctrine_Collection('TaskState');
+    foreach ($this->taskStates as $taskState)
+    {
+      if ($taskState->status < TaskState::TASK_ACCEPTED)
+      {
+        $res->add($taskState);
+      }
+    }
+    return ($res->count() > 0) ? $res : false;    
+  }
+  
+  /**
+   * Возвращает список состояний заданий команд, которые выполняют это задание.
    * 
    * @return  Doctrine_Collection   Или false, если не найдено.
    */
@@ -70,13 +89,31 @@ class Task extends BaseTask implements IStored, IAuth
    */
   public function getPrioritySelf()
   {
-    if (!($teamsOnStage = $this->getActiveTaskStates()))
+    $activeTaskStates = $this->getActiveTaskStates();
+    if ($activeTaskStates === false)
     {
-      return $this->priority_free;
+      // Нет выполняющих команд, проверим сколько в очереди
+      $queuedTaskStates = $this->getQueuedTaskStates();
+      if ($queuedTaskStates === false)
+      {
+        // Задание никому не выдано
+        return $this->priority_free;
+      }
+      else
+      {
+        // Задание выдано по крайней мере одной команде
+        return $this->priority_queued;
+      }
     }
     else
     {
-      return $this->priority_busy + $teamsOnStage->count()*$this->priority_per_team;
+      // Есть выполняющие команды
+      $res = $this->priority_busy + $activeTaskStates->count()*$this->priority_per_team;
+      if ($activeTaskStates->count() >= $this->max_teams)
+      {
+        $res += $this->priority_filled;
+      }
+      return $res;
     }
   }
   
@@ -126,7 +163,7 @@ class Task extends BaseTask implements IStored, IAuth
    * 
    * @return  boolean
    */
-  public function isOverloadWarning()
+  public function isFilled()
   {
     if ($this->max_teams == 0)
     {

@@ -11,7 +11,9 @@
  * @property boolean $manual_start
  * @property integer $try_count_local
  * @property integer $priority_free
+ * @property integer $priority_queued
  * @property integer $priority_busy
+ * @property integer $priority_filled
  * @property integer $priority_per_team
  * @property integer $max_teams
  * @property boolean $locked
@@ -29,7 +31,9 @@
  * @method boolean             getManualStart()         Returns the current record's "manual_start" value
  * @method integer             getTryCountLocal()       Returns the current record's "try_count_local" value
  * @method integer             getPriorityFree()        Returns the current record's "priority_free" value
+ * @method integer             getPriorityQueued()      Returns the current record's "priority_queued" value
  * @method integer             getPriorityBusy()        Returns the current record's "priority_busy" value
+ * @method integer             getPriorityFilled()      Returns the current record's "priority_filled" value
  * @method integer             getPriorityPerTeam()     Returns the current record's "priority_per_team" value
  * @method integer             getMaxTeams()            Returns the current record's "max_teams" value
  * @method boolean             getLocked()              Returns the current record's "locked" value
@@ -46,7 +50,9 @@
  * @method Task                setManualStart()         Sets the current record's "manual_start" value
  * @method Task                setTryCountLocal()       Sets the current record's "try_count_local" value
  * @method Task                setPriorityFree()        Sets the current record's "priority_free" value
+ * @method Task                setPriorityQueued()      Sets the current record's "priority_queued" value
  * @method Task                setPriorityBusy()        Sets the current record's "priority_busy" value
+ * @method Task                setPriorityFilled()      Sets the current record's "priority_filled" value
  * @method Task                setPriorityPerTeam()     Sets the current record's "priority_per_team" value
  * @method Task                setMaxTeams()            Sets the current record's "max_teams" value
  * @method Task                setLocked()              Sets the current record's "locked" value
@@ -98,7 +104,17 @@ abstract class BaseTask extends sfDoctrineRecord
              'notnull' => true,
              'default' => 0,
              ));
+        $this->hasColumn('priority_queued', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             ));
         $this->hasColumn('priority_busy', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 0,
+             ));
+        $this->hasColumn('priority_filled', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,

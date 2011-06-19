@@ -30,8 +30,8 @@
         <?php if ($currentTaskState->status == TaskState::TASK_GIVEN): ?>
         <?php   if ($currentTaskState->Task->manual_start): ?>
         <span class="info">Вручную</span>
-        <?php   elseif ($currentTaskState->Task->isOverloadWarning()): ?>
-        <span class="warn">Перегружено</span>
+        <?php   elseif ($currentTaskState->Task->isFilled()): ?>
+        <span class="warn">Заполнено</span>
         <?php   endif; ?>
         <?php   if (!$currentTaskState->canBeStarted() && $sessionIsManager): ?>
         <span class="warnAction"><?php echo Utils::buttonTo('Старт', 'taskState/start?id='.$currentTaskState->id.'&returl='.$backLinkEncoded, 'post', 'Дать старт заданию '.$currentTaskState->Task->name.' команды '.$teamState->Team->name.' ?'); ?></span>
@@ -91,7 +91,7 @@
       <?php elseif ($teamState->status == TeamState::TEAM_WAIT_TASK): ?>
       <td>
         <?php if ($lastDoneTaskState = $teamState->getLastDoneTaskState()): ?>
-        <span class="<?php echo $lastDoneTaskState->getHighlightClass() ?>">Завершила <?php echo link_to($lastDoneTaskState->Task->name, 'task/show?id='.$lastDoneTaskState->task_id) ?></span>
+        <span class="<?php echo $lastDoneTaskState->getHighlightClass() ?>">Завершила <?php echo link_to($lastDoneTaskState->Task->name, 'task/show?id='.$lastDoneTaskState->task_id, array('target' => 'new')) ?></span>
         <?php endif; ?>
       </td>
 

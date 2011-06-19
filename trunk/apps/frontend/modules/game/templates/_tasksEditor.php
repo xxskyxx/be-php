@@ -10,8 +10,31 @@ $tasks = ($game->tasks->count() == 0) ? false : $game->tasks;
   <thead>
     <tr>
       <th>Задание</th>
-      <th>Длительность</th>
-      <th>Неверных ответов</th>
+      <th>Дано времени</th>
+      <th>Ошибок не более</th>
+      <th>
+        <div>
+          Приоритеты:
+        </div>
+        <div class="comment">
+          <div>
+            <span class="indent">свободно</span>,
+          </div>
+          <div>
+            <span class="indent">выдано</span>,
+          </div>
+          <div>
+            <span class="info">занято</span>,
+          </div>
+          <div>
+            <span class="warn">заполнено</span>,
+          </div>
+          <div>
+            <span class="indent">на&nbsp;команду</span>
+          </div>
+        </div> 
+      </th>
+      <th>Команд не более</th>
       <th>Правила перехода</th>
     </tr>
   </thead>
@@ -28,8 +51,18 @@ $tasks = ($game->tasks->count() == 0) ? false : $game->tasks;
     <?php   foreach ($tasks as $task): ?>
     <tr>
       <td><?php echo link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')) ?></td>
-      <td><?php echo Timing::intervalToStr($task->time_per_task_local*60) ?></td>
-      <td>не более <?php echo $task->try_count_local ?></td>
+      <td style="text-align:center"><?php echo Timing::intervalToStr($task->time_per_task_local*60) ?></td>
+      <td style="text-align:center"><?php echo $task->try_count_local ?></td>
+      <td>
+        <?php
+        echo $task->priority_free.',';
+        echo $task->priority_queued.',';
+        echo '<span class="info">'.$task->priority_busy.'</span>,';
+        echo '<span class="warn">'.$task->priority_filled.'</span>,';
+        echo $task->priority_per_team
+        ?>
+      </td>
+      <td style="text-align:center"><?php echo ($task->max_teams == 0) ? '&nbsp;' : $task->max_teams ?></td>
       <td>
         <?php if ($task->taskConstraints->count() <= 0): ?>
 &nbsp;
@@ -78,7 +111,7 @@ $tasks = ($game->tasks->count() == 0) ? false : $game->tasks;
   <?php if ($editable): ?>
   <tfoot>
     <tr>
-      <td colspan="4" style="text-align:left">
+      <td colspan="6" style="text-align:left">
         <span class="safeAction"><?php echo link_to('Добавить задание', 'task/new?gameId='.$game->id) ?></span>
       </td>
     </tr>
