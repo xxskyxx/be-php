@@ -12,3 +12,6 @@
   </tfoot>
 </table>
 <?php echo '</form>'; ?>
+<div class="spaceBefore">
+  Если Вы здесь впервые, то сначала <?php echo link_to('зарегистрируйтесь', 'auth/register')?>
+</div>
