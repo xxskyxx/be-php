@@ -28,13 +28,19 @@ $backLinkEncoded = Utils::encodeSafeUrl(url_for('task/show?id='.$task->id));
       <th>Приоритет когда свободно:</th><td><?php echo $task->priority_free ?></td>
     </tr>
     <tr>
-      <th>Приоритет когда занято:</th><td><?php echo $task->priority_busy ?></td>
+      <th>Приоритет когда выдано кому-либо:</th><td><?php echo $task->priority_queued ?></td>
     </tr>
     <tr>
-      <th>Приоритет на каждую команду:</th><td><?php echo $task->priority_per_team ?></td>
+      <th>Приоритет когда выполняется кем-либо:</th><td><?php echo $task->priority_busy ?></td>
     </tr>
     <tr>
-      <th>Выполняющих команд не более:</th><td><?php echo $task->max_teams ?></td>
+      <th>Дополнительно приоритет когда заполнено:</th><td><?php echo $task->priority_filled ?></td>
+    </tr>
+    <tr>
+      <th>Дополнительно приоритет на каждую команду:</th><td><?php echo $task->priority_per_team ?></td>
+    </tr>
+    <tr>
+      <th>Выполняющих команд не более:</th><td><?php echo ($task->max_teams == 0) ? 'Без ограничения' : $task->max_teams ?></td>
     </tr>
     <tr>
       <th>Заблокировано</th>

@@ -21,7 +21,7 @@
                     {
                       echo 'danger';
                     }
-                    elseif ($task->isOverloadWarning())
+                    elseif ($task->isFilled())
                     {
                       echo 'warn';
                     }
@@ -113,7 +113,7 @@
             }
           }
         }
-        elseif ($task->isOverloadWarning())
+        elseif ($task->isFilled())
         {
           $class = 'warn';
           $message = $priority;

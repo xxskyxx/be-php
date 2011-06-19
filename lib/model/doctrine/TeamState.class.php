@@ -746,7 +746,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   protected function autoSelectNextTask()
   {
-    sfContext::getInstance()->getLogger()->info('called TeamState::autoSelectNextTask()');
     //Если команде уже назначено следующее задание
     if ($this->task_id > 0)
     {

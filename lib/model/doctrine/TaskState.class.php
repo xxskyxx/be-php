@@ -409,8 +409,8 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     {
       return Utils::cannotMessage($actor->login, 'обновлять состояние задания');
     }
-    //Если задание перегружено, или требует ручного старта, то дать старт может только руководитель
-    if ($this->Task->isOverloadWarning() || $this->Task->manual_start)
+    //Если задание заполнено, или требует ручного старта, то дать старт может только руководитель
+    if ($this->Task->isFilled() || $this->Task->manual_start)
     {
       if (!$this->Game->canBeManaged($actor))
       {
@@ -810,6 +810,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
   /**
    * Перепроверяет имеющиеся ответы, маркирует их верными и неверными.
    * Возвращает время (Unix) ввода наиболее позднего правильного ответа.
+   * Внимание! Не сохраняет изменения в БД, save выполняет вызывающий.
    *
    * @return  integer
    */
@@ -944,7 +945,8 @@ class TaskState extends BaseTaskState implements IStored, IAuth
 
   /**
    * Обновляет состояние подсказок, выдает автоматические.
-   *
+   * Внимание! Не сохраняет изменения в БД, save выполняет вызывающий.
+   * 
    * @return boolean
    */
   protected function updateTips()

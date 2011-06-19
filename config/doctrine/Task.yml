@@ -13,9 +13,13 @@ Task:
     try_count_local: { type: integer, notnull: true, default : 0 }
     # Приоритет задания, когда свободно.
     priority_free: { type: integer, notnull: true, default: 0 }
-    # Приоритет задания, когда занято хотя бы одной командой.
+    # Приоритет задания, когда кому-то выдано, но никем не выполняется.
+    priority_queued: { type: integer, notnull: true, default: -10 }
+    # Приоритет задания, когда выполняется хотя бы одной командой.
     priority_busy: { type: integer, notnull: true, default: 0 }
-    # Сдвиг приоритета на каждую команду.
+    # Сдвиг приоритета, когда задание выполняется максимальным числом команд или более.
+    priority_filled: { type: integer, notnull: true, default: -500 }
+    # Сдвиг приоритета на каждую выполняющую команду.
     priority_per_team: { type: integer, notnull: true, default: -10 }
     # Максимальное количество команд на задании, 0 - не ограничивать.
     max_teams: { type: integer, notnull: true, default: 0 }
