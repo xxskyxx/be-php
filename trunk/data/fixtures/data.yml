@@ -112,10 +112,10 @@ Game:
     teams_can_update: false
     task_define_default_name: ЗагадкаЁ
     task_tip_prefix: ПодсказкаЁ
-    status: '0'
-    started_at: '0'
+    status: '400'
+    started_at: '1308426581'
     finished_at: '0'
-    game_last_update: '1308316214'
+    game_last_update: '1308426793'
   Game_2:
     name: TestGame2
     description: Test2
@@ -159,7 +159,7 @@ Game:
     finished_at: '0'
     game_last_update: '1308420437'
 GrantedPermission:
-  GrantedPermission_1:
+  GrantedPermission_2:
     WebUser: WebUser_1
     Permission: Permission_1
     filter_id: '0'
@@ -191,6 +191,14 @@ Permission:
     description: 'руководить игрой'
   Permission_13:
     description: 'управлять игрой'
+PostedAnswer:
+  PostedAnswer_1:
+    TaskState: TaskState_2
+    value: '2222'
+    post_time: '1308426698'
+    WebUser: WebUser_1
+    Answer: Answer_5
+    status: '200'
 Task:
   Task_1:
     name: Task1Зад1
@@ -198,7 +206,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '0'
     max_teams: '2'
     locked: false
@@ -209,7 +219,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '-10'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-100'
     max_teams: '2'
     locked: false
@@ -220,7 +232,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '-10'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '2'
     locked: false
@@ -231,7 +245,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '-10'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -242,7 +258,9 @@ Task:
     manual_start: false
     try_count_local: '10'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -252,8 +270,10 @@ Task:
     time_per_task_local: '40'
     manual_start: false
     try_count_local: '5'
-    priority_free: '100'
-    priority_busy: '-100'
+    priority_free: '0'
+    priority_queued: '0'
+    priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -263,8 +283,10 @@ Task:
     time_per_task_local: '40'
     manual_start: false
     try_count_local: '5'
-    priority_free: '50'
+    priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -274,8 +296,10 @@ Task:
     time_per_task_local: '40'
     manual_start: false
     try_count_local: '5'
-    priority_free: '50'
+    priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -285,8 +309,10 @@ Task:
     time_per_task_local: '40'
     manual_start: false
     try_count_local: '5'
-    priority_free: '50'
+    priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -297,7 +323,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -308,7 +336,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -317,9 +347,11 @@ Task:
     name: Старая1я
     time_per_task_local: '40'
     manual_start: false
-    try_count_local: '10'
+    try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -330,7 +362,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -341,7 +375,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -352,9 +388,11 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
-    priority_busy: '100'
+    priority_queued: '0'
+    priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
-    max_teams: '1'
+    max_teams: '0'
     locked: false
     Game: Game_3
   Task_16:
@@ -363,7 +401,9 @@ Task:
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
     max_teams: '0'
     locked: false
@@ -373,10 +413,12 @@ Task:
     time_per_task_local: '40'
     manual_start: false
     try_count_local: '5'
-    priority_free: '100'
+    priority_free: '0'
+    priority_queued: '0'
     priority_busy: '0'
+    priority_filled: '0'
     priority_per_team: '-10'
-    max_teams: '1'
+    max_teams: '0'
     locked: false
     Game: Game_3
 TaskConstraint:
@@ -384,6 +426,43 @@ TaskConstraint:
     Task: Task_1
     target_task_id: '2'
     priority_shift: '-20'
+TaskState:
+  TaskState_1:
+    TeamState: TeamState_1
+    Task: Task_2
+    given_at: '1308426628'
+    started_at: '1308426682'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '100'
+    task_last_update: '1308426793'
+  TaskState_2:
+    TeamState: TeamState_2
+    Task: Task_4
+    given_at: '1308426628'
+    started_at: '1308426682'
+    accepted_at: '1308426695'
+    task_idle_time: '0'
+    done_at: '1308426698'
+    task_time_spent: '3'
+    closed: true
+    status: '910'
+    task_last_update: '1308426716'
+  TaskState_3:
+    TeamState: TeamState_3
+    Task: Task_3
+    given_at: '1308426628'
+    started_at: '1308426682'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '100'
+    task_last_update: '1308426793'
 Team:
   Team_1:
     name: Team1
@@ -436,33 +515,34 @@ TeamState:
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '0'
+    started_at: '1308426585'
     finished_at: '0'
-    status: '0'
-    task_state_id: '3'
-    team_last_update: '0'
+    status: '300'
+    task_state_id: '1'
+    team_last_update: '1308426793'
     game_time_spent: '0'
   TeamState_2:
     Team: Team_4
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '0'
+    started_at: '1308426586'
     finished_at: '0'
-    status: '0'
-    task_state_id: '7'
-    team_last_update: '0'
-    game_time_spent: '0'
+    status: '200'
+    task_state_id: '0'
+    Task: Task_16
+    team_last_update: '1308426793'
+    game_time_spent: '3'
   TeamState_3:
     Team: Team_1
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '0'
+    started_at: '1308426586'
     finished_at: '0'
-    status: '0'
-    task_state_id: '9'
-    team_last_update: '0'
+    status: '300'
+    task_state_id: '3'
+    team_last_update: '1308426793'
     game_time_spent: '0'
   TeamState_4:
     Team: Team_1
@@ -679,12 +759,28 @@ Tip:
     name: Подсказка1
     define: 'Стрелка на Казанском конце.'
     delay: '20'
+UsedTip:
+  UsedTip_1:
+    TaskState: TaskState_1
+    Tip: Tip_1
+    status: '900'
+    used_since: '1308426682'
+  UsedTip_2:
+    TaskState: TaskState_2
+    Tip: Tip_9
+    status: '900'
+    used_since: '1308426682'
+  UsedTip_3:
+    TaskState: TaskState_3
+    Tip: Tip_3
+    status: '900'
+    used_since: '1308426682'
 WebUser:
   WebUser_1:
-    login: admin
+    login: Admin
     pwd_hash: f99cf418670b465d4ee37b0bac36265e
-    full_name: Admin
-    email: admin@admin.org
+    full_name: Administrator
+    email: vozdvin@mail.ru
     tag: null
     is_enabled: true
   WebUser_2:
@@ -693,7 +789,7 @@ WebUser:
     full_name: ItIsAGuest
     email: guest@a.bc
     tag: 8175ee7r
-    is_enabled: false
+    is_enabled: true
   WebUser_3:
     login: 1leader
     pwd_hash: 17d23c7cb1cad8bcecf05a2d44a420e5

@@ -184,6 +184,10 @@ class Utils
    */
   public static function byField($className, $fieldName, $fieldValue)
   {
+    if ($className === '' || $fieldName === '' || $fieldValue === '')
+    {
+      return false;
+    }
     $res = Doctrine::getTable($className)->findBy($fieldName, $fieldValue);
     switch ($res->count())
     {

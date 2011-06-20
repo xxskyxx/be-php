@@ -1,0 +1,18 @@
+# Заявка на создание команды
+TeamCreateRequest:
+  tableName: team_create_requests
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Автор заявки
+    web_user_id: { type: integer, notnull: true }
+    # Краткое название
+    name: { type: string(32), notnull: true }
+    # Полное название
+    full_name: { type: string(255) }
+    # Обоснование
+    description: { type: string(255), notnull: true }
+  relations:
+    WebUser:
+      foreignAlias: teamCreateRequests
+    # При удалении пользователя удаляются его заявки
+      onDelete: CASCADE
