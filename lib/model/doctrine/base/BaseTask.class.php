@@ -107,7 +107,7 @@ abstract class BaseTask extends sfDoctrineRecord
         $this->hasColumn('priority_queued', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
-             'default' => 0,
+             'default' => -10,
              ));
         $this->hasColumn('priority_busy', 'integer', null, array(
              'type' => 'integer',
@@ -117,7 +117,7 @@ abstract class BaseTask extends sfDoctrineRecord
         $this->hasColumn('priority_filled', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
-             'default' => 0,
+             'default' => -500,
              ));
         $this->hasColumn('priority_per_team', 'integer', null, array(
              'type' => 'integer',

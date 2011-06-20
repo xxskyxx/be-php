@@ -15,6 +15,7 @@
  * @property Doctrine_Collection $grantedPermissions
  * @property Doctrine_Collection $postedAnswers
  * @property Doctrine_Collection $TeamCandidate
+ * @property Doctrine_Collection $teamCreateRequests
  * @property Doctrine_Collection $TeamPlayer
  * 
  * @method integer             getId()                 Returns the current record's "id" value
@@ -27,6 +28,7 @@
  * @method Doctrine_Collection getGrantedPermissions() Returns the current record's "grantedPermissions" collection
  * @method Doctrine_Collection getPostedAnswers()      Returns the current record's "postedAnswers" collection
  * @method Doctrine_Collection getTeamCandidate()      Returns the current record's "TeamCandidate" collection
+ * @method Doctrine_Collection getTeamCreateRequests() Returns the current record's "teamCreateRequests" collection
  * @method Doctrine_Collection getTeamPlayer()         Returns the current record's "TeamPlayer" collection
  * @method WebUser             setId()                 Sets the current record's "id" value
  * @method WebUser             setLogin()              Sets the current record's "login" value
@@ -38,6 +40,7 @@
  * @method WebUser             setGrantedPermissions() Sets the current record's "grantedPermissions" collection
  * @method WebUser             setPostedAnswers()      Sets the current record's "postedAnswers" collection
  * @method WebUser             setTeamCandidate()      Sets the current record's "TeamCandidate" collection
+ * @method WebUser             setTeamCreateRequests() Sets the current record's "teamCreateRequests" collection
  * @method WebUser             setTeamPlayer()         Sets the current record's "TeamPlayer" collection
  * 
  * @package    sf
@@ -97,6 +100,10 @@ abstract class BaseWebUser extends sfDoctrineRecord
              'foreign' => 'web_user_id'));
 
         $this->hasMany('TeamCandidate', array(
+             'local' => 'id',
+             'foreign' => 'web_user_id'));
+
+        $this->hasMany('TeamCreateRequest as teamCreateRequests', array(
              'local' => 'id',
              'foreign' => 'web_user_id'));
 

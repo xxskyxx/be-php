@@ -16,6 +16,12 @@ class teamActions extends MyActions
     $this->errorRedirectIf($this->sessionWebUser->cannot(Permission::TEAM_INDEX, 0),
         Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список команд'));
     $this->teams = Team::all();
+    
+    $this->teamModerator = $this->sessionWebUser->can(Permission::TEAM_MODER, 0);
+    
+    $this->teamCreateRequests = ($this->teamModerator)
+        ? TeamCreateRequest::all()
+        : $this->sessionWebUser->teamCreateRequests;
   }
 
   public function executeShow(sfWebRequest $request)
