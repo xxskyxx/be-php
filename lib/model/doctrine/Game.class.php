@@ -194,9 +194,7 @@ class Game extends BaseGame implements IStored, IAuth
    */
   public function getGameStopTime()
   {
-    return ($this->started_at > 0)
-        ? Timing::strToDate($this->stop_datetime)
-        : 0;
+    return Timing::strToDate($this->stop_datetime);
   }
 
   /**
