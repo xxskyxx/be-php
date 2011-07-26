@@ -32,7 +32,7 @@ class authActions extends MyActions
         {
           if ($webUser->getPwdHash() == WebUser::getSaltedPwdHash($account['password']))
           {
-            if ($webUser->getIsEnabled())
+            if ($webUser->is_enabled)
             {
               $this->session->setAttribute('login', $webUser->getLogin());
               $this->session->setAttribute('id', $webUser->getId());
@@ -75,29 +75,30 @@ class authActions extends MyActions
       $this->form->bind($request->getParameter('register'));
       if ($this->form->isValid())
       {
-        $register = $this->form->getValues();
-        $webUser = WebUser::byName($register['login']);
-        if ($webUser)
+        $formData = $this->form->getValues();
+        if (WebUser::byName($formData['login']) !== false)
         {
           $this->errorMessage('Регистрация не удалась. Пользователь '.$register['login'].' уже существует. Придумайте другое имя и попробуйте снова.');
           return;
         }
+        //Длину пароля надо проверять вручную, так как при проверке на форме он может быть непреднамеренно показан
+        if (strlen($formData['password']) < WebUser::MIN_PWD_LENGTH)
+        {
+          $this->errorMessage('Регистрация не удалась. Пароль слишком короткий.');
+          return;
+        }
 
         $webUser = new WebUser;
-        $webUser->setLogin($register['login']);
-        $webUser->setFullName($register['login']);
-        $webUser->setPwdHash(WebUser::getSaltedPwdHash($register['password']));
-        $webUser->setEmail($register['email']);
+        $webUser->setLogin($formData['login']);
+        $webUser->setFullName($formData['login']);
+        $webUser->setPwdHash(WebUser::getSaltedPwdHash($formData['password']));
+        $webUser->setEmail($formData['email']);
         $webUser->newActivationKey();
         $webUser->grantDefault();
         $webUser->save();
-
         $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
       }
-      else
-      {
-        $this->errorMessage('Регистрация не удалась. Пожалуйста, исправьте ошибки и попробуйте снова.');
-      }
+      $this->errorMessage('Регистрация не удалась. Пожалуйста, исправьте ошибки и попробуйте снова.');    
     }
   }
 
@@ -124,21 +125,26 @@ class authActions extends MyActions
       if ($this->form->isValid())
       {
         $formValues = $this->form->getValues();
+        
         $webUser = WebUser::byId($this->session->getAttribute('id'));
-        if (($webUser->getPwdHash() == WebUser::getSaltedPwdHash($formValues['current'])))
+        if (($webUser->getPwdHash() != WebUser::getSaltedPwdHash($formValues['current'])))
         {
-          $webUser->setPwdHash(WebUser::getSaltedPwdHash($formValues['new']));
-          $webUser->save();
-          $this->successRedirect('Пароль успешно изменен.');
+          $this->errorMessage('Изменить пароль не удалось: неверно указан текущий пароль.');
         }
-        else
+        //Длину пароля надо проверять вручную, так как при проверке на форме он может быть непреднамеренно показан
+        if (strlen($formValues['new']) < WebUser::MIN_PWD_LENGTH)
         {
-          $this->errorMessage('Изменение пароля не удалась. Неверно указан текущий пароль.');
+          $this->errorMessage('Изменить пароль не удалось: новый пароль слишком короткий.');
+          return;
         }
+        
+        $webUser->setPwdHash(WebUser::getSaltedPwdHash($formValues['new']));
+        $webUser->save();
+        $this->successRedirect('Пароль успешно изменен.');
       }
       else
       {
-        $this->errorMessage('Изменение пароля не удалась. Пожалуйста, исправьте ошибки и попробуйте снова.');
+        $this->errorMessage('Изменить пароль не удалось. Пожалуйста, исправьте ошибки и попробуйте снова.');
       }
     }
   }
