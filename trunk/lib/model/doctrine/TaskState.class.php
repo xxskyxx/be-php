@@ -967,7 +967,8 @@ class TaskState extends BaseTaskState implements IStored, IAuth
             $this->usedTips->add($new);
           }
         }
-        elseif (($tip->delay == 0) || ($this->getTaskSpentTimeCurrent() >= ($tip->delay * 60)))
+        elseif ((($tip->delay == 0) || ($this->getTaskSpentTimeCurrent() >= ($tip->delay * 60)))
+                && ($tip->answer_id <= 0)) //Подсказка после кода выдается только с кодом.
         {
           $new = new UsedTip();
           $new->tip_id = $tip->id;
