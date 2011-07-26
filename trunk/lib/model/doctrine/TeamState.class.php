@@ -747,14 +747,18 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   protected function autoSelectNextTask()
   {
     //Если команде уже назначено следующее задание
-    if ($this->task_id > 0)
+    //или вдруг на игре нет заданий
+    if (($this->task_id > 0) || ($this->Game->tasks->count() <= 0))
     {
       return;
     }    
     //Определим текущие приоритеты заданий и максимальный из них.
     $candidates = array();
     $candidatesCount = 0;
-    $maxPriority = null;
+    //Проинициализируем maxPriority реальным значением,
+    //а то что-то сравнение с null норовит отбросить знак
+    //и отрицательные приоритеты считать положительными.
+    $maxPriority = $this->getPriorityOfTask($this->Game->tasks->getFirst());
     foreach ($this->Game->tasks as $task)
     {
       $candidate = array();
@@ -763,12 +767,13 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       if ($priority !== false)
       {
         $candidate['priority'] = $priority;
+        array_push($candidates, $candidate);
+        $candidatesCount++;
+
         if ($priority > $maxPriority)
         {
           $maxPriority = $priority;
         }
-        array_push($candidates, $candidate);
-        $candidatesCount++;
       }
     };
     // Нет ни одного доступного задания?
