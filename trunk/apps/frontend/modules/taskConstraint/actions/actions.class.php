@@ -18,13 +18,23 @@ class TaskConstraintActions extends MyActions
     $newTaskConstraint = new TaskConstraint;
     $newTaskConstraint->task_id = $task->id;
     $this->form = new TaskConstraintForm($newTaskConstraint);
+    $this->_task = $task;
+    $this->_game = $task->Game;
+    $this->form->buildQuery($task->id);
   }
 
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->form = new TaskConstraintForm();
+    $this->form->buildQuery($request->getParameter('taskId'));
     $this->processForm($request, $this->form);
+
+    $formData = $this->form->getTaintedValues();
+    $this->form->buildQuery($formData['task_id']);
+
+    $this->_task = Task::byId($formData['task_id']);
+    $this->_game = $this->_task->Game;
     $this->setTemplate('new');
   }
 
@@ -33,6 +43,10 @@ class TaskConstraintActions extends MyActions
     $this->forward404Unless($taskConstraint = TaskConstraint::byId($request->getParameter('id')), 'Правило перехода не найдено.');
     $this->errorRedirectUnless($taskConstraint->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'изменять правила перехода'));
     $this->form = new TaskConstraintForm($taskConstraint);
+    $this->form->buildQuery($taskConstraint->task_id);
+
+    $this->_task = Task::byId($taskConstraint->task_id);
+    $this->_game = $this->_task->Game;
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -41,6 +55,12 @@ class TaskConstraintActions extends MyActions
     $this->forward404Unless($taskConstraint = TaskConstraint::byId($request->getParameter('id')), 'Правило перехода не найдено.');
     $this->form = new TaskConstraintForm($taskConstraint);
     $this->processForm($request, $this->form);
+
+    $formData = $this->form->getTaintedValues();
+    $this->form->buildQuery($formData['task_id']);
+
+    $this->_task = Task::byId($formData['task_id']);
+    $this->_game = $this->_task->Game;
     $this->setTemplate('edit');
   }
 
@@ -65,10 +85,10 @@ class TaskConstraintActions extends MyActions
       if ($object->priority_shift != 0)
       {
         $srcTask = Task::byId($object->task_id);
-        $targetTask = $object->getTargetTaskSafe();
+        $targetTask = Task::byId($object->target_task_id);
         if ($targetTask !== false)
         {
-          if ($targetTask->id != $object->task_id)
+          if ($targetTask->id != $srcTask->id)
           {
             $object->save();
             $this->successRedirect('Правило перехода c задания '.$srcTask->name.' на задание '.$targetTask->name.' успешно сохранено.', 'task/show?id='.$srcTask->id);
@@ -91,9 +111,6 @@ class TaskConstraintActions extends MyActions
     else
     {
       $this->errorMessage('Сохранить правило перехода не удалось. Исправьте ошибки и попробуйте снова.');
-      //Без этого огорода форма наглушняк теряет список выбора:
-      $formData = $form->getTaintedValues();
-      $form->refreshTaskId($formData['task_id']);
     }
   }
 }
