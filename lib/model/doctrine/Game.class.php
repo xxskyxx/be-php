@@ -569,8 +569,10 @@ class Game extends BaseGame implements IStored, IAuth
           {
             //Если это не одна и та же подсказка
             //и совпадают задержки
+            //и обе подсказки не являются дополнениями к кодам
             if (($tip2->id != $tip->id)
-                && ($tip2->delay == $tip->delay))
+                && ($tip2->delay == $tip->delay)
+                && (($tip2->answer_id <= 0) && ($tip->answer_id <= 0)))
             {
               $line++;
               $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_WARN;
