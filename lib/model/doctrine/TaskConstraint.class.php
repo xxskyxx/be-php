@@ -39,7 +39,9 @@ class TaskConstraint extends BaseTaskConstraint implements IStored, IAuth
 
   function canBeObserved(WebUser $account)
   {
-    return $this->Task->canBeObserved($account);
+    // Финт ушами, чтобы при ошибках сохранения с формы не генерилась игра-заглушка.
+    $task = Task::byId($this->task_id);
+    return ($task !== false) ? $task->canBeObserved($account) : false;
   }
 
   // Public
