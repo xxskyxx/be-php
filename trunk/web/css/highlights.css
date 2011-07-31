@@ -12,6 +12,8 @@
 
 div.comment { font-style: italic; font-size: small }
 
+/* Выделение текста цветом фона */
+
 span.indent, div.indent { /* reserved */ }
 span.info,   div.info   { background: DarkGreen }
 span.warn,   div.warn   { background: SaddleBrown; color: Yellow }
@@ -22,10 +24,12 @@ div.info   { background: DarkGreen }
 div.warn   { background: SaddleBrown; color: Yellow }
 div.danger { background: DarkRed;     color: Yellow }
 
-div.infoBorder, div.warnBorder, div.dangerBorder,
-span.infoBorder, span.warnBorder, span.dangerBorder { padding: 1px 3px 1px 3px }
-div.indentBorder, span.indentBorder { padding: 3px 5px 3px 5px; border: none }
+/* Выделение текста цветной рамкой */
 
+span.indentBorder, div.indentBorder { padding: 3px 5px 3px 5px; border: none }
+span.infoBorder,   div.infoBorder,
+span.warnBorder,   div.warnBorder, 
+span.dangerBorder, div.dangerBorder { padding: 1px 3px 1px 3px }
 div.infoBorder   { border: Solid Lime 2px }
 div.warnBorder   { border: Solid Yellow 2px }
 div.dangerBorder { border: Solid Red 2px }
@@ -35,11 +39,15 @@ span.infoBorder   { border: Solid Lime 2px }
 span.warnBorder   { border: Solid Yellow 2px }
 span.dangerBorder { border: Solid Red 2px }
 
-span.indentAction, span.safeAction, span.warnAction, span.dangerAction { margin-top: 1px; display: inline-block }
-span.indentAction { border: none;             padding: 2px 3px 2px 3px }
-span.safeAction   { border: Solid Lime 1px;   padding: 1px 2px 1px 2px; background: DarkGreen }
-span.warnAction   { border: Solid Yellow 1px; padding: 1px 2px 1px 2px; background: SaddleBrown; color: Yellow }
-span.dangerAction { border: Solid Red 1px;    padding: 1px 2px 1px 2px; background: DarkRed;     color: Gold }
+/* Выделение текста цветной рельефной рамкой (для ссылок-действий) */
+
+span.indentAction, span.safeAction, span.warnAction, span.dangerAction { display: inline-block; padding: 0px 2px 0px 2px; border-top: Solid 1px; border-right: Solid 2px MidnightBlue; border-bottom: Solid 1px MidnightBlue;border-left: Solid 2px }
+span.indentAction { padding: 1px 4px 1px 4px; border: none }
+span.safeAction   { border-top-color: Lime;   border-left-color: Lime;   background: DarkGreen }
+span.warnAction   { border-top-color: Yellow; border-left-color: Yellow; background: SaddleBrown; color: Yellow }
+span.dangerAction { border-top-color: Red;    border-left-color: Red;    background: DarkRed;     color: Gold }
+
+/* Формат всплывающих сообщений */
 
 div.flashNotice, div.flashError { border: none; margin: 0.25em 0.25ex 0.25em 0.25ex; padding: 0.25em 0.25ex 0.25em 0.5ex }
 div.flashNotice { border-left: Solid Lime 4px; background: Green;   color: White }
