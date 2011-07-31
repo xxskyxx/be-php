@@ -27,10 +27,10 @@ class WebUserForm extends BaseWebUserForm
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'login' => 'Имя',
-        'full_name' => 'Полное имя',
-        'email' => 'E-Mail',
-        'is_enabled' => 'Активен'
+        'login' => 'Имя:',
+        'full_name' => 'Полное имя:',
+        'email' => 'E-Mail:',
+        'is_enabled' => 'Активен:'
     ));
   }
 
