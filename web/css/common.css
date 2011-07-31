@@ -26,9 +26,7 @@ body {
 /*  width: 176px; font-size: 50%; /**/
 }
 
-span { /* padding: 0 1px 0 1px; */ text-indent: 0 }
-
-div { /* margin: 1px 0 1px 0 */ }
+span { text-indent: 0 }
 
 h1, h2, h3, h4, h5, h6 { color: Lime; text-align: left; font-family: Arial, Helvetica, Sans-serif; font-size: 1em; font-weight: bold }
 h1 { color: White;  font-size: 1.7em; margin: 0.5em 0 0.25em 0; padding-left: 8% }
