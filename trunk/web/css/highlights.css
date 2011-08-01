@@ -1,9 +1,6 @@
 /* 
-    Document   : highlights
     Created on : 02.03.2011, 21:20:56
     Author     : vozdvin
-    Description:
-        Purpose of the stylesheet follows.
 */
 
 /* 
@@ -13,7 +10,6 @@
 div.comment { font-style: italic; font-size: small }
 
 /* Выделение текста цветом фона */
-
 span.indent, div.indent { /* reserved */ }
 span.info,   div.info   { background: DarkGreen }
 span.warn,   div.warn   { background: SaddleBrown; color: Yellow }
@@ -25,7 +21,6 @@ div.warn   { background: SaddleBrown; color: Yellow }
 div.danger { background: DarkRed;     color: Yellow }
 
 /* Выделение текста цветной рамкой */
-
 span.indentBorder, div.indentBorder { padding: 3px 5px 3px 5px; border: none }
 span.infoBorder,   div.infoBorder,
 span.warnBorder,   div.warnBorder, 
@@ -40,7 +35,6 @@ span.warnBorder   { border: Solid Yellow 2px }
 span.dangerBorder { border: Solid Red 2px }
 
 /* Выделение текста цветной рельефной рамкой (для ссылок-действий) */
-
 span.indentAction, span.safeAction, span.warnAction, span.dangerAction { display: inline-block; padding: 0px 2px 0px 2px; border-top: Solid 1px; border-right: Solid 2px MidnightBlue; border-bottom: Solid 1px MidnightBlue;border-left: Solid 2px }
 span.indentAction { padding: 1px 4px 1px 4px; border: none }
 span.safeAction   { border-top-color: Lime;   border-left-color: Lime;   background: DarkGreen }
@@ -48,7 +42,6 @@ span.warnAction   { border-top-color: Yellow; border-left-color: Yellow; backgro
 span.dangerAction { border-top-color: Red;    border-left-color: Red;    background: DarkRed;     color: Gold }
 
 /* Формат всплывающих сообщений */
-
 div.flashNotice, div.flashError { border: none; margin: 0.25em 0.25ex 0.25em 0.25ex; padding: 0.25em 0.25ex 0.25em 0.5ex }
 div.flashNotice { border-left: Solid Lime 4px; background: Green;   color: White }
 div.flashError  { border-left: Solid Red 4px;  background: DarkRed; color: Yellow }
@@ -56,5 +49,6 @@ div.flashError  { border-left: Solid Red 4px;  background: DarkRed; color: Yello
 /*
 Предопределенное имя в SF - ошибки в формах.
 Должно быть без уточнения контейнера.
+Устаревает
 */
 .error_list { color: Red }
