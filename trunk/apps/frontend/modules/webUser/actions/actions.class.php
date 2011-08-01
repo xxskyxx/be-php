@@ -13,16 +13,21 @@ class webUserActions extends MyActions
 
   public function executeIndex(sfWebRequest $request)
   {
-    $this->errorRedirectUnless(WebUser::isModerator($this->sessionWebUser)
-        || $this->sessionWebUser->can(Permission::WEB_USER_INDEX, 0),
-        Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список пользователей'));
-    $this->webUsers = WebUser::all();
+    //Просматривать список пользователей можно в любом случае.
+    $this->_webUsers = Doctrine::getTable('WebUser')->findAll();
+    $this->_sessionWebUserId = $this->sessionWebUser->id;
   }
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.' );
-    $this->errorRedirectUnless($this->webUser->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать пользователя'));
+    //Просматривать пользователя можно в любом случае,
+    //но на самой странице просмотра будут дополнительные ограничения
+    $this->_webUser = WebUser::byId($request->getParameter('id'));
+    $this->forward404Unless($this->_webUser, 'Пользователь не найден.' );
+    //Подготовим данные о правах:
+    $this->_isSelf = ($this->_webUser->id == $this->sessionWebUser->id);
+    $this->_isModerator = $this->sessionWebUser->can(Permission::WEB_USER_MODER, $this->_webUser->id);
+    $this->_isPermissionModerator = $this->sessionWebUser->can(Permission::PERMISSION_MODER, 0);
   }
 
   public function executeEdit(sfWebRequest $request)
