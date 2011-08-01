@@ -177,19 +177,11 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
    */
   public function grant(Permission $permission, $filterId, WebUser $actor)
   {
-    if (!$this->canBeManaged($actor))
-    {
-      return Utils::cannotMessage($actor->getName(), Permission::byId(Permission::WEB_USER_MODER)->description);
-    }
+    //Управлять правами может только уполномоченный
     if (!$actor->can(Permission::PERMISSION_MODER, $this->id))
     {
       return Utils::cannotMessage($actor->getName(), Permission::byId(Permission::PERMISSION_MODER)->description);
     }
-/*    if ($this->canExact($permission, $filterId))
-    {
-      //Право уже есть.
-      return true;
-    }*/
     if ($this->cannot($permission->id, $filterId))
     {
       return 'Нельзя разрешить пользователю '.$this->getName().' '.$permission->description.', так как это ему явно запрещено.';
@@ -209,10 +201,7 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
    */
   public function deny(Permission $permission, $filterId, WebUser $actor)
   {
-    if (!$this->canBeManaged($actor))
-    {
-      return Utils::cannotMessage($actor->getName(), Permission::byId(Permission::WEB_USER_MODER)->description);
-    }
+    //Управлять правами может только уполномоченный
     if (!$actor->can(Permission::PERMISSION_MODER, $this->id))
     {
       return Utils::cannotMessage($actor->getName(), Permission::byId(Permission::PERMISSION_MODER)->description);
@@ -240,10 +229,7 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
    */
   public function revoke(Permission $permission, $filterId, WebUser $actor)
   {
-    if (!$this->canBeManaged($actor))
-    {
-      return Utils::cannotMessage($actor->getName(), Permission::byId(Permission::WEB_USER_MODER)->description);
-    }
+    //Управлять правами может только уполномоченный
     if (!$actor->can(Permission::PERMISSION_MODER, $this->id))
     {
       return Utils::cannotMessage($actor->getName(), Permission::byId(Permission::PERMISSION_MODER)->description);

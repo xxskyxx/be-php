@@ -30,7 +30,7 @@ class WebUserForm extends BaseWebUserForm
         'login' => 'Имя:',
         'full_name' => 'Полное имя:',
         'email' => 'E-Mail:',
-        'is_enabled' => 'Активен:'
+        'is_enabled' => 'Активен:' //TODO: Пользователь может сам себя блокировать.
     ));
   }
 
