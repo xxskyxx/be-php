@@ -1,9 +1,6 @@
 /* 
-    Document   : body
     Created on : 02.03.2011, 21:20:42
     Author     : vozdvin
-    Description:
-        Purpose of the stylesheet follows.
 */
 
 /* 
@@ -31,10 +28,11 @@ span { text-indent: 0 }
 h1, h2, h3, h4, h5, h6 { color: Lime; text-align: left; font-family: Arial, Helvetica, Sans-serif; font-size: 1em; font-weight: bold }
 h1 { color: White;  font-size: 1.7em; margin: 0.5em 0 0.25em 0; padding-left: 8% }
 h2 { color: Orange; font-size: 1.5em; margin: 0.5em 0 0.25em 0; padding-left: 6% }
-h3 { color: Yellow; font-size: 1.3em; margin: 0.4em 0 0.25em 0; padding-left: 4%; border-top: Solid 1px Lime; padding-top: 0.25em }
+h3 { color: Yellow; font-size: 1.3em; margin: 0.4em 0 0.25em 0; padding-left: 4%; border-top: Solid 1px DodgerBlue; padding-top: 0.25em }
 h4 { color: White;  font-size: 1.1em; margin: 0.3em 0 0      0; padding-left: 2% }
 h5 { color: Lime;   font-size: 1em;   margin: 0.3em 0 0      0 }
 
+/* Стили таблиц - устаревают */
 table { border-top: Solid 1px SkyBlue; border-left: Solid 1px SkyBlue; vertical-align: top; empty-cells: show }
 td, th { border-right: Solid 1px SkyBlue; border-bottom: Solid 1px SkyBlue; padding: 0.1em 0.25em 0.1em 0.25em }
 th { font-weight: bold; color: PaleGreen }
@@ -43,9 +41,9 @@ tbody th { text-align: right }
 thead th, tfoot td { text-align: center }
 
 ul { padding: 0 0 0 1ex; margin: 0 0 0 0; padding-left: 3ex }
-ul li { text-align: justify }
+ul li { margin: 0 0 0.25em 0; text-align: justify }
 
-p { margin: 0 0 0 0; text-indent: 3ex; text-align: justify }
+p { margin: 0 0 0.25em 0; text-indent: 3ex; text-align: justify }
 li p { margin: 0 0 0 0; text-indent: 0 }
 
 a:link,

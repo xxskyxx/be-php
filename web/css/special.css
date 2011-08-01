@@ -1,29 +1,33 @@
 /* 
-    Document   : tables
     Created on : 02.03.2011, 21:20:50
     Author     : vozdvin
-    Description:
-        Purpose of the stylesheet follows.
 */
 
 /* 
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+/* Форматирование списка свойств */
 div.propName  { display: inline-block; margin-top: 2px; text-align: right; font-weight: bold; color: PaleGreen }
 div.propValue { display: inline-block; margin-top: 2px }
 
+/* Форматирование "хлебных крошек" */
 div.breadcombs { margin: 0.25em 0 0 0; padding: 0.25em 0 0.25em 0.5em; border: Solid 1px DodgerBlue; border-right: none; vertical-align: middle }
 
+/* Интервалы между строками */
 div.spaceBefore { margin-top: 0.75em }
 div.spaceAfter  { margin-bottom: 0.75em }
 div.spaceAround { margin-top: 0.75em; margin-bottom: 0.75em }
 
-div.hr { border-top: Solid 1px Lime; margin-top: 0.5em; padding-top: 0.5em }
+/* Горизонтальная строка */
+div.hr { border-top: Solid 1px DodgerBlue; margin-top: 0.5em; padding-top: 0.5em }
+/* Заголовок с возможностью дописывания */
 h3.inline { display: inline; border: none; margin-top: 0; padding-top: 0 }
 
+/* Отображение текущего пользователя */
 div.loginDisplay { text-align: Right; }
 
+/* Главное меню */
 div.menu { margin-top: 0.25em; color: Yellow; background-color: Navy; border: Solid 1px DarkTurquoise }
 div.menu ul { padding: 0.25ex 0.25em 0.5ex 0.25em; list-style: none; vertical-align: middle }
 div.menu ul li { font-weight: bold; display: inline; vertical-align: middle }
@@ -32,21 +36,26 @@ div.menu ul li a:visited { color: Aqua; text-decoration: none; border-bottom: So
 div.menu ul li a:hover,
 div.menu ul li a:active  { color: White; text-decoration: none; background-color: Blue; border-bottom: none }
 
-div.homeHeader { border-bottom: Solid 1px Lime; margin-bottom: 0.5em }
+/* Заголовок на главной странице */
+div.homeHeader { border-bottom: Solid 1px DodgerBlue; margin-bottom: 0.5em }
 div.homeHeader h1,
 div.homeHeader h2,
 div.homeHeader h3 { margin-left: auto; margin-right: auto; text-align: center; border: none }
 
-div.footer { text-align: Right; border-top: Solid 1px Lime; margin-top: 0.5em }
+/* Подвал с авторскими правами и ссылками */
+div.footer { text-align: Right; border-top: Solid 1px DodgerBlue; margin-top: 0.5em }
 div.footer div.first { font-style: Italic; }
 div.footer div.next  { font-style: Italic; font-size: smaller }
 
+/* Кнопка действия (пока не используется) */
 div.imageButton { display: inline-block; vertical-align: middle }
 
+/* Табличное оформление - устаревает */
 table.noBorder, table.noBorder th, table.noBorder td { border: none } /* deprecated */
 th.bottomWeakBorder,
 td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px DarkSlateGrey }
 
+/* Страничный интерфейс */
 table.tabControl { width: 100%; border: none }
 table.tabControl th.tabTitle       { border: none; border-bottom: Solid 1px SkyBlue }
 table.tabControl th.tabTitleActive { background-color: #091936; border: Solid 1px SkyBlue; border-top: Solid 3px SkyBlue; border-bottom: none }
