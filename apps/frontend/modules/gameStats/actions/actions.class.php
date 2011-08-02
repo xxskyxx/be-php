@@ -136,7 +136,6 @@ class gameStatsActions extends MyActions
   {
     $this->decodeArgs($request, false);
     $this->errorRedirectUnless($this->game->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать игру'));
-    $this->setLayout('ReportLayout');
   }
 
   public function executeAutoUpdate(sfWebRequest $request)
@@ -151,7 +150,6 @@ class gameStatsActions extends MyActions
     {
       $this->result = var_dump($res); //TODO: Переделать во что-то более дружественное.
     }
-    $this->setLayout(false);
   }
 
   public function decodeArgs(sfWebRequest $request, $checkPostAndCSRF = true)

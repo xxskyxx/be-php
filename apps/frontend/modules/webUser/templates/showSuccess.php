@@ -38,7 +38,12 @@ render_property_if($_isModerator,
 ?>
 
 <?php if ($_isSelf || $_isModerator || $_isPermissionModerator): ?>
-<h3>Разрешения и запреты</h3>
+<?php
+render_h3_inline_begin('Разрешения и запреты');
+if ($_isPermissionModerator) echo decorate_span('warnAction', link_to('Добавить', 'grantedPermission/new?webUserId='.$_webUser->id));
+render_h3_inline_end();
+?>
+
 <ul>
   <?php if ($_webUser->grantedPermissions->count() <= 0): ?>
   <li>
@@ -70,10 +75,5 @@ render_property_if($_isModerator,
   </li>
   <?php   endforeach; ?>
   <?php endif; ?>
-  <?php if ($_isPermissionModerator): ?>
-  <li>
-    <span class="safeAction"><?php echo link_to('Наделить правом или назначить запрет', 'grantedPermission/new?webUserId='.$_webUser->id) ?></span>
-  </li>
-  <?php endif ?>
 </ul>
 <?php endif; ?>

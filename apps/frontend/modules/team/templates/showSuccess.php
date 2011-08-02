@@ -19,10 +19,10 @@ render_h3_inline_end();
 <?php
 $width = get_text_block_size_ex('Полное название:');
 render_property_if($_sessionIsModerator,
-                   'No:', $_team->id, $width);
-render_property    ('Название:', $_team->name, $width);
-render_property_if ($_team->full_name !== '',
-                    'Полное название:', $_team->full_name, $width);
+                   'Id:', $_team->id, $width);
+render_property   ('Название:', $_team->name, $width);
+render_property_if($_team->full_name !== '',
+                   'Полное название:', $_team->full_name, $width);
 ?>
 
 <?php if ($_sessionIsPlayer || $_sessionIsModerator): ?>

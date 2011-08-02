@@ -100,8 +100,6 @@ class taskStateActions extends MyActions
     {
       $this->redirect('teamState/task?id='.$this->taskState->team_state_id);
     }
-    
-    $this->setLayout('currentTaskLayout');
   }
 
   public function executeStart(sfWebRequest $request)
