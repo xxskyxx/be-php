@@ -2,14 +2,14 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <?php include_partial('global/Metas'); ?>
-  <body style="width:auto">
-    <?php include_partial('global/Welcome'); ?>
-    <?php include_partial('global/Flashes'); ?>
+  <body>
+    <?php include_partial('global/Header'); ?>
     <?php include_partial('global/MainMenu'); ?>
-
+    <?php include_partial('global/Flashes'); ?>
     <?php echo $sf_content; ?>
-
-    <?php include_partial('global/footer'); ?>
+    <div class="hr">
+      <?php include_partial('global/Credits'); ?>
+    </div>
   </body>
 
 </html>

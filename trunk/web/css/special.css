@@ -19,13 +19,17 @@ div.spaceBefore { margin-top: 0.75em }
 div.spaceAfter  { margin-bottom: 0.75em }
 div.spaceAround { margin-top: 0.75em; margin-bottom: 0.75em }
 
-/* Горизонтальная строка */
+/* Горизонтальная линия */
 div.hr { border-top: Solid 1px DodgerBlue; margin-top: 0.5em; padding-top: 0.5em }
+
 /* Заголовок с возможностью дописывания */
+div.h3inline { margin: 0.4em 0 0.25em 0; border-top: Solid 1px DodgerBlue; padding-top: 0.5em }
 h3.inline { display: inline; border: none; margin-top: 0; padding-top: 0 }
 
-/* Отображение текущего пользователя */
-div.loginDisplay { text-align: Right; }
+/* Вертикально выровненные строчные блоки */
+/* Для корректного применения все блоки, подлежащие выравниванию,
+/* должны быть завернуты в контейнеры с этим стилем */
+div.middleVertical { display: inline-block; vertical-align: middle }
 
 /* Главное меню */
 div.menu { margin-top: 0.25em; color: Yellow; background-color: Navy; border: Solid 1px DarkTurquoise }
@@ -43,9 +47,10 @@ div.homeHeader h2,
 div.homeHeader h3 { margin-left: auto; margin-right: auto; text-align: center; border: none }
 
 /* Подвал с авторскими правами и ссылками */
-div.footer { text-align: Right; border-top: Solid 1px DodgerBlue; margin-top: 0.5em }
-div.footer div.first { font-style: Italic; }
-div.footer div.next  { font-style: Italic; font-size: smaller }
+div.credits { text-align: right; font-style: italic; font-size: smaller }
+
+/* Карта сайта */
+div.siteMap { text-align: left; font-size: smaller }
 
 /* Кнопка действия (пока не используется) */
 div.imageButton { display: inline-block; vertical-align: middle }

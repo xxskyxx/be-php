@@ -42,9 +42,10 @@ span.warnAction   { border-top-color: Yellow; border-left-color: Yellow; backgro
 span.dangerAction { border-top-color: Red;    border-left-color: Red;    background: DarkRed;     color: Gold }
 
 /* Формат всплывающих сообщений */
-div.flashNotice, div.flashError { border: none; margin: 0.25em 0.25ex 0.25em 0.25ex; padding: 0.25em 0.25ex 0.25em 0.5ex }
-div.flashNotice { border-left: Solid Lime 4px; background: Green;   color: White }
-div.flashError  { border-left: Solid Red 4px;  background: DarkRed; color: Yellow }
+div.flashNotice, div.flashWarning, div.flashError { border: none; border-left: Solid 4px; margin: 0.5em 0.5ex 0.5em 0.5ex; padding: 0.5em 0.5ex 0.5em 0.5ex }
+div.flashNotice  { border-color: Lime;   background: Green;       color: White }
+div.flashWarning { border-color: Yellow; background: SaddleBrown; color: White }
+div.flashError   { border-color: Red;    background: DarkRed;     color: Yellow }
 
 /*
 Предопределенное имя в SF - ошибки в формах.

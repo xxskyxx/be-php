@@ -78,7 +78,6 @@ class teamStateActions extends myActions
         $this->redirect('taskState/task?id='.$currentTaskStatus->id);
       }
     }
-    $this->setLayout('currentTaskLayout');
   }
 
   public function executeAbandonTask(sfWebRequest $request)

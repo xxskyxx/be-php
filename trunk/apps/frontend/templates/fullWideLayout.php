@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <?php include_partial('global/Metas'); ?>
-  <body>
+  <body style="width:auto">
     <?php include_partial('global/Header'); ?>
     <?php include_partial('global/Flashes'); ?>
     <?php echo $sf_content; ?>

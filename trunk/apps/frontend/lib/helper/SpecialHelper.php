@@ -51,7 +51,7 @@ function get_max_strlen($array)
  */
 function decorate_span($class, $innerHtml)
 {
-  return '<span class="'.$class.'">'.$innerHtml.'</span>'."\n";
+  return '<span class="'.$class.'">'.$innerHtml.'</span>';
 }
 
 /**
@@ -125,7 +125,7 @@ function render_property_if($condition, $name, $value, $nameWidth = 0)
  */
 function render_breadcombs($links = null)
 {
-  $res = '<img src="/images/favicon.png" alt="[BE]" onClick="document.location=\'/home/index\'" />&nbsp;<a href="/home/index">Главная</a>&nbsp;\\';
+  $res = '\\\\&nbsp;'.link_to('Главная', 'home/index').'&nbsp;\\';
   if (is_array($links))
   {
     foreach ($links as $link)
@@ -146,7 +146,7 @@ function render_breadcombs($links = null)
 function render_h3_inline_begin($headerText)
 {
   //Общий контейнер
-  echo '<div class="hr">'."\n";
+  echo '<div class="h3inline">'."\n";
   //Заголовок
   echo '<h3 class="inline">'.$headerText.'</h3>'."\n";
 }

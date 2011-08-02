@@ -1,3 +1,10 @@
+taskSuccess:
+  metas:
+    title: "Текущее задание"
+  has_layout: true  
+  layout:     currentTaskLayout
+  
+
 all:
   metas:
     title: "Текущее задание"
