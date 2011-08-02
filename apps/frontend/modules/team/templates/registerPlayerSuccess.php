@@ -1,3 +1,10 @@
+<?php
+  render_breadcombs(array(
+      link_to('Команды', 'team/index'),
+      link_to($team->name, 'team/show?id='.$team->id)
+  ))
+?>
+
 <h2>Регистрация игрока в команду <?php echo $team->name ?></h2>
 
 <div>
@@ -8,11 +15,13 @@
   <span class="warn">Пользователь будет назначен капитаном</span>, так как в команде еще нет игроков.
 </div>
 <?php endif; ?>
-<div class="spaceBefore">
-  Выберите одного из пользователей (нажмите на ссылку):
+<div class="spaceAround">
+  Выберите одного из пользователей (нажмите на ссылку с именем):
 </div>
-<?php foreach ($webUsers as $webUser): ?>
-<div>
-  <span class="safeAction"><?php echo link_to($webUser->login, 'team/setPlayer'.'?id='.$team->id.'&userId='.$webUser->id.'&returl='.$retUrl, array ('method' => 'post')); ?></span>
-</div>
-<?php endforeach; ?>
+<ul>
+  <?php foreach ($webUsers as $webUser): ?>
+  <li>
+    <?php echo link_to($webUser->login, 'team/setPlayer'.'?id='.$team->id.'&userId='.$webUser->id.'&returl='.$retUrl, array ('method' => 'post')); ?>
+  </li>
+  <?php endforeach; ?>  
+</ul>
