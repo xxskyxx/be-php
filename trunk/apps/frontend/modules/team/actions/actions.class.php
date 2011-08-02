@@ -13,21 +13,52 @@ class teamActions extends MyActions
 
   public function executeIndex(sfWebRequest $request)
   {
-    $this->errorRedirectIf($this->sessionWebUser->cannot(Permission::TEAM_INDEX, 0),
-        Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список команд'));
-    $this->teams = Team::all();
-    
-    $this->teamModerator = $this->sessionWebUser->can(Permission::TEAM_MODER, 0);
-    
-    $this->teamCreateRequests = ($this->teamModerator)
-        ? TeamCreateRequest::all()
-        : $this->sessionWebUser->teamCreateRequests;
+    $this->errorRedirectIf($this->sessionWebUser->cannot(Permission::TEAM_INDEX, 0), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список команд'));
+
+    $this->_teams = Doctrine::getTable('Team')
+        ->createQuery('t')
+        ->select()
+        ->orderBy('name')
+        ->execute();
+    $this->_isModerator = $this->sessionWebUser->can(Permission::TEAM_MODER, 0);
+    if ($this->_isModerator)
+    {
+      $this->_teamCreateRequests = Doctrine::getTable('TeamCreateRequest')->findAll();
+    }
+    else
+    {
+      $this->_teamCreateRequests = Doctrine::getTable('TeamCreateRequest')->findBy('web_user_id', $this->sessionWebUser->id);
+    }
   }
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->forward404Unless($this->team = Team::byId($request->getParameter('id')), 'Команда не найдена.');
-    $this->errorRedirectUnless($this->team->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать команду'));
+    $this->forward404Unless($this->_team = Team::byId($request->getParameter('id')), 'Команда не найдена.');
+    //Просматривать команду могут все,
+    //но конкретный перечень видимых элементов зависит от прав.
+    //Детализируем права:
+    $this->_sessionWebUserId = $this->sessionWebUser->id;
+    $this->_sessionIsModerator = $this->sessionWebUser->can(Permission::TEAM_MODER, $this->_sessionWebUserId);
+    $this->_sessionIsLeader    = $this->_team->isLeader($this->sessionWebUser);
+    $this->_sessionIsPlayer    = $this->_team->isPlayer($this->sessionWebUser);
+    $this->_sessionIsCandidate = $this->_team->isCandidate($this->sessionWebUser);
+    if ($this->_sessionIsPlayer || $this->_sessionIsModerator)
+    {
+      //Капитану и игрокам видны все заявки в команду
+      $this->_teamCandidates = $this->_team->teamCandidates;
+    }
+    else
+    {
+      //Кандидату в команду видна только своя заявка
+      $this->_teamCandidates = Doctrine::getTable('TeamCandidate')
+          ->createQuery('tc')
+          ->select()
+          ->where('team_id = ?', $this->_team->id)
+          ->andWhere('web_user_id = ?', $this->_sessionWebUserId)
+          ->execute();
+    }
+    $this->_teamStates = $this->_team->teamStates;
+    $this->_games = $this->_team->games;
   }
 
   public function executeNew(sfWebRequest $request)

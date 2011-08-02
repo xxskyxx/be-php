@@ -36,9 +36,9 @@ class TeamForm extends BaseTeamForm
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'name' => 'Название',
-        'full_name' => 'Полное название',
-        'leader' => 'Капитаном будет'
+        'name' => 'Название:',
+        'full_name' => 'Полное название:',
+        'leader' => 'Капитаном будет:'
     ));
   }
 

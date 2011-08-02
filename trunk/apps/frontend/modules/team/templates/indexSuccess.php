@@ -1,111 +1,60 @@
-<?php
-$sessionWebUser = $sf_user->getSessionWebUser()->getRawValue();
-$backLinkEncoded = Utils::encodeSafeUrl(url_for('team/index'));
-?>
+<?php echo render_breadcombs(array('Команды')); ?>
 
-<h2>Существующие команды</h2>
+<h2>Команды</h2>
 
-<?php if ($teamModerator): ?>
-<div>
-  <?php echo link_to('Создать новую команду', 'team/new') ?>
+<div class="spaceAfter">
+  <?php if ($_isModerator): ?>
+  <div><?php echo link_to('Создать новую команду', 'team/new') ?></div>
+  <?php else: ?>
+  <div><?php echo link_to('Подать заявку на создание команды', 'teamCreateRequest/new') ?></div>
+  <?php endif; ?>
 </div>
-<?php else: ?>
-<div>
-  <?php echo link_to('Подать заявку на создание команды', 'teamCreateRequest/new') ?>
-</div>
-<?php endif ?>
-<?php if ($teamModerator): ?>
-<div class="info">
-  Вы можете модерировать любую команду.
-</div>
-<?php endif; ?>
-<div class="spaceAfter"></div>
 
-<?php if (!$teams): ?>
-<div class="info">
-  Пока еще не создано ни одной команды.
-</div>
-<?php else: ?>
-<table cellspacing="0">
-  <thead>
-    <tr>
-      <th rowspan="2">Название</th>
-      <th colspan="2">Состав</th>
-      <th rowspan="2">Вы...</th>
-    </tr>
-    <tr>
-      <td>Игроков</td>
-      <td>Заявок</td>
-    </tr>
-  </thead>
-
-  <tbody>
-    <?php foreach ($teams as $currTeam): ?>
+<?php if ($_teams->count() > 0): ?>
+<h3>Существующие</h3>
+<ul>
+  <?php $sessionWebUser = $sf_user->getSessionWebUser()->getRawValue() ?>
+  <?php foreach ($_teams as $team): ?>
+  <li>
     <?php
-    $currIsLeader    = $currTeam->isLeader($sessionWebUser);
-    $currIsPlayer    = $currTeam->isPlayer($sessionWebUser);
-    $currIsCandidate = $currTeam->isCandidate($sessionWebUser);
-    $currCanManage   = $currTeam->canBeManaged($sessionWebUser);
+    $isLeader = $team->isLeader($sessionWebUser);
+    $isPlayer = $team->isPlayer($sessionWebUser);
+    $isCandidate = $team->isCandidate($sessionWebUser);
     ?>
-    <tr>
-      <td>
-        <?php echo link_to($currTeam->name, url_for('team/show?id='.$currTeam->id)) ?>
-      </td>
-      <td>
-        <?php echo $currTeam->teamPlayers->count(); ?>
-      </td>
-      <td>
-        <?php echo $currTeam->teamCandidates->count(); ?>
-      </td>
-      <td>
-        <?php if ($currIsLeader): ?>
-        <span class="warn">Капитан</span>
-        <?php elseif ($currIsPlayer): ?>
-        <span class="safe">Рядовой</span>
-        <?php elseif ($currIsCandidate): ?>
-        <span class="safeAction">
-          <?php
-          echo 'Новобранец ';
-          echo Utils::buttonTo('Передумать', 'team/cancelJoin?id='.$currTeam->id.'&userId='.$sessionWebUser->id.'&returl='.$backLinkEncoded, 'post');
-          ?>
-        </span>
-        <?php elseif ($currCanManage && !$currIsLeader): ?>
-        <span class="warn">Модератор</span>
-        <?php else: ?>
-        <span class="indentAction"><?php echo Utils::buttonTo('Вербоваться', 'team/postJoin?id='.$currTeam->id.'&userId='.$sessionWebUser->id.'&returl='.$backLinkEncoded, 'post'); ?></span>
-        <?php endif; ?>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </tbody>
-</table>
+    <div class="<?php
+                $class = 'indent';
+                if     ($isLeader)    $class = 'warn';
+                elseif ($isPlayer)    $class = 'info';
+                elseif ($isCandidate) $class = 'warn';
+                echo $class;
+                ?>">
+    <?php
+    echo link_to(($team->full_name !== '') ? $team->full_name : $team->name, 'team/show?id='.$team->id);
+    echo ($team->full_name === '') ? '' : ' ('.$team->name.')';
+    if     ($isLeader)    echo ' - Вы капитан';
+    elseif ($isPlayer)    echo ' - Вы игрок';
+    elseif ($isCandidate) echo ' - Вы подали заявку в состав';
+    ?>
+    </div>
+  </li>
+  <?php endforeach; ?>
+</ul>
 <?php endif; ?>
 
-
-<?php if (($teamCreateRequests !== false) && ($teamCreateRequests->count() > 0)): ?>
-<h2>Заявки на создание команд</h2>
-<table cellspacing="0">
-  <thead>
-    <tr>
-      <th>Автор</th>
-      <th>Название</th>
-      <th>Обоснование</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ($teamCreateRequests as $teamCreateRequest): ?>
-    <tr>
-      <td>
-        <span class="safeAction"><?php echo Utils::buttonTo('Отклонить', 'teamCreateRequest/delete?id='.$teamCreateRequest->id, 'post') ?></span>
-        <?php if ($teamModerator): ?>
-        <span class="warnAction"><?php echo Utils::buttonTo('Создать', 'teamCreateRequest/acceptManual?id='.$teamCreateRequest->id, 'post', 'Подтвердить создание команды '.$teamCreateRequest->name.' ('.$teamCreateRequest->WebUser->login.' будет назначен ее капитаном) ?') ?></span>
-        <?php endif ?>
-        <?php echo link_to($teamCreateRequest->WebUser->login, 'webUser/show?id='.$teamCreateRequest->web_user_id, array('target' => 'new')); ?>
-      </td>
-      <td><?php echo $teamCreateRequest->name ?></td>
-      <td><?php echo $teamCreateRequest->description ?></td>      
-    </tr>
-    <?php endforeach ?>
-  </tbody>
-</table>
-<?php endif ?>
+<?php if ($_teamCreateRequests->count() > 0): ?>
+<h3>Заявки на создание</h3>
+<ul>
+  <?php foreach ($_teamCreateRequests as $teamCreateRequest): ?>
+  <li>
+    <div>
+      <?php
+      echo $teamCreateRequest->name;
+      echo '&nbsp'.decorate_span('safeAction', link_to('Отменить', 'teamCreateRequest/delete?id='.$teamCreateRequest->id, array('method' => 'post')));
+      echo $_isModerator ? '&nbsp'.decorate_span('warnAction', link_to('Создать', 'teamCreateRequest/acceptManual?id='.$teamCreateRequest->id, array('method' => 'post', 'confirm' => 'Подтвердить создание команды '.$teamCreateRequest->name.' ('.$teamCreateRequest->WebUser->login.' будет назначен ее капитаном) ?'))) : '';
+      echo ', '.link_to($teamCreateRequest->WebUser->login, 'webUser/show?id='.$teamCreateRequest->web_user_id).':&nbsp;'.$teamCreateRequest->description;
+      ?>
+    </div>
+  </li>
+  <?php endforeach; ?>
+</ul>
+<?php endif; ?>
