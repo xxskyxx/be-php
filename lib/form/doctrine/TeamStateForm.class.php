@@ -28,12 +28,11 @@ class TeamStateForm extends BaseTeamStateForm
     unset($this['task_state_id']);
     unset($this['task_id']);
     unset($this['team_last_update']);
-    unset($this['game_time_spent']);
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'start_delay' => 'Задержка старта, мин',
-        'ai_enabled' => 'Использовать ИИ выбора заданий'
+        'start_delay' => 'Задержка старта, мин:',
+        'ai_enabled' => 'Использовать ИИ выбора заданий:'
     ));
   }
 }

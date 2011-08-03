@@ -31,6 +31,8 @@ Game:
     update_interval: { type: integer, notnull: true, default: 5 }
     # Пересчет состояния по запросу команд
     teams_can_update: { type: boolean, notnull: true, default: false }
+    # Максимальный интервал пересчета, сек
+    update_interval_max: { type: integer, notnull: true, default: 600 }
     # Название формулировки задания по умолчанию
     task_define_default_name: { type: string(32), notnull: true, default: Загадка }
     # Название подсказок по умолчанию

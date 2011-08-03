@@ -117,9 +117,12 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   public function getTeamStopTime()
   {
-    return ($this->started_at > 0)
-        ? time() + ($this->Game->time_per_game * 60 - $this->getGameSpentTimeCurrent())
-        : 0;
+    if ($this->started_at <= 0)
+    {
+      return 0;
+    }
+    return time() + ($this->Game->time_per_game * 60 - $this->getGameSpentTimeCurrent());
+    //TODO: Учесть корректировки доступного игрового времени.
   }
 
   /**
@@ -134,10 +137,16 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       return 0;
     }
-    //Обновим данные о затратах времени на задания.
-    //Данные включают рассчет длительности текущего задания, если оно есть.
-    $this->updateGameSpentTime();
-    return $this->game_time_spent;
+    // Рассчитаем затраченное на игре время как сумму времен известных заданий.
+    // Завершенные значения вернут данные из БД, текущее задание само сосчитает.
+    // В БД затраченное время хранится с учетом корректировок, т.е. если
+    // время задания не входит в игровое, там хранится 0.
+    $gameSpentTime = 0;
+    foreach ($this->taskStates as $taskState)
+    {
+      $gameSpentTime += $taskState->getTaskSpentTimeCurrent();
+    }    
+    return $gameSpentTime;
   }
 
   /**
@@ -499,7 +508,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     }
 
     // Сбросим счетчик времени
-    $this->game_time_spent = 0;
     // Сбросим текущее задание
     $this->task_state_id = 0;
     // Удалим все достижения 
@@ -685,7 +693,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     $this->task_state_id = 0;
 
     $this->status = TeamState::TEAM_WAIT_TASK;
-    $this->updateGameSpentTime();
     return true;
   }
 
@@ -732,7 +739,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       //Задание будет закрыто в следующем цикле пересчета.
     }
 
-    $this->updateGameSpentTime();
     return true;
   }
 
@@ -815,24 +821,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   protected function isPlayingNow()
   {
     return $this->status < TeamState::TEAM_FINISHED;
-  }
-
-  /**
-   * Пересчитывает игровое время по завершенным заданиям.
-   * Внимение! Не выполняет save(), надо выполнят вызывающему.
-   */
-  protected function updateGameSpentTime()
-  {
-    // Рассчитаем затраченное на игре время как сумму времен известных заданий.
-    // Завершенные значения вернут данные из БД, текущее задание само сосчитает.
-    // В БД затраченное время хранится с учетом корректировок, т.е. если
-    // время задания не входит в игровое, там хранится 0.
-    $timeSpent = 0;
-    foreach ($this->taskStates as $taskState)
-    {
-      $timeSpent += $taskState->getTaskSpentTimeCurrent();
-    }
-    $this->game_time_spent = $timeSpent;
   }
 
 }

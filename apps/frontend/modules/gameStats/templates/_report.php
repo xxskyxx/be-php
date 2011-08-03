@@ -57,19 +57,7 @@
       <?php endforeach; ?>
     </tr>
 
-    <?php //Потрачено минут ?>
-    <tr>
-      <td class="bottomWeakBorder">...длилось</td>
-      <?php foreach ($index as $taskState): ?>
-      <?php   if (!$taskState): ?>
-      <td class="bottomWeakBorder">&nbsp;</td>
-      <?php   else: ?>
-      <td class="bottomWeakBorder"><?php echo Timing::intervalToStr($taskState->task_time_spent) ?></td>
-      <?php   endif; ?>
-      <?php endforeach; ?>
-    </tr>
     <?php //Начало задания ?>
-
     <tr>
       <td class="bottomWeakBorder">...начато</td>
       <?php foreach ($index as $taskState): ?>
@@ -105,14 +93,38 @@
       <?php endforeach; ?>
     </tr>
 
+    <?php //Время простоя ?>
+    <tr>
+      <td class="bottomWeakBorder">...простой</td>
+      <?php foreach ($index as $taskState): ?>
+      <?php   if (!$taskState): ?>
+      <td class="bottomWeakBorder">&nbsp;</td>
+      <?php   else: ?>
+      <td class="bottomWeakBorder"><?php echo Timing::intervalToStr($taskState->task_idle_time) ?></td>
+      <?php   endif; ?>
+      <?php endforeach; ?>
+    </tr>
+
     <?php //Окончание задания ?>
     <tr>
-      <td>...окончание</td>
+      <td class="bottomWeakBorder">...окончание</td>
+      <?php foreach ($index as $taskState): ?>
+      <?php   if (!$taskState): ?>
+      <td class="bottomWeakBorder">&nbsp;</td>
+      <?php   else: ?>
+      <td class="bottomWeakBorder"><?php echo Timing::timeToStr($taskState->done_at) ?></td>
+      <?php   endif; ?>
+      <?php endforeach; ?>
+    </tr>
+
+    <?php //Потрачено минут ?>
+    <tr>
+      <td>...длилось</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td>&nbsp;</td>
       <?php   else: ?>
-      <td><?php echo Timing::timeToStr($taskState->done_at) ?></td>
+      <td><?php echo Timing::intervalToStr($taskState->task_time_spent) ?></td>
       <?php   endif; ?>
       <?php endforeach; ?>
     </tr>

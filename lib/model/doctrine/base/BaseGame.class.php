@@ -20,6 +20,7 @@
  * @property integer $try_count
  * @property integer $update_interval
  * @property boolean $teams_can_update
+ * @property integer $update_interval_max
  * @property string $task_define_default_name
  * @property string $task_tip_prefix
  * @property integer $status
@@ -46,6 +47,7 @@
  * @method integer             getTryCount()                 Returns the current record's "try_count" value
  * @method integer             getUpdateInterval()           Returns the current record's "update_interval" value
  * @method boolean             getTeamsCanUpdate()           Returns the current record's "teams_can_update" value
+ * @method integer             getUpdateIntervalMax()        Returns the current record's "update_interval_max" value
  * @method string              getTaskDefineDefaultName()    Returns the current record's "task_define_default_name" value
  * @method string              getTaskTipPrefix()            Returns the current record's "task_tip_prefix" value
  * @method integer             getStatus()                   Returns the current record's "status" value
@@ -71,6 +73,7 @@
  * @method Game                setTryCount()                 Sets the current record's "try_count" value
  * @method Game                setUpdateInterval()           Sets the current record's "update_interval" value
  * @method Game                setTeamsCanUpdate()           Sets the current record's "teams_can_update" value
+ * @method Game                setUpdateIntervalMax()        Sets the current record's "update_interval_max" value
  * @method Game                setTaskDefineDefaultName()    Sets the current record's "task_define_default_name" value
  * @method Game                setTaskTipPrefix()            Sets the current record's "task_tip_prefix" value
  * @method Game                setStatus()                   Sets the current record's "status" value
@@ -158,6 +161,11 @@ abstract class BaseGame extends sfDoctrineRecord
              'type' => 'boolean',
              'notnull' => true,
              'default' => false,
+             ));
+        $this->hasColumn('update_interval_max', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 30,
              ));
         $this->hasColumn('task_define_default_name', 'string', 32, array(
              'type' => 'string',
