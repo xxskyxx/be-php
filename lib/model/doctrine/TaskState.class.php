@@ -741,7 +741,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     $cleanValue = trim($answerValue);
     foreach ($this->postedAnswers as $postedAnswer)
     {
-      if (strcmp($postedAnswer->value, $cleanValue) == 0)
+      if (strcasecmp($postedAnswer->value, $cleanValue) == 0)
       {
         return true;
       }

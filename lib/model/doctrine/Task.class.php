@@ -187,7 +187,7 @@ class Task extends BaseTask implements IStored, IAuth
     }
     foreach ($this->answers as $answer)
     {
-      if (strcmp($answerValue, $answer->value) == 0)
+      if (strcasecmp($answerValue, $answer->value) == 0)
       {
         return $answer;
       }
