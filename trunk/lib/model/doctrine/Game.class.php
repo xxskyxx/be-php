@@ -483,7 +483,6 @@ class Game extends BaseGame implements IStored, IAuth
       $teamState->task_id = null;
       $teamState->started_at = 0;
       $teamState->finished_at = 0;
-      $teamState->game_time_spent = 0;
       $teamState->team_last_update = 0;
     }
 

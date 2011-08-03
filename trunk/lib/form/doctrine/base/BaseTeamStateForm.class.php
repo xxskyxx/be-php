@@ -26,7 +26,6 @@ abstract class BaseTeamStateForm extends BaseFormDoctrine
       'task_state_id'    => new sfWidgetFormInputText(),
       'task_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Task'), 'add_empty' => true)),
       'team_last_update' => new sfWidgetFormInputText(),
-      'game_time_spent'  => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
@@ -41,7 +40,6 @@ abstract class BaseTeamStateForm extends BaseFormDoctrine
       'task_state_id'    => new sfValidatorInteger(array('required' => false)),
       'task_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Task'), 'required' => false)),
       'team_last_update' => new sfValidatorInteger(),
-      'game_time_spent'  => new sfValidatorInteger(array('required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(

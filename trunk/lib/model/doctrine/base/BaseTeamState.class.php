@@ -16,7 +16,6 @@
  * @property integer $task_state_id
  * @property integer $task_id
  * @property integer $team_last_update
- * @property integer $game_time_spent
  * @property Team $Team
  * @property Game $Game
  * @property Task $Task
@@ -33,7 +32,6 @@
  * @method integer             getTaskStateId()      Returns the current record's "task_state_id" value
  * @method integer             getTaskId()           Returns the current record's "task_id" value
  * @method integer             getTeamLastUpdate()   Returns the current record's "team_last_update" value
- * @method integer             getGameTimeSpent()    Returns the current record's "game_time_spent" value
  * @method Team                getTeam()             Returns the current record's "Team" value
  * @method Game                getGame()             Returns the current record's "Game" value
  * @method Task                getTask()             Returns the current record's "Task" value
@@ -49,7 +47,6 @@
  * @method TeamState           setTaskStateId()      Sets the current record's "task_state_id" value
  * @method TeamState           setTaskId()           Sets the current record's "task_id" value
  * @method TeamState           setTeamLastUpdate()   Sets the current record's "team_last_update" value
- * @method TeamState           setGameTimeSpent()    Sets the current record's "game_time_spent" value
  * @method TeamState           setTeam()             Sets the current record's "Team" value
  * @method TeamState           setGame()             Sets the current record's "Game" value
  * @method TeamState           setTask()             Sets the current record's "Task" value
@@ -114,11 +111,6 @@ abstract class BaseTeamState extends sfDoctrineRecord
         $this->hasColumn('team_last_update', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
-             ));
-        $this->hasColumn('game_time_spent', 'integer', null, array(
-             'type' => 'integer',
-             'notnull' => true,
-             'default' => 0,
              ));
 
 

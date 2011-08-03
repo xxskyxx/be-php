@@ -72,7 +72,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     {
       // Пересчет состояния допустим как руководителем, так и любым игроком
       return ($this->TeamState->Team->isPlayer($account)) || $this->canBeManaged($account);
-      /* Проверка на то, что команда зарегистрирована не нужна, так как
+      /* Проверка на то, что команда зарегистрирована, не нужна, так как
        * экземпляр состояния команды создается только при регистрации.
        */
     }    
@@ -235,7 +235,8 @@ class TaskState extends BaseTaskState implements IStored, IAuth
    */
   public function updateState(WebUser $actor)
   {
-    if (!Timing::isExpired(time(), Game::MIN_UPDATE_INERVAL, $this->task_last_update)
+    $time = time();
+    if (!Timing::isExpired($time, Game::MIN_UPDATE_INERVAL, $this->task_last_update)
         || !$this->Task->Game->isActive())
     {
       return true;
@@ -246,6 +247,18 @@ class TaskState extends BaseTaskState implements IStored, IAuth
       return Utils::cannotMessage($actor->login, 'обновлять состояние задания');
     }
 
+    /* Прежде чем заниматься расчетами, проверим состояние задания на устаревание */
+    // Простой имеет смысл фиксировать только при активном задании
+    if (($this->status >= TaskState::TASK_ACCEPTED)
+        && ($this->status < TaskState::TASK_DONE))
+    {
+      if (Timing::isExpired($time, $this->TeamState->Game->update_interval_max, $this->task_last_update))
+      {
+        $this->task_idle_time += $time - $this->task_last_update - $this->TeamState->Game->update_interval_max;
+        $this->save();
+      }
+    }
+    
     switch ($this->status)
     {
       // Задание назначено, но ему еще надо разрешить стартовать.

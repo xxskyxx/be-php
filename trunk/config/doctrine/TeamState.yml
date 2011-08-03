@@ -23,8 +23,6 @@ TeamState:
     task_id: { type: integer }
     # Когда было последнее обновление состояния (время Unix)
     team_last_update: { type: integer, notnull: true }
-    # Игрового времени реально потрачено, секунды (сумма заданий + корректировки)
-    game_time_spent: { type: integer, notnull: true, default: 0 }
     # Полученные задания (их состояния)
     #taskStates: Doctrine_Collection<TaskState>
   relations:
