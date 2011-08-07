@@ -19,16 +19,82 @@ class gameActions extends MyActions
   
   public function executeIndex(sfWebRequest $request)
   {
-    $this->errorRedirectIf($this->sessionWebUser->cannot(Permission::GAME_INDEX, 0),
-        Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список игр'));
-    $this->games = Game::all();
+    $this->errorRedirectIf(
+        $this->sessionWebUser->cannot(Permission::GAME_INDEX, 0),
+        Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список игр')
+    );
+    
+    $this->_retUrlRaw = Utils::encodeSafeUrl('game/index');
+    $this->_sessionIsGameModerator = Game::isModerator($this->sessionWebUser);
+    
+    $this->_plannedGames = new Doctrine_Collection('Game');
+    $this->_activeGames = new Doctrine_Collection('Game');
+    $this->_archivedGames = new Doctrine_Collection('Game');
+    $this->_sessionPlayIndex = array();
+    $this->_sessionIsActorIndex = array();
+    
+    $games = Doctrine::getTable('Game')
+        ->createQuery('g')
+        ->select()->orderBy('g.name')
+        ->execute();
+    foreach ($games as $game)
+    {
+      switch ($game->status)
+      {
+        case Game::GAME_PLANNED:
+          $this->_plannedGames->add($game);
+          $this->_sessionPlayIndex[$game->id] = $game->isPlayerRegistered($this->sessionWebUser);
+          $this->_sessionIsActorIndex[$game->id] = $game->isActor($this->sessionWebUser);
+          break;
+        case Game::GAME_VERIFICATION:
+        case Game::GAME_READY:
+        case Game::GAME_STEADY:
+        case Game::GAME_ACTIVE:
+        case Game::GAME_FINISHED:
+          $this->_activeGames->add($game);
+          $this->_sessionPlayIndex[$game->id] = $game->isPlayerRegistered($this->sessionWebUser);
+          $this->_sessionIsActorIndex[$game->id] = $game->isActor($this->sessionWebUser);
+          break;
+        case Game::GAME_ARCHIVED:
+          $this->_archivedGames->add($game);
+          break;
+        default:
+          $this->_plannedGames->add($game);
+          break;
+      }
+    }
   }
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->forward404Unless($this->game = Game::byId($request->getParameter('id')), 'Игра не найдена.');
-    if ($this->game->canBeObserved($this->sessionWebUser))
+    $this->forward404Unless($this->_game = Game::byId($request->getParameter('id')), 'Игра не найдена.');
+    if ($this->_game->canBeObserved($this->sessionWebUser))
     {
+      $this->_tab = $request->getParameter('tab', 'props');
+      $this->_sessionCanManage = $this->_game->isManager($this->sessionWebUser);
+      $this->_sessionIsModerator = $this->sessionWebUser->can(Permission::GAME_MODER, $this->_game->id);
+      if      ($this->_tab == 'props')
+      {
+        //
+      }
+      else if ($this->_tab == 'teams')
+      {
+        $this->_teamStates = Doctrine::getTable('TeamState')
+            ->createQuery('ts')->innerJoin('ts.Team')
+            ->select()->where('game_id = ?', $this->_game->id)
+            ->orderBy('ts.Team.name')->execute();
+        $this->_gameCandidates = Doctrine::getTable('GameCandidate')
+            ->createQuery('gc')->innerJoin('gc.Team')
+            ->select()->where('game_id = ?', $this->_game->id)
+            ->orderBy('gc.Team.name')->execute();
+      }
+      else if ($this->_tab == 'tasks')
+      {
+        $this->_tasks = Doctrine::getTable('Task')
+            ->createQuery('t')
+            ->select()->where('game_id = ?', $this->_game->id)
+            ->orderBy('t.name')->execute();
+      }
       $this->setTemplate('Show');
     }
     else

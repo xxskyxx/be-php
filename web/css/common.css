@@ -33,15 +33,17 @@ h4 { color: White;  font-size: 1.1em; margin: 0.3em 0 0      0; padding-left: 2%
 h5 { color: Lime;   font-size: 1em;   margin: 0.3em 0 0      0 }
 
 /* Стили таблиц - устаревают */
-table { border-top: Solid 1px SkyBlue; border-left: Solid 1px SkyBlue; vertical-align: top; empty-cells: show }
-td, th { border-right: Solid 1px SkyBlue; border-bottom: Solid 1px SkyBlue; padding: 0.1em 0.25em 0.1em 0.25em }
+table { border: none; border-left: Solid 1px Blue; border-top: Solid 1px Blue; vertical-align: top; empty-cells: show }
+td, th { border: none; border-bottom: Solid 1px Blue; border-right: Solid 1px Blue; padding: 0.1em 0.25em 0.1em 0.25em }
 th { font-weight: bold; color: PaleGreen }
 td { text-align: left }
 tbody th { text-align: right }
-thead th, tfoot td { text-align: center }
+thead th, tfoot td { vertical-align: bottom; text-align: center }
 
-ul { padding: 0 0 0 1ex; margin: 0 0 0 0; padding-left: 3ex }
-ul li { margin: 0 0 0.25em 0; text-align: justify }
+ul, ol { padding: 0 0 0 0; margin: 0 0 0 0 }
+ul { padding-left: 3ex }
+ol { padding-left: 4ex }
+ul li, ol li { margin: 0 0 0.25em 0; text-align: justify }
 
 p { margin: 0 0 0.25em 0; text-indent: 3ex; text-align: justify }
 li p { margin: 0 0 0 0; text-indent: 0 }

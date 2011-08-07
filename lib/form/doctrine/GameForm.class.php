@@ -39,22 +39,49 @@ class GameForm extends BaseGameForm
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
+        //Общее
         'name' => 'Название:',
-        'description' => 'Описание:',
         'team_id' => 'Организаторы:',
-        'start_briefing_datetime' => 'Брифинг (ГГГГ-ММ-ДД ЧЧ:ММ:СС):',
-        'start_datetime' => 'Начало игры (ГГГГ-ММ-ДД ЧЧ:ММ:СС):',
-        'stop_datetime' => 'Окончание игры (ГГГГ-ММ-ДД ЧЧ:ММ:СС):',
-        'finish_briefing_datetime' => 'Награждение (ГГГГ-ММ-ДД ЧЧ:ММ:СС):',
-        'time_per_game' => 'Длительность игры, мин:',
-        'time_per_task' => 'Длительность задания, мин:',
-        'time_per_tip' => 'Интервал между подсказками, мин:',
-        'try_count' => 'Неверных ответов не более:',
-        'update_interval' => 'Интервал пересчета, сек:',
-        'teams_can_update' => 'Разрешить командам пересчет состояния:',
-        'update_interval_max' => 'Максимальный интервал пересчета, сек:',
-        'task_define_default_name' => 'Название формулировки по умолчанию:',
-        'task_tip_prefix' => 'Название подсказки по умолчанию:'
+        'description' => 'Описание:',
+        //Регламент
+        'start_briefing_datetime' => 'Брифинг:',
+        'start_datetime' => 'Начало игры:',
+        'time_per_game' => 'Длительность игры:',
+        'stop_datetime' => 'Окончание игры:',
+        'finish_briefing_datetime' => 'Награждение:',
+        //Параметры новых задания
+        'time_per_task' => 'Длительность:',
+        'time_per_tip' => 'Интервал подсказок:',
+        'try_count' => 'Неверных ответов:',
+        'task_define_default_name' => 'Название формулировки:',
+        'task_tip_prefix' => 'Префикс подсказки:',
+        //Параметры расчета состояния
+        'update_interval' => 'Автоматический пересчет:',
+        'update_interval_max' => 'Максимальный интервал:',
+        'teams_can_update' => 'Пересчет командами:'
+    ));
+    //Указываем подсказки:
+    $this->getWidgetSchema()->setHelps(array(
+        //Общее
+        'name' => '',
+        'team_id' => '',
+        'description' => '',
+        //Регламент
+        'start_briefing_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС',
+        'start_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС',
+        'time_per_game' => 'мин',
+        'stop_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС',
+        'finish_briefing_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС',
+        //Параметры новых задания
+        'time_per_task' => 'мин',
+        'time_per_tip' => 'мин',
+        'try_count' => 'не более ...',
+        'task_define_default_name' => '',
+        'task_tip_prefix' => '',
+        //Параметры расчета состояния
+        'update_interval' => 'раз в ... секунд',
+        'update_interval_max' => 'с',
+        'teams_can_update' => ''
     ));
   }
 
