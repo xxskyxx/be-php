@@ -3,7 +3,7 @@
     <div class="middleVertical">
       <img src="/images/favicon.png" alt="[BE]" onClick="document.location='/home/index'" />
     </div>
-    <div class="middleVertical"><span style="font-weight:bold">Beaver's&nbsp;Engine</span></div>  
+    <div class="middleVertical"><span style="font-weight:bold">Beaver's&nbsp;Engine</span>&nbsp;v0.1.1b</div>
   </div>
   <div style="text-align: right">
     <?php
