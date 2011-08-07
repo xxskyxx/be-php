@@ -68,8 +68,7 @@
                 ?>">
       <?php
       echo link_to($game->name, 'game/show?id='.$game->id);
-      echo ' (брифинг '.$game->start_briefing_datetime;
-      echo ', старт '.$game->start_datetime.')';
+      echo ' (брифинг '.$game->start_briefing_datetime.')';
       echo ($_sessionPlayIndex[$game->id]) ? ' -&nbsp;Вы&nbsp;будете&nbsp;играть' : '';
       echo ($_sessionIsActorIndex[$game->id]) ? ' -&nbsp;Вы&nbsp;организатор' : '';
       ?>
