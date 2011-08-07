@@ -8,8 +8,8 @@
 */
 
 /* Форматирование списка свойств */
-div.propName  { display: inline-block; margin-top: 2px; text-align: right; font-weight: bold; color: PaleGreen }
-div.propValue { display: inline-block; margin-top: 2px }
+div.propName  { display: inline-block; vertical-align: top; margin-top: 2px; text-align: right; font-weight: bold; color: PaleGreen }
+div.propValue { display: inline-block; vertical-align: top; margin-top: 2px }
 
 /* Форматирование "хлебных крошек" */
 div.breadcombs { margin: 0.25em 0 0 0; padding: 0.25em 0 0.25em 0.5em; border: Solid 1px DodgerBlue; border-right: none; vertical-align: middle }
@@ -25,6 +25,11 @@ div.hr { border-top: Solid 1px DodgerBlue; margin-top: 0.5em; padding-top: 0.5em
 /* Заголовок с возможностью дописывания */
 div.h3inline { margin: 0.4em 0 0.25em 0; border-top: Solid 1px DodgerBlue; padding-top: 0.5em }
 h3.inline { display: inline; border: none; margin-top: 0; padding-top: 0 }
+
+/* Cтолбцы данных */
+div.columnName, div.columnValue { display: inline-block; border: none; border-bottom: Solid 1px DarkGreen }
+div.columnName  { vertical-align: bottom; border-top: Solid 2px DarkGreen; font-weight: bold; color: PaleGreen; text-align: center }
+div.columnValue { /* reserved */ }
 
 /* Вертикально выровненные строчные блоки */
 /* Для корректного применения все блоки, подлежащие выравниванию,
@@ -64,5 +69,5 @@ td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px DarkSlateGre
 table.tabControl { width: 100%; border: none }
 table.tabControl th.tabTitle       { border: none; border-bottom: Solid 1px SkyBlue }
 table.tabControl th.tabTitleActive { background-color: #091936; border: Solid 1px SkyBlue; border-top: Solid 3px SkyBlue; border-bottom: none }
-table.tabControl td.tabSheet       { background: Black url(/images/bg_main.png) 0 0 repeat-x; border: none; padding-top: 0.4em }
+table.tabControl td.tabSheet       { background: Black url(/images/bg_main.png) 0 0 repeat-x; border: Solid 1px SkyBlue; border-top: none }
 

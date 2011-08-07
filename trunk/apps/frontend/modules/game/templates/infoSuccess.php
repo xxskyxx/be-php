@@ -1,13 +1,11 @@
-<?php $backLinkEncoded = Utils::encodeSafeUrl('game/info?id='.$game->id) ?>
+<?php
+echo render_breadcombs(array(
+    link_to('Игры', 'game/index'),
+    link_to($game->name, 'game/show?id='.$game->id)
+));
 
-<div class="spaceBefore">
-  <?php echo link_to('Вернуться к списку игр', 'game/index') ?>
-</div>
-<?php if ($game->canBeManaged($sf_user->getSessionWebUser()->getRawValue())): ?>
-<div class="spaceBefore">
-  <?php echo link_to('Вернуться к игре '.$game->name, 'game/show?id='.$game->id) ?>
-</div>
-<?php endif ?>
+$backLinkEncoded = Utils::encodeSafeUrl('game/info?id='.$game->id)
+?>
 
 <?php
 if ($game->team_id > 0)
@@ -26,11 +24,11 @@ if ($game->team_id > 0)
     }
     if ($authors->count() > 1)
     {
-      $authorsStr .= ' представляют игру';
+      $authorsStr .= ' представляют';
     }
     else
     {
-      $authorsStr .= ' представляет игру';
+      $authorsStr .= ' представляет';
     }
 ?>
 <h3><?php echo $authorsStr ?></h3>
@@ -62,7 +60,7 @@ if ($actors)
 }
 ?>
 <?php else: ?>
-<h5>It was along time ago in a galaxy far far away...</h5>
+<h5 style="color: SkyBlue">It was along time ago in a galaxy far far away...</h5>
 <?php endif; ?>
 
 <div class="spaceBefore">
@@ -127,23 +125,18 @@ if ($actors)
 </div>
 
 <?php if ($game->teamStates->count() > 0): ?>
-<h3>Участвуют:</h3>
+<h3>Участвуют команды:</h3>
 <ul>
 <?php   foreach ($game->teamStates as $teamState): ?>
   <li>
-    <span class="<?php echo ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue())) ? 'safeAction' : 'indentAction' ?>">
-      <?php
-      echo link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id);
-      if ($teamState->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue())) 
-      {
-        echo '&nbsp;-&nbsp;'.link_to('Вы&nbsp;играете', 'teamState/task?id='.$teamState->id);
-      }
-      if ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
-      {
-        echo ' '.Utils::buttonTo('Отказаться', 'game/removeTeam?id='.$game->id.'&teamId='.$teamState->team_id.'&returl='.$backLinkEncoded);
-      }
-      ?>
-    </span>
+    <?php
+    echo ($teamState->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
+        ? decorate_span('info', link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id))
+        : link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id);
+    echo ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
+        ? ' '.decorate_span('warnAction', link_to('Отказаться', 'game/removeTeam?id='.$game->id.'&teamId='.$teamState->team_id.'&returl='.$backLinkEncoded, array('confirm' => 'Вы точно хотите снять команду '.$teamState->Team->name.' с игры '.$game->name.' ?')))
+        : '';
+    ?>
   </li>
 <?php   endforeach; ?>
 </ul>
@@ -152,18 +145,16 @@ if ($actors)
 <?php if ($game->gameCandidates->count() > 0): ?>
 <h3>Подали заявки:</h3>
 <ul>
-<?php   foreach ($game->gameCandidates as $teamState): ?>
+<?php   foreach ($game->gameCandidates as $gameCandidate): ?>
   <li>
-    <?php   if ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue())): ?>
-    <span class="safeAction">
-      <?php
-      echo link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id);
-      echo ' '.Utils::buttonTo('Отозвать', 'game/cancelJoin?id='.$game->id.'&teamId='.$teamState->team_id.'&returl='.$backLinkEncoded);
-      ?>
-    </span>
-    <?php   else: ?>
-    <span class="indentAction"><?php echo link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id) ?></span>
-    <?php   endif; ?>
+    <?php
+    echo ($gameCandidate->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
+        ? decorate_span('info', link_to($gameCandidate->Team->name, 'team/show?id='.$gameCandidate->team_id))
+        : link_to($gameCandidate->Team->name, 'team/show?id='.$gameCandidate->team_id);
+    echo ($gameCandidate->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
+        ? ' '.decorate_span('safeAction', link_to('Отозвать', 'game/cancelJoin?id='.$game->id.'&teamId='.$gameCandidate->team_id.'&returl='.$backLinkEncoded))
+        : '';
+    ?>
   </li>
 <?php   endforeach; ?>
 </ul>

@@ -165,7 +165,7 @@ abstract class BaseGame extends sfDoctrineRecord
         $this->hasColumn('update_interval_max', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
-             'default' => 30,
+             'default' => 600,
              ));
         $this->hasColumn('task_define_default_name', 'string', 32, array(
              'type' => 'string',

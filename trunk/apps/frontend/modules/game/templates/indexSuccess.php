@@ -1,67 +1,101 @@
-<?php $sessionWebUser = $sf_user->getSessionWebUser()->getRawValue(); ?>
+<?php 
+  echo render_breadcombs(array(
+      'Игры' 
+  ));
+  $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
+?>
 
-<h2>Все игры</h2>
+<h2>Игры</h2>
 
 <div class="spaceAfter">
-  <?php echo link_to('Создать новую игру', 'game/new') ?>
+  <?php if ($_sessionIsGameModerator): ?>
+  <div><?php echo link_to('Создать новую игру', 'game/new') ?></div>
+  <?php else: ?>
+  <div><?php echo link_to_if(false, 'Подать заявку на создание игры', 'gameCreateRequest/new') ?></div>
+  <?php endif; ?>
 </div>
 
-<?php if (!$games): ?>
-<div class="info">
-  Пока еще не создано ни одной игры.
-</div>
-<?php else: ?>
-<table cellspacing="0">
-  <thead>
-    <tr>
-      <th rowspan="2">Название</th>
-      <th rowspan="2">Ближайший срок</th>
-      <th colspan="2">Команды</th>
-      <th rowspan="2">Вы...</th>
-    </tr>
-    <tr>
-      <td>На&nbsp;игре</td>
-      <td>Заявок</td>
-    </tr>
-  </thead>
-
-  <tbody>
-    <?php foreach ($games as $game): ?>
-    <tr>
+<?php if ($_activeGames->count() > 0): ?>
+<h3>Проходят сейчас</h3>
+<ul>
+  <?php foreach ($_activeGames as $game): ?>
+  <li>
+    <div class="<?php
+                if     ($_sessionPlayIndex[$game->id])
+                {
+                  if ($game->status == Game::GAME_READY || $game->status == Game::GAME_STEADY)
+                      echo 'warn';
+                  else
+                      echo 'info';
+                }
+                elseif ($_sessionIsActorIndex[$game->id]) echo 'warn';
+                else                                      echo 'indent';
+                ?>">
       <?php
-      $currIsManager = $game->canBeManaged($sessionWebUser);
-      $currIsActor = $game->canBeObserved($sessionWebUser);
-      $currIsPlayer = $game->isPlayerRegistered($sessionWebUser);
+      echo link_to($game->name, 'game/show?id='.$game->id);
+      switch ($game->status)
+      {
+        case Game::GAME_READY:
+        case Game::GAME_STEADY:
+          echo ' (старт '.$game->start_datetime.')';
+          break;
+        case Game::GAME_ACTIVE:
+          echo ' (окончание в '.$game->start_briefing_datetime;
+          echo ', итоги '.$game->start_datetime.')';
+          break;
+        case Game::GAME_FINISHED:
+          echo ' (финишировала, итоги '.$game->start_datetime.')';
+          break;
+      }
+      echo ($_sessionPlayIndex[$game->id]) ? '&nbsp;-&nbsp;Вы&nbsp;играете' : '';
+      echo ($_sessionIsActorIndex[$game->id]) ? '&nbsp;-&nbsp;Вы&nbsp;организатор' : '';
       ?>
-      <td><?php echo link_to($game->name, 'game/show?id='.$game->id) ?></td>
-      <td>
-        <?php
-        switch ($game->status)
-        {
-          case Game::GAME_PLANNED:  { echo '<span class="info">'.$game->start_briefing_datetime.' - брифинг</span>'; break; }
-          case Game::GAME_READY:    { echo '<span class="danger">'.$game->start_datetime.' - старт</span>'; break; }
-          case Game::GAME_STEADY:
-          case Game::GAME_ACTIVE:   { echo '<span class="warn">'.$game->stop_datetime.' - окончание</span>'; break; }
-          case Game::GAME_FINISHED: { echo '<span class="info">'.$game->finish_briefing_datetime.' - награждение</span>'; break; }
-          case Game::GAME_ARCHIVED:     { echo '<span class="indent">Игра завершена</span>'; break; }
-          default: { echo '//Неизвестное состояние игры'; break; }
-        }
-        ?>
-      </td>
-      <td><?php echo $game->teamStates->count() ?></td>
-      <td><?php echo $game->gameCandidates->count() ?></td>
-      <td>
-        <?php if ($currIsManager): ?>
-        <span class="warn">Руководитель</span>
-        <?php elseif ($currIsActor): ?>
-        <span class="indent">Организатор</span>
-        <?php elseif ($currIsPlayer): ?>
-        <span class="info">Играете</span>
-        <?php endif; ?>
-      </td>
-    </tr>
-    <?php endforeach; ?>
-  </tbody>
+    </div>
+  </li>
+  <?php endforeach ?>
+</ul>
+<?php endif; ?>
 
-</table>
+<?php if ($_plannedGames->count() > 0): ?>
+<h3>Запланированы</h3>
+<ul>
+  <?php foreach ($_plannedGames as $game): ?>
+  <li>
+    <div class="<?php
+                if     ($_sessionPlayIndex[$game->id])    echo 'info';
+                elseif ($_sessionIsActorIndex[$game->id]) echo 'warn';
+                else                                      echo 'indent';
+                ?>">
+      <?php
+      echo link_to($game->name, 'game/show?id='.$game->id);
+      echo ' (брифинг '.$game->start_briefing_datetime;
+      echo ', старт '.$game->start_datetime.')';
+      echo ($_sessionPlayIndex[$game->id]) ? ' -&nbsp;Вы&nbsp;будете&nbsp;играть' : '';
+      echo ($_sessionIsActorIndex[$game->id]) ? ' -&nbsp;Вы&nbsp;организатор' : '';
+      ?>
+    </div>
+  </li>
+  <?php endforeach ?>
+</ul>
+<?php endif; ?>
+
+<?php if ($_archivedGames->count() > 0): ?>
+<h3>Завершены</h3>
+<ul>
+  <?php foreach ($_archivedGames as $game): ?>
+  <li>
+    <div class="<?php
+                if     ($_sessionPlayIndex[$game->id])    echo 'info';
+                elseif ($_sessionIsActorIndex[$game->id]) echo 'warn';
+                else                                      echo 'indent';
+                ?>">
+      <?php
+      echo link_to($game->name, 'gameStats/report?id='.$game->id);
+      echo ($_sessionPlayIndex[$game->id]) ? '&nbsp;-&nbsp;Вы&nbsp;играли' : '';
+      echo ($_sessionIsActorIndex[$game->id]) ? '&nbsp;-&nbsp;Вы&nbsp;были&nbsp;организатором' : '';
+      ?>
+    </div>
+  </li>
+  <?php endforeach ?>
+</ul>
 <?php endif; ?>

@@ -46,16 +46,7 @@ class Game extends BaseGame implements IStored, IAuth
 
   function canBeManaged(WebUser $account)
   {
-    $res = false;
-    //Если известна команда организаторов
-    if ($this->team_id > 0)
-    {
-      //Если пользователь - капитан организаторов
-      if ($this->Team->isLeader($account))
-      {
-        $res = true;
-      }
-    }
+    $res = $this->isManager($account);
     //Если разрешение еще не нашли
     if (!$res)
     {
@@ -67,16 +58,7 @@ class Game extends BaseGame implements IStored, IAuth
 
   function canBeObserved(WebUser $account)
   {
-    $res = false;
-    //Если известна команда организаторов
-    if ($this->team_id > 0)
-    {
-      //Если пользователь - организатор
-      if ($this->Team->isPlayer($account))
-      {
-        $res = true;
-      }
-    }
+    $res = $this->isActor($account);
     //Если разрешение еще не нашли
     if (!$res)
     {
@@ -89,6 +71,48 @@ class Game extends BaseGame implements IStored, IAuth
   //// Public ////
 
   // Info
+  
+  /**
+   * Проверяет, входит ли игрок в состав команды организаторов.
+   *
+   * @param   WebUser  $player  Проверяемый пользователь
+   * @return  boolean
+   */
+  public function isActor(WebUser $testedPlayer)
+  {
+    $res = false;
+    //Если известна команда организаторов
+    if ($this->team_id > 0)
+    {
+      //Если пользователь - организатор
+      if ($this->Team->isPlayer($testedPlayer))
+      {
+        $res = true;
+      }
+    }
+    return $res;    
+  }
+  
+  /**
+   * Проверяет, входит ли игрок в состав команды организаторов.
+   *
+   * @param   WebUser  $player  Проверяемый пользователь
+   * @return  boolean
+   */
+  public function isManager(WebUser $testedPlayer)
+  {
+    $res = false;
+    //Если известна команда организаторов
+    if ($this->team_id > 0)
+    {
+      //Если пользователь - капитан организаторов
+      if ($this->Team->isLeader($testedPlayer))
+      {
+        $res = true;
+      }
+    }
+    return $res;    
+  }
   
   /**
    * Проверяет, зарегистрировна ли команда на игру.
