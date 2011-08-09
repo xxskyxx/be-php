@@ -1,0 +1,9 @@
+# Системные настройки, запись существует в одном экземпляре
+SystemSettings:
+  tableName: system_settings
+  columns:
+    id: { type: integer, primary: true, notnull: true }
+    # Адрес для уведомлений, не предполагает прием ответов
+    notify_email_addr: { type: string(255), notnull: true, default: do_not_reply@null.no }
+    # Адрес для связи с администрацией сайта
+    contact_email_addr: { type: string(255), notnull: true, default: nowhere@null.no }
