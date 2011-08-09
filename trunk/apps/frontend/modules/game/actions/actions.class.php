@@ -177,7 +177,7 @@ class gameActions extends MyActions
 
   public function executeInfo(sfWebRequest $request)
   {
-    $this->forward404Unless($this->game = Game::byId($request->getParameter('id')), 'Игра не найдена.');
+    $this->forward404Unless($this->_game = Game::byId($request->getParameter('id')), 'Игра не найдена.');
   }
 
   public function executePostJoinManual(sfWebRequest $request)

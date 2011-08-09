@@ -1,16 +1,16 @@
 <?php
 echo render_breadcombs(array(
     link_to('Игры', 'game/index'),
-    link_to($game->name, 'game/show?id='.$game->id)
+    link_to($_game->name, 'game/show?id='.$_game->id)
 ));
 
-$backLinkEncoded = Utils::encodeSafeUrl('game/info?id='.$game->id)
+$backLinkEncoded = Utils::encodeSafeUrl('game/info?id='.$_game->id)
 ?>
 
 <?php
-if ($game->team_id > 0)
+if ($_game->team_id > 0)
 {
-  $authors = $game->Team->getLeaders();
+  $authors = $_game->Team->getLeaders();
   $authorsStr = '';
   if ($authors)
   {
@@ -37,12 +37,12 @@ if ($game->team_id > 0)
 }
 ?>
 
-<h1><?php echo $game->name ?></h1>
+<h1><?php echo $_game->name ?></h1>
 
-<?php if ($game->team_id > 0): ?>
-<h5>При содействии команды <?php echo $game->Team->full_name ?></h5>
+<?php if ($_game->team_id > 0): ?>
+<h5>При содействии команды <?php echo $_game->Team->full_name ?></h5>
 <?php
-$actors = $game->Team->getPlayersStrict();
+$actors = $_game->Team->getPlayersStrict();
 $actorsStr = '';
 if ($actors)
 {
@@ -64,77 +64,41 @@ if ($actors)
 <?php endif; ?>
 
 <div class="spaceBefore">
-  <?php echo Utils::decodeBB($game->description) ?>
+  <?php echo Utils::decodeBB($_game->description) ?>
 </div>
 <div class="spaceBefore">
-  <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post')); ?></span>
+  <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$backLinkEncoded, array('method' => 'post')); ?></span>
 </div>
 
-<h3>Регламент:</h3>
-<div>
-  <table cellspacing="0" class="noBorder">
-    <tbody>
-      <tr>
-        <th><span class="indent">Брифинг:</span></th>
-        <td><span class="indent"><?php echo $game->start_briefing_datetime ?></span></td>
-      </tr>
+<div class="hr">
+<h4>Регламент</h4>
+<?php
+$width = get_text_block_size_ex('Планируется заданий:');
+render_property('Брифинг:', $_game->start_briefing_datetime, $width);
+render_property('Старт игры:', $_game->start_datetime, $width);
+render_property('Длительность игры:', Timing::intervalToStr($_game->time_per_game*60), $width);
+render_property('Остановка игры:', $_game->stop_datetime, $width);
+render_property('Подведение итогов:', $_game->finish_briefing_datetime, $width);
+?>
+<h4>Задания</h4>
+<?php
+render_property('Планируется заданий:', $_game->tasks->count(), $width);
+render_property('Времени на задание:', Timing::intervalToStr($_game->time_per_task*60), $width);
+render_property('Интервал подсказок:', Timing::intervalToStr($_game->time_per_tip*60), $width);
+?>
 
-      <tr>
-        <th><span class="warn">Старт игры:</span></th>
-        <td><span class="warn"><?php echo $game->start_datetime ?></span></td>
-      </tr>
-
-      <tr>
-        <th><span class="info">Времени на игру:</span></th>
-        <td><span class="info"><?php echo Timing::intervalToStr($game->time_per_game*60) ?></span></td>
-      </tr>
-
-      <tr>
-        <th><span class="indent">Остановка игры:</span></th>
-        <td><span class="indent"><?php echo $game->stop_datetime ?></span></td>
-      </tr>
-
-      <tr>
-        <th><span class="indent">Подведение итогов:</span></th>
-        <td><span class="indent"><?php echo $game->finish_briefing_datetime ?></span></td>
-      </tr>
-      
-      <tr>
-        <th colspan="2">
-          <h4>Задания:</h4>
-        </th>
-      </tr>
-        
-      <tr>
-        <th><span class="indent">Планируется заданий:</span></th>
-        <td><span class="indent"><?php echo $game->tasks->count() ?></span></td>
-      </tr>
-      
-      <tr>
-        <th><span class="indent">Времени на задание:</span></th>
-        <td><span class="indent"><?php echo Timing::intervalToStr($game->time_per_task*60) ?></span></td>
-      </tr>
-      
-      <tr>
-        <th><span class="indent">Интервал подсказок:</span></th>
-        <td><span class="indent"><?php echo Timing::intervalToStr($game->time_per_tip*60) ?></span></td>
-      </tr>
-      
-    </tbody>
-  </table>
-</div>
-
-<?php if ($game->teamStates->count() > 0): ?>
-<h3>Участвуют команды:</h3>
+<?php if ($_game->teamStates->count() > 0): ?>
+<h3>Участвуют</h3>
 <ul>
-<?php   foreach ($game->teamStates as $teamState): ?>
+<?php   foreach ($_game->teamStates as $teamState): ?>
   <li>
     <?php
+    $teamName = ($teamState->Team->full_name !== '') ? $teamState->Team->full_name : $teamState->Team->name;
     echo ($teamState->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
-        ? decorate_span('info', link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id))
-        : link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id);
+        ? decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id))
+        : link_to($teamName, 'team/show?id='.$teamState->team_id);
     echo ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
-        ? ' '.decorate_span('warnAction', link_to('Отказаться', 'game/removeTeam?id='.$game->id.'&teamId='.$teamState->team_id.'&returl='.$backLinkEncoded, array('confirm' => 'Вы точно хотите снять команду '.$teamState->Team->name.' с игры '.$game->name.' ?')))
+        ? ' '.decorate_span('warnAction', link_to('Отказаться', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$backLinkEncoded, array('confirm' => 'Вы точно хотите снять команду "'.$teamName.'" с игры "'.$_game->name.'" ?')))
         : '';
     ?>
   </li>
@@ -142,17 +106,18 @@ if ($actors)
 </ul>
 <?php endif; ?>
 
-<?php if ($game->gameCandidates->count() > 0): ?>
-<h3>Подали заявки:</h3>
+<?php if ($_game->gameCandidates->count() > 0): ?>
+<h3>Подали заявки</h3>
 <ul>
-<?php   foreach ($game->gameCandidates as $gameCandidate): ?>
+<?php   foreach ($_game->gameCandidates as $gameCandidate): ?>
   <li>
     <?php
+    $teamName = ($gameCandidate->Team->full_name !== '') ? $gameCandidate->Team->full_name : $gameCandidate->Team->name;
     echo ($gameCandidate->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
-        ? decorate_span('info', link_to($gameCandidate->Team->name, 'team/show?id='.$gameCandidate->team_id))
-        : link_to($gameCandidate->Team->name, 'team/show?id='.$gameCandidate->team_id);
+        ? decorate_span('info', link_to($teamName, 'team/show?id='.$gameCandidate->team_id))
+        : link_to($teamName, 'team/show?id='.$gameCandidate->team_id);
     echo ($gameCandidate->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
-        ? ' '.decorate_span('safeAction', link_to('Отозвать', 'game/cancelJoin?id='.$game->id.'&teamId='.$gameCandidate->team_id.'&returl='.$backLinkEncoded))
+        ? ' '.decorate_span('safeAction', link_to('Отменить', 'game/cancelJoin?id='.$_game->id.'&teamId='.$gameCandidate->team_id.'&returl='.$backLinkEncoded))
         : '';
     ?>
   </li>

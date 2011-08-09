@@ -10,11 +10,11 @@
 function get_text_block_size_ex($value)
 {
   $length = (is_string($value)) ? strlen($value) : $value;
-  return (1 + round($length / 1.6)); //Как точно считать - не ясно, пусть так будет.
+  return (1 + round($length / 1.7)); //Как точно считать - не ясно, пусть так будет.
 }
 
 /**
- * Рассчитывает ширину блока (в ex) для самой длинной строки из указанного массива.
+ * Возвращает длину самой длинной строки из указанного массива.
  * При каких-либо проблемах вернет 0.
  * 
  * @param   array   $array  массив со строками
@@ -33,7 +33,7 @@ function get_max_strlen($array)
         $res = strlen($value);
       }
     }
-    return get_text_block_size_ex($res);
+    return $res;
   }
   else
   {
@@ -42,7 +42,7 @@ function get_max_strlen($array)
 }
 
 /**
- * Рассчитывает ширину блока (в ex) для самого длинного значения из указанного поля коллекции.
+ * Возвращает длину самого длинного значения из указанного поля коллекции.
  * При каких-либо проблемах вернет 0.
  * 
  * @param   Doctrine_Collection   $collection   коллекция
@@ -62,7 +62,7 @@ function get_max_field_length(Doctrine_Collection $collection, $fieldName)
         $res = strlen($item->$fieldName);
       }
     }
-    return get_text_block_size_ex($res);
+    return $res;
   }
   else
   {
@@ -71,7 +71,7 @@ function get_max_field_length(Doctrine_Collection $collection, $fieldName)
 }
 
 /**
- * Генерирует код оформления числа в зависимости от его знака.
+ * Генерирует код оформления числа в зависимости от его знака
  * 
  * @param   integer   $value  исходное число
  * 
