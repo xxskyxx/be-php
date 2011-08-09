@@ -90,11 +90,10 @@ class authActions extends MyActions
 
         $webUser = new WebUser;
         $webUser->setLogin($formData['login']);
-        $webUser->setFullName($formData['login']);
+        $webUser->setFullName($formData['full_name']);
         $webUser->setPwdHash(WebUser::getSaltedPwdHash($formData['password']));
         $webUser->setEmail($formData['email']);
         $webUser->newActivationKey();
-        $webUser->grantDefault();
         $webUser->save();
         $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
       }
