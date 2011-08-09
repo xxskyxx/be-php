@@ -10,7 +10,8 @@
 function get_text_block_size_ex($value)
 {
   $length = (is_string($value)) ? strlen($value) : $value;
-  return (1 + round($length / 1.7)); //Как точно считать - не ясно, пусть так будет.
+  //Делитель не больше 1.5!
+  return (1 + round($length / 1.5)); //Как точно считать - не ясно, пусть так будет.
 }
 
 /**

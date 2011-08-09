@@ -10,8 +10,6 @@
       echo link_to('Команды', 'team/index');
       echo ' | ';
       echo link_to('Игры', 'game/index');
-      echo ' | ';
-      echo link_to('Пользователи', 'webUser/index');
     ?>
   </div>
 </div>
