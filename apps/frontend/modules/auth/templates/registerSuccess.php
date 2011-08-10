@@ -1,16 +1,7 @@
 <h2>Регистрация</h2>
 
 <?php echo $form->renderFormTag('register') ?>
-<table cellspacing="0">
-  <tbody>
-    <?php echo $form ?>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="2"><input type="submit" value="Зарегистрироваться" />
-      </td>
-  </tfoot>
-</table>
+<?php echo render_form_using_div($form, 'Зарегистрироваться',  ''); ?>
 <?php echo '</form>' ?>
 
 <div class="spaceBefore">

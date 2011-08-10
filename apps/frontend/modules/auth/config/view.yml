@@ -1,3 +1,7 @@
+changePasswordSuccess:
+  has_layout: true
+  layout: layout
+
 all:
   metas:
     title: "Учетные записи"
