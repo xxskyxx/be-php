@@ -12,21 +12,15 @@
 </div>
 
 <?php echo $form->renderFormTag(url_for('auth/activateManual')); ?>
-<table cellspacing="0">
-  <tbody>
-    <?php echo $form; ?>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="2"><input type="submit" value="Активировать" /></td>
-    </tr>
-  </tfoot>
-</table>
+<?php echo render_form_using_div($form, 'Активировать',  ''); ?>
 <?php echo '</form>'; ?>
 
 <div class="spaceBefore">
   <p>
-    <span class="warn">В настоящий момент автоматическая отправка активационного ключа при создании нового аккаунта не работает</span>. Для получения ключа активации запросите его <a href="mailto://vozdvin@mail.ru">письмом у администрации</a>, отправив это письмо с указанного Вами в анкете адреса и написав в теме "BE&nbsp;активация&nbsp;<ваше_имя_пользователя>".
+    <span class="warn">В настоящий момент автоматическая отправка активационного ключа при создании нового аккаунта не работает</span>.
+  </p>
+  <p>
+    Для получения ключа активации запросите его <?php echo mail_to(SystemSettings::getInstance()->contact_email_addr, 'письмом у администрации') ?>, отправив это письмо с указанного Вами в анкете адреса и написав в теме <span class="info">&quot;BE&nbsp;активация&nbsp;<ваше_имя_пользователя>&quot;</span>.
   </p>
   <div class="spaceAfter"></div>
   <p>

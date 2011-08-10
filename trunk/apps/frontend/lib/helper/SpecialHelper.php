@@ -242,6 +242,12 @@ function render_form_field_using_div(sfFormField $field, $width)
  */
 function render_form_commit_using_div(sfForm $form, $commitLabel, $backHtml, $width)
 {
+  //Если это не Doctrine-форма, то с нее объект не получить
+  if ( ! ($form instanceof sfFormDoctrine))
+  {
+    render_property('<input type="submit" value="'.$commitLabel.'" />', ($backHtml !== '') ? '' : $backHtml, $width);
+    return;
+  }
   //Генерируем способ отправки
   if ( ! $form->getObject()->isNew())
   {

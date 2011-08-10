@@ -1,14 +1,18 @@
+<?php
+  render_breadcombs(array(
+      link_to('Пользователи', 'webUser/index'),
+      link_to($sf_user->getAttribute('login'),
+            'webUser/show?id='.$sf_user->getAttribute('id'))
+  ))
+?>
+
 <h2>Смена пароля пользователя <?php echo $sf_user->getAttribute('login') ?></h2>
 
 <?php echo $form->renderFormTag(url_for('auth/changePassword')); ?>
-<table cellspacing="0">
-  <tbody>
-    <?php echo $form; ?>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="2"><input type="submit" value="Сменить" /></td>
-    </tr>
-  </tfoot>
-</table>
+<?php
+echo render_form_using_div(
+        $form,
+        'Сменить', 
+        link_to($sf_user->getAttribute('login'),
+            'webUser/show?id='.$sf_user->getAttribute('id'))) ?>
 <?php echo '</form>'; ?>
