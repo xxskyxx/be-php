@@ -12,7 +12,7 @@
  */
 class WebUser extends BaseWebUser implements IStored, INamed, IAuth
 {
-  const MIN_NAME_LENGTH = 3;
+  const MIN_NAME_LENGTH = 2;
   const MIN_PWD_LENGTH = 5;
   const ACTIVATION_KEY_LENGTH = 8;
 

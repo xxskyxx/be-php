@@ -8,11 +8,32 @@ if ($_isAdmin)
 render_h3_inline_begin('Настройки сайта');
 echo decorate_span('safeAction', link_to('Редактировать', 'moderation/editSettings'));
 render_h3_inline_end();
-
-$width = get_text_block_size_ex('E-mail для связи с администрацией сайта:');
-render_property('E-mail для писем-уведомлений:', $_settings->notify_email_addr, $width);
-render_property('E-mail для связи с администрацией сайта:', $_settings->contact_email_addr, $width);
 }
+?>
+
+<h4>Общие</h4>
+<?php
+$width = get_text_block_size_ex('E-mail для связи с администрацией сайта:');
+render_property('Название сайта:', $_settings->site_name, $width);
+render_property('Домен сайта:', $_settings->site_domain, $width);
+render_property('E-mail для связи с администрацией сайта:', $_settings->contact_email_addr, $width);
+?>
+<h4>Параметры отправки уведомлений</h4>
+<?php
+$width = get_text_block_size_ex('Обратный адрес:');
+render_property('Обратный адрес:', $_settings->notify_email_addr, $width);
+render_property('SMTP-сервер:', $_settings->smtp_host, $width);
+render_property('Порт:', $_settings->smtp_port, $width);
+if (($_settings->smtp_security !== null) && ($_settings->smtp_security !== ''))
+{
+render_property('Шифрование:', $_settings->smtp_security, $width);
+}
+if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
+{
+  render_property('Аккаунт:', $_settings->smtp_login, $width);
+  render_property('Пароль:', $_settings->smtp_password, $width);
+}
+render_property_if($_isAdmin, '', decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest')), $width);
 ?>
 
 <?php if ($_isAdmin): ?>

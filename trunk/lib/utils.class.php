@@ -354,6 +354,30 @@ class Utils
     return $sourceString;
   }
   
+  /**
+   * Создает и настраивает экземпляр SwiftMailer.
+   * При неудаче соединения возвращает false.
+   * 
+   * @return  Swift_Mailer
+   */
+  public static function getReadyMailer()
+  {
+    $settings = SystemSettings::getInstance();
+    $transport = Swift_SmtpTransport::newInstance($settings->smtp_host, $settings->smtp_port, $settings->smtp_security);
+    if (($settings->smtp_login !== null) && ($settings->smtp_login !== ''))
+    {
+      $transport->setUsername($settings->smtp_login)->setPassword($settings->smtp_password);
+    }
+    try
+    {
+      $transport->start();
+    }
+    catch (Exception $exc)
+    {
+      return false;
+    }
+    return Swift_Mailer::newInstance($transport);
+  }
   
   //// Self ////
 
