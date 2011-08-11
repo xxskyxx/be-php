@@ -78,7 +78,7 @@ class authActions extends MyActions
         $formData = $this->form->getValues();
         if (WebUser::byName($formData['login']) !== false)
         {
-          $this->errorMessage('Регистрация не удалась. Пользователь '.$register['login'].' уже существует. Придумайте другое имя и попробуйте снова.');
+          $this->errorMessage('Регистрация не удалась. Пользователь '.$formData['login'].' уже существует. Придумайте другое имя и попробуйте снова.');
           return;
         }
         //Длину пароля надо проверять вручную, так как при проверке на форме он может быть непреднамеренно показан
@@ -89,15 +89,56 @@ class authActions extends MyActions
         }
 
         $webUser = new WebUser;
-        $webUser->setLogin($formData['login']);
-        $webUser->setFullName($formData['full_name']);
-        $webUser->setPwdHash(WebUser::getSaltedPwdHash($formData['password']));
-        $webUser->setEmail($formData['email']);
+        $webUser->login = $formData['login'];
+        $webUser->full_name = $formData['full_name'];
+        $webUser->pwd_hash = WebUser::getSaltedPwdHash($formData['password']);
+        $webUser->email = $formData['email'];
         $webUser->newActivationKey();
-        $webUser->save();
-        $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
+        if (($webUser->email !== null) && ($webUser->email !== ''))
+        {
+          $settings = SystemSettings::getInstance();
+          $message = Swift_Message::newInstance('Регистрация на '.$settings->site_name)
+              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+              ->setTo($webUser->email)
+              ->setBody(
+                   "Здравствуйте!\n\n"
+                  ."Вы получили это письмо, так как зарегистрировались на сайте ".$settings->site_name.".\n"
+                  ."Если Вы не регистрировались на указанном сайте, просто проигнорируйте это письмо.\n\n"
+                  ."Для активации Вашей учетной записи перейдите по указанной ссылке:\n"
+                  ."http://".$settings->site_domain."/auth/activate?login=".$webUser->login."&key=".$webUser->tag."\n\n"
+                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
+                  ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
+              );
+          
+          $isSent = false;
+          try
+          {
+            $isSent = Utils::getReadyMailer()->send($message);
+          }
+          catch (Exception $e)
+          {
+            $isSent = false;
+          }
+          if ( ! $isSent )
+          {
+            $this->errorMessage('Регистрация не удалась. Не удается отправить письмо с активационным ключем.');
+          }
+          else
+          {
+            $webUser->save();
+            $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
+          }
+        }
+        else
+        {
+          $webUser->save();
+          $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
+        }
       }
-      $this->errorMessage('Регистрация не удалась. Пожалуйста, исправьте ошибки и попробуйте снова.');    
+      else
+      {
+        $this->errorMessage('Регистрация не удалась. Пожалуйста, исправьте ошибки и попробуйте снова.');  
+      }
     }
   }
 

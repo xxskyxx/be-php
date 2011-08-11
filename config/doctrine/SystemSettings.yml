@@ -3,7 +3,21 @@ SystemSettings:
   tableName: system_settings
   columns:
     id: { type: integer, primary: true, notnull: true }
-    # Адрес для уведомлений, не предполагает прием ответов
-    notify_email_addr: { type: string(255), notnull: true, default: do_not_reply@null.no }
+    # Название сайта, отображается в заголовке и указывается в письмах-уведомлениях
+    site_name: { type: string(255), notnull: true, default: 'Beaver''s Engine v0.2.1b' }
+    # Домен сайта, требуется для формирования писем-уведомлений
+    site_domain: { type: string(255), notnull: true, default: localhost }
+    # Обратный адрес для уведомлений, не предполагает прием ответов
+    notify_email_addr: { type: string(255), notnull: true, default: do_not_reply@somehost.inf }
     # Адрес для связи с администрацией сайта
-    contact_email_addr: { type: string(255), notnull: true, default: nowhere@null.no }
+    contact_email_addr: { type: string(255), notnull: true, default: feedback@somehost.inf }
+    # Имя сервера SMTP, используемого для отправки почты
+    smtp_host: { type: string(255), notnull: true, default: smtp.somehost.inf }
+    # Порт SMTP-сервера
+    smtp_port: { type: integer, notnull: true, default: 25 }
+    # Тип шифрования: пустая строка, 'tls' или 'ssl'
+    smtp_security: { type: string(3) }
+    # Имя пользователя для авторизации на STMP-сервере
+    smtp_login: { type: string(255) }
+    # Пароль для авторизации на STMP-сервере
+    smtp_password: { type: string(255) }

@@ -3,7 +3,7 @@
     <div class="middleVertical">
       <img src="/images/favicon.png" alt="[BE]" onClick="document.location='/home/index'" />
     </div>
-    <div class="middleVertical"><span style="font-weight:bold">Beaver's&nbsp;Engine</span>&nbsp;v0.2.1b</div>
+    <div class="middleVertical"><span style="font-weight:bold"><?php echo SystemSettings::getInstance()->site_name ?></div>
   </div>
   <div style="text-align: right">
     <?php
