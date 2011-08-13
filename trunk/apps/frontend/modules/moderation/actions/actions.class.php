@@ -1,9 +1,17 @@
 <?php
 
+/**
+ * moderation actions.
+ *
+ * @package    sf
+ * @subpackage moderation
+ * @author     VozdvIN
+ * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ */
 class moderationActions extends MyActions
 {
 
-  public function executeIndex(sfWebRequest $request)
+  public function executeShow(sfWebRequest $request)
   {
     $this->_settings = SystemSettings::getInstance();
     
@@ -80,14 +88,39 @@ class moderationActions extends MyActions
       $this->errorRedirect('У Вас нет полномочий модератора.');
     }
   }
-  
-  public function executeEditSettings(sfWebRequest $request)
+
+  public function executeEdit(sfWebRequest $request)
   {
-    //TODO: Сделать редактирование настроек сайта.
-    $this->errorRedirect('Редактирование настроек сайта пока не реализовано', 'moderation/index');
+    $this->errorRedirectIf( ! $this->sessionWebUser->canExact(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'редактировать системные настройки'));
+    $system_settings = SystemSettings::getInstance();
+    $this->form = new SystemSettingsForm($system_settings);
   }
-  
-  public function executeSMTPTest(sfWebRequest $request)
+
+  public function executeUpdate(sfWebRequest $request)
+  {
+    $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
+    $system_settings = SystemSettings::getInstance();
+    $this->form = new SystemSettingsForm($system_settings);
+    $this->processForm($request, $this->form);
+    $this->setTemplate('edit');
+  }
+
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    $this->errorRedirectIf( ! $this->sessionWebUser->canExact(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'редактировать системные настройки'));
+    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    if ($form->isValid())
+    {
+      $system_settings = $form->save();
+      $this->successRedirect('Системные настройки успешно сохранены.', 'moderation/show');
+    }
+    else
+    {
+      $this->errorMessage('Сохранить системные настройки не удалось. Исправьте ошибки и попробуйте снова.');
+    }
+  }
+
+public function executeSMTPTest(sfWebRequest $request)
   {
     if ( ! $this->sessionWebUser->canExact(Permission::ROOT, 0))
     {
