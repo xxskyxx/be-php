@@ -1,5 +1,5 @@
 <?php
-echo render_breadcombs(array(
+render_breadcombs(array(
     link_to('Игры', 'game/index'),
     $_game->name
 ));

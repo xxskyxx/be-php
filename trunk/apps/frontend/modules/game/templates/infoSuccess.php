@@ -1,10 +1,9 @@
 <?php
-echo render_breadcombs(array(
+render_breadcombs(array(
     link_to('Игры', 'game/index'),
     link_to($_game->name, 'game/show?id='.$_game->id)
 ));
-
-$backLinkEncoded = Utils::encodeSafeUrl('game/info?id='.$_game->id)
+$retUrlRaw = Utils::encodeSafeUrl('game/info?id='.$_game->id)
 ?>
 
 <?php
@@ -67,7 +66,7 @@ if ($actors)
   <?php echo Utils::decodeBB($_game->description) ?>
 </div>
 <div class="spaceBefore">
-  <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$backLinkEncoded, array('method' => 'post')); ?></span>
+  <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$retUrlRaw, array('method' => 'post')); ?></span>
 </div>
 
 <div class="hr">
@@ -98,7 +97,7 @@ render_property('Интервал подсказок:', Timing::intervalToStr($_
         ? decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id))
         : link_to($teamName, 'team/show?id='.$teamState->team_id);
     echo ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
-        ? ' '.decorate_span('warnAction', link_to('Отказаться', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$backLinkEncoded, array('confirm' => 'Вы точно хотите снять команду "'.$teamName.'" с игры "'.$_game->name.'" ?')))
+        ? ' '.decorate_span('warnAction', link_to('Отказаться', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$retUrlRaw, array('confirm' => 'Вы точно хотите снять команду "'.$teamName.'" с игры "'.$_game->name.'" ?')))
         : '';
     ?>
   </li>
@@ -117,7 +116,7 @@ render_property('Интервал подсказок:', Timing::intervalToStr($_
         ? decorate_span('info', link_to($teamName, 'team/show?id='.$gameCandidate->team_id))
         : link_to($teamName, 'team/show?id='.$gameCandidate->team_id);
     echo ($gameCandidate->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
-        ? ' '.decorate_span('safeAction', link_to('Отменить', 'game/cancelJoin?id='.$_game->id.'&teamId='.$gameCandidate->team_id.'&returl='.$backLinkEncoded))
+        ? ' '.decorate_span('safeAction', link_to('Отменить', 'game/cancelJoin?id='.$_game->id.'&teamId='.$gameCandidate->team_id.'&returl='.$retUrlRaw))
         : '';
     ?>
   </li>
