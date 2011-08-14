@@ -20,18 +20,32 @@ class TaskForm extends BaseTaskForm
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'name' => 'Название',
-        'time_per_task_local' => 'Длительность, мин',
-        'manual_start' => 'Требует разрешения на старт',
-        'try_count_local' => 'Неверных ответов не более',
-        'priority_free' => 'Приоритет когда свободно',
-        'priority_queued' => 'Приоритет когда выдано кому-либо',
-        'priority_busy' => 'Приоритет когда выполняется кем-либо',
-        'priority_filled' => 'Дополнительно приоритет когда заполнено',
-        'priority_per_team' => 'Дополнительно приоритет на каждую команду',
-        'max_teams' => 'Выполняющих команд не более',
-        'locked' => 'Заблокировано'
+        'name' => 'Название:',
+        'time_per_task_local' => 'Длительность:',
+        'try_count_local' => 'Неверных ответов:',
+        'manual_start' => 'Ручной старт:',
+        'max_teams' => 'Выполняющих команд:',
+        'locked' => 'Заблокировано:',
+        'priority_free' => 'Когда свободно:',
+        'priority_queued' => 'Когда кому-то выдано:',
+        'priority_busy' => 'Когда кем-то выполняется:',
+        'priority_filled' => 'Когда заполнено:',
+        'priority_per_team' => 'На каждую команду:'
     ));
+    
+    $this->getWidgetSchema()->setHelps(array(
+        'name' => '',
+        'time_per_task_local' => 'мин',
+        'try_count_local' => 'не более ...',
+        'manual_start' => '',
+        'max_teams' => 'не более ...',
+        'locked' => '',
+        'priority_free' => '',
+        'priority_queued' => '',
+        'priority_busy' => '',
+        'priority_filled' => '',
+        'priority_per_team' => ''
+    ));    
   }
 
 }

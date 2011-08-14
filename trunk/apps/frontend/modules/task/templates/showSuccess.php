@@ -1,241 +1,131 @@
 <?php
-$sessionCanManage = $task->Game->canBeManaged($sf_user->getSessionWebUser()->getRawValue());
-$backLinkEncoded = Utils::encodeSafeUrl(url_for('task/show?id='.$task->id));
+render_breadcombs(array(
+    link_to('Игры', 'game/index'),
+    link_to($_task->Game->name, 'game/show?id='.$_task->game_id),
+    link_to('Задания', 'game/show?id='.$_task->game_id.'&tab=tasks'),
+    $_task->name,
+));
+
+$retUrlRaw = Utils::encodeSafeUrl(url_for('task/show?id='.$_task->id));
 ?>
 
-<h2>Задание <?php echo $task->name ?> игры <?php echo $task->Game->name ?></h2>
-<?php echo link_to('Перейти к игре '.$task->Game->name, 'game/show?id='.$task->game_id) ?>
+<h2>Задание <?php echo $_task->name ?> игры <?php echo $_task->Game->name ?></h2>
 
-<h3>Cвойства</h3>
-<table cellspacing="0">
-  <tbody>
-    <tr>
-      <th>No:</th><td><?php echo $task->id ?></td>
-    </tr>
-    <tr>
-      <th>Название:</th><td><?php echo $task->name ?></td>
-    </tr>
-    <tr>
-      <th>Длительность, мин:</th><td><?php echo $task->time_per_task_local ?></td>
-    </tr>
-    <tr>
-      <th>Требует разрешения на старт:</th><td><?php echo $task->manual_start ? 'Да' : 'Нет' ?></td>
-    </tr>
-    <tr>
-      <th>Неверных ответов не более:</th><td><?php echo $task->try_count_local ?></td>
-    </tr>
-    <tr>
-      <th>Приоритет когда свободно:</th><td><?php echo $task->priority_free ?></td>
-    </tr>
-    <tr>
-      <th>Приоритет когда выдано кому-либо:</th><td><?php echo $task->priority_queued ?></td>
-    </tr>
-    <tr>
-      <th>Приоритет когда выполняется кем-либо:</th><td><?php echo $task->priority_busy ?></td>
-    </tr>
-    <tr>
-      <th>Дополнительно приоритет когда заполнено:</th><td><?php echo $task->priority_filled ?></td>
-    </tr>
-    <tr>
-      <th>Дополнительно приоритет на каждую команду:</th><td><?php echo $task->priority_per_team ?></td>
-    </tr>
-    <tr>
-      <th>Выполняющих команд не более:</th><td><?php echo ($task->max_teams == 0) ? 'Без ограничения' : $task->max_teams ?></td>
-    </tr>
-    <tr>
-      <th>Заблокировано</th>
-      <td>
-        <?php if ($task->locked): ?>
-        <span class="warn">Да</span>
-        <?php else: ?>
-        Нет
-        <?php endif; ?>
-      </td>
-    </tr>
-  </tbody>
-  <?php if ($sessionCanManage): ?>
-  <tfoot>
-    <tr>
-      <td colspan="2">
-        <span class="safeAction"><?php echo link_to('Редактировать', 'task/edit?id='.$task->id) ?></span>
-        <span class="dangerAction"><?php echo Utils::buttonTo('Удалить задание', 'task/delete?id='.$task->id.'&returl='.$backLinkEncoded, 'delete', 'Вы точно хотите удалить задание '.$task->name.'?'); ?></span>
-      </td>
-    </tr>
-  </tfoot>
-  <?php endif; ?>
-</table>
+<?php
+render_h3_inline_begin('Cвойства');
+if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Редактировать', 'task/edit?id='.$_task->id));
+if ($_isModerator) echo decorate_span('dangerAction', link_to('Удалить задание', 'task/delete?id='.$_task->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить задание '.$_task->name.'?')));
+render_h3_inline_end();
+?>
+<h4>Основные</h4>
+<?php
+$width = get_text_block_size_ex('Когда кем-то выполняется:');
+render_property_if($_isModerator, 'id:', $_task->id, $width);
+render_property('Название:', $_task->name, $width);
+render_property('Длительность:', Timing::intervalToStr($_task->time_per_task_local), $width);
+render_property('Неверных ответов:', 'не&nbsp;более&nbsp;'.$_task->try_count_local, $width);
+?>
+<h4>Управление</h4>
+<?php
+render_property('Выполняющих команд:', ($_task->max_teams > 0) ? 'не&nbsp;более&nbsp;'.$_task->max_teams : 'без&nbsp;ограничений', $width);
+render_property('Ручной старт:', $_task->manual_start ? decorate_span('info', 'Да') : 'Нет', $width);
+render_property('Заблокировано:', $_task->locked ? decorate_span('warn', 'Да') : 'Нет', $width);
+?>
+<h4>Приоритеты опорные</h4>
+<?php
+render_property('Когда свободно:', decorate_number($_task->priority_free), $width);
+render_property('Когда кому-то выдано:', decorate_number($_task->priority_queued), $width);
+render_property('Когда кем-то выполняется:', decorate_number($_task->priority_busy), $width);
+?>
+<h4>Приоритеты дополнительные</h4>
+<?php
+render_property('Когда заполнено:', decorate_number($_task->priority_filled), $width);
+render_property('На каждую команду:', decorate_number($_task->priority_per_team), $width);
+?>
 
-<h3>Подсказки</h3>
-<table cellspacing="0">
-  <thead>
-    <tr>
-      <th>Название</th>
-      <th>Выдается</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php $tips = $task->tips ?>
-    <?php if ($tips->count() <= 0): ?>
-    <tr>
-      <td colspan="2">
-        <div class="danger">
-          Нет подсказок!
-        </div>
-      </td>
-    </tr>
-    <?php else: ?>
-    <?php   foreach ($tips as $tip): ?>
-    <tr>
-      <td>
-        <?php if ($sessionCanManage): ?>
-        <span class="dangerAction"><?php echo Utils::buttonTo('Удалить', 'tip/delete?id='.$tip->id.'&returl='.$backLinkEncoded, 'delete', 'Вы действительно хотите удалить подсказку '.$tip->name.' к заданию '.$tip->Task->name.'?')?></span>
-        <?php endif; ?>
-        <?php echo link_to_if($sessionCanManage, $tip->name, 'tip/edit?id='.$tip->id) ?>
-      </td>
-      <td>
-        <?php
-        if ($tip->answer_id > 0)
-        {
-          echo 'после&nbsp;ответа&nbsp;"'.$tip->Answer->name.'"';
-        }
-        elseif ($tip->delay == 0)
-        {
-          echo 'сразу';
-        }
-        else
-        {
-          echo 'через&nbsp;'.Timing::intervalToStr($tip->delay*60);
-        }
-        ?>
-      </td>
-    </tr>
-    <?php   endforeach; ?>
-    <?php endif; ?>
-  </tbody>
-  <?php if ($sessionCanManage): ?>
-  <tfoot>
-    <tr>
-      <td colspan="2" style="text-align:left">
-        <span class="safeAction"><?php echo link_to('Добавить подсказку', 'tip/new?taskId='.$task->id) ?>
-      </td>
-    <tr>
-  </tfoot>
-  <?php endif; ?>
-</table>
+<?php
+render_h3_inline_begin('Подсказки');
+if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Добавить подсказку', 'tip/new?taskId='.$_task->id));
+render_h3_inline_end();
+?>
+<?php if ($_tips->count() <= 0): ?>
+<div class="danger">Нет подсказок!</div>
+<?php else: ?>
+<ul>
+  <?php foreach ($_tips as $tip): ?>
+  <li>
+    <?php
+    echo link_to($tip->name, 'tip/edit?id='.$tip->id);
+    echo '&nbsp;';
+    
+    if ($tip->answer_id > 0) echo 'после&nbsp;ответа&nbsp;'.link_to($tip->Answer->name, 'answer/edit?id='.$tip->answer_id);
+    elseif ($tip->delay == 0) echo 'сразу';
+    else echo 'через&nbsp;'.Timing::intervalToStr($tip->delay);
+    
+    if ($_isManager || $_isModerator) echo ' '.decorate_span('dangerAction', link_to('Удалить', 'tip/delete?id='.$tip->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'conform' => 'Вы действительно хотите удалить подсказку '.$tip->name.' к заданию '.$tip->Task->name.'?')));
+    ?>
+  </li>
+  <?php endforeach ?>
+</ul>
+<?php endif ?>
 
-<h3>Ответы</h3>
-<table cellspacing="0">
-  <thead>
-    <tr>
-      <th>Название</th>
-      <th>Описание</th>
-      <th>Значение</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php $answers = $task->answers ?>
-    <?php if ($answers->count() <= 0): ?>
-    <tr>
-      <td colspan="4">
-        <div class="danger">
-          Нет ответов!
-        </div>
-      </td>
-    </tr>
-    <?php else: ?>
-    <?php   foreach ($answers as $answer): ?>
-    <tr>
-      <td>
-        <?php if ($sessionCanManage): ?>
-          <span class="dangerAction"><?php echo Utils::buttonTo('Удалить', 'answer/delete?id='.$answer->id.'&returl='.$backLinkEncoded, 'delete', 'Вы действительно хотите удалить ответ '.$answer->name.' задания '.$answer->Task->name.'?')?></span>
-        <?php endif; ?>
-        <?php echo link_to_if($sessionCanManage, $answer->name, 'answer/edit?id='.$answer->id) ?>
-      </td>
-      <td><?php echo $answer->info ?></td>
-      <td><?php echo $answer->value ?></td>
-    </tr>
-    <?php   endforeach; ?>
-    <?php endif; ?>
-  </tbody>
-  <?php if ($sessionCanManage): ?>
-  <tfoot>
-    <tr>
-      <td colspan="4" style="text-align:left">
-        <span class="safeAction"><?php echo link_to('Добавить ответ', 'answer/new?taskId='.$task->id) ?></span>
-      </td>
-    </tr>
-  </tfoot>
-  <?php endif; ?>
-</table>
 
-<h3>Правила переходов</h3>
-<table cellspacing="0">
-  <thead>
-    <tr>
-      <th>На задание</th>
-      <th>Приоритет</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php $taskConstraints = $task->taskConstraints ?>
-    <?php if ($taskConstraints->count() <= 0): ?>
-    <tr>
-      <td colspan="2">
-        <div class="info">
-          Правила переходов не определены.
-        </div>
-      </td>
-    </tr>
-    <?php else: ?>
-    <?php   foreach ($taskConstraints as $taskConstraint): ?>
-    <?php     $targetTask = $taskConstraint->getTargetTaskSafe(); ?>
-    <?php     if (!$targetTask): ?>
-    <tr>
-      <td colspan="2">
-        <div class="danger">
-          Целевое задание не найдено!
-          <?php if ($sessionCanManage): ?>
-          <?php   echo Utils::buttonTo('Исправить', 'taskConstraint/edit?id='.$taskConstraint->id.'&returl='.$backLinkEncoded, 'delete')?></span>
-          <?php   echo Utils::buttonTo('Удалить', 'taskConstraint/delete?id='.$taskConstraint->id.'&returl='.$backLinkEncoded, 'delete')?></span>
-          <?php endif; ?>
-        </div>
-      </td>
-    </tr>
-    <?php     else: ?>
-    <tr>
-      <td>
-        <?php if ($sessionCanManage): ?>
-        <span class="dangerAction"><?php echo Utils::buttonTo('Удалить', 'taskConstraint/delete?id='.$taskConstraint->id.'&returl='.$backLinkEncoded, 'delete', 'Вы действительно хотите удалить правило перехода с задания '.$task->name.' на задание '.$targetTask->name.'?')?></span>
-        <?php endif; ?>
-        <?php echo link_to($targetTask->name, 'taskConstraint/edit?id='.$taskConstraint->id.'&returl='.$backLinkEncoded) ?>
-      </td>
-      <td>
-        <?php
-        echo ($taskConstraint->priority_shift >= 0) ? '+' : '';
-        echo $taskConstraint->priority_shift;
-        ?>
-      </td>
-    </tr> 
-    <?php     endif; ?>
-    <?php   endforeach; ?>
-    <?php endif; ?>
-  </tbody>
-  <?php if ($sessionCanManage): ?>
-  <tfoot>
-    <tr>
-      <td colspan="2" style="text-align:left">
-        <span class="safeAction"><?php echo link_to('Добавить правило перехода', 'taskConstraint/new?taskId='.$task->id) ?></span>
-      </td>
-    </tr>        
-  </tfoot>
-  <?php endif; ?>
-</table>
+<?php
+render_h3_inline_begin('Ответы');
+if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Добавить ответ', 'answer/new?taskId='.$_task->id));
+render_h3_inline_end();
+?>
+<?php if ($_answers->count() <= 0): ?>
+<div class="danger">Нет подсказок!</div>
+<?php else: ?>
+<ul>
+  <?php foreach ($_answers as $answer): ?>
+  <li>
+    <?php
+    echo link_to($answer->name, 'answer/edit?id='.$answer->id);
+    echo '&nbsp;'.$answer->value;
+    echo '&nbsp;('.$answer->info.')';
+    if ($_isManager || $_isModerator) echo ' '.decorate_span('dangerAction', link_to('Удалить', 'answer/delete?id='.$answer->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'conform' => 'Вы действительно хотите удалить ответ '.$answer->name.' задания '.$_task->name.'?')));
+    ?>
+  </li>
+  <?php endforeach ?>
+</ul>
+<?php endif ?>
+
+<?php
+render_h3_inline_begin('Правила переходов');
+if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Добавить правило перехода', 'taskConstraint/new?taskId='.$_task->id));
+render_h3_inline_end();
+?>
+<ul>
+  <?php foreach ($_taskConstraints as $taskConstraint): ?>
+  <li>
+    <?php
+    $targetTask = $taskConstraint->getTargetTaskSafe();
+    if (!$targetTask)
+    {
+      $msg  = 'Целевое задание не найдено!';
+      $msg .= ($_isManager || $_isModerator) ? '&nbsp'.link_to('Исправить', 'taskConstraint/edit?id='.$taskConstraint->id.'&returl='.$retUrlRaw, array('method' => 'post')) : '';
+      $msg .= ($_isManager || $_isModerator) ? '&nbsp'.link_to('Удалить', 'taskConstraint/delete?id='.$taskConstraint->id.'&returl='.$retUrlRaw, array('method' => 'delete')) : '';
+    }
+    else
+    {
+      $numLink = link_to('&nbsp;&nbsp;'.$taskConstraint->priority_shift.'&nbsp;&nbsp;', 'taskConstraint/edit?id='.$taskConstraint->id);
+      echo decorate_span(($taskConstraint->priority_shift > 0) ? 'info' : 'warn', $numLink);
+      echo '&nbsp;на&nbsp;';
+      echo link_to($targetTask->name, 'task/show?id='.$targetTask->id, array('target' => 'new'));
+      if ($_isManager || $_isModerator) echo ' '.decorate_span('dangerAction', link_to('Удалить', 'taskConstraint/delete?id='.$taskConstraint->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Вы действительно хотите удалить правило перехода с задания '.$_task->name.' на задание '.$targetTask->name.'?')));
+    }
+    ?>
+  </li>
+  <?php endforeach ?>
+</ul>
 
 <h3>Предварительный просмотр</h3>
-<?php foreach ($tips as $tip): ?>
+<?php foreach ($_tips as $tip): ?>
 <div class="spaceBefore">
-  <div class="info">
-    <?php echo link_to($tip->name, 'tip/edit?id='.$tip->id) ?>
+  <div style="background-color: Navy">
+    <?php echo link_to($tip->name, 'tip/edit?id='.$tip->id); ?>
   </div>
 </div>
 <div>
