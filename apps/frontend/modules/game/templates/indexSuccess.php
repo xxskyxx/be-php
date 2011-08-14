@@ -1,8 +1,8 @@
 <?php 
-  echo render_breadcombs(array(
-      'Игры' 
-  ));
-  $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
+render_breadcombs(array(
+    'Игры' 
+));
+$this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
 ?>
 
 <h2>Игры</h2>

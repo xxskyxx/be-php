@@ -1,7 +1,7 @@
 <?php
 $retUrlRaw = Utils::encodeSafeUrl(url_for('team/show?id='.$_team->id));
 
-echo render_breadcombs(array(
+render_breadcombs(array(
     link_to('Команды', 'team/index'),
     $_team->name
 ));

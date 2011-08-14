@@ -1,4 +1,4 @@
-<?php echo render_breadcombs(array('Модерирование')) ?>
+<?php render_breadcombs(array('Модерирование')) ?>
 
 <h2>Модерирование</h2>
 
