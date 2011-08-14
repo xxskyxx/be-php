@@ -8,7 +8,7 @@
 */
 
 /* Форматирование списка свойств */
-div.propName  { display: inline-block; vertical-align: top; margin-top: 2px; text-align: right; font-weight: bold; color: PaleGreen }
+div.propName  { display: inline-block; vertical-align: top; margin-top: 2px; text-align: right; color: PaleGreen }
 div.propValue { display: inline-block; vertical-align: top; margin-top: 2px }
 
 /* Форматирование "хлебных крошек" */

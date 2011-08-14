@@ -13,8 +13,23 @@ class taskActions extends MyActions
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->forward404Unless($this->task = Task::byId($request->getParameter('id')), 'Задание не найдено');
-    $this->errorRedirectUnless($this->task->Game->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать задание'));
+    $this->forward404Unless($this->_task = Task::byId($request->getParameter('id')), 'Задание не найдено');
+    $this->errorRedirectUnless($this->_task->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать задание'));
+    $this->_isManager = $this->_task->canBeManaged($this->sessionWebUser);
+    $this->_isModerator = Task::isModerator($this->sessionWebUser);
+    $this->_tips = Doctrine::getTable('Tip')
+        ->createQuery('t')
+        ->select()
+        ->where('t.task_id = ?', $this->_task->id)
+        ->orderBy('t.delay')
+        ->execute();
+    $this->_answers = Doctrine::getTable('Answer')
+        ->createQuery('a')
+        ->select()
+        ->where('a.task_id = ?', $this->_task->id)
+        ->orderBy('a.value')
+        ->execute();
+    $this->_taskConstraints = $this->_task->taskConstraints;
   }
 
   public function executeNew(sfWebRequest $request)
