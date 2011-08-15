@@ -1,32 +1,21 @@
-<?php $sessionCanManage = $teamState->canBeManaged($sf_user->getSessionWebUser()->getRawValue()) ?>
+<?php
+render_breadcombs(array(
+    link_to('Игры', 'game/index'),
+    link_to($_teamState->Game->name, 'game/show?id='.$_teamState->game_id),
+    link_to('Регистрация', 'game/show?id='.$_teamState->game_id.'&tab=teams'),
+    $_teamState->Team->name
+));
+?>
 
-<h2>Настройки команды <?php echo $teamState->Team->name ?> на игру <?php echo $teamState->Game->name ?></h2>
-<div>
-  <?php echo link_to('Перейти к игре '.$teamState->Game->name, 'game/show?id='.$teamState->game_id) ?>
-</div>
-<div>
-  <?php echo link_to('Перейти к команде '.$teamState->Team->name, 'team/show?id='.$teamState->team_id) ?>
-</div>
+<h2>Настройки команды <?php echo $_teamState->Team->name ?> на игру <?php echo $_teamState->Game->name ?></h2>
 
-<h3>Стартовые параметры</h3>
-<table cellspacing="0">
-  <tbody>
-    <tr>
-      <th>Задержка старта:</th>
-      <td><?php echo $teamState->start_delay.'&nbsp;мин' ?></td>
-    </tr>
-    <tr>
-      <th>Использовать ИИ выбора заданий:</th>
-      <td><?php echo ($teamState->ai_enabled) ? 'Да' : 'Нет' ?></td>
-    </tr>
-  </tbody>
-  <?php if ($sessionCanManage): ?>
-  <tfoot>
-    <tr>
-      <td colspan="2">
-        <span class="safeAction"><?php echo link_to('Редактировать', 'teamState/edit?id='.$teamState->id) ?></span>
-      </td>
-    </tr>
-  </tfoot>
-  <?php endif; ?>
-</table>
+<?php
+render_h3_inline_begin('Основные');
+if ($_sessionCanManage) echo decorate_span('safeAction', link_to('Редактировать', 'teamState/edit?id='.$_teamState->id));
+render_h3_inline_end();
+?>
+<?php
+$width = get_text_block_size_ex('Автоматический выбор заданий:');
+render_property('Задержка старта:', ($_teamState->start_delay > 0) ? Timing::intervalToStr($_teamState->start_delay) : 'Нет', $width);
+render_property('Автоматический выбор заданий:', ($_teamState->ai_enabled ? 'Да' : 'Нет'), $width);
+?>

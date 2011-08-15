@@ -19,9 +19,9 @@ class AnswerForm extends BaseAnswerForm
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'name' => 'Название',
-        'value' => 'Значение',
-        'info' => 'Описание'
+        'name' => 'Название:',
+        'value' => 'Значение:',
+        'info' => 'Описание:'
     ));
   }
 

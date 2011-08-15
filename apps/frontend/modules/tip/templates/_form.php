@@ -1,33 +1,34 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
-<form action="<?php echo url_for('tip/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
-  <?php if (!$form->getObject()->isNew()): ?>
-  <input type="hidden" name="sf_method" value="put" />
-  <?php endif; ?>
-  <table cellspacing="0">
-    <tbody>
-      <?php echo $form ?>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <input type="submit" value="Сохранить" />
-          <?php if (!$form->getObject()->isNew()): ?>
-          <span class="warnAction"><?php echo link_to('Отмена', 'task/show?id='.$form->getObject()->task_id) ?></span>
-          <?php endif; ?>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+<form action="<?php echo url_for('tip/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>  <?php
+  //Служебные поля
+  $width = get_text_block_size_ex('Выдавать после ответа:');
+  render_form_field_using_div($form['_csrf_token'], $width);
+  render_form_field_using_div($form['id'], $width);
+  render_form_field_using_div($form['task_id'], $width);
+  ?>
+  <div class="comment"><span class="info">Внутреннее название, на игре известно только организаторам</span></div>
+  <?php render_form_field_using_div($form['name'], $width) ?>
+  <?php render_form_field_using_div($form['define'], $width) ?>
+  <?php if ($form->getObject()->isNew()): ?>
+  <div class="comment"><span class="info">Если пусто или равно нулю, то будет взято значение из свойств игры</span></div>
+  <?php endif ?>
+  <?php render_form_field_using_div($form['delay'], $width) ?>
+  <div class="comment"><span class="info">Если указан ответ, по подсказка выдается сразу после ввода этого ответа, а не по задержке</span></div>
+  <?php render_form_field_using_div($form['answer_id'], $width) ?>
+  
+  <?php
+  //Код отправки
+  render_form_commit_using_div(
+      $form,
+      'Сохранить',
+      decorate_span(
+          'warnAction',
+          link_to(
+              'Отмена',
+              'task/show?id='.$form->getObject()->task_id,
+              array('confirm' => 'Вернуться без сохранения?'))),
+      $width);
+  ?>
+  
 </form>
-
-<div class="comment">
-  <h3>Комментарии</h3>
-  <ul>
-    <li><span class="info">"Название"</span> - внутреннее название, исвестно только организаторам.</li>
-    <?php if ($form->getObject()->isNew()): ?>
-    <li><span class="warn">Если поле "Задержка выдачи" не заполнено или равно нулю</span>, то в него будет поставлено значение "Интервал между подсказками" из общих свойств игры, умноженное на число уже добавленных в задание подсказок.</li>
-    <?php endif ?>
-    <li><span class="info">"Выдавать после ответа"</span> - <span class="warn">если заполнено, то подсказка не будет выдаваться автоматически</span>, но <span class="info">будет выдана сразу, как только будет введен указанный ответ</span>.</li>
-  </ul>
-</div>
