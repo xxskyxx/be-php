@@ -75,11 +75,26 @@ class teamCreateRequestActions extends MyActions
         'Заявка на создание команды не найдена',
         'team/index'
     );
-    $this->errorRedirectUnless(
-        $this->sessionWebUser->can(Permission::TEAM_MODER, 0),
-        'Создать команду по заявке может только модератор команд.',
-        'team/index'
+    
+    $fastTeamCreate = SystemSettings::getInstance()->fast_team_create;
+    if ($fastTeamCreate)
+    {
+      $this->errorRedirectUnless(
+          $this->sessionWebUser->id == $teamCreateRequest->web_user_id
+          || $this->sessionWebUser->can(Permission::TEAM_MODER, 0),
+          'В режиме быстрого создания команд создать команду может только автор заявки.',
+          'team/index'
+      );
+    }
+    else
+    {
+      $this->errorRedirectUnless(
+          $this->sessionWebUser->can(Permission::TEAM_MODER, 0),
+          'Создать команду по заявке может только модератор команд.',
+          'team/index'
     );
+    }
+
     $this->errorRedirectUnless(
         Utils::byField('Team', 'name', $teamCreateRequest->name) === false,
         'Не удалось создать команду: команда '.$teamCreateRequest->name.' уже существует.',
@@ -90,10 +105,24 @@ class teamCreateRequestActions extends MyActions
     $team->name = $teamCreateRequest->name;
     $team->full_name = $teamCreateRequest->full_name;
     $team->save(); //Требуется, так как иначе не удастся включить капитана.
-    $team->registerPlayer($teamCreateRequest->WebUser, true, $this->sessionWebUser);
+    
+    //Так не получится, так как при быстром создании команд подтверждающий
+    //заявку пользователь еще не имеет полномочий капитана.
+    //$team->registerPlayer($teamCreateRequest->WebUser, true, $this->sessionWebUser);
+    
+    //Так как команда еще не существует, то в нее можно просто включить
+    //автора заявки без всяких проверок.
+    $teamPlayer = new TeamPlayer;
+    $teamPlayer->team_id = $team->id;
+    $teamPlayer->web_user_id = $teamCreateRequest->web_user_id;
+    $teamPlayer->is_leader = true;
+    $team->teamPlayers->add($teamPlayer);
     $team->save();
     $teamCreateRequest->delete();
     
-    $this->successRedirect('Команда '.$team->name.' успешно создана.', 'team/index');
+    $this->successRedirect(
+        'Команда '.$team->name.' успешно создана, '.$teamCreateRequest->WebUser->login.' назначен ее капитаном.',
+        $fastTeamCreate ? 'team/show?id='.$team->id : 'team/index'
+    );
   }
 }

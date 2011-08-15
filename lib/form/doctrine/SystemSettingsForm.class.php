@@ -16,6 +16,8 @@ class SystemSettingsForm extends BaseSystemSettingsForm
       'id'                 => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'site_name'          => new sfValidatorString(array('max_length' => 255, 'required' => true)),
       'site_domain'        => new sfValidatorString(array('max_length' => 255, 'required' => true)),
+      'fast_user_register' => new sfValidatorBoolean(array('required' => false)),
+      'fast_team_create'   => new sfValidatorBoolean(array('required' => false)),
       'notify_email_addr'  => new sfValidatorString(array('max_length' => 255, 'required' => true)),
       'contact_email_addr' => new sfValidatorString(array('max_length' => 255, 'required' => true)),
       'smtp_host'          => new sfValidatorString(array('max_length' => 255, 'required' => true)),
@@ -27,6 +29,8 @@ class SystemSettingsForm extends BaseSystemSettingsForm
     $this->getWidgetSchema()->setLabels(array(
       'site_name'          => 'Название сайта:',
       'site_domain'        => 'Домен сайта:',
+      'fast_user_register' => 'Быстрая регистрация:',
+      'fast_team_create'   => 'Быстрое создание команд:',
       'notify_email_addr'  => 'Обратный адрес:',
       'contact_email_addr' => 'Адрес администраторов:',
       'smtp_host'          => 'SMTP-сервер:',
@@ -38,6 +42,8 @@ class SystemSettingsForm extends BaseSystemSettingsForm
     $this->getWidgetSchema()->setHelps(array(
       'site_name'          => '',
       'site_domain'        => 'без HTTP://',
+      'fast_user_register' => 'использовать c осторожноcтью!',
+      'fast_team_create'   => 'использовать c осторожноcтью!',
       'notify_email_addr'  => 'обязательно действующий',
       'contact_email_addr' => 'рекомендуется действующий',
       'smtp_host'          => '',

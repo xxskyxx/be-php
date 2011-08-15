@@ -4,9 +4,13 @@ SystemSettings:
   columns:
     id: { type: integer, primary: true, notnull: true }
     # Название сайта, отображается в заголовке и указывается в письмах-уведомлениях
-    site_name: { type: string(255), notnull: true, default: 'Beaver''s Engine v0.2.1b' }
+    site_name: { type: string(255), notnull: true, default: 'Beaver''s Engine v0.4.1b' }
     # Домен сайта, требуется для формирования писем-уведомлений
     site_domain: { type: string(255), notnull: true, default: localhost }
+    # Разрешить мгновенную регистрацию пользователей
+    fast_user_register: { type: boolean, notnull: true, default: false }
+    # Разрешить мгновенную регистрацию команд
+    fast_team_create: { type: boolean, notnull: true, default: false }
     # Обратный адрес для уведомлений, не предполагает прием ответов
     notify_email_addr: { type: string(255), notnull: true, default: do_not_reply@somehost.inf }
     # Адрес для связи с администрацией сайта
