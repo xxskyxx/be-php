@@ -65,7 +65,7 @@ class GameForm extends BaseGameForm
         //Общее
         'name' => '',
         'team_id' => '',
-        'description' => '',
+        'description' => 'Разрешен BBCode',
         //Регламент
         'start_briefing_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС',
         'start_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС',

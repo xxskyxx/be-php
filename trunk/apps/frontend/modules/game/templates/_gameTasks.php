@@ -10,7 +10,7 @@
 
 <?php
 render_h3_inline_begin('Задания');
-if ($_sessionCanManage || $_sessionIsModerator) echo decorate_span('safeAction', link_to('Добавить новое задание', 'task/new?gameId='.$_game->id));
+if ($_sessionCanManage || $_sessionIsModerator) echo decorate_span('safeAction', link_to('Создать задание', 'task/new?gameId='.$_game->id));
 render_h3_inline_end();
 ?>
 

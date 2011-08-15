@@ -1,25 +1,31 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
 <form action="<?php echo url_for('TaskConstraint/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '').($form->getObject()->isNew() ? '?taskId='.$task->id : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
-  <?php if (!$form->getObject()->isNew()): ?>
-  <input type="hidden" name="sf_method" value="put" />
-  <?php endif; ?>
-  <table cellspacing="0">
-    <tbody>
-      <tr>
-        <th>С задания:</th><td><?php echo $task->name ?></td>
-      </tr>
-      <?php echo $form ?>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <input type="submit" value="Сохранить" />
-          <?php if (!$form->getObject()->isNew()): ?>
-          <span class="warnAction"><?php echo link_to('Отмена', 'task/show?id='.$form->getObject()->getId()) ?></span>
-          <?php endif; ?>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+<?php
+  //Служебные поля
+  $width = get_text_block_size_ex('Выдавать после ответа:');
+  render_form_field_using_div($form['_csrf_token'], $width);
+  render_form_field_using_div($form['id'], $width);
+  render_form_field_using_div($form['task_id'], $width);
+  //Подсказка
+  render_property('С задания:', $task->name, $width);
+  //Видимые поля
+  render_form_field_using_div($form['target_task_id'], $width);
+  render_form_field_using_div($form['priority_shift'], $width);
+  ?>
+  
+  <?php
+  //Код отправки
+  render_form_commit_using_div(
+      $form,
+      'Сохранить',
+      decorate_span(
+          'warnAction',
+          link_to(
+              'Отмена',
+              'task/show?id='.$task->id,
+              array('confirm' => 'Вернуться без сохранения?'))),
+      $width);
+  ?>
+
 </form>

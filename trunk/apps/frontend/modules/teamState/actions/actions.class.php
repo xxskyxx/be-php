@@ -18,8 +18,9 @@ class teamStateActions extends myActions
 
   public function executeShow(sfWebRequest $request)
   {
-    $this->forward404Unless($this->teamState = TeamState::byId($request->getParameter('id')), 'Состояние команды не найдено.');
-    $this->errorRedirectUnless($this->teamState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать настройки команды'));
+    $this->forward404Unless($this->_teamState = TeamState::byId($request->getParameter('id')), 'Состояние команды не найдено.');
+    $this->errorRedirectUnless($this->_teamState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать настройки команды'));
+    $this->_sessionCanManage = $this->_teamState->canBeManaged($this->sessionWebUser);
   }
 
   public function executeEdit(sfWebRequest $request)
@@ -46,7 +47,7 @@ class teamStateActions extends myActions
       $object = $form->updateObject();
       $this->errorRedirectUnless($object->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'изменять настройки команды'));
       $object->save();
-      $this->successRedirect('Настройки команды '.$object->Team->name.' успешно сохранены.', 'game/show?id='.$object->game_id);
+      $this->successRedirect('Настройки команды '.$object->Team->name.' успешно сохранены.', 'game/show?id='.$object->game_id.'&tab=teams');
     }
     else
     {

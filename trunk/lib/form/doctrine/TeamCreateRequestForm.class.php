@@ -20,9 +20,16 @@ class TeamCreateRequestForm extends BaseTeamCreateRequestForm
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(
         array(
-          'name' => 'Краткое название команды',
-          'full_name' => 'Полное название команды',
-          'description' => 'Сообщение модератору'
+          'name' => 'Краткое название:',
+          'full_name' => 'Полное название:',
+          'description' => 'Сообщение модератору:'
+        )
+    );
+    $this->getWidgetSchema()->setHelps(
+        array(
+          'name' => 'Чем короче тем лучше',
+          'full_name' => '',
+          'description' => ''
         )
     );
   }

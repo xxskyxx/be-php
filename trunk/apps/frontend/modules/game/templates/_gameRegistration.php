@@ -25,7 +25,7 @@ render_h3_inline_end();
   <li>
     <?php
     echo link_to($teamState->Team->name, 'team/show?id='.$teamState->team_id, array ('target' => 'new'));
-    echo ' стартует '.(($teamState->start_delay == 0)? 'сразу' : 'через '.$teamState->start_delay.'&nbspмин');
+    echo ' стартует '.(($teamState->start_delay == 0)? 'сразу' : 'через '.Timing::intervalToStr($teamState->start_delay*60));
     echo ' '.decorate_span('safeAction', link_to('Настройки', 'teamState/show?id='.$teamState->id));
     if ($_sessionCanManage || $_sessionIsModerator)
         echo decorate_span('warnAction', link_to('Снять с игры', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$_retUrlRaw, array('method' => 'post', 'confirm' => 'Вы точно хотите снять команду '.$teamState->Team->name.' с игры '.$_game->name.'?')));

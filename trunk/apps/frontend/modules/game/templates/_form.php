@@ -10,7 +10,6 @@
   ?>
   
   <h4>Общее</h4>
-  <div class="comment"><span class="info">В описании можно использовать BBCode.</span></div>
   <?php
   render_form_field_using_div($form['team_id'], $width);
   render_form_field_using_div($form['name'], $width);

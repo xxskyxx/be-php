@@ -27,10 +27,17 @@ class TipForm extends BaseTipForm
     
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'name' => 'Название',
-        'define' => 'Формулировка',
-        'delay' => 'Задержка выдачи, мин',
-        'answer_id' => 'Выдавать после ответа'
+        'name' => 'Название:',
+        'define' => 'Формулировка:',
+        'delay' => 'Задержка выдачи:',
+        'answer_id' => 'Выдавать после ответа:'
     ));
+    
+    $this->getWidgetSchema()->setHelps(array(
+        'name' => '',
+        'define' => 'Разрешен BBCode',
+        'delay' => 'мин',
+        'answer_id' => ''
+    ));    
   }
 }

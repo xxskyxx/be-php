@@ -1,32 +1,32 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
-<form action="<?php echo url_for('answer/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
-  <?php if (!$form->getObject()->isNew()): ?>
-  <input type="hidden" name="sf_method" value="put" />
-  <?php endif; ?>
-  <table cellspacing="0">
-    <tbody>
-      <?php echo $form ?>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <input type="submit" value="Сохранить" />
-          <?php if (!$form->getObject()->isNew()): ?>
-          <span class="warnAction"><?php echo link_to('Отмена', 'answer/show?id='.$form->getObject()->getId()) ?></span>
-          <?php endif; ?>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+<form action="<?php echo url_for('answer/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>  
+  <?php
+  //Служебные поля
+  $width = get_text_block_size_ex('Название:');
+  render_form_field_using_div($form['_csrf_token'], $width);
+  render_form_field_using_div($form['id'], $width);
+  render_form_field_using_div($form['task_id'], $width);
+  ?>
+  <div class="comment"><span class="info">Внутреннее название, на игре известно только организаторам</span></div>
+  <?php render_form_field_using_div($form['name'], $width) ?>
+  <div class="comment"><span class="warn">Значение (без учета регистра) которое вводится для зачета ответа</span></div>
+  <?php render_form_field_using_div($form['value'], $width) ?>
+  <div class="comment"><span class="warn">Текст, который виден игрокам и позволяет им различать ответы (например - код опасности)</span></div>
+  <?php render_form_field_using_div($form['info'], $width) ?>
+  
+  <?php
+  //Код отправки
+  render_form_commit_using_div(
+      $form,
+      'Сохранить',
+      decorate_span(
+          'warnAction',
+          link_to(
+              'Отмена',
+              'task/show?id='.$form->getObject()->task_id,
+              array('confirm' => 'Вернуться без сохранения?'))),
+      $width);
+  ?>
+  
 </form>
-
-<div class="comment">
-  <h3>Комментарии</h3>
-  <ul>
-    <li><span class="info">"Название"</span> - строка, внутреннее название, исвестно только организаторам.</li>
-    <li><span class="warn">"Описание"</span> - строка, которую видит пользователь и которая позволяет ему различать ответы (например - код опасности).</li>
-    <li><span class="info">"Значение"</span> - строка, которую должен ввести пользователь для зачета ответа.</li>
-  </ul>    
-</div>
-

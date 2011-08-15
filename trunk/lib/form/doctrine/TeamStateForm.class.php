@@ -29,10 +29,17 @@ class TeamStateForm extends BaseTeamStateForm
     unset($this['task_id']);
     unset($this['team_last_update']);
 
+    //Задержка только положительная
+    $this->setValidator('start_delay', new sfValidatorInteger(array('min' => '0', 'required' => false)));
+    
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
-        'start_delay' => 'Задержка старта, мин:',
-        'ai_enabled' => 'Использовать ИИ выбора заданий:'
+        'start_delay' => 'Задержка старта:',
+        'ai_enabled' => 'Автоматический выбор заданий:'
+    ));
+    $this->getWidgetSchema()->setHelps(array(
+        'start_delay' => '&gt;=&nbsp;0',
+        'ai_enabled' => ''
     ));
   }
 }
