@@ -60,7 +60,7 @@ render_h3_inline_end();
     
     if ($tip->answer_id > 0) echo 'после&nbsp;ответа&nbsp;'.link_to($tip->Answer->name, 'answer/edit?id='.$tip->answer_id);
     elseif ($tip->delay == 0) echo 'сразу';
-    else echo 'через&nbsp;'.Timing::intervalToStr($tip->delay);
+    else echo 'через&nbsp;'.Timing::intervalToStr($tip->delay*60);
     
     if ($_isManager || $_isModerator) echo ' '.decorate_span('dangerAction', link_to('Удалить', 'tip/delete?id='.$tip->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'conform' => 'Вы действительно хотите удалить подсказку '.$tip->name.' к заданию '.$tip->Task->name.'?')));
     ?>
