@@ -9,11 +9,13 @@
   render_form_field_using_div($form['id'], $width);
   ?>
   
-  <h4>Реквизиты сайта</h4>
+  <h4>Управление сайтом</h4>
   <?php
   render_form_field_using_div($form['site_name'], $width);
   render_form_field_using_div($form['site_domain'], $width);
   render_form_field_using_div($form['contact_email_addr'], $width);
+  render_form_field_using_div($form['fast_user_register'], $width);
+  render_form_field_using_div($form['fast_team_create'], $width);
   ?>
   <h4>Отправка уведомлений</h4>
   <?php

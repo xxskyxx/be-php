@@ -93,9 +93,17 @@ class authActions extends MyActions
         $webUser->full_name = $formData['full_name'];
         $webUser->pwd_hash = WebUser::getSaltedPwdHash($formData['password']);
         $webUser->email = $formData['email'];
+        $webUser->is_enabled = false;
         $webUser->newActivationKey();
-        if (($webUser->email !== null) && ($webUser->email !== ''))
+        if (SystemSettings::getInstance()->fast_user_register)
         {
+          //Быстрая регистрация
+          $webUser->save();
+          $this->successRedirect('Вы успешно зарегистрированы. Можете входить.', 'auth/login');          
+        }
+        elseif (($webUser->email !== null) && ($webUser->email !== ''))
+        {
+          //Пользователь указал координаты, надо ему отправить письмо.
           $settings = SystemSettings::getInstance();
           $message = Swift_Message::newInstance('Регистрация на '.$settings->site_name)
               ->setFrom(array($settings->notify_email_addr => $settings->site_name))
@@ -131,6 +139,7 @@ class authActions extends MyActions
         }
         else
         {
+          //Пользователь не указал координаты, пусть прыгает с активацией как хочет.
           $webUser->save();
           $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
         }

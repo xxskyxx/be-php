@@ -5,6 +5,8 @@
 <div class="spaceAfter">
   <?php if ($_isModerator): ?>
   <div><?php echo link_to('Создать новую команду', 'team/new') ?></div>
+  <?php elseif ($_fastTeamCreate): ?>
+  <div><?php echo link_to('Создать новую команду', 'teamCreateRequest/new') ?></div>
   <?php else: ?>
   <div><?php echo link_to('Подать заявку на создание команды', 'teamCreateRequest/new') ?></div>
   <?php endif; ?>
@@ -50,7 +52,7 @@
       <?php
       echo $teamCreateRequest->name;
       echo '&nbsp'.decorate_span('safeAction', link_to('Отменить', 'teamCreateRequest/delete?id='.$teamCreateRequest->id, array('method' => 'post')));
-      echo $_isModerator ? '&nbsp'.decorate_span('warnAction', link_to('Создать', 'teamCreateRequest/acceptManual?id='.$teamCreateRequest->id, array('method' => 'post', 'confirm' => 'Подтвердить создание команды '.$teamCreateRequest->name.' ('.$teamCreateRequest->WebUser->login.' будет назначен ее капитаном) ?'))) : '';
+      echo ($_isModerator || $_fastTeamCreate) ? '&nbsp'.decorate_span('warnAction', link_to('Создать', 'teamCreateRequest/acceptManual?id='.$teamCreateRequest->id, array('method' => 'post', 'confirm' => 'Подтвердить создание команды '.$teamCreateRequest->name.' ('.$teamCreateRequest->WebUser->login.' будет назначен ее капитаном) ?'))) : '';
       echo ', '.link_to($teamCreateRequest->WebUser->login, 'webUser/show?id='.$teamCreateRequest->web_user_id).':&nbsp;'.$teamCreateRequest->description;
       ?>
     </div>
