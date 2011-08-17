@@ -7,12 +7,12 @@ render_breadcombs(array(
 
 <h2>Регистрация команды на игру <?php echo $game->name ?></h2>
 
-<div>
+<p>
   <span class="info">Если команды нет в списке</span>, значит она уже заявилась или зарегистрирована на эту игру.
-</div>
-<div class="spaceAround">
+</p>
+<p>
   Выберите одну из команд (нажмите на ссылку):
-</div>
+</p>
 <ul>
   <?php foreach ($teamList as $team): ?>
   <li>

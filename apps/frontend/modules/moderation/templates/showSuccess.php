@@ -5,9 +5,9 @@
 <?php
 if ($_isAdmin)
 {
-render_h3_inline_begin('Системные настройки');
-echo decorate_span('safeAction', link_to('Редактировать', 'moderation/edit'));
-render_h3_inline_end();
+  render_h3_inline_begin('Системные настройки');
+  echo decorate_span('safeAction', link_to('Редактировать', 'moderation/edit'));
+  render_h3_inline_end();
 }
 ?>
 
@@ -35,7 +35,7 @@ if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
   render_property('Аккаунт:', $_settings->smtp_login, $width);
   render_property('Пароль:', $_settings->smtp_password, $width);
 }
-echo decorate_div('spaceBefore', decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest')));
+echo '<p>'.decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest')).'</p>';
 ?>
 <?php endif ?>
 
@@ -66,9 +66,7 @@ render_h3_inline_end();
 <h3>Команды</h3>
 <ul>
   <?php   foreach ($_teamsUnderModeration as $team): ?>
-  <li>
-    <?php echo link_to($team->name, 'team/show?id='.$team->id) ?>
-  </li>
+  <li><?php echo link_to($team->name, 'team/show?id='.$team->id) ?></li>
   <?php   endforeach ?>
 </ul>
 <?php   endif ?>
@@ -81,9 +79,7 @@ render_h3_inline_end();
 <h3>Игры</h3>
 <ul>
   <?php   foreach ($_gamesUnderModeration as $game): ?>
-  <li>
-    <?php echo link_to($game->name, 'game/show?id='.$game->id) ?>
-  </li>
+  <li><?php echo link_to($game->name, 'game/show?id='.$game->id) ?></li>
   <?php   endforeach ?>
 </ul>
 <?php   endif ?>

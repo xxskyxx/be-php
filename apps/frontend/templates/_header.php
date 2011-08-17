@@ -1,11 +1,9 @@
 <div>
-  <div style="text-align: left">
-    <div class="middleVertical">
-      <img src="/images/favicon.png" alt="[BE]" onClick="document.location='/home/index'" />
-    </div>
+  <div style="text-align: left; float: left">
+    <div class="middleVertical"><img src="/images/favicon.png" alt="[BE]" onClick="document.location='/home/index'" /></div>
     <div class="middleVertical"><span style="font-weight:bold"><?php echo SystemSettings::getInstance()->site_name ?></div>
   </div>
-  <div style="text-align: right">
+  <div style="text-align: right; height: 1.5em">
     <?php
     if ($sf_user->isAuthenticated())
     {

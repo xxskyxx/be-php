@@ -136,7 +136,7 @@
         <span class="warnAction"><?php echo link_to('Задать', 'gameStats/setNext?teamState='.$teamState->id.'&returl='.$backLinkEncoded) ?></span>
         <?php endif; ?>
         <?php if ($teamState->task_id > 0): ?>
-        <span class="indent"><?php echo link_to($teamState->Task->name, 'gameStats/setNext?teamState='.$teamState->id.'&returl='.$backLinkEncoded) ?></span>
+        <span class="indent"><?php echo link_to($teamState->Task->name, 'task/show?id='.$teamState->task_id.'&returl='.$backLinkEncoded, array('target' => 'new')) ?></span>
         <?php else: ?>
         <?php   if ($teamState->ai_enabled): ?>
         <span class="info">Автопилот</span>

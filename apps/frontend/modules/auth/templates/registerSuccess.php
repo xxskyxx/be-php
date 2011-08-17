@@ -4,11 +4,9 @@
 <?php echo render_form_using_div($form, 'Зарегистрироваться',  ''); ?>
 <?php echo '</form>' ?>
 
-<div class="spaceBefore">
-  <p>
-    <span class="warn">Перед вводом пароля проверьте</span>:
-  </p>
-</div>
+<p>
+  <span class="warn">Перед вводом пароля проверьте</span>:
+</p>
 <ul>
   <li>какой язык включен;</li>
   <li>выключен ли CAPS&nbsp;LOCK;</li>

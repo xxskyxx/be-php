@@ -13,8 +13,8 @@ $retUrlRaw = Utils::encodeSafeUrl(url_for('task/show?id='.$_task->id));
 
 <?php
 render_h3_inline_begin('Cвойства');
-if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Редактировать', 'task/edit?id='.$_task->id));
-if ($_isModerator) echo decorate_span('dangerAction', link_to('Удалить задание', 'task/delete?id='.$_task->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить задание '.$_task->name.'?')));
+if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Редактировать', 'task/edit?id='.$_task->id));
+if ($_isModerator) echo '&nbsp;'.decorate_span('dangerAction', link_to('Удалить задание', 'task/delete?id='.$_task->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить задание '.$_task->name.'?')));
 render_h3_inline_end();
 ?>
 <h4>Основные</h4>
@@ -45,7 +45,7 @@ render_property('На каждую команду:', decorate_number($_task->pri
 
 <?php
 render_h3_inline_begin('Подсказки');
-if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Добавить подсказку', 'tip/new?taskId='.$_task->id));
+if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Добавить подсказку', 'tip/new?taskId='.$_task->id));
 render_h3_inline_end();
 ?>
 <?php if ($_tips->count() <= 0): ?>
@@ -72,7 +72,7 @@ render_h3_inline_end();
 
 <?php
 render_h3_inline_begin('Ответы');
-if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Добавить ответ', 'answer/new?taskId='.$_task->id));
+if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Добавить ответ', 'answer/new?taskId='.$_task->id));
 render_h3_inline_end();
 ?>
 <?php if ($_answers->count() <= 0): ?>
@@ -94,7 +94,7 @@ render_h3_inline_end();
 
 <?php
 render_h3_inline_begin('Правила переходов');
-if ($_isManager || $_isModerator) echo decorate_span('safeAction', link_to('Добавить правило перехода', 'taskConstraint/new?taskId='.$_task->id));
+if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Добавить правило перехода', 'taskConstraint/new?taskId='.$_task->id));
 render_h3_inline_end();
 ?>
 <ul>
@@ -123,11 +123,9 @@ render_h3_inline_end();
 
 <h3>Предварительный просмотр</h3>
 <?php foreach ($_tips as $tip): ?>
-<div class="spaceBefore">
-  <div style="background-color: Navy">
-    <?php echo link_to($tip->name, 'tip/edit?id='.$tip->id); ?>
-  </div>
-</div>
+<p>
+  <div style="background-color: Navy"><?php echo link_to($tip->name, 'tip/edit?id='.$tip->id); ?></div>
+</p>
 <div>
   <?php echo Utils::decodeBB($tip->define) ?>
 </div>

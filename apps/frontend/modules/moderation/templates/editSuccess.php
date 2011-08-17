@@ -2,5 +2,5 @@
     link_to('Модерирование', 'moderation/show')
 )) ?>
 
-<h2>Редкатирование системных настроек</h2>
+<h2>Редактирование системных настроек</h2>
 <?php include_partial('form', array('form' => $form)) ?>

@@ -30,7 +30,7 @@ if ($_game->team_id > 0)
       $authorsStr .= ' представляет';
     }
 ?>
-<h3><?php echo $authorsStr ?></h3>
+<h3 style="border: none"><?php echo $authorsStr ?></h3>
 <?php    
   }
 }
@@ -62,14 +62,15 @@ if ($actors)
 <h5 style="color: SkyBlue">It was along time ago in a galaxy far far away...</h5>
 <?php endif; ?>
 
-<div class="spaceBefore">
+<p>
   <?php echo Utils::decodeBB($_game->description) ?>
-</div>
-<div class="spaceBefore">
-  <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$retUrlRaw, array('method' => 'post')); ?></span>
-</div>
+</p>
 
-<div class="hr">
+<div class="hr"></div>
+<p>
+  <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$retUrlRaw, array('method' => 'post')); ?></span>
+</p>
+
 <h4>Регламент</h4>
 <?php
 $width = get_text_block_size_ex('Планируется заданий:');

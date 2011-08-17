@@ -10,8 +10,8 @@ $sessionWebUser = $sf_user->getSessionWebUser()->getRawValue();
 
 <?php
 render_h3_inline_begin('Настройки');
-if ($_sessionCanManage || $_sessionIsModerator) echo decorate_span('safeAction', link_to('Редактировать', 'game/edit?id='.$_game->id));
-if ($_sessionIsModerator) echo decorate_span('dangerAction', link_to('Удалить игру', 'game/delete?id='.$_game->id, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить игру '.$_game->name.'?')));
+if ($_sessionCanManage || $_sessionIsModerator) echo ' '.decorate_span('safeAction', link_to('Редактировать', 'game/edit?id='.$_game->id));
+if ($_sessionIsModerator) echo '&nbsp'.decorate_span('dangerAction', link_to('Удалить игру', 'game/delete?id='.$_game->id, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить игру '.$_game->name.'?')));
 render_h3_inline_end();
 ?>
 

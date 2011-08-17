@@ -6,48 +6,48 @@
 <h3><?php echo $teamState->Team->name ?></h3>
 
 <?php if ($teamState->status == TeamState::TEAM_WAIT_GAME): ?>
-<div>
+<p>
   Игра начнется в <?php echo Timing::timeToStr(Timing::strToDate($teamState->Game->start_datetime)) ?>.
-</div>
-<div>
+</p>
+<p>
   После наступления момента начала игры обновите страницу для получения дальнейших инструкций.
-</div>
+</p>
 
 <?php elseif ($teamState->status == TeamState::TEAM_WAIT_START): ?>
-<div>
+<p>
   Игра началась, но Ваша команда стартует в <?php echo Timing::timeToStr($teamState->getActualStartDateTime()) ?>.
-</div>
-<div>
+</p>
+<p>
   После наступления момента старта Вашей команды обновите страницу для получения дальнейших инструкций.
-</div>
+</p>
 
 <?php elseif ($teamState->status == TeamState::TEAM_WAIT_TASK): ?>
 <?php   if ($teamState->task_id <= 0): ?>
-<div>
+<p>
   Следующее задание для Вашей команды сейчас в процессе подготовки.
-</div>
-<div>
+</p>
+<p>
   Обновляйте страницу время от времени.
-</div>
-<div>
+</p>
+<p>
   Как только задание будет готово, Вы получите дальнейшие инструкции.
-</div>
-<div class="info">
-  Задание стартует только тогда, когда Вы его в первый раз увидите.
-</div>
+</p>
+<p>
+  <div class="info">Задание стартует только тогда, когда Вы его в первый раз увидите.</div>
+</p>
 <?php   else: ?>
-<div>
-  Вашей команде назначено задание, но его старт пока не разрешен.
-</div>
-<div>
+<p>
+  Вашей команде назначено задание, ожидайте его старта.
+</p>
+<p>
   Обновляйте страницу время от времени.
-</div>
-<div>
+</p>
+<p>
   Как только Вашему заданию будет дан старт, вы его увидите.
-</div>
-<div class="info">
-  Задание стартует только тогда, когда вы его в первый раз увидите.
-</div>
+</p>
+<p>
+  <div class="info">Задание стартует только тогда, когда вы его в первый раз увидите.</div>
+</p>
 <?php   endif ?>
 
 <?php elseif ($teamState->status == TeamState::TEAM_HAS_TASK): ?>
@@ -86,43 +86,39 @@
     ?>
   </span>
   <?php else: ?>
-  <div class="danger">
-    У Вас должно быть текущее задание, но его не удалось найти.
-  </div>    
-  <div>
-    Скорее всего, оно было отменено. Обратитесь к организаторам.
-  </div>
+  <p>
+    <div class="danger">У Вас должно быть текущее задание, но его не удалось найти.</div>      
+  </p>
+  <p>
+    <div>Скорее всего, оно было отменено. Обратитесь к организаторам.</div>
+  </p>
   <?php endif; ?>
 </div>
-<div class="indent">
+<p>
   Обновляйте страницу время от времени для получения дальнейших инструкций.
-</div>
+</p>
 
 <?php elseif ($teamState->status == TeamState::TEAM_FINISHED): ?>
-<div>
-  Ваша команда завершила игру.
-</div>
-<div class="spaceBefore">
+<div>Ваша команда завершила игру.</div>
+<p>
   Ваши достижения:
-</div>
+</p>
 <div>
   <?php include_partial('TaskHistory', array('teamState' => $teamState, 'withLink' => false, 'withTime' => true, 'highlight' => true))?>
 </div>
 
 <?php elseif ($teamState->status == TeamState::TEAM_BANNED): ?>
-<div class="warn">
-  Ваша команда дисквалифицирована.
-</div>
+<p>
+  <div class="warn">Ваша команда дисквалифицирована.</div>
+</p>
 
 <?php else: ?>
-<div class="danger">
-  Чем занята ваша команда - не ясно. Обратитесь к организаторам.
-</div>
+<p>
+  <div class="danger">Чем занята ваша команда - не ясно. Обратитесь к организаторам.</div>
+</p>
 
 <?php endif; ?>
 
-<div class="spaceBefore">
-  <div class="info">
-    Время ожидания не влияет на доступное игровое время.
-  </div>
-</div>
+<p>
+  <div class="info">Время ожидания не влияет на доступное игровое время.</div>
+</p>

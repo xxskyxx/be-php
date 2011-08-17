@@ -15,8 +15,8 @@ render_breadcombs(array(
 
 <?php
 render_h3_inline_begin('Анкета');
-if ($_isSelf || $_isModerator) echo decorate_span('safeAction', link_to('Редактировать', url_for('webUser/edit?id='.$_webUser->id)));
-if ($_isModerator) echo decorate_span('dangerAction', link_to('Удалить пользователя', 'webUser/delete?id='.$_webUser->id, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить пользователя '.$_webUser->login.'?')));
+if ($_isSelf || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Редактировать', url_for('webUser/edit?id='.$_webUser->id)));
+if ($_isModerator) echo '&nbsp'.decorate_span('dangerAction', link_to('Удалить пользователя', 'webUser/delete?id='.$_webUser->id, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить пользователя '.$_webUser->login.'?')));
 render_h3_inline_end();
 ?>
 
@@ -40,7 +40,7 @@ render_property_if($_isModerator,
 <?php if ($_isSelf || $_isModerator || $_isPermissionModerator): ?>
 <?php
 render_h3_inline_begin('Разрешения и запреты');
-if ($_isPermissionModerator) echo decorate_span('warnAction', link_to('Добавить', 'grantedPermission/new?webUserId='.$_webUser->id));
+if ($_isPermissionModerator) echo ' '.decorate_span('warnAction', link_to('Добавить', 'grantedPermission/new?webUserId='.$_webUser->id));
 render_h3_inline_end();
 ?>
 

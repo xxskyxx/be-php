@@ -1,73 +1,117 @@
-/* 
+/*
     Created on : 02.03.2011, 21:20:50
     Author     : vozdvin
 */
 
-/* 
+/*
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+/* Комментарии на страницах */
+div.comment { font-style: italic; font-size: small }
+
 /* Форматирование списка свойств */
-div.propName  { display: inline-block; vertical-align: top; margin-top: 2px; text-align: right; color: PaleGreen }
-div.propValue { display: inline-block; vertical-align: top; margin-top: 2px }
-
-/* Форматирование "хлебных крошек" */
-div.breadcombs { margin: 0.25em 0 0 0; padding: 0.25em 0 0.25em 0.5em; border: Solid 1px DodgerBlue; border-right: none; vertical-align: middle }
-
-/* Интервалы между строками */
-div.spaceBefore { margin-top: 0.75em }
-div.spaceAfter  { margin-bottom: 0.75em }
-div.spaceAround { margin-top: 0.75em; margin-bottom: 0.75em }
-
-/* Горизонтальная линия */
-div.hr { border-top: Solid 1px DodgerBlue; margin-top: 0.5em; padding-top: 0.5em }
-
-/* Заголовок с возможностью дописывания */
-div.h3inline { margin: 0.4em 0 0.25em 0; border-top: Solid 1px DodgerBlue; padding-top: 0.5em }
-h3.inline { display: inline; border: none; margin-top: 0; padding-top: 0 }
-
-/* Cтолбцы данных */
-div.columnName, div.columnValue { display: inline-block; border: none; border-bottom: Solid 1px DarkGreen }
-div.columnName  { vertical-align: bottom; border-top: Solid 2px DarkGreen; font-weight: bold; color: PaleGreen; text-align: center }
-div.columnValue { /* reserved */ }
+div.propName, div.propValue { display: inline-block; vertical-align: top; padding-bottom: 2px }
+div.propName  { text-align: right; color: LightGrey }
+div.propValue { /* reserved */}
 
 /* Вертикально выровненные строчные блоки */
 /* Для корректного применения все блоки, подлежащие выравниванию,
 /* должны быть завернуты в контейнеры с этим стилем */
 div.middleVertical { display: inline-block; vertical-align: middle }
 
+/* Форматирование "хлебных крошек" */
+div.breadcombs {
+  border: Solid DodgerBlue;
+  padding-bottom: 2px;
+  border-top: none;
+  border-right: none;
+  border-bottom-width: 1px;
+  border-left-width: 2px;
+}
+div.breadcomb {
+  display: inline-block;
+  margin-left: 2px; 
+  padding: 0 2px 1px 0;
+  border: Solid DodgerBlue;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom: none;
+  border-left: none;
+}
+
+/* Карта сайта и ссылки на ней */
+div.siteMap {
+  margin-top: 0.25em;
+  padding-top: 2px;
+  border: Solid DodgerBlue;
+  border-top-width: 1px;
+  border-right: none;
+  border-bottom: none;
+  border-left-width: 2px;
+  font-size: smaller;
+  font-style: italic;
+}
+div.siteMapItem {
+  display: inline-block;
+  margin-left: 2px; 
+  padding: 0 2px 3px 0;
+  border: Solid DodgerBlue;
+  border-top: none;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left: none;
+}
+
+/* Горизонтальная линия над блоком */
+div.hr { border-top: Solid 1px DodgerBlue; margin: 3px 0 3px 0 }
+
+/* Заголовок с возможностью дописывания */
+div.h3inline { border-top: Solid 1px DodgerBlue; margin: 3px 0 3px 0 }
+h3.inline { display: inline; margin: 0 0 0 0; border: none}
+
+/* Интервалы между строками */
+div.spaceBefore { /*deprecated, remove usage*/ }
+div.spaceAfter  { /*deprecated, remove usage*/ }
+div.spaceAround { /*deprecated, remove usage*/ }
+
+/* Cтолбцы данных */
+div.columnName, div.columnValue {
+  display: inline-block;
+  margin-top: 1px;
+  border-bottom: Solid 1px Green;
+  padding-bottom: 2px
+}
+div.columnName  { vertical-align: bottom; font-weight: bold; color: PaleGreen; text-align: center }
+div.columnValue { /* reserved */ }
+
 /* Главное меню */
-div.menu { margin-top: 0.25em; color: Yellow; background-color: Navy; border: Solid 1px DarkTurquoise }
-div.menu ul { padding: 0.25ex 0.25em 0.5ex 0.25em; list-style: none; vertical-align: middle }
+div.menu { background-color: Navy; border: Solid 1px DarkTurquoise }
+div.menu ul { padding: 0 2px 3px 2px; list-style: none; vertical-align: middle }
 div.menu ul li { font-weight: bold; display: inline; vertical-align: middle }
 div.menu ul li a,
 div.menu ul li a:visited { color: Aqua; text-decoration: none; border-bottom: Solid Aqua 1px }
 div.menu ul li a:hover,
 div.menu ul li a:active  { color: White; text-decoration: none; background-color: Blue; border-bottom: none }
 
-/* Заголовок на главной странице */
-div.homeHeader { border-bottom: Solid 1px DodgerBlue; margin-bottom: 0.5em }
-div.homeHeader h1,
-div.homeHeader h2,
-div.homeHeader h3 { margin-left: auto; margin-right: auto; text-align: center; border: none }
-
-/* Подвал с авторскими правами и ссылками */
-div.credits { text-align: right; font-style: italic; font-size: smaller }
-
-/* Карта сайта */
-div.siteMap { text-align: left; font-size: smaller }
-
 /* Кнопка действия (пока не используется) */
 div.imageButton { display: inline-block; vertical-align: middle }
 
 /* Табличное оформление - устаревает */
-table.noBorder, table.noBorder th, table.noBorder td { border: none } /* deprecated */
 th.bottomWeakBorder,
-td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px DarkSlateGrey }
+td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px Blue }
 
 /* Страничный интерфейс */
-table.tabControl { width: 100%; border: none }
-table.tabControl th.tabTitle       { border: none; border-bottom: Solid 1px SkyBlue }
-table.tabControl th.tabTitleActive { background-color: #091936; border: Solid 1px SkyBlue; border-top: Solid 3px SkyBlue; border-bottom: none }
-table.tabControl td.tabSheet       { background: Black url(/images/bg_main.png) 0 0 repeat-x; border: Solid 1px SkyBlue; border-top: none }
+table.tabControl { width: 100%; border: none; margin-top: 0.25em }
+table.tabControl th.tabTitle { border: none; border-bottom: Solid 1px DodgerBlue; padding-bottom: 2px; }
+table.tabControl th.tabTitleActive {
+  background-color: #091936;
+  border: Solid 1px DodgerBlue;
+  border-top-width: 2px;
+  border-bottom: none }
+table.tabControl td.tabSheet {
+  padding: 4px 4px 4px 4px;
+  background: Black url(/images/bg_main.png) 0 0 repeat-x;
+  border: Solid 1px DodgerBlue; border-top: none
+}
 

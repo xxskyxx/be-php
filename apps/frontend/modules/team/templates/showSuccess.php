@@ -11,8 +11,8 @@ render_breadcombs(array(
 
 <?php
 render_h3_inline_begin('Свойства');
-if ($_sessionIsLeader || $_sessionIsModerator) echo decorate_span('safeAction', link_to('Редактировать', url_for('team/edit?id='.$_team->id)));
-if ($_sessionIsModerator) echo decorate_span('dangerAction', link_to('Удалить команду', 'team/delete?id='.$_team->id, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить команду '.$_team->name.'?')));
+if ($_sessionIsLeader || $_sessionIsModerator) echo ' '.decorate_span('safeAction', link_to('Редактировать', url_for('team/edit?id='.$_team->id)));
+if ($_sessionIsModerator) echo '&nbsp;'.decorate_span('dangerAction', link_to('Удалить команду', 'team/delete?id='.$_team->id, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить команду '.$_team->name.'?')));
 render_h3_inline_end();
 ?>
 
@@ -28,7 +28,7 @@ render_property_if($_team->full_name !== '',
 <?php if ($_sessionIsPlayer || $_sessionIsModerator): ?>
 <?php
 render_h3_inline_begin('Игроки');
-if ($_sessionIsLeader || $_sessionIsModerator) echo decorate_span('safeAction', link_to('Вербовать нового', 'team/registerPlayer'.'?id='.$_team->id.'&returl='.$retUrlRaw));
+if ($_sessionIsLeader || $_sessionIsModerator) echo ' '.decorate_span('safeAction', link_to('Вербовать нового', 'team/registerPlayer'.'?id='.$_team->id.'&returl='.$retUrlRaw));
 render_h3_inline_end();
 ?>
 <ul>
@@ -58,9 +58,7 @@ render_h3_inline_end();
   </li>
   <?php   endforeach; ?>
   <?php else: ?>
-  <li>
-    <div class="warn">В команде нет игроков.</div>
-  </li>
+  <li><div class="warn">В команде нет игроков.</div></li>
   <?php endif; ?>
 </ul>
 <?php endif; ?>
@@ -68,7 +66,7 @@ render_h3_inline_end();
 <?php if (($_teamCandidates->count() > 0) || (!$_sessionIsPlayer && !$_sessionIsCandidate)): ?>
 <?php
 render_h3_inline_begin('Заявки в состав');
-if (!$_sessionIsPlayer && !$_sessionIsCandidate) echo decorate_span('safeAction', link_to('Подать свою', 'team/postJoin'.'?id='.$_team->id.'&userId='.$_sessionWebUserId.'&returl='.$retUrlRaw, array('method' => 'post')));
+if (!$_sessionIsPlayer && !$_sessionIsCandidate) echo ' '.decorate_span('safeAction', link_to('Подать свою', 'team/postJoin'.'?id='.$_team->id.'&userId='.$_sessionWebUserId.'&returl='.$retUrlRaw, array('method' => 'post')));
 render_h3_inline_end();
 ?>
 <?php endif ?>

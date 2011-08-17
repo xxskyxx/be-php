@@ -11,7 +11,7 @@ render_breadcombs(array(
 
 <?php
 render_h3_inline_begin('Основные');
-if ($_sessionCanManage) echo decorate_span('safeAction', link_to('Редактировать', 'teamState/edit?id='.$_teamState->id));
+if ($_sessionCanManage) echo ' '.decorate_span('safeAction', link_to('Редактировать', 'teamState/edit?id='.$_teamState->id));
 render_h3_inline_end();
 ?>
 <?php

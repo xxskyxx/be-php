@@ -65,9 +65,7 @@ foreach ($taskState->postedAnswers as $postedAnswer)
 <?php if (!$compact): ?>
 <?php   if ($allFresh !== ''): ?>
 <h5>Проверяются:</h5>
-<div>
-  <?php echo $allFresh ?>
-</div>
+<div><?php echo $allFresh ?></div>
 <?php   endif ?>
 <?php   if ($badCount > 0): ?>
 <h5>Неверные:</h5>
@@ -75,20 +73,14 @@ foreach ($taskState->postedAnswers as $postedAnswer)
   <?php echo $allBad ?>
   <?php $tryCount = $taskState->Task->try_count_local - $badCount; ?>
   <?php   if ($tryCount >= 0): ?>
-  <div class="spaceBefore">
-    <div class="danger">
-      Осталось неверных попыток: <?php echo $taskState->Task->try_count_local - $badCount ?>
-    </div>
-  </div>
+  <p>
+    <div class="danger">Осталось неверных попыток: <?php echo $taskState->Task->try_count_local - $badCount ?></div>
+  </p>
 </div>
 <?php     endif ?>
 <?php   endif ?>
 
 <?php else: ?>
-  <?php
-  echo $allFresh;
-  echo ' ';
-  echo $allBad;
-  ?>
+  <?php echo $allFresh.' '.$allBad; ?>
 <?php endif ?>
 
