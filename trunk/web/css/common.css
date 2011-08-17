@@ -6,49 +6,70 @@
 /* 
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
-html { font-size: 1em; color: GreenYellow; }
+html {
+  font-size: 1em;
+}
 
 body {
   background: #091936 url(/images/bg_border.png) 0 0 repeat-x;
-  text-align: justify;
-  font-family: Verdana, Helvetica, Sans-Serif;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
+  padding: 0 1ex 0 1ex;
   margin-left: auto;
   margin-right: auto;
-/*  width:   95%; font-size: 100%   /**/
-  width: 780px; font-size: 100%   /**/
+  color: GreenYellow;
+  font-family: Verdana, Helvetica, Sans-Serif;
+  text-align: justify;
+  width: 765px; font-size: 100%   /**/
 /*  width: 320px; font-size: 70%; /**/
 /*  width: 240px; font-size: 60%; /**/
 /*  width: 176px; font-size: 50%; /**/
 }
 
-span { text-indent: 0 }
+h1, h2, h3, h4, h5, h6 {
+  margin: 3px 0 3px 0;
+  text-align: Left;
+  font-family: Arial, Helvetica, Sans-serif;
+  font-size: 100%;
+  font-weight: Bold;
+}
+h1 { color: White;  font-size: 150%; padding-left: 20% }
+h2 { color: Khaki;  font-size: 130%; padding-left: 15% }
+h3 { color: Yellow; font-size: 115%; padding-left: 10%; border-top: Solid 1px DodgerBlue }
+h4 { color: Gold;   font-size: 110%; padding-left: 5% }
+h5 { color: Orange }
 
-h1, h2, h3, h4, h5, h6 { color: Lime; text-align: left; font-family: Arial, Helvetica, Sans-serif; font-size: 1em; font-weight: bold }
-h1 { color: White;  font-size: 1.7em; margin: 0.5em 0 0.25em 0; padding-left: 8% }
-h2 { color: Orange; font-size: 1.5em; margin: 0.5em 0 0.25em 0; padding-left: 6% }
-h3 { color: Yellow; font-size: 1.3em; margin: 0.4em 0 0.25em 0; padding-left: 4%; border-top: Solid 1px DodgerBlue; padding-top: 0.25em }
-h4 { color: White;  font-size: 1.1em; margin: 0.3em 0 0      0; padding-left: 2% }
-h5 { color: Lime;   font-size: 1em;   margin: 0.3em 0 0      0 }
+ul, ol {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0
+}
+ul { padding-left: 2ex }
+ol { padding-left: 4ex }
+ul li, ol li { margin: 0 0 2px 0; }
+
+p { margin: 4px 0 4px 0; text-indent: 0; text-align: justify }
+li p { margin: 4px 0 4px 0 }
+
+a { color: Aquamarine; text-decoration: none }
+a:link    { border-bottom: Solid 1px }
+a:visited { border-bottom: Dashed 1px }
+a:hover   { border-bottom: none; color: White }
+a:active  { border-bottom: none }
 
 /* Стили таблиц - устаревают */
-table { border: none; border-left: Solid 1px Blue; border-top: Solid 1px Blue; vertical-align: top; empty-cells: show }
-td, th { border: none; border-bottom: Solid 1px Blue; border-right: Solid 1px Blue; padding: 0.1em 0.25em 0.1em 0.25em }
-th { font-weight: bold; color: PaleGreen }
+table {
+  border: none;
+  border-left: Solid 1px DodgerBlue;
+  border-top: Solid 1px DodgerBlue;
+  vertical-align: top;
+  empty-cells: show;
+}
+td, th {
+  border: none;
+  border-bottom: Solid 1px DodgerBlue;
+  border-right: Solid 1px DodgerBlue;
+  padding: 0 1px 2px 1px;
+  font-weight: normal
+}
+th { color: LightGrey }
 td { text-align: left }
 tbody th { text-align: right }
 thead th, tfoot td { vertical-align: bottom; text-align: center }
-
-ul, ol { padding: 0 0 0 0; margin: 0 0 0 0 }
-ul { padding-left: 3ex }
-ol { padding-left: 4ex }
-ul li, ol li { margin: 0 0 0.25em 0; text-align: justify }
-
-p { margin: 0 0 0.25em 0; text-indent: 3ex; text-align: justify }
-li p { margin: 0 0 0 0; text-indent: 0 }
-
-a:link,
-a:visited { color: Aquamarine; text-decoration: underline }
-a:hover,
-a:active  { color: White;  text-decoration: none }

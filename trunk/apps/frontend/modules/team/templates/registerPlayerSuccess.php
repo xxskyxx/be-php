@@ -7,17 +7,17 @@
 
 <h2>Регистрация игрока в команду <?php echo $team->name ?></h2>
 
-<div>
+<p>
   <span class="info">Если пользователя нет в списке</span>, значит он подал заявку или входит в состав команды.
-</div>
+</p>
 <?php if ($team->teamPlayers->count() == 0): ?>
-<div>
+<p>
   <span class="warn">Пользователь будет назначен капитаном</span>, так как в команде еще нет игроков.
-</div>
+</p>
 <?php endif; ?>
-<div class="spaceAround">
+<p>
   Выберите одного из пользователей (нажмите на ссылку с именем):
-</div>
+</p>
 <ul>
   <?php foreach ($webUsers as $webUser): ?>
   <li>

@@ -5,9 +5,7 @@
  */
 ?>
 <h4>Статистика:</h4>
-<div>
-  Сейчас:&nbsp;<?php echo Timing::timeToStr($taskState->task_last_update) ?>
-</div>
+<div>Сейчас:&nbsp;<?php echo Timing::timeToStr($taskState->task_last_update) ?></div>
 <div>
   Задание:
   <ul>

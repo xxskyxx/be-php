@@ -8,31 +8,27 @@
 <h3><?php echo $teamState->Team->name ?></h3>
 
 <?php if ($taskState->status == TaskState::TASK_GIVEN): ?>
-<div>
-  Вашей команде назначено задание, но его старт пока не разрешен.
-</div>
-<div>
-  Обновляйте страницу время от времени.
-</div>
-<div>
-  Как только Вашему заданию будет дан старт, вы его увидите.
-</div>
-<div class="info">
-  Задание стартует только тогда, когда вы его в первый раз увидите.
-</div>
-<div class="spaceBefore">
-  <div class="info">
-    Время ожидания не влияет на доступное игровое время.
-  </div>
-</div>
+<p>
+  <div>Вашей команде назначено задание, но его старт пока не разрешен.</div>
+</p>
+<p>
+  <div>Обновляйте страницу время от времени.</div>
+  <div>Как только Вашему заданию будет дан старт, вы его увидите.</div>
+</p>
+<p>
+  <div class="info">Задание стартует только тогда, когда вы его в первый раз увидите.</div>
+</p>
+<p>
+  <div class="info">Время ожидания не влияет на доступное игровое время.</div>
+</p>
 
 <?php elseif ($taskState->status == TaskState::TASK_STARTED): ?>
-<div>
+<p>
   Ваше задание стартовало.
-</div>
-<div class="danger">
-  Вы сейчас должны видеть свое задание, а не это сообщение. Обратитесь к организаторам.
-</div>
+</p>
+<p>
+  <div class="danger">Вы сейчас должны видеть свое задание, а не это сообщение. Обратитесь к организаторам.</div>
+</p>
 
 <?php elseif ($taskState->status == TaskState::TASK_ACCEPTED): ?>
 <?php
@@ -56,26 +52,21 @@ include_partial('TaskStats', array('taskState' => $taskState));
 
 <?php elseif ($taskState->status == TaskState::TASK_CHEAT_FOUND): ?>
 <?php include_partial('TaskAnswers', array('taskState' => $taskState)) ?>
-<div class="spaceBefore">
-  <div class="danger">
-    Задание дисквалифицировано. Вы больше не можете вводить ответы.
-  </div>
-</div>
+<p>
+  <div class="danger">Задание дисквалифицировано. Вы больше не можете вводить ответы.</div>
+</p>
 <?php
 include_partial('TaskDefine', array('taskState' => $taskState));
 include_partial('TaskStats', array('taskState' => $taskState));
 ?>
 
 <?php elseif ($taskState->status >= TaskState::TASK_DONE): ?>
-<div>
-  <span class="info">Задание завершено.</span>
-  <span class="safeAction"><?php echo link_to('Перейти к следующему заданию', 'teamState/task?id='.$teamState->id); ?></span>
-</div>
+<p>
+  <span class="info">Задание завершено.</span> <span class="safeAction"><?php echo link_to('Перейти к следующему заданию', 'teamState/task?id='.$teamState->id); ?></span>
+</p>
 <?php include_partial('TaskDefine', array('taskState' => $taskState)) ?>
 
 <?php else: ?>
-<div class="danger">
-  С вашим заданием творится что-то непонятное. Обратитесь к организаторам.
-</div>
+<div class="danger">С вашим заданием творится что-то непонятное. Обратитесь к организаторам.</div>
 
 <?php endif; ?>

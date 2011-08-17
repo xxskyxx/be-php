@@ -7,18 +7,26 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-div.comment { font-style: italic; font-size: small }
+/* Формат всплывающих сообщений */
+div.flashNotice, div.flashWarning, div.flashError { 
+  margin: 4px 4px 4px 4px;
+  padding: 0 1ex 0 1ex;
+  border-right: Solid 3px; 
+  border-left: Solid 3px
+}
+div.flashNotice  { border-color: GreenYellow; background: Green;       color: GreenYellow }
+div.flashWarning { border-color: Yellow;      background: SaddleBrown; color: Yellow }
+div.flashError   { border-color: Red;         background: DarkRed;     color: Gold }
 
-/* Выделение текста цветом фона */
-span.indent, div.indent { /* reserved */ }
-span.info,   div.info   { background: DarkGreen }
-span.warn,   div.warn   { background: SaddleBrown; color: Yellow }
-span.danger, div.danger { background: DarkRed;     color: Yellow }
-
-div.indent { /* reserved */ }
-div.info   { background: DarkGreen }
-div.warn   { background: SaddleBrown; color: Yellow }
-div.danger { background: DarkRed;     color: Yellow }
+/* Выделение текста, общее */
+span.indent, div.indent, span.indentAction { /* reserved */ }
+span.info,   div.info,   span.safeAction   { background: DarkGreen;   color: GreenYellow }
+span.warn,   div.warn,   span.warnAction   { background: SaddleBrown; color: Yellow }
+span.danger, div.danger, span.dangerAction { background: DarkRed;     color: Gold }
+span.indent a, div.indent a, span.indentAction a,
+span.info a,   div.info a,   span.safeAction a,
+span.warn a,   div.warn a,   span.warnAction a,
+span.danger a, div.danger a, span.dangerAction a { color: inherit }
 
 /* Выделение текста цветной рамкой */
 span.indentBorder, div.indentBorder { padding: 3px 5px 3px 5px; border: none }
@@ -33,23 +41,3 @@ span.indentBorder, span.infoBorder, span.warnBorder, span.dangerBorder { display
 span.infoBorder   { border: Solid Lime 2px }
 span.warnBorder   { border: Solid Yellow 2px }
 span.dangerBorder { border: Solid Red 2px }
-
-/* Выделение текста цветной рельефной рамкой (для ссылок-действий) */
-span.indentAction, span.safeAction, span.warnAction, span.dangerAction { display: inline-block; padding: 0px 2px 0px 2px; border-top: Solid 1px; border-right: Solid 2px MidnightBlue; border-bottom: Solid 1px MidnightBlue;border-left: Solid 2px }
-span.indentAction { padding: 1px 4px 1px 4px; border: none }
-span.safeAction   { border-top-color: Lime;   border-left-color: Lime;   background: DarkGreen }
-span.warnAction   { border-top-color: Yellow; border-left-color: Yellow; background: SaddleBrown; color: Yellow }
-span.dangerAction { border-top-color: Red;    border-left-color: Red;    background: DarkRed;     color: Gold }
-
-/* Формат всплывающих сообщений */
-div.flashNotice, div.flashWarning, div.flashError { border: none; border-left: Solid 4px; margin: 0.5em 0.5ex 0.5em 0.5ex; padding: 0.5em 0.5ex 0.5em 0.5ex }
-div.flashNotice  { border-color: Lime;   background: Green;       color: White }
-div.flashWarning { border-color: Yellow; background: SaddleBrown; color: White }
-div.flashError   { border-color: Red;    background: DarkRed;     color: Yellow }
-
-/*
-Предопределенное имя в SF - ошибки в формах.
-Должно быть без уточнения контейнера.
-Устаревает
-*/
-.error_list { color: Red }

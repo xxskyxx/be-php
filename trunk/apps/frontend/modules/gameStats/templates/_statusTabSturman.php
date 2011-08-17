@@ -173,18 +173,17 @@
   <?php endif; ?>
   
 </div>
-<div class="spaceBefore">
-  <span class="warnAction"><?php echo link_to('Запустить автоматический пересчет', url_for('gameStats/autoUpdate?id='.$game->id), array('target' => 'window')) ?></span>
-  <span class="danger">Ссылку слева открывать в новом окне!</span>
-</div>
+<p>
+  <span class="warnAction"><?php echo link_to('Запустить автоматический пересчет (открывать в новом окне!)', url_for('gameStats/autoUpdate?id='.$game->id), array('target' => 'window')) ?></span>
+</p>
 <?php endif; ?>
-<div class="spaceBefore">
-  <?php if ($game->teams_can_update): ?>
-  <div class="info">
-    Командам разрешен пересчет состояния при обновлении страницы текущего задания.
-  </div>
-  <?php endif; ?>
-</div>
+
+<?php if ($game->teams_can_update): ?>
+<p>
+  <div class="info">Командам разрешен пересчет состояния при обновлении страницы текущего задания.</div>
+</p>
+<?php endif; ?>
+
 
 <div class="comment">
   <h3>Справка</h3>

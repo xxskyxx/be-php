@@ -5,11 +5,7 @@
     <meta http-equiv="refresh" content="<?php echo $game->update_interval ?>; url=<?php echo url_for('gameStats/autoUpdate?id='.$game->id) ?>" />
   </head>
   <body>
-    <div>
-      <?php echo $game->name.' - '.Timing::timeToStr($game->game_last_update) ?>
-    </div>
-    <div>
-      <?php echo $result ?>
-    </div>
+    <div><?php echo $game->name.' - '.Timing::timeToStr($game->game_last_update) ?></div>
+    <div><?php echo $result ?></div>
   </body>
 </html>

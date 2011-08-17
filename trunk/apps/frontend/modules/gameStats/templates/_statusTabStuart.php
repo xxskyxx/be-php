@@ -7,7 +7,7 @@
 ?>
 
 <h3>Текущие результаты команд</h3>
-<div class="spaceAfter">
+<p>
   <?php echo link_to('Просмотр полной телеметрии', 'gameStats/report?id='.$game->id, array('target' => 'new')) ?>
-</div>
+</p>
 <?php include_partial('Results', array('game' => $game)) ?>

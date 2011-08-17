@@ -313,9 +313,9 @@ class Utils
     $res = preg_replace('/\[img\]([^\]]+)\[\/img\]/', '<img src="$1" alt="$1" />', $res);
     $res = preg_replace('/\[img=([^\]]+)]/', '<img src="$1" alt="$1" />', $res);
     //Оформление переносов строк
-    $res = preg_replace('/\n\r|\r\n/', '</div><div>', $res);
+    $res = preg_replace('/\n\r|\r\n/', '</p><p>', $res);
     //Оформление пустых строк
-    $res = preg_replace('/<div><\/div>/', '<div class="spaceAfter"></div>', $res);
+    $res = preg_replace('/<p><\/p>/', '<p>&nbsp;</p>', $res);
     //Усё...
     return $monospaced
         ? '<div style="font-family:monospace">'.$res.'</div>'

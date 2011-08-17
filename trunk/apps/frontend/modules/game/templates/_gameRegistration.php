@@ -11,14 +11,12 @@
 
 <?php
 render_h3_inline_begin('Играют команды');
-if ($_sessionCanManage || $_sessionIsModerator) echo decorate_span('safeAction', link_to('Добавить', 'game/addTeamManual?id='.$_game->id.'&returl='.$_retUrlRaw, array('method' => 'post')));
+if ($_sessionCanManage || $_sessionIsModerator) echo ' '.decorate_span('safeAction', link_to('Добавить', 'game/addTeamManual?id='.$_game->id.'&returl='.$_retUrlRaw, array('method' => 'post')));
 render_h3_inline_end();
 ?>
 
 <?php if ($_teamStates->count() <= 0): ?>
-<div>
-  <span class="warn">Нет участвующих команд.</span>
-</div>
+<div><span class="warn">Нет участвующих команд.</span></div>
 <?php else: ?>
 <ol>
   <?php foreach($_teamStates as $teamState): ?>
@@ -28,7 +26,7 @@ render_h3_inline_end();
     echo ' стартует '.(($teamState->start_delay == 0)? 'сразу' : 'через '.Timing::intervalToStr($teamState->start_delay*60));
     echo ' '.decorate_span('safeAction', link_to('Настройки', 'teamState/show?id='.$teamState->id));
     if ($_sessionCanManage || $_sessionIsModerator)
-        echo decorate_span('warnAction', link_to('Снять с игры', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$_retUrlRaw, array('method' => 'post', 'confirm' => 'Вы точно хотите снять команду '.$teamState->Team->name.' с игры '.$_game->name.'?')));
+        echo '&nbsp;'.decorate_span('warnAction', link_to('Снять с игры', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$_retUrlRaw, array('method' => 'post', 'confirm' => 'Вы точно хотите снять команду '.$teamState->Team->name.' с игры '.$_game->name.'?')));
     ?>
   </li>
   <?php endforeach; ?>

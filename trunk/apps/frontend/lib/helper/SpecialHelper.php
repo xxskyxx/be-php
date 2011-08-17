@@ -112,7 +112,7 @@ function decorate_span($class, $innerHtml)
  */
 function decorate_div($class, $innerHtml)
 {
-  return '<div class="'.$class.'">'.$innerHtml.'</div>'."\n";
+  return '<div class="'.$class.'">'.$innerHtml.'</div>';
 }
 
 /**
@@ -162,21 +162,22 @@ function render_property_if($condition, $name, $value, $nameWidth = 0)
 /**
  * Генерирует в поток вывода HTML-код "хлебных крошек" по списку указанных ссылок.
  * 
- * @param   array   $links  Список HTML-кодов ссылок, строки
+ * @param   array   $links  Список HTML-кодов ссылок
  * 
  * @return  string 
  */
 function render_breadcombs($links = null)
 {
-  $res = '\\\\&nbsp;'.link_to('Главная', 'home/index').'&nbsp;\\';
+  echo '<div class="breadcombs">';
+  echo '<div class="breadcomb">'.link_to('Главная', 'home/index').'</div>';
   if (is_array($links))
   {
     foreach ($links as $link)
     {
-      $res .= ' '.$link.'&nbsp;\\';
+      echo '<div class="breadcomb">'.$link.'</div>';
     }
   }
-  echo '<div class="breadcombs">'.$res.'</div>';
+  echo '</div>';
 }
 
 /**
@@ -191,7 +192,7 @@ function render_h3_inline_begin($headerText)
   //Общий контейнер
   echo '<div class="h3inline">'."\n";
   //Заголовок
-  echo '<h3 class="inline">'.$headerText.'</h3>'."\n";
+  echo '<h3 class="inline">'.$headerText.'</h3>';
 }
 
 /**
