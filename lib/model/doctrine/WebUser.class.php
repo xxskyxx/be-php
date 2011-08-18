@@ -14,21 +14,14 @@ class WebUser extends BaseWebUser implements IStored, INamed, IAuth
 {
   const MIN_NAME_LENGTH = 2;
   const MIN_PWD_LENGTH = 5;
-  const ACTIVATION_KEY_LENGTH = 8;
 
-  const PASSWORD_SALT = 'cHaNgEtHiS';
   /* Аккаунт админа по умолчанию:
-   * БД: admin|f99cf418670b465d4ee37b0bac36265e, PASSWORD_SALT = 'cHaNgEtHiS'
+   * БД: admin|f99cf418670b465d4ee37b0bac36265e, Utils::PASSWORD_SALT = 'cHaNgEtHiS'
    * Вход: admin|admin
    * Для создания админа нужно выполнить на пустой БД скрипт:
 INSERT INTO web_users(login, pwd_hash, is_enabled) VALUES ('admin', 'f99cf418670b465d4ee37b0bac36265e', 1);
 INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
    */
-
-  public static function getSaltedPwdHash($password)
-  {
-    return md5($password.WebUser::PASSWORD_SALT);
-  }
 
   //// IStored ////
 
@@ -264,7 +257,7 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
       {
         //Ключ активации правильный.
         $webUser->is_enabled = true;
-        $webUser->newActivationKey();
+        $webUser->tag = Utils::generateActivationKey();
         $webUser->save();
         return true;
       }
@@ -274,14 +267,6 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
         return false;
       }
     }
-  }
-
-  /**
-   * Создает новый ключ активации учетной записи.
-   */
-  public function newActivationKey()
-  {
-    $this->tag = substr(md5(time().WebUser::PASSWORD_SALT), 0, WebUser::ACTIVATION_KEY_LENGTH);
   }
 
   //// Self ////

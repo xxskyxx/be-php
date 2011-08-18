@@ -95,6 +95,8 @@ class Timing
 class Utils
 {
   const PASSWORD_SALT = 'cHaNgEtHiS';
+  const ACTIVATION_KEY_LENGTH = 8;
+
   const IMG_BUTTONS_PATH = '/images/buttons/';
   const IMG_BUTTONS_STYLE = 'imageButton';
   
@@ -109,6 +111,17 @@ class Utils
     return md5($password.Utils::PASSWORD_SALT);
   }
 
+  /**
+   * Генерирует ключ для активации чего-либо.
+   *
+   * @param   string  $base дополнительная часть к исходнику ключа
+   * @return  string
+   */
+  public static function generateActivationkey($base = '')
+  {
+    return substr(md5($base.time().Utils::PASSWORD_SALT), 0, Utils::ACTIVATION_KEY_LENGTH);
+  }
+  
   /**
    * Кодирует адрес обратного перехода, чтобы при записи в URL, он не нарушал правил маршрутизации
    *
