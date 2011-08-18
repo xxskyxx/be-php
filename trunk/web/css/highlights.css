@@ -23,10 +23,8 @@ span.indent, div.indent, span.indentAction { /* reserved */ }
 span.info,   div.info,   span.safeAction   { background: DarkGreen;   color: GreenYellow }
 span.warn,   div.warn,   span.warnAction   { background: SaddleBrown; color: Yellow }
 span.danger, div.danger, span.dangerAction { background: DarkRed;     color: Gold }
-span.indent a, div.indent a, span.indentAction a,
-span.info a,   div.info a,   span.safeAction a,
-span.warn a,   div.warn a,   span.warnAction a,
-span.danger a, div.danger a, span.dangerAction a { color: inherit }
+span.safeAction a, span.warnAction a, span.dangerAction a { color: inherit }
+span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White }
 
 /* Выделение текста цветной рамкой */
 span.indentBorder, div.indentBorder { padding: 3px 5px 3px 5px; border: none }

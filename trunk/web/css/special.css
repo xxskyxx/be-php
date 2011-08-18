@@ -13,12 +13,7 @@ div.comment { font-style: italic; font-size: small }
 /* Форматирование списка свойств */
 div.propName, div.propValue { display: inline-block; vertical-align: top; padding-bottom: 2px }
 div.propName  { text-align: right; color: LightGrey }
-div.propValue { /* reserved */}
-
-/* Вертикально выровненные строчные блоки */
-/* Для корректного применения все блоки, подлежащие выравниванию,
-/* должны быть завернуты в контейнеры с этим стилем */
-div.middleVertical { display: inline-block; vertical-align: middle }
+div.propValue { padding-left: 0.5ex }
 
 /* Форматирование "хлебных крошек" */
 div.breadcombs {
@@ -27,12 +22,12 @@ div.breadcombs {
   border-top: none;
   border-right: none;
   border-bottom-width: 1px;
-  border-left-width: 2px;
+  border-left-width: 3px;
 }
 div.breadcomb {
   display: inline-block;
-  margin-left: 2px; 
-  padding: 0 2px 1px 0;
+  margin-left: 3px; 
+  padding: 0 3px 1px 0;
   border: Solid DodgerBlue;
   border-top-width: 1px;
   border-right-width: 1px;
@@ -42,20 +37,20 @@ div.breadcomb {
 
 /* Карта сайта и ссылки на ней */
 div.siteMap {
-  margin-top: 0.25em;
+  margin-top: 0.5em;
   padding-top: 2px;
   border: Solid DodgerBlue;
   border-top-width: 1px;
   border-right: none;
   border-bottom: none;
-  border-left-width: 2px;
+  border-left-width: 3px;
   font-size: smaller;
   font-style: italic;
 }
 div.siteMapItem {
   display: inline-block;
-  margin-left: 2px; 
-  padding: 0 2px 3px 0;
+  margin-left: 3px; 
+  padding: 0 3px 3px 0;
   border: Solid DodgerBlue;
   border-top: none;
   border-right-width: 1px;
@@ -67,13 +62,8 @@ div.siteMapItem {
 div.hr { border-top: Solid 1px DodgerBlue; margin: 3px 0 3px 0 }
 
 /* Заголовок с возможностью дописывания */
-div.h3inline { border-top: Solid 1px DodgerBlue; margin: 3px 0 3px 0 }
+div.h3inline { border-top: Solid 1px DodgerBlue; margin: 5px 0 3px 0 }
 h3.inline { display: inline; margin: 0 0 0 0; border: none}
-
-/* Интервалы между строками */
-div.spaceBefore { /*deprecated, remove usage*/ }
-div.spaceAfter  { /*deprecated, remove usage*/ }
-div.spaceAround { /*deprecated, remove usage*/ }
 
 /* Cтолбцы данных */
 div.columnName, div.columnValue {
@@ -86,13 +76,13 @@ div.columnName  { vertical-align: bottom; font-weight: bold; color: PaleGreen; t
 div.columnValue { /* reserved */ }
 
 /* Главное меню */
-div.menu { background-color: Navy; border: Solid 1px DarkTurquoise }
-div.menu ul { padding: 0 2px 3px 2px; list-style: none; vertical-align: middle }
+div.menu { background-color: Navy; border: Solid 1px DodgerBlue }
+div.menu ul { padding: 0 3px 3px 3px; list-style: none; vertical-align: middle }
 div.menu ul li { font-weight: bold; display: inline; vertical-align: middle }
 div.menu ul li a,
 div.menu ul li a:visited { color: Aqua; text-decoration: none; border-bottom: Solid Aqua 1px }
 div.menu ul li a:hover,
-div.menu ul li a:active  { color: White; text-decoration: none; background-color: Blue; border-bottom: none }
+div.menu ul li a:active  { color: White; background-color: Blue; border-bottom: none }
 
 /* Кнопка действия (пока не используется) */
 div.imageButton { display: inline-block; vertical-align: middle }
