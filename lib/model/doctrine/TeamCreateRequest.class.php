@@ -28,15 +28,28 @@ class TeamCreateRequest extends BaseTeamCreateRequest implements IStored
   //// Public ////
   
   /**
-   * Возвращает список заявок от указанного пользователя.
+   * Выполняет создание команды по заявке.
    * 
-   * @param   WebUser   $webUser
-   * @return  Doctrine_Collection
+   * @param TeamCreateRequest $teamCreateRequest 
+   * 
+   * @return Team Созданная команда
    */
-  public static function byAuthor(WebUser $webUser)
+  public static function doCreate(TeamCreateRequest $teamCreateRequest)
   {
-    $res = Doctrine::getTable('TeamCreateRequest')->findBy('web_user_id', $webUser->id);
-    return ($res->count() == 0) ? false : $res;
+    $team = new Team;
+    $team->name = $teamCreateRequest->name;
+    $team->full_name = $teamCreateRequest->full_name;
+    $team->save(); //Требуется, так как иначе не удастся включить капитана.
+    //Так как команда еще не существует, то в нее можно просто включить
+    //автора заявки без всяких проверок.
+    $teamPlayer = new TeamPlayer;
+    $teamPlayer->team_id = $team->id;
+    $teamPlayer->web_user_id = $teamCreateRequest->web_user_id;
+    $teamPlayer->is_leader = true;
+    $team->teamPlayers->add($teamPlayer);
+    $team->save();
+    $teamCreateRequest->delete();
+    return $team;
   }
   
 }

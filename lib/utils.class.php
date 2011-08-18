@@ -4,6 +4,7 @@ class Timing
 {
   const NO_DATE = '____:__:__';
   const NO_TIME = '--:--:--';
+  const ACTIVATION_KEY_LENGTH = 16;
 
   /**
    * Проверяет, отстоит ли $testTime от $baseTime не менее чем на $interval секунд.

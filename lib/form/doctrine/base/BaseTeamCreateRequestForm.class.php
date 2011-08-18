@@ -20,6 +20,7 @@ abstract class BaseTeamCreateRequestForm extends BaseFormDoctrine
       'name'        => new sfWidgetFormInputText(),
       'full_name'   => new sfWidgetFormInputText(),
       'description' => new sfWidgetFormInputText(),
+      'tag'         => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
@@ -28,6 +29,7 @@ abstract class BaseTeamCreateRequestForm extends BaseFormDoctrine
       'name'        => new sfValidatorString(array('max_length' => 32)),
       'full_name'   => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'description' => new sfValidatorString(array('max_length' => 255)),
+      'tag'         => new sfValidatorString(array('max_length' => 32)),
     ));
 
     $this->widgetSchema->setNameFormat('team_create_request[%s]');

@@ -13,11 +13,12 @@ if ($_isAdmin)
 
 <h4>Управление сайтом</h4>
 <?php
-$width = get_text_block_size_ex('Быстрое создание команд:');
+$width = get_text_block_size_ex('Создание команд по почте:');
 render_property('Название сайта:', $_settings->site_name, $width);
 render_property('Домен сайта:', $_settings->site_domain, $width);
 render_property('Адрес администраторов:', $_settings->contact_email_addr, $width);
 render_property('Быстрая регистрация:', $_settings->fast_user_register ? decorate_span('warn', 'Разрешена') : 'Не разрешена', $width);
+render_property('Создание команд по почте:', $_settings->email_team_create ? decorate_span('info', 'Разрешено') : 'Не разрешено', $width);
 render_property('Быстрое создание команд:', $_settings->fast_team_create ? decorate_span('warn', 'Разрешено') : 'Не разрешено', $width);
 ?>
 <?php if ($_isAdmin): ?>

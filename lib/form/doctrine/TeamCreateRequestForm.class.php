@@ -12,6 +12,7 @@ class TeamCreateRequestForm extends BaseTeamCreateRequestForm
 {
   public function configure()
   {
+    unset($this['tag']);
     //Пользователь будет устанавливаться принудительно.
     unset($this['web_user_id']);
     $this->setWidget('web_user_id', new sfWidgetFormInputHidden());

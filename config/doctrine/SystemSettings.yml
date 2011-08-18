@@ -9,8 +9,10 @@ SystemSettings:
     site_domain: { type: string(255), notnull: true, default: localhost }
     # Разрешить мгновенную регистрацию пользователей
     fast_user_register: { type: boolean, notnull: true, default: false }
-    # Разрешить мгновенную регистрацию команд
+    # Разрешить быстрое создание команд (без модерирования или подтверждения по почте)
     fast_team_create: { type: boolean, notnull: true, default: false }
+    # Разрешить создание команд через почту
+    email_team_create: { type: boolean, notnull: true, default: true }
     # Обратный адрес для уведомлений, не предполагает прием ответов
     notify_email_addr: { type: string(255), notnull: true, default: do_not_reply@somehost.inf }
     # Адрес для связи с администрацией сайта

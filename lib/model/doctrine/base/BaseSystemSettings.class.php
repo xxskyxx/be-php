@@ -10,6 +10,7 @@
  * @property string $site_domain
  * @property boolean $fast_user_register
  * @property boolean $fast_team_create
+ * @property boolean $email_team_create
  * @property string $notify_email_addr
  * @property string $contact_email_addr
  * @property string $smtp_host
@@ -23,6 +24,7 @@
  * @method string         getSiteDomain()         Returns the current record's "site_domain" value
  * @method boolean        getFastUserRegister()   Returns the current record's "fast_user_register" value
  * @method boolean        getFastTeamCreate()     Returns the current record's "fast_team_create" value
+ * @method boolean        getEmailTeamCreate()    Returns the current record's "email_team_create" value
  * @method string         getNotifyEmailAddr()    Returns the current record's "notify_email_addr" value
  * @method string         getContactEmailAddr()   Returns the current record's "contact_email_addr" value
  * @method string         getSmtpHost()           Returns the current record's "smtp_host" value
@@ -35,6 +37,7 @@
  * @method SystemSettings setSiteDomain()         Sets the current record's "site_domain" value
  * @method SystemSettings setFastUserRegister()   Sets the current record's "fast_user_register" value
  * @method SystemSettings setFastTeamCreate()     Sets the current record's "fast_team_create" value
+ * @method SystemSettings setEmailTeamCreate()    Sets the current record's "email_team_create" value
  * @method SystemSettings setNotifyEmailAddr()    Sets the current record's "notify_email_addr" value
  * @method SystemSettings setContactEmailAddr()   Sets the current record's "contact_email_addr" value
  * @method SystemSettings setSmtpHost()           Sets the current record's "smtp_host" value
@@ -60,7 +63,7 @@ abstract class BaseSystemSettings extends sfDoctrineRecord
         $this->hasColumn('site_name', 'string', 255, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => 'Beaver\'s Engine v0.2.1b',
+             'default' => 'Beaver\'s Engine v0.4.1b',
              'length' => 255,
              ));
         $this->hasColumn('site_domain', 'string', 255, array(
@@ -78,6 +81,11 @@ abstract class BaseSystemSettings extends sfDoctrineRecord
              'type' => 'boolean',
              'notnull' => true,
              'default' => false,
+             ));
+        $this->hasColumn('email_team_create', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => true,
              ));
         $this->hasColumn('notify_email_addr', 'string', 255, array(
              'type' => 'string',

@@ -24,11 +24,20 @@ class teamActions extends MyActions
     $this->_fastTeamCreate = SystemSettings::getInstance()->fast_team_create;
     if ($this->_isModerator)
     {
-      $this->_teamCreateRequests = Doctrine::getTable('TeamCreateRequest')->findAll();
+      $this->_teamCreateRequests = Doctrine::getTable('TeamCreateRequest')
+          ->createQuery('tcr')
+          ->select()
+          ->orderBy('name')
+          ->execute();
     }
     else
     {
-      $this->_teamCreateRequests = Doctrine::getTable('TeamCreateRequest')->findBy('web_user_id', $this->sessionWebUser->id);
+      $this->_teamCreateRequests = Doctrine::getTable('TeamCreateRequest')
+          ->createQuery('tcr')
+          ->select()
+          ->where('web_user_id = ?', $this->sessionWebUser->id)
+          ->orderBy('name')
+          ->execute();
     }
   }
 

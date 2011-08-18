@@ -251,4 +251,44 @@ class authActions extends MyActions
       $this->errorRedirect('Активация учетной записи не удалась: ключ активации указан неверно.', 'home/index');
     }
   }
+  
+  public function executeCreateTeam(sfWebRequest $request)
+  {
+    $key = $request->getParameter('key', '');
+    $this->errorRedirectUnless(
+        $teamCreateRequest = TeamCreateRequest::byId($request->getParameter('id')),
+        'Заявка на создание команды не найдена',
+        'team/index'
+    );
+    if ( ! SystemSettings::getInstance()->email_team_create)
+    {
+      $this->errorRedirect(
+          'Подтверждение создания команд по почте сейчас не разрешено.',
+          'team/index'
+      );
+    }
+    $this->errorRedirectUnless(
+        Utils::byField('Team', 'name', $teamCreateRequest->name) === false,
+        'Не удалось создать команду: команда '.$teamCreateRequest->name.' уже существует.',
+        'team/index'
+    );
+    
+    if (strcmp($key, $teamCreateRequest->tag) == 0)
+    {
+      $team = TeamCreateRequest::doCreate($teamCreateRequest);
+      $this->successRedirect(
+          'Команда '.$team->name.' успешно создана.',
+          $fastTeamCreate ? 'team/show?id='.$team->id : 'team/index'
+      );    
+    }
+    else
+    {
+      $this->errorRedirect(
+          'Создание команды не удалось: неверный ключ подтверждения.',
+          'team/index'
+      );
+    }
+
+  }
+  
 }

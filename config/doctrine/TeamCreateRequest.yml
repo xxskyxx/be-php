@@ -11,6 +11,8 @@ TeamCreateRequest:
     full_name: { type: string(255) }
     # Обоснование
     description: { type: string(255), notnull: true }
+    # Ключ активации
+    tag: string(32)
   relations:
     WebUser:
       foreignAlias: teamCreateRequests
