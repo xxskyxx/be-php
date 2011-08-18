@@ -10,6 +10,7 @@
  * @property string $name
  * @property string $full_name
  * @property string $description
+ * @property string $tag
  * @property WebUser $WebUser
  * 
  * @method integer           getId()          Returns the current record's "id" value
@@ -17,12 +18,14 @@
  * @method string            getName()        Returns the current record's "name" value
  * @method string            getFullName()    Returns the current record's "full_name" value
  * @method string            getDescription() Returns the current record's "description" value
+ * @method string            getTag()         Returns the current record's "tag" value
  * @method WebUser           getWebUser()     Returns the current record's "WebUser" value
  * @method TeamCreateRequest setId()          Sets the current record's "id" value
  * @method TeamCreateRequest setWebUserId()   Sets the current record's "web_user_id" value
  * @method TeamCreateRequest setName()        Sets the current record's "name" value
  * @method TeamCreateRequest setFullName()    Sets the current record's "full_name" value
  * @method TeamCreateRequest setDescription() Sets the current record's "description" value
+ * @method TeamCreateRequest setTag()         Sets the current record's "tag" value
  * @method TeamCreateRequest setWebUser()     Sets the current record's "WebUser" value
  * 
  * @package    sf
@@ -57,6 +60,11 @@ abstract class BaseTeamCreateRequest extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'length' => 255,
+             ));
+        $this->hasColumn('tag', 'string', 32, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 32,
              ));
     }
 

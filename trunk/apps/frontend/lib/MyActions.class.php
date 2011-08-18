@@ -57,6 +57,27 @@ class MyActions extends sfActions
     $this->session->setFlash('notice', $message);
     $this->redirect($target);
   }
+  
+  /**
+   * Выполняет перенаправление с простановкой предупреждающего сообщения.
+   * Если адрес не указан, то пытается получить его из retUrl-параметров.
+   *
+   * @param   string  $message  Сообщение
+   * @param   string  $target   Адрес перенаправления
+   */
+  protected function warningRedirect($message, $target = '')
+  {
+    if ($target == '')
+    {
+      $target = $this->retUrlDecoded;
+    }
+    if ($target == '')
+    {
+      $target = 'home/index';
+    }
+    $this->session->setFlash('warning', $message);
+    $this->redirect($target);
+  }
 
   /**
    * Простановка сообщения об ошибке без перенаправления.

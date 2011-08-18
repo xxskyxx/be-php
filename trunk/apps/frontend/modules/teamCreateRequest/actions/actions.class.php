@@ -57,8 +57,36 @@ class teamCreateRequestActions extends MyActions
       if ((Utils::byField('Team', 'name', $object->name) === false)
           && (Utils::byField('TeamCreateRequest', 'name', $object->name) === false))
       {
+        $object->tag = Utils::generateActivationKey();
         $object = $form->save();
-        $this->successRedirect('Заявка на создание команды '.$object->name.' принята.', 'team/index');
+        
+        $settings = SystemSettings::getInstance();
+        if ($settings->email_team_create && !$settings->fast_team_create)
+        {
+          $message = Swift_Message::newInstance('Создание команды '.$object->name.' ('.$settings->site_name.')')
+              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+              ->setTo($object->WebUser->email)
+              ->setBody(
+                   "Здравствуйте!\n\n"
+                  ."Вы получили это письмо, так как запросили создание команды \"".$object->name."\" на сайте ".$settings->site_name.".\n"
+                  ."Если Вы не создавали команду, просто проигнорируйте это письмо.\n\n"
+                  ."Для подтверждения создания команды перейдите по указанной ссылке:\n"
+                  ."http://".$settings->site_domain."/auth/createTeam?id=".$object->id."&key=".$object->tag."\n"
+                  ."Отменить заявку можно на странице команд: http://".$settings->site_domain."/team/index\n\n"
+                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
+                  ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
+          );          
+          
+          if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
+          {
+            $this->successRedirect('Заявка на создание команды '.$object->name.' принята.', 'team/index');
+          }
+          else
+          {
+            $this->warningRedirect('Заявка на создание команды '.$object->name.' принята, но не удалось отправить письмо для ее подтверждения. Обратитесь к администрации сайта.', 'team/index');
+          }        
+        }
+        
       }
       else
       {
@@ -101,27 +129,10 @@ class teamCreateRequestActions extends MyActions
         'team/index'
     );
     
-    $team = new Team;
-    $team->name = $teamCreateRequest->name;
-    $team->full_name = $teamCreateRequest->full_name;
-    $team->save(); //Требуется, так как иначе не удастся включить капитана.
-    
-    //Так не получится, так как при быстром создании команд подтверждающий
-    //заявку пользователь еще не имеет полномочий капитана.
-    //$team->registerPlayer($teamCreateRequest->WebUser, true, $this->sessionWebUser);
-    
-    //Так как команда еще не существует, то в нее можно просто включить
-    //автора заявки без всяких проверок.
-    $teamPlayer = new TeamPlayer;
-    $teamPlayer->team_id = $team->id;
-    $teamPlayer->web_user_id = $teamCreateRequest->web_user_id;
-    $teamPlayer->is_leader = true;
-    $team->teamPlayers->add($teamPlayer);
-    $team->save();
-    $teamCreateRequest->delete();
+    $team = TeamCreateRequest::doCreate($teamCreateRequest);
     
     $this->successRedirect(
-        'Команда '.$team->name.' успешно создана, '.$teamCreateRequest->WebUser->login.' назначен ее капитаном.',
+        'Команда '.$team->name.' успешно создана.',
         $fastTeamCreate ? 'team/show?id='.$team->id : 'team/index'
     );
   }
