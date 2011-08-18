@@ -142,22 +142,13 @@ public function executeSMTPTest(sfWebRequest $request)
             ->setBody(
               "Тестирование отправки уведомлений"
             );
-        $isSent = false;
-        try
+        if (Utils::sendEmailSafe($message, $mailer))
         {
-          $isSent = Utils::getReadyMailer()->send($message);
-        }
-        catch (Exception $e)
-        {
-          $isSent = false;
-        }
-        if ( ! $isSent)
-        {
-          $this->errorRedirect('Соединение с SMTP-сервером установлено, но отправка тестового письма не удалась. Проверьте корректность обратого адреса, аккаунта и логина SMTP-сервера.', 'moderation/index');
+          $this->successRedirect('Тестовое уведомление успешно отправлено на '.$settings->contact_email_addr.'.', 'moderation/show');          
         }
         else
         {
-          $this->successRedirect('Тестовое уведомление успешно отправлено на '.$settings->contact_email_addr.'.', 'moderation/index');          
+          $this->errorRedirect('Соединение с SMTP-сервером установлено, но отправка тестового письма не удалась. Проверьте корректность обратого адреса, аккаунта и логина SMTP-сервера.', 'moderation/show');
         }        
       }
     } 

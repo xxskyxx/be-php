@@ -118,23 +118,14 @@ class authActions extends MyActions
                   ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
               );
           
-          $isSent = false;
-          try
-          {
-            $isSent = Utils::getReadyMailer()->send($message);
-          }
-          catch (Exception $e)
-          {
-            $isSent = false;
-          }
-          if ( ! $isSent )
-          {
-            $this->errorMessage('Регистрация не удалась. Не удается отправить письмо с активационным ключем.');
-          }
-          else
+          if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
           {
             $webUser->save();
             $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
+          }
+          else
+          {
+            $this->errorMessage('Регистрация не удалась. Не удается отправить письмо с активационным ключем.');
           }
         }
         else

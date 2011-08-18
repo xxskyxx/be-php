@@ -95,7 +95,7 @@ class Timing
 class Utils
 {
   const PASSWORD_SALT = 'cHaNgEtHiS';
-  const ACTIVATION_KEY_LENGTH = 8;
+  const ACTIVATION_KEY_LENGTH = 16;
 
   const IMG_BUTTONS_PATH = '/images/buttons/';
   const IMG_BUTTONS_STYLE = 'imageButton';
@@ -368,8 +368,8 @@ class Utils
   }
   
   /**
-   * Создает и настраивает экземпляр SwiftMailer.
-   * При неудаче соединения возвращает false.
+   * Создает и настраивает экземпляр SwiftMailer, параметры берутся из
+   * системных настроек. При неудаче соединения возвращает false.
    * 
    * @return  Swift_Mailer
    */
@@ -390,6 +390,32 @@ class Utils
       return false;
     }
     return Swift_Mailer::newInstance($transport);
+  }
+
+  /**
+   * Отправляет сообщение при помощи указанного агента отправки
+   * 
+   * @param   Swift_Message   $message  сообщение
+   * @param   Swift_Mailer    $mailer   агент отправки
+   * 
+   * @return  boolean                   Результат операции
+   */
+  public static function sendEmailSafe(Swift_Message $message, Swift_Mailer $mailer)
+  {
+    $isSent = false;
+    try
+    {
+      $mailer = Utils::getReadyMailer();
+      if ($mailer !== false) 
+      {
+        $isSent = $mailer->send($message);
+      }
+    }
+    catch (Exception $e)
+    {
+      $isSent = false;
+    }
+    return $isSent;
   }
   
   //// Self ////
