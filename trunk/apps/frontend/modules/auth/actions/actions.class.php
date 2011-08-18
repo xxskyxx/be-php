@@ -30,7 +30,7 @@ class authActions extends MyActions
         $webUser = WebUser::byName($account['login']);
         if ($webUser)
         {
-          if ($webUser->getPwdHash() == WebUser::getSaltedPwdHash($account['password']))
+          if ($webUser->getPwdHash() == Utils::saltedPwdHash($account['password']))
           {
             if ($webUser->is_enabled)
             {
@@ -91,10 +91,10 @@ class authActions extends MyActions
         $webUser = new WebUser;
         $webUser->login = $formData['login'];
         $webUser->full_name = $formData['full_name'];
-        $webUser->pwd_hash = WebUser::getSaltedPwdHash($formData['password']);
+        $webUser->pwd_hash = Utils::saltedPwdHash($formData['password']);
         $webUser->email = $formData['email'];
         $webUser->is_enabled = false;
-        $webUser->newActivationKey();
+        $webUser->tag = Utils::generateActivationKey();
         if (SystemSettings::getInstance()->fast_user_register)
         {
           //Быстрая регистрация
@@ -176,7 +176,7 @@ class authActions extends MyActions
         $formValues = $this->form->getValues();
         
         $webUser = WebUser::byId($this->session->getAttribute('id'));
-        if (($webUser->getPwdHash() != WebUser::getSaltedPwdHash($formValues['current'])))
+        if (($webUser->getPwdHash() != Utils::saltedPwdHash($formValues['current'])))
         {
           $this->errorMessage('Изменить пароль не удалось: неверно указан текущий пароль.');
         }
@@ -187,7 +187,7 @@ class authActions extends MyActions
           return;
         }
         
-        $webUser->setPwdHash(WebUser::getSaltedPwdHash($formValues['new']));
+        $webUser->setPwdHash(Utils::saltedPwdHash($formValues['new']));
         $webUser->save();
         $this->successRedirect('Пароль успешно изменен.');
       }
