@@ -126,18 +126,13 @@ function decorate_div($class, $innerHtml)
  */
 function render_property($name, $value, $nameWidth = 0)
 {
-  //Открываем блок строки
   echo '<div>';
-  //Формируем колонку названия свойства
   echo '<div class="propName"'.(($nameWidth > 0) ? ' style="width:'.$nameWidth.'ex"' : '').'>';
   echo $name;
   echo '</div>';
-  echo ' ';
-  //Формируем колонку значения свойства
   echo '<div class="propValue">';
   echo $value;
   echo '</div>';
-  //Закрываем блок строки
   echo '</div>'."\n";
 }
 
@@ -285,11 +280,7 @@ function render_form_using_div(sfForm $form, $commitLabel, $backHtml)
  */
 function render_column_name($columnName, $width = 0)
 {
-  echo '<div class="columnName"';
-  echo ($width > 0) ? ' style="width:'.$width.'ex"' : '';
-  echo '>';
-  echo $columnName;
-  echo '</div>';
+  echo '<div class="columnName"'.(($width > 0) ? ' style="width:'.$width.'ex"' : '').'>'.$columnName.'</div>';
 }
 
 /**
@@ -300,13 +291,9 @@ function render_column_name($columnName, $width = 0)
  */
 function render_column_value($value, $width = 0, $align = '')
 {
-  echo '<div class="columnValue"';
   $style = '';
   $style .= ($width > 0) ? 'width:'.$width.'ex;' : '';
   $style .= ($align !== '') ? 'text-align:'.$align.';' : '';
-  echo ($style !== '') ? ' style="'.$style.'"' : '';
-  echo '>';
-  echo $value;
-  echo '</div>';
+  echo '<div class="columnValue"'.(($style !== '') ? ' style="'.$style.'"' : '').'>'.$value.'</div>';
 }
 ?>

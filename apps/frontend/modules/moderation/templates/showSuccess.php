@@ -6,7 +6,7 @@
 if ($_isAdmin)
 {
   render_h3_inline_begin('Системные настройки');
-  echo decorate_span('safeAction', link_to('Редактировать', 'moderation/edit'));
+  echo ' '.decorate_span('safeAction', link_to('Редактировать', 'moderation/edit'));
   render_h3_inline_end();
 }
 ?>
@@ -35,7 +35,7 @@ if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
   render_property('Аккаунт:', $_settings->smtp_login, $width);
   render_property('Пароль:', $_settings->smtp_password, $width);
 }
-echo '<p>'.decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest')).'</p>';
+echo "<p>\n".decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest'))."\n</p>\n";
 ?>
 <?php endif ?>
 
@@ -43,7 +43,7 @@ echo '<p>'.decorate_span('safeAction', link_to('Отправить тестов�
 <?php
 {
 render_h3_inline_begin('Вы');
-echo '- администратор сайта и '.decorate_span('warn', 'обладаете полномочиями на любые действия');
+echo ' - администратор сайта и '.decorate_span('warn', 'обладаете полномочиями на любые действия');
 render_h3_inline_end();
 }
 ?>
@@ -51,16 +51,24 @@ render_h3_inline_end();
 
 <?php   if ($_isWebUserModer): ?>
 <h3>Пользователи</h3>
-<div>Вы можете управлять анкетой <?php echo link_to('любого пользователя', 'webUser/index', array('target' => 'new'))?>.</div>
+<p>
+  Вы можете управлять анкетой <?php echo link_to('любого пользователя', 'webUser/index', array('target' => 'new'))?>.
+</p>
 <?php     if ($_isPermissionModer): ?>
-<div>Вы также можете управлять полномочиями пользователей.</div>
+<p>
+  Вы также можете управлять полномочиями пользователей.
+</p>
 <?php     endif ?>
 <?php   endif ?>
 
 <?php   if ($_isFullTeamModer): ?>
 <h3>Команды</h3>
-<div>Вы можете управлять <?php echo link_to('любой командой', 'team/index', array('target' => 'new'))?>.</div>
-<div>Вы также можете управлять <?php echo link_to('заявками на создание команд', 'team/index', array('target' => 'new'))?>.</div>
+<p>
+  Вы можете управлять <?php echo link_to('любой командой', 'team/index', array('target' => 'new'))?>.
+</p>
+<p>
+  Вы также можете управлять <?php echo link_to('заявками на создание команд', 'team/index', array('target' => 'new'))?>.
+</p>
 <?php   endif ?>
 <?php   if (( ! $_isFullTeamModer) && ($_teamsUnderModeration->count() > 0)): ?>
 <h3>Команды</h3>
@@ -73,7 +81,9 @@ render_h3_inline_end();
 
 <?php   if ($_isFullGameModer): ?>
 <h3>Игры</h3>
-<div>Вы можете управлять <?php echo link_to('любой игрой', 'game/index', array('target' => 'new'))?>.</div>
+<p>
+  Вы можете управлять <?php echo link_to('любой игрой', 'game/index', array('target' => 'new'))?>.
+</p>
 <?php   endif ?>
 <?php   if (( ! $_isFullGameModer) && ($_gamesUnderModeration->count() > 0)): ?>
 <h3>Игры</h3>
