@@ -30,7 +30,7 @@ abstract class BaseWebUserForm extends BaseFormDoctrine
       'pwd_hash'   => new sfValidatorString(array('max_length' => 32)),
       'full_name'  => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'email'      => new sfValidatorString(array('max_length' => 255)),
-      'tag'        => new sfValidatorString(array('max_length' => 64, 'required' => false)),
+      'tag'        => new sfValidatorString(array('max_length' => 32, 'required' => false)),
       'is_enabled' => new sfValidatorBoolean(array('required' => false)),
     ));
 

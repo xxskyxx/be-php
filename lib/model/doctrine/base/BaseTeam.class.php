@@ -10,26 +10,29 @@
  * @property string $full_name
  * @property Doctrine_Collection $games
  * @property Doctrine_Collection $gameCandidates
+ * @property Doctrine_Collection $gameCreateRequests
  * @property Doctrine_Collection $teamCandidates
  * @property Doctrine_Collection $teamPlayers
  * @property Doctrine_Collection $teamStates
  * 
- * @method integer             getId()             Returns the current record's "id" value
- * @method string              getName()           Returns the current record's "name" value
- * @method string              getFullName()       Returns the current record's "full_name" value
- * @method Doctrine_Collection getGames()          Returns the current record's "games" collection
- * @method Doctrine_Collection getGameCandidates() Returns the current record's "gameCandidates" collection
- * @method Doctrine_Collection getTeamCandidates() Returns the current record's "teamCandidates" collection
- * @method Doctrine_Collection getTeamPlayers()    Returns the current record's "teamPlayers" collection
- * @method Doctrine_Collection getTeamStates()     Returns the current record's "teamStates" collection
- * @method Team                setId()             Sets the current record's "id" value
- * @method Team                setName()           Sets the current record's "name" value
- * @method Team                setFullName()       Sets the current record's "full_name" value
- * @method Team                setGames()          Sets the current record's "games" collection
- * @method Team                setGameCandidates() Sets the current record's "gameCandidates" collection
- * @method Team                setTeamCandidates() Sets the current record's "teamCandidates" collection
- * @method Team                setTeamPlayers()    Sets the current record's "teamPlayers" collection
- * @method Team                setTeamStates()     Sets the current record's "teamStates" collection
+ * @method integer             getId()                 Returns the current record's "id" value
+ * @method string              getName()               Returns the current record's "name" value
+ * @method string              getFullName()           Returns the current record's "full_name" value
+ * @method Doctrine_Collection getGames()              Returns the current record's "games" collection
+ * @method Doctrine_Collection getGameCandidates()     Returns the current record's "gameCandidates" collection
+ * @method Doctrine_Collection getGameCreateRequests() Returns the current record's "gameCreateRequests" collection
+ * @method Doctrine_Collection getTeamCandidates()     Returns the current record's "teamCandidates" collection
+ * @method Doctrine_Collection getTeamPlayers()        Returns the current record's "teamPlayers" collection
+ * @method Doctrine_Collection getTeamStates()         Returns the current record's "teamStates" collection
+ * @method Team                setId()                 Sets the current record's "id" value
+ * @method Team                setName()               Sets the current record's "name" value
+ * @method Team                setFullName()           Sets the current record's "full_name" value
+ * @method Team                setGames()              Sets the current record's "games" collection
+ * @method Team                setGameCandidates()     Sets the current record's "gameCandidates" collection
+ * @method Team                setGameCreateRequests() Sets the current record's "gameCreateRequests" collection
+ * @method Team                setTeamCandidates()     Sets the current record's "teamCandidates" collection
+ * @method Team                setTeamPlayers()        Sets the current record's "teamPlayers" collection
+ * @method Team                setTeamStates()         Sets the current record's "teamStates" collection
  * 
  * @package    sf
  * @subpackage model
@@ -65,6 +68,10 @@ abstract class BaseTeam extends sfDoctrineRecord
              'foreign' => 'team_id'));
 
         $this->hasMany('GameCandidate as gameCandidates', array(
+             'local' => 'id',
+             'foreign' => 'team_id'));
+
+        $this->hasMany('GameCreateRequest as gameCreateRequests', array(
              'local' => 'id',
              'foreign' => 'team_id'));
 

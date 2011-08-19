@@ -3,7 +3,7 @@
 <form action="<?php echo url_for('TaskConstraint/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '').($form->getObject()->isNew() ? '?taskId='.$task->id : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
 <?php
   //Служебные поля
-  $width = get_text_block_size_ex('Выдавать после ответа:');
+  $width = get_text_block_size_ex('На задание:');
   render_form_field_using_div($form['_csrf_token'], $width);
   render_form_field_using_div($form['id'], $width);
   render_form_field_using_div($form['task_id'], $width);

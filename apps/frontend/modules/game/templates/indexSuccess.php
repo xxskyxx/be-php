@@ -11,7 +11,7 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
   <?php if ($_sessionIsGameModerator): ?>
   <div><?php echo link_to('Создать новую игру', 'game/new') ?></div>
   <?php else: ?>
-  <div><?php echo link_to_if(false, 'Подать заявку на создание игры', 'gameCreateRequest/new') ?></div>
+  <div><?php echo link_to('Подать заявку на создание игры', 'gameCreateRequest/newManual') ?></div>
   <?php endif; ?>
 </p>
 
@@ -23,10 +23,9 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
     <div class="<?php
                 if     ($_sessionPlayIndex[$game->id])
                 {
-                  if ($game->status == Game::GAME_READY || $game->status == Game::GAME_STEADY)
-                      echo 'warn';
-                  else
-                      echo 'info';
+                  echo ($game->status == Game::GAME_READY || $game->status == Game::GAME_STEADY)
+                      ? 'warn'
+                      : 'info';
                 }
                 elseif ($_sessionIsActorIndex[$game->id]) echo 'warn';
                 else                                      echo 'indent';
@@ -40,8 +39,7 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
           echo ' (старт '.$game->start_datetime.')';
           break;
         case Game::GAME_ACTIVE:
-          echo ' (окончание в '.$game->start_briefing_datetime;
-          echo ', итоги '.$game->start_datetime.')';
+          echo ' (окончание в '.$game->start_briefing_datetime.', итоги '.$game->start_datetime.')';
           break;
         case Game::GAME_FINISHED:
           echo ' (финишировала, итоги '.$game->start_datetime.')';
@@ -96,5 +94,23 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
     </div>
   </li>
   <?php endforeach ?>
+</ul>
+<?php endif; ?>
+
+<?php if ($_gameCreateRequests->count() > 0): ?>
+<h3>Заявки на создание</h3>
+<ul>
+  <?php foreach ($_gameCreateRequests as $gameCreateRequest): ?>
+  <li>
+    <div>
+      <?php
+      echo $gameCreateRequest->name;
+      echo '&nbsp'.decorate_span('safeAction', link_to('Отменить', 'gameCreateRequest/delete?id='.$gameCreateRequest->id, array('method' => 'post')));
+      echo ($_sessionIsGameModerator) ? '&nbsp'.decorate_span('warnAction', link_to('Создать', 'gameCreateRequest/acceptManual?id='.$gameCreateRequest->id, array('method' => 'post', 'confirm' => 'Подтвердить создание игры '.$gameCreateRequest->name.' ('.$gameCreateRequest->Team->name.' будут ее организаторами) ?'))) : '';
+      echo ', '.link_to($gameCreateRequest->Team->name, 'team/show?id='.$gameCreateRequest->team_id, array('target' => 'new')).':&nbsp;'.$gameCreateRequest->description;
+      ?>
+    </div>
+  </li>
+  <?php endforeach; ?>
 </ul>
 <?php endif; ?>
