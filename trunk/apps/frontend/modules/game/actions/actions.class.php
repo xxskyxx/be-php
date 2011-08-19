@@ -63,6 +63,27 @@ class gameActions extends MyActions
           break;
       }
     }
+    
+    $gameCreateRequests = Doctrine::getTable('GameCreateRequest')
+        ->createQuery('gcr')
+        ->select()->orderBy('gcr.name')
+        ->execute();
+    if ($this->_sessionIsGameModerator)
+    {
+      $this->_gameCreateRequests = $gameCreateRequests;
+    }
+    else
+    {
+      $this->_gameCreateRequests = new Doctrine_Collection('GameCreateRequest');
+      foreach ($gameCreateRequests as $gameCreateRequest)
+      {
+        if ($gameCreateRequest->Team->canBeManaged($this->sessionWebUser))
+        {
+          $this->_gameCreateRequests->add($gameCreateRequest);
+        }
+      }
+    }
+  
   }
 
   public function executeShow(sfWebRequest $request)

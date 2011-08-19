@@ -1,0 +1,18 @@
+# Заявка на создание команды
+GameCreateRequest:
+  tableName: game_create_requests
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Команда-организатор - автор заявки
+    team_id: { type: integer, notnull: true }
+    # Название
+    name: { type: string(255), notnull: true }
+    # Обоснование
+    description: { type: string(255), notnull: true }
+    # Ключ для активации
+    tag: string(32)
+  relations:
+    Team:
+      foreignAlias: gameCreateRequests
+    # При удалении команды удаляются все ее заявки
+      onDelete: CASCADE

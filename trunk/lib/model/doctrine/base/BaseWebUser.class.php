@@ -77,9 +77,9 @@ abstract class BaseWebUser extends sfDoctrineRecord
              'notnull' => true,
              'length' => 255,
              ));
-        $this->hasColumn('tag', 'string', 64, array(
+        $this->hasColumn('tag', 'string', 32, array(
              'type' => 'string',
-             'length' => 64,
+             'length' => 32,
              ));
         $this->hasColumn('is_enabled', 'boolean', null, array(
              'type' => 'boolean',
