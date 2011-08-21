@@ -71,8 +71,8 @@ class teamCreateRequestActions extends MyActions
                   ."Вы получили это письмо, так как запросили создание команды \"".$object->name."\" на сайте ".$settings->site_name.".\n"
                   ."Если Вы не создавали команду, просто проигнорируйте это письмо.\n\n"
                   ."Для подтверждения создания команды перейдите по указанной ссылке:\n"
-                  ."http://".$settings->site_domain."/auth/createTeam?id=".$object->id."&key=".$object->tag."\n"
-                  ."Отменить заявку можно на странице команд: http://".$settings->site_domain."/team/index\n\n"
+                  ."http://".$settings->site_domain."/auth/createTeam?id=".$object->id."&key=".$object->tag."\n\n"
+                  ."Отменить заявку можно на странице команд:\nhttp://".$settings->site_domain."/team/index\n\n"
                   ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
                   ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
           );          

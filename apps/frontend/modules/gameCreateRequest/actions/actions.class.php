@@ -60,8 +60,36 @@ class gameCreateRequestActions extends MyActions
       if ((Utils::byField('Game', 'name', $object->name) === false)
           && (Utils::byField('GameCreateRequest', 'name', $object->name) === false))
       {
+        $object->tag = Utils::generateActivationkey();
         $object = $form->save();
-        $this->successRedirect('Заявка на создание игры '.$object->name.' принята.', 'game/index');
+        
+        $settings = SystemSettings::getInstance();
+        if ($settings->email_game_create)
+        {
+          $message = Swift_Message::newInstance('Создание игры '.$object->name.' ('.$settings->site_name.')')
+              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+              ->setTo($this->sessionWebUser->email)
+              ->setBody(
+                   "Здравствуйте!\n\n"
+                  ."Вы получили это письмо, так как запросили создание игры \"".$object->name."\" на сайте ".$settings->site_name.".\n"
+                  ."Если Вы не создавали игру, просто проигнорируйте это письмо.\n\n"
+                  ."Для подтверждения создания игры перейдите по указанной ссылке:\n"
+                  ."http://".$settings->site_domain."/auth/createGame?id=".$object->id."&key=".$object->tag."\n\n"
+                  ."Отменить заявку можно на странице игр:\nhttp://".$settings->site_domain."/game/index\n\n"
+                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
+                  ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
+          );          
+          
+          if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
+          {
+            $this->successRedirect('Заявка на создание игры '.$object->name.' принята.', 'game/index');
+          }
+          else
+          {
+            $this->warningRedirect('Заявка на создание игры '.$object->name.' принята, но не удалось отправить письмо для ее подтверждения. Обратитесь к администрации сайта.', 'game/index');
+          }        
+        }
+        
       }
       else
       {
