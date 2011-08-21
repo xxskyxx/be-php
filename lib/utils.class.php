@@ -397,12 +397,16 @@ class Utils
    * Отправляет сообщение при помощи указанного агента отправки
    * 
    * @param   Swift_Message   $message  сообщение
-   * @param   Swift_Mailer    $mailer   агент отправки
+   * @param                   $mailer   агент отправки
    * 
    * @return  boolean                   Результат операции
    */
-  public static function sendEmailSafe(Swift_Message $message, Swift_Mailer $mailer)
+  public static function sendEmailSafe(Swift_Message $message, $mailer)
   {
+    if ( ! ($mailer instanceof Swift_Mailer))
+    {
+      return false;
+    }
     $isSent = false;
     try
     {
