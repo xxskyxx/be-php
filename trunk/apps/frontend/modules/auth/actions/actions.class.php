@@ -254,23 +254,25 @@ class authActions extends MyActions
   
   public function executeCreateTeam(sfWebRequest $request)
   {
+    $retUrl = ($this->session->isAuthenticated()) ? 'team/index' : 'home/index';
+    $settings = SystemSettings::getInstance();
     $key = $request->getParameter('key', '');
     $this->errorRedirectUnless(
         $teamCreateRequest = TeamCreateRequest::byId($request->getParameter('id')),
         'Заявка на создание команды не найдена',
-        'team/index'
+        $retUrl
     );
-    if ( ! SystemSettings::getInstance()->email_team_create)
+    if ( ! $settings->email_team_create)
     {
       $this->errorRedirect(
-          'Подтверждение создания команд по почте сейчас не разрешено.',
-          'team/index'
+          'Почтовое подтверждение создания команд сейчас не разрешено.',
+          $retUrl
       );
     }
     $this->errorRedirectUnless(
         Utils::byField('Team', 'name', $teamCreateRequest->name) === false,
         'Не удалось создать команду: команда '.$teamCreateRequest->name.' уже существует.',
-        'team/index'
+        $retUrl
     );
     
     if (strcmp($key, $teamCreateRequest->tag) == 0)
@@ -278,14 +280,55 @@ class authActions extends MyActions
       $team = TeamCreateRequest::doCreate($teamCreateRequest);
       $this->successRedirect(
           'Команда '.$team->name.' успешно создана.',
-          $fastTeamCreate ? 'team/show?id='.$team->id : 'team/index'
+          $retUrl
       );    
     }
     else
     {
       $this->errorRedirect(
           'Создание команды не удалось: неверный ключ подтверждения.',
-          'team/index'
+          $retUrl
+      );
+    }
+
+  }
+
+  public function executeCreateGame(sfWebRequest $request)
+  {
+    $retUrl = ($this->session->isAuthenticated()) ? 'game/index' : 'home/index';
+    $settings = SystemSettings::getInstance();
+    $key = $request->getParameter('key', '');
+    $this->errorRedirectUnless(
+        $gameCreateRequest = GameCreateRequest::byId($request->getParameter('id')),
+        'Заявка на создание игры не найдена',
+        $retUrl
+    );
+    if ( ! $settings->email_game_create)
+    {
+      $this->errorRedirect(
+          'Почтовое подтверждение создания игр сейчас не разрешено.',
+          $retUrl
+      );
+    }
+    $this->errorRedirectUnless(
+        Utils::byField('Team', 'name', $gameCreateRequest->name) === false,
+        'Не удалось создать игру: игра '.$gameCreateRequest->name.' уже существует.',
+        $retUrl
+    );
+    
+    if (strcmp($key, $gameCreateRequest->tag) == 0)
+    {
+      $team = GameCreateRequest::doCreate($gameCreateRequest);
+      $this->successRedirect(
+          'Игра '.$team->name.' успешно создана.',
+          $retUrl
+      );    
+    }
+    else
+    {
+      $this->errorRedirect(
+          'Создание игры не удалось: неверный ключ подтверждения.',
+          $retUrl
       );
     }
 
