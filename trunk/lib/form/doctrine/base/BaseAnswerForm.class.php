@@ -20,6 +20,7 @@ abstract class BaseAnswerForm extends BaseFormDoctrine
       'name'    => new sfWidgetFormInputText(),
       'info'    => new sfWidgetFormInputText(),
       'value'   => new sfWidgetFormInputText(),
+      'team_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Team'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
@@ -28,6 +29,7 @@ abstract class BaseAnswerForm extends BaseFormDoctrine
       'name'    => new sfValidatorString(array('max_length' => 64)),
       'info'    => new sfValidatorString(array('max_length' => 32)),
       'value'   => new sfValidatorString(array('max_length' => 32)),
+      'team_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Team'), 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(

@@ -10,7 +10,9 @@
  * @property string $name
  * @property string $info
  * @property string $value
+ * @property integer $team_id
  * @property Task $Task
+ * @property Team $Team
  * @property Doctrine_Collection $PostedAnswer
  * @property Doctrine_Collection $tips
  * 
@@ -19,7 +21,9 @@
  * @method string              getName()         Returns the current record's "name" value
  * @method string              getInfo()         Returns the current record's "info" value
  * @method string              getValue()        Returns the current record's "value" value
+ * @method integer             getTeamId()       Returns the current record's "team_id" value
  * @method Task                getTask()         Returns the current record's "Task" value
+ * @method Team                getTeam()         Returns the current record's "Team" value
  * @method Doctrine_Collection getPostedAnswer() Returns the current record's "PostedAnswer" collection
  * @method Doctrine_Collection getTips()         Returns the current record's "tips" collection
  * @method Answer              setId()           Sets the current record's "id" value
@@ -27,7 +31,9 @@
  * @method Answer              setName()         Sets the current record's "name" value
  * @method Answer              setInfo()         Sets the current record's "info" value
  * @method Answer              setValue()        Sets the current record's "value" value
+ * @method Answer              setTeamId()       Sets the current record's "team_id" value
  * @method Answer              setTask()         Sets the current record's "Task" value
+ * @method Answer              setTeam()         Sets the current record's "Team" value
  * @method Answer              setPostedAnswer() Sets the current record's "PostedAnswer" collection
  * @method Answer              setTips()         Sets the current record's "tips" collection
  * 
@@ -65,6 +71,10 @@ abstract class BaseAnswer extends sfDoctrineRecord
              'notnull' => true,
              'length' => 32,
              ));
+        $this->hasColumn('team_id', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => false,
+             ));
 
 
         $this->index('ui_task_value', array(
@@ -82,6 +92,11 @@ abstract class BaseAnswer extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('Task', array(
              'local' => 'task_id',
+             'foreign' => 'id',
+             'onDelete' => 'CASCADE'));
+
+        $this->hasOne('Team', array(
+             'local' => 'team_id',
              'foreign' => 'id',
              'onDelete' => 'CASCADE'));
 

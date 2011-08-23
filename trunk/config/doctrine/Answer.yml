@@ -11,10 +11,15 @@ Answer:
     info: { type: string(32), notnull: true }
     # Значение (вводится игроками для зачета)
     value: { type: string(32), notnull: true }
+    # Принимать только от указанной команды
+    team_id: { type: integer, notnull: false, default: null }
   relations:
     Task:
       foreignAlias: answers
     # При удалении задания удаляются все его ответы
+      onDelete: CASCADE
+    Team:
+    # При удалении команды удаляются все ее персональные ответы
       onDelete: CASCADE
   indexes:
     # Ответы не могут повторяться в рамках задания

@@ -8,6 +8,7 @@
  * @property integer $id
  * @property string $name
  * @property string $full_name
+ * @property Doctrine_Collection $Answer
  * @property Doctrine_Collection $games
  * @property Doctrine_Collection $gameCandidates
  * @property Doctrine_Collection $gameCreateRequests
@@ -18,6 +19,7 @@
  * @method integer             getId()                 Returns the current record's "id" value
  * @method string              getName()               Returns the current record's "name" value
  * @method string              getFullName()           Returns the current record's "full_name" value
+ * @method Doctrine_Collection getAnswer()             Returns the current record's "Answer" collection
  * @method Doctrine_Collection getGames()              Returns the current record's "games" collection
  * @method Doctrine_Collection getGameCandidates()     Returns the current record's "gameCandidates" collection
  * @method Doctrine_Collection getGameCreateRequests() Returns the current record's "gameCreateRequests" collection
@@ -27,6 +29,7 @@
  * @method Team                setId()                 Sets the current record's "id" value
  * @method Team                setName()               Sets the current record's "name" value
  * @method Team                setFullName()           Sets the current record's "full_name" value
+ * @method Team                setAnswer()             Sets the current record's "Answer" collection
  * @method Team                setGames()              Sets the current record's "games" collection
  * @method Team                setGameCandidates()     Sets the current record's "gameCandidates" collection
  * @method Team                setGameCreateRequests() Sets the current record's "gameCreateRequests" collection
@@ -63,6 +66,10 @@ abstract class BaseTeam extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('Answer', array(
+             'local' => 'id',
+             'foreign' => 'team_id'));
+
         $this->hasMany('Game as games', array(
              'local' => 'id',
              'foreign' => 'team_id'));

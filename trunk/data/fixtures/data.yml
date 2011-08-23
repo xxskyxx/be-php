@@ -1,126 +1,69 @@
 Answer:
+  Answer_1:
+    Task: Task_1
+    name: Ответ1
+    info: '1'
+    value: '1111'
+    Team: Team_2
   Answer_2:
-    Task: Task_2
-    name: Верхний
-    info: 'x??'
-    value: D44
-  Answer_4:
-    Task: Task_4
-    name: Ступеньки
-    info: '??'
-    value: '20'
-  Answer_5:
-    Task: Task_5
-    name: Крестовая67
-    info: '??'
-    value: '67'
-  Answer_6:
-    Task: Task_6
-    name: Ответ
-    info: '??x???'
-    value: 31D251
-  Answer_7:
-    Task: Task_7
-    name: Перенаправление
-    info: '????'
-    value: '5024'
-  Answer_8:
-    Task: Task_8
-    name: Труба
-    info: '?x?'
-    value: 4Z4
-  Answer_9:
-    Task: Task_7
-    name: Подъезд
-    info: '??xxx???'
-    value: 35DZR244
-  Answer_10:
-    Task: Task_6
+    Task: Task_1
     name: Ответ2
-    info: '??x???'
-    value: 31D274
-  Answer_11:
-    Task: Task_9
-    name: Столб
-    info: 'x??'
-    value: D25
-  Answer_12:
-    Task: Task_10
-    name: Фонарь
-    info: '??xx???'
-    value: 29DR042
-  Answer_13:
-    Task: Task_11
-    name: Ограждение
-    info: '??x????'
-    value: 14D5222
-  Answer_14:
-    Task: Task_11
-    name: Лестница
-    info: '??x????'
-    value: 14D4663
-  Answer_15:
-    Task: Task_12
-    name: Номер
-    info: '???'
-    value: '925'
-  Answer_16:
-    Task: Task_13
-    name: Первый
-    info: '??x??'
-    value: 12D34
-  Answer_17:
-    Task: Task_13
-    name: Второй
-    info: 'xx??'
-    value: DZ56
-  Answer_18:
+    info: '2'
+    value: '2222'
+    Team: Team_3
+  Answer_3:
     Task: Task_2
-    name: Нижний
-    info: 'x??'
-    value: B93
+    name: Ответ1
+    info: '1'
+    value: '1111'
+  Answer_4:
+    Task: Task_2
+    name: Ответ2
+    info: '2'
+    value: '2222'
+  Answer_5:
+    Task: Task_3
+    name: Ответ1
+    info: '1'
+    value: '1111'
+  Answer_6:
+    Task: Task_3
+    name: Ответ2
+    info: '2'
+    value: '2222'
+  Answer_7:
+    Task: Task_1
+    name: Ответ3
+    info: '3'
+    value: '3333'
+    Team: Team_4
 Game:
   Game_1:
-    name: 'VeloDozor-Игра 1'
-    description: "[b]Первая Рыбинская велосипедная игра[/b]\r\n\r\n[rem]Сбор на регистрацию[/rem] и игру - у сцены на пл. Дерунова 19го июня в 18:00,\r\nстартуем оттуда же в 19:00.\r\n\r\n[rem]После игры собираемся[/rem] там же.\r\n\r\n[rem]Формат кодов[/rem], указанный в заданиях:\r\n? - любая цифра,\r\nx - любая заглавная латинская буква.\r\nНапример, код \"12D4Z\" будет обозначен в задании так: \"??x?x\".\r\n[warn]Вводить коды надо обязательно заглавными буквами![/warn]"
+    name: 'Тестовая игра'
+    description: 'Тестовая игра'
     Team: Team_1
-    team_name_backup: RIM
-    start_briefing_datetime: '2011-07-02 18:00:00'
-    start_datetime: '2011-07-02 19:00:00'
-    stop_datetime: '2011-07-02 22:30:00'
-    finish_briefing_datetime: '2011-07-02 23:00:00'
-    time_per_game: '180'
-    time_per_task: '40'
-    time_per_tip: '20'
+    team_name_backup: TestOrgs
+    start_briefing_datetime: '2011-01-01 00:00:00'
+    start_datetime: '2011-01-01 00:01:00'
+    stop_datetime: '2011-12-31 23:59:58'
+    finish_briefing_datetime: '2011-12-31 23:59:59'
+    time_per_game: '540'
+    time_per_task: '3'
+    time_per_tip: '1'
     try_count: '5'
-    update_interval: '10'
+    update_interval: '5'
     teams_can_update: false
-    update_interval_max: '600'
+    update_interval_max: '60'
     task_define_default_name: Загадка
     task_tip_prefix: Подсказка
     status: '0'
     started_at: '0'
     finished_at: '0'
-    game_last_update: '1312729773'
+    game_last_update: '1314098653'
 GrantedPermission:
-  GrantedPermission_1:
+  GrantedPermission_2:
     WebUser: WebUser_1
     Permission: Permission_1
-    filter_id: '0'
-    deny: false
-  GrantedPermission_2:
-    WebUser: WebUser_3
-    Permission: Permission_4
-    filter_id: '0'
-    deny: false
-  GrantedPermission_3:
-    WebUser: WebUser_3
-    Permission: Permission_5
-    filter_id: '0'
-    deny: false
-  GrantedPermission_4:
-    WebUser: WebUser_3
-    Permission: Permission_8
     filter_id: '0'
     deny: false
 Permission:
@@ -153,11 +96,12 @@ Permission:
 SystemSettings:
   SystemSettings_0:
     id: '0'
-    site_name: 'Beaver''s Engine v0.5.1b'
+    site_name: 'Beaver''s Engine v0.7.1b'
     site_domain: localhost
     fast_user_register: false
     fast_team_create: false
     email_team_create: true
+    email_game_create: false
     notify_email_addr: do_not_reply@somehost.inf
     contact_email_addr: feedback@somehost.inf
     smtp_host: smtp.somehost.inf
@@ -166,371 +110,236 @@ SystemSettings:
     smtp_login: ''
     smtp_password: ''
 Task:
+  Task_1:
+    name: Задание1
+    time_per_task_local: '3'
+    manual_start: false
+    try_count_local: '5'
+    priority_free: '0'
+    priority_queued: '-10'
+    priority_busy: '0'
+    priority_filled: '-500'
+    priority_per_team: '-10'
+    max_teams: '0'
+    locked: false
+    Game: Game_1
   Task_2:
-    name: '!Тренировка'
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '500'
-    priority_queued: '500'
-    priority_busy: '500'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: true
-    Game: Game_1
-  Task_4:
-    name: Дружба
-    time_per_task_local: '40'
+    name: Задание2
+    time_per_task_local: '3'
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
+    priority_queued: '-10'
+    priority_busy: '0'
+    priority_filled: '-500'
+    priority_per_team: '-10'
     max_teams: '0'
     locked: false
     Game: Game_1
-  Task_5:
-    name: Центральный
-    time_per_task_local: '40'
+  Task_3:
+    name: Задание3
+    time_per_task_local: '3'
     manual_start: false
     try_count_local: '5'
     priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
+    priority_queued: '-10'
+    priority_busy: '0'
+    priority_filled: '-500'
+    priority_per_team: '-10'
     max_teams: '0'
     locked: false
     Game: Game_1
-  Task_6:
-    name: 'Ракета'
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: false
-    Game: Game_1
-  Task_7:
-    name: Музыкальная
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: false
-    Game: Game_1
-  Task_8:
-    name: Мегафон
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: false
-    Game: Game_1
-  Task_9:
-    name: Смотровая
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: false
-    Game: Game_1
-  Task_10:
-    name: Дельфин
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: false
-    Game: Game_1
-  Task_11:
-    name: Ошанин
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: true
-    Game: Game_1
-  Task_12:
-    name: Самоходка
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '0'
-    priority_queued: '-5'
-    priority_busy: '-5'
-    priority_filled: '0'
-    priority_per_team: '-5'
-    max_teams: '0'
-    locked: false
-    Game: Game_1
-  Task_13:
-    name: '!!Учебное'
-    time_per_task_local: '40'
-    manual_start: false
-    try_count_local: '5'
-    priority_free: '999'
-    priority_queued: '999'
-    priority_busy: '999'
-    priority_filled: '0'
-    priority_per_team: '0'
-    max_teams: '0'
-    locked: true
-    Game: Game_1
-TaskConstraint:
-  TaskConstraint_3:
-    Task: Task_12
-    target_task_id: '11'
-    priority_shift: '-100'
-  TaskConstraint_14:
-    Task: Task_9
-    target_task_id: '2'
-    priority_shift: '-100'
-  TaskConstraint_15:
-    Task: Task_5
-    target_task_id: '8'
-    priority_shift: '-100'
-  TaskConstraint_16:
-    Task: Task_8
-    target_task_id: '5'
-    priority_shift: '-100'
-  TaskConstraint_19:
-    Task: Task_11
-    target_task_id: '4'
-    priority_shift: '-100'
-  TaskConstraint_21:
-    Task: Task_4
-    target_task_id: '11'
-    priority_shift: '-100'
-  TaskConstraint_24:
-    Task: Task_5
-    target_task_id: '10'
-    priority_shift: '-100'
-  TaskConstraint_25:
-    Task: Task_10
-    target_task_id: '5'
-    priority_shift: '-100'
-  TaskConstraint_26:
-    Task: Task_2
-    target_task_id: '13'
-    priority_shift: '10'
 Team:
   Team_1:
-    name: RIM
-    full_name: 'Rybinsk in movement'
+    name: TestOrgs
+    full_name: 'Test game authors'
   Team_2:
-    name: Testers
-    full_name: 'Тестовая команда'
-  Team_5:
-    name: Beavers
-    full_name: Бобры
-  Team_6:
-    name: Veloceraptors
-    full_name: ''
+    name: Testers1
+    full_name: 'Test team 1'
+  Team_3:
+    name: Testers2
+    full_name: 'Test team 2'
+  Team_4:
+    name: Testers3
+    full_name: 'Test team 3'
 TeamPlayer:
-  TeamPlayer_25:
-    WebUser: WebUser_2
-    Team: Team_2
-    is_leader: true
-  TeamPlayer_28:
-    WebUser: WebUser_5
-    Team: Team_5
-    is_leader: true
-  TeamPlayer_30:
-    WebUser: WebUser_5
+  TeamPlayer_2:
+    WebUser: WebUser_8
     Team: Team_1
     is_leader: true
-  TeamPlayer_31:
-    WebUser: WebUser_5
-    Team: Team_6
+  TeamPlayer_3:
+    WebUser: WebUser_9
+    Team: Team_1
+    is_leader: false
+  TeamPlayer_4:
+    WebUser: WebUser_4
+    Team: Team_2
     is_leader: true
+  TeamPlayer_5:
+    WebUser: WebUser_5
+    Team: Team_2
+    is_leader: false
+  TeamPlayer_6:
+    WebUser: WebUser_6
+    Team: Team_3
+    is_leader: true
+  TeamPlayer_7:
+    WebUser: WebUser_7
+    Team: Team_3
+    is_leader: false
+  TeamPlayer_8:
+    WebUser: WebUser_10
+    Team: Team_4
+    is_leader: true
+  TeamPlayer_9:
+    WebUser: WebUser_11
+    Team: Team_4
+    is_leader: false
+TeamState:
+  TeamState_1:
+    Team: Team_2
+    Game: Game_1
+    start_delay: '0'
+    ai_enabled: true
+    started_at: '0'
+    finished_at: '0'
+    status: '0'
+    task_state_id: '49'
+    team_last_update: '0'
+  TeamState_2:
+    Team: Team_3
+    Game: Game_1
+    start_delay: '1'
+    ai_enabled: true
+    started_at: '0'
+    finished_at: '0'
+    status: '0'
+    task_state_id: '0'
+    team_last_update: '0'
+  TeamState_3:
+    Team: Team_4
+    Game: Game_1
+    start_delay: '2'
+    ai_enabled: true
+    started_at: '0'
+    finished_at: '0'
+    status: '0'
+    task_state_id: '0'
+    team_last_update: '0'
 Tip:
-  Tip_3:
+  Tip_1:
+    Task: Task_1
+    name: Загадка
+    define: Формулировка_задания_Задание1
+    delay: '0'
+  Tip_2:
     Task: Task_2
     name: Загадка
-    define: "И только одинокая скала стоит там, где по дороге на Волгу бросали якоря все проходящие студенты.\r\n\r\n[rem][b]Примечание:[/b][/rem] коды написаны белым маркером, находятся недалеко друг от друга."
+    define: Формулировка_задания_Задание2
+    delay: '0'
+  Tip_3:
+    Task: Task_3
+    name: Загадка
+    define: Формулировка_задания_Задание3
     delay: '0'
   Tip_4:
-    Task: Task_2
-    name: Место
-    define: 'Одинокий валун на месте бывшего кафе "Якорь" (Недалеко от 2го и 3го корпусов РГАТА).'
-    delay: '20'
-  Tip_7:
-    Task: Task_4
-    name: Загадка
-    define: "Построили бензопилой корабль.\r\n\r\n[rem][b]Примечание:[/b][/rem] код = числу ступенек железной лестницы сбоку от объекта."
-    delay: '0'
-  Tip_8:
-    Task: Task_4
-    name: Место
-    define: '"Дружба" на Плеханова.'
-    delay: '20'
-  Tip_9:
-    Task: Task_5
-    name: Загадка
-    define: 'В середине был к/т, теперь т/к, а Вам нужен номер творческого дома поблизости.'
-    delay: '0'
-  Tip_10:
-    Task: Task_5
-    name: Место
-    define: 'Т/к "Центральный".'
-    delay: '20'
-  Tip_11:
-    Task: Task_6
-    name: Загадка
-    define: "Канцерогенное место для спорта.\r\n\r\n[rem][b]Примечание:[/b][/rem] коды на низких фонарях поблизости, написаны белым корректором."
-    delay: '0'
-  Tip_12:
-    Task: Task_6
-    name: Место
-    define: 'Спорткомплекс "Ракета".'
-    delay: '20'
-  Tip_13:
-    Task: Task_7
-    name: Загадка
-    define: "Слушая музыку, он радостно смотрел на Луну.\r\n\r\n[rem][b]Примечание:[/b][/rem] Первый код = номерам дома, записанным по порядку, ближайшего к загаданному месту старинного здания. Где второй код - узнаете, когда введете первый."
-    delay: '0'
-  Tip_14:
-    Task: Task_7
-    name: Место
-    define: 'Перекресток Радищева/Луначарского.'
-    delay: '20'
-  Tip_15:
-    Task: Task_8
-    name: Загадка
-    define: "Усилитель мата.\r\n\r\n[rem][b]Примечание:[/b][/rem] код во дворе, написан белым корректором."
-    delay: '0'
-  Tip_16:
-    Task: Task_8
-    name: Место
-    define: 'Центральный офис "Мегафон"'
-    delay: '20'
-  Tip_17:
-    Task: Task_7
-    name: Перенаправление
-    define: 'Второй код - возле ближайшего к Вам подъезда дома Радищева-77, написан белым корректором.'
-    delay: '0'
-    Answer: Answer_7
-  Tip_18:
-    Task: Task_9
-    name: Загадка
-    define: "Ищите по столбам на восток от видного недостроя...\r\n\r\n[rem][b]Примечание:[/b][/rem] код написан белым маркером."
-    delay: '0'
-  Tip_19:
-    Task: Task_9
-    name: Место
-    define: 'Столбы ограждения на восток от недостроенной смотровой площадки на Набережной. Искать не далее 12го.'
-    delay: '20'
-  Tip_20:
-    Task: Task_10
-    name: Загадка
-    define: "Очень светло красного цвета, на вид рыба.\r\n\r\n[rem][b]Примечание:[/b][/rem] код рядом с объектом, написан белым корректором."
-    delay: '0'
-  Tip_21:
-    Task: Task_10
-    name: Место
-    define: 'Магазин "Розовый Дельфин"'
-    delay: '20'
-  Tip_22:
-    Task: Task_11
-    name: Загадка
-    define: "Он смотрел на теплоходы, скрестив руки.\r\n\r\n[rem][b]Примечание:[/b][/rem] Первый код рядом. Где второй узнаете, когда введете первый. Оба кода написаны белым маркером."
-    delay: '0'
-  Tip_23:
-    Task: Task_11
-    name: Место
-    define: 'Памятник Л.Ошанину'
-    delay: '20'
-  Tip_24:
-    Task: Task_11
-    name: Перенаправление
-    define: 'Чтобы найти второй код - проще всего спуститься к воде.'
-    delay: '40'
-    Answer: Answer_13
-  Tip_25:
-    Task: Task_12
-    name: Загадка
-    define: 'Вам нужен серийный номер памятника "зверобоям" Второй Мировой.'
-    delay: '0'
-  Tip_26:
-    Task: Task_12
-    name: Место
-    define: 'Cамоходка возле Вечного Огня.'
-    delay: '20'
-  Tip_27:
-    Task: Task_13
-    name: Загадка
-    define: "[warn]Внимание![/warn]\r\n[rem]Это тестовое задание.[/rem]\r\nПодождите одну минуту до появления подсказки, где будет сказано, что делать дальше."
-    delay: '0'
-  Tip_28:
-    Task: Task_13
-    name: Подсказка
-    define: "Первый код = 12D34.\r\n\r\nЭтот код обозначен чуть выше маской \"??x??\". Другая маска относится ко второму коду, который Вы узнаете после ввода первого.\r\n\r\nВведите код 12D34 в поле ответа (буква латинская заглавная) и нажмите \"Отправить\".\r\n\r\nПоявится раздел \"Проверяемые\", введенный код будет там показан вот так: [warn]12D34[/warn].\r\n\r\nОбновляйте страницу (ссылкой вверху или нажатием на кнопку \"Отправить\" при пустом поле ответа), пока не увидите, что код перенесен в раздел \"Ответы\", где он заместил свою маску и отмечен вот так: [rem]12D34[/rem]\r\n\r\n[warn]Обратите внимание:[/warn] после ввода кода, ниже этой подсказки появилась еще одна со вторым кодом. Введите его для завершения тренировки.\r\n\r\nАналогичным образом Вы будете делать на всех последующих заданиях, за исключением того, что коды придется искать на местности."
+    Task: Task_1
+    name: Подсказка1
+    define: Подсказка1_к_заданию_Задание1
     delay: '1'
-  Tip_29:
-    Task: Task_13
+  Tip_5:
+    Task: Task_1
     name: Подсказка2
-    define: 'Второй код = DZ56'
-    delay: '40'
-    Answer: Answer_16
+    define: Подсказка2_к_заданию_Задание1
+    delay: '2'
+  Tip_6:
+    Task: Task_2
+    name: Подсказка1
+    define: Подсказка1_к_заданию_Задание2
+    delay: '1'
+  Tip_7:
+    Task: Task_2
+    name: Подсказка2
+    define: Подсказка2_к_заданию_Задание2
+    delay: '2'
+  Tip_8:
+    Task: Task_3
+    name: Подсказка1
+    define: Подсказка1_к_заданию_Задание3
+    delay: '1'
+  Tip_9:
+    Task: Task_3
+    name: Подсказка2
+    define: Подсказка2_к_заданию_Задание3
+    delay: '2'
 WebUser:
   WebUser_1:
-    login: Admin
+    login: admin
     pwd_hash: f99cf418670b465d4ee37b0bac36265e
-    full_name: Administrator
-    email: vozdvin@mail.ru
+    full_name: Admin
+    email: admin@admin.org
     tag: null
     is_enabled: true
-  WebUser_2:
+  WebUser_3:
     login: guest
     pwd_hash: a1164c734db7eb2610dd587b59a0ce06
-    full_name: Гость
-    email: guest@somehost.inf
+    full_name: ItIsAGuest
+    email: guest@a.bc
     tag: 8175ee7r
     is_enabled: false
-  WebUser_3:
-    login: AdminLite
-    pwd_hash: 198c6c96be9566f3544e7c64f3d43148
-    full_name: 'Администратор без доступа к играм'
-    email: vozdvin@mail.ru
-    tag: 965c739f
+  WebUser_4:
+    login: 1leader
+    pwd_hash: 17d23c7cb1cad8bcecf05a2d44a420e5
+    full_name: 1leader
+    email: a@b.cd
+    tag: disabled
     is_enabled: true
   WebUser_5:
-    login: Ключ
-    pwd_hash: 9d05c4871ae244b0d6d7af887654e856
-    full_name: 'Илья Воздвиженский'
+    login: 1player
+    pwd_hash: 11feef5ae890224f527e1c224e1d8f8c
+    full_name: 1player
+    email: a@b.cd
+    tag: disabled
+    is_enabled: true
+  WebUser_6:
+    login: 2leader
+    pwd_hash: 7862fb878c62adf6cacafebe8012808a
+    full_name: 2leader
+    email: a@b.cd
+    tag: disabled
+    is_enabled: true
+  WebUser_7:
+    login: 2player
+    pwd_hash: 43bfaac4c7dc6febcf7cec635d15ba08
+    full_name: 2player
+    email: a@b.cd
+    tag: disabled
+    is_enabled: true
+  WebUser_8:
+    login: author
+    pwd_hash: 1ba690114465d8a0df9c383f83d25da7
+    full_name: Author
     email: vozdvin@mail.ru
-    tag: 37c08a8c
+    tag: 120fd466
+    is_enabled: true
+  WebUser_9:
+    login: actor
+    pwd_hash: d566d28fca02c782ec39b73c516f602d
+    full_name: Actor
+    email: none@none.no
+    tag: dbc78570
+    is_enabled: true
+  WebUser_10:
+    login: 3leader
+    pwd_hash: b1a53fcff59a321df6e6848b9a5a4807
+    full_name: 3leader
+    email: a@b.cd
+    tag: 20b06c6f
+    is_enabled: true
+  WebUser_11:
+    login: 3player
+    pwd_hash: ead8caafe0115bf6ac172bb48dbb7d7d
+    full_name: 3player
+    email: a@b.cd
+    tag: d17be1ed
     is_enabled: true
