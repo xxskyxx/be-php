@@ -558,11 +558,11 @@ class Game extends BaseGame implements IStored, IAuth
     //// Проверка заданий ////
     foreach ($this->tasks as $task)
     {
-      // Проверка подсказок
+      /* Проверка подсказок */
       $hasTips = $task->tips->count() > 0;
       if ($hasTips)
       {
-        //Предупреждение о задании с ручным стартом.
+        /* Предупреждение о задании с ручным стартом. */
         if ($task->manual_start)
         {
           $line++;
@@ -570,11 +570,11 @@ class Game extends BaseGame implements IStored, IAuth
           $report['tasks'][$task->id][$line]['msg'] = 'Задание запускается вручную, игра не может быть полностью автоматизирована.';
         }
         
-        //Проверка наличия подсказки без задержки, т.е. формулировки
+        /* Проверка наличия подсказки без задержки, т.е. формулировки */
         $hasDefine = false;
         foreach ($task->tips as $tip)
         {
-          if ($tip->delay == 0)
+          if (($tip->delay == 0) && ($tip->answer_id == 0))
           {
             $hasDefine = true;
             break;
@@ -587,7 +587,7 @@ class Game extends BaseGame implements IStored, IAuth
           $report['tasks'][$task->id][$line]['msg'] = 'Задание не имеет формулировки (подсказки с нулевой задержкой выдачи).';
         }
         
-        //Проверка одновременных подсказок.
+        /* Проверка одновременных подсказок. */
         foreach ($task->tips as $tip)
         {
           foreach ($task->tips as $tip2)
@@ -613,13 +613,14 @@ class Game extends BaseGame implements IStored, IAuth
         $report['tasks'][$task->id][$line]['msg'] = 'Задание не имеет ни формулировки, ни подсказок.';
       }
 
-      // Проверка ответов
+      /* Проверка ответов */
       $hasAnswers = $task->answers->count() > 0;
       if ($hasAnswers)
       {
+        /* Проверка корректности значений */
         foreach ($task->answers as $answer)
         {
-          //Проверка наличия видимых символов в описании.
+          /* Проверка наличия видимых символов в описании. */
           if (trim($answer->info) === '')
           {
             $line++;
@@ -627,7 +628,7 @@ class Game extends BaseGame implements IStored, IAuth
             $report['tasks'][$task->id][$line]['msg'] = 'Ответ "'.$answer->name.'" имеет невидимое описание.';
           }
           
-          //Проверка наличия невидимых символов в значении.
+          /* Проверка наличия невидимых символов в значении. */
           $parts = explode(' ', $answer->value);
           $count = 0;
           foreach ($parts as $part)
@@ -641,6 +642,40 @@ class Game extends BaseGame implements IStored, IAuth
             $report['tasks'][$task->id][$line]['msg'] = 'Ответ "'.$answer->name.'" не может быть введен (содержит невидимые символы).';
           }
         }
+        /* Проверка персональных ответов */
+        //Построим индекс, какой команде сколько ответов доступно.
+        $answersPerTeamIndex = array();
+        foreach ($this->teamStates as $teamState)
+        {
+          $answersPerTeam[$teamState->id]['teamName'] = $teamState->Team->name;
+          $answersPerTeam[$teamState->id]['answerCount'] = $task->getTargetAnswersForTeam($teamState->Team)->count();
+        }
+        //Анализируем индекс
+        $minAnswers = $task->answers->count();
+        $maxAnswers = 0;
+        foreach ($answersPerTeam as $indexItem)
+        {
+          if ($minAnswers > $indexItem['answerCount'])
+          {
+            $minAnswers = $indexItem['answerCount'];
+          }
+          if ($maxAnswers < $indexItem['answerCount'])
+          {
+            $maxAnswers = $indexItem['answerCount'];
+          }
+          if ($indexItem['answerCount'] == 0)
+          {
+            $line++;
+            $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_ERR;
+            $report['tasks'][$task->id][$line]['msg'] = 'У команды '.$indexItem['teamName'].' нет доступных ответов.';
+          }
+        }
+        if ($maxAnswers <> $minAnswers)
+          {
+            $line++;
+            $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_WARN;
+            $report['tasks'][$task->id][$line]['msg'] = 'У команд различное число доступных ответов: от '.$minAnswers.' до '.$maxAnswers.'.';
+          }        
       }
       else
       {
@@ -653,7 +688,7 @@ class Game extends BaseGame implements IStored, IAuth
     //// Проверка команд ////
     foreach ($this->teamStates as $teamState)
     {
-      //Проверка доступности игрового времени
+      /* Проверка доступности игрового времени */
       $gameTimeAvailable = Timing::strToDate($this->stop_datetime) - Timing::strToDate($this->start_datetime) - $teamState->start_delay*60;
       if ($gameTimeAvailable < $this->time_per_game*60)
       {
@@ -661,7 +696,7 @@ class Game extends BaseGame implements IStored, IAuth
         $report['teams'][$teamState->team_id][$line]['errLevel'] = Game::VERIFY_WARN;
         $report['teams'][$teamState->team_id][$line]['msg'] = 'Команде доступно на игру только '.Timing::intervalToStr($gameTimeAvailable).' из необходимых '.Timing::intervalToStr($this->time_per_game*60).'.';
       }
-      //Проверка наличия игроков и капитана.
+      /* Проверка наличия игроков и капитана */
       if ($teamState->Team->teamPlayers->count() <= 0)
       {
         $line++;
@@ -670,14 +705,14 @@ class Game extends BaseGame implements IStored, IAuth
       }
       else
       {
-        //Проверка наличия капитана.
+        /* Проверка наличия капитана. */
         if ($teamState->Team->getLeaders() === false)
         {
           $line++;
           $report['teams'][$teamState->team_id][$line]['errLevel'] = Game::VERIFY_WARN;
           $report['teams'][$teamState->team_id][$line]['msg'] = 'В команде нет капитана.';
         }
-        //Проверка вхождения игроков более чем в одну команду.
+        /* Проверка вхождения игроков более чем в одну команду. */
         foreach ($teamState->Team->teamPlayers as $teamPlayer)
         {
           $player = $teamPlayer->WebUser;

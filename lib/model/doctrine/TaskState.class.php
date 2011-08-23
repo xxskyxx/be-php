@@ -845,10 +845,11 @@ class TaskState extends BaseTaskState implements IStored, IAuth
      * статус: неверные могут стать верными наоборот.
      * Поэтому перепроверяем все известные ответы (время их ввода не меняется!).
      */
-    $lastGoodTime = 0;
+    $lastGoodTime = $this->accepted_at;
+    $actualAnswers = $this->Task->getTargetAnswersForTeam($this->TeamState->Team);
     foreach ($this->postedAnswers as $postedAnswer)
     {
-      $answer = $this->Task->findAnswerFor($postedAnswer->value);
+      $answer = Task::answerForValue($postedAnswer->value, $actualAnswers);
       if (!$answer)
       {
         $postedAnswer->status = PostedAnswer::ANSWER_BAD;
@@ -947,19 +948,15 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     {
       return false;
     }
-    $answersRequired = $this->Task->answers->count();
-    
+    $lastGoodAnswerTime = $this->processPostedAnswers();
+
+    $answersRequired = $this->Task->getTargetAnswersForTeam($this->TeamState->Team)->count();
     $answersGot = 0;
-    $lastGoodAnswerTime = 0;
     foreach ($this->postedAnswers as $postedAnswer)
     {
       if ($postedAnswer->status == PostedAnswer::ANSWER_OK)
       {
         $answersGot++;
-        if ($lastGoodAnswerTime < $postedAnswer->post_time)
-        {
-          $lastGoodAnswerTime = $postedAnswer->post_time;
-        }
       }
     }
     return ($answersGot >= $answersRequired)
@@ -1006,5 +1003,5 @@ class TaskState extends BaseTaskState implements IStored, IAuth
       }
     }
   }
-
+  
 }

@@ -13,8 +13,9 @@ $describe = (isset($describe)) ? $describe : false;
 //Построим индекс ответов:
 //- ключ - id ответа
 //- данные - true если принят и проверен
+$targetAnswers = $taskState->Task->getTargetAnswersForTeam($taskState->TeamState->Team->getRawValue());
 $answersIndex = array();
-foreach ($taskState->Task->answers as $answer)
+foreach ($targetAnswers as $answer)
 {
   $answersIndex[$answer->id] = false;
 }
@@ -31,7 +32,7 @@ foreach ($taskState->postedAnswers as $postedAnswer)
 <?php if (!$compact): ?>
 <h4>Ответы:</h4>
 <?php endif ?>
-<?php foreach ($taskState->Task->answers as $answer): ?>
+<?php foreach ($targetAnswers as $answer): ?>
 <?php   if (!$answersIndex[$answer->id]): ?>
 <?php     if (!$describe): ?>
 <span class="indent"><?php echo $answer->info ?></span>

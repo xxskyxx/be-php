@@ -83,9 +83,14 @@ render_h3_inline_end();
   <li>
     <?php
     echo link_to($answer->name, 'answer/edit?id='.$answer->id);
-    echo '&nbsp;'.$answer->value;
-    echo '&nbsp;('.$answer->info.')';
-    if ($_isManager || $_isModerator) echo ' '.decorate_span('dangerAction', link_to('Удалить', 'answer/delete?id='.$answer->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'conform' => 'Вы действительно хотите удалить ответ '.$answer->name.' задания '.$_task->name.'?')));
+    echo '&nbsp;'.$answer->value.'&nbsp;('.$answer->info.')';
+    $onlyForTeam = Team::byId($answer->team_id);
+    echo $onlyForTeam
+        ? ' только для '.link_to($onlyForTeam->name, 'team/show?id='.$onlyForTeam->id, array('target' => 'new'))
+        : '';
+    echo ($_isManager || $_isModerator)
+        ? ' '.decorate_span('dangerAction', link_to('Удалить', 'answer/delete?id='.$answer->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'conform' => 'Вы действительно хотите удалить ответ '.$answer->name.' задания '.$_task->name.'?')))
+        : '';
     ?>
   </li>
   <?php endforeach ?>
