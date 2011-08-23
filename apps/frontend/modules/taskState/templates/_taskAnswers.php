@@ -3,7 +3,7 @@
  * Входные аргументы:
  * - taskState - текущее задание.
  * - compact - краткий вид.
- * - describe - не найденные ответы будут указаны назниваем, а не описанием.
+ * - describe - не найденные ответы будут указаны названием, а не описанием.
  */
 $compact = (isset($compact)) ? $compact : false;
 $describe = (isset($describe)) ? $describe : false;

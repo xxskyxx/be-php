@@ -121,14 +121,25 @@ class TaskState extends BaseTaskState implements IStored, IAuth
   public function canBeSkipped()
   {
     //Задание может быть пропущено только при всех следующих условиях:
-    //- уже получена первая подсказка
+    //- уже получена первая подсказка ИЛИ если подсказок в задании нет, но пришло время первой подсказки
     //- еще не начат ввод ответов
     //- задание уже начато
     //- задание еще не завершено
-    return ($this->usedTips->count() > 1)
-    && ($this->postedAnswers->count() == 0)
-    && ($this->status >= TaskState::TASK_ACCEPTED)
-    && ($this->status < TaskState::TASK_DONE);
+    //- время на задание еще не закончилось
+    return
+           (
+             ($this->usedTips->count() > 1)
+             ||
+             (
+               ($this->Task->tips->count() == 1)
+               &&
+               (Timing::isExpired($this->getTaskSpentTimeCurrent(), $this->Task->Game->time_per_tip*60, 0))
+             )
+           ) 
+        && ($this->postedAnswers->count() == 0)
+        && ($this->status >= TaskState::TASK_ACCEPTED)
+        && ($this->status < TaskState::TASK_DONE)
+        && ( ! Timing::isExpired($this->getTaskSpentTimeCurrent(), $this->Task->time_per_task_local*60, 0));
   }
 
   /**
@@ -545,7 +556,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
           : $this->task_last_update;
     }
 
-    $this->task_time_spent = $doneTime - $this->accepted_at;
+    $this->task_time_spent = $doneTime - $this->accepted_at - $this->task_idle_time;
     $this->done_at = $doneTime;
     $this->status = TaskState::TASK_DONE_SUCCESS;
 
@@ -575,7 +586,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     }
 
     $this->task_time_spent = $this->getTaskSpentTimeCurrent();
-    $this->done_at = $this->accepted_at + $this->task_time_spent;
+    $this->done_at = time();
     $this->status = TaskState::TASK_DONE_TIME_FAIL;
 
     $this->task_last_update = time();
@@ -603,7 +614,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     }
 
     $this->task_time_spent = $this->getTaskSpentTimeCurrent();
-    $this->done_at = $this->accepted_at + $this->task_time_spent;
+    $this->done_at = time();
     $this->status = TaskState::TASK_DONE_SKIPPED;
 
     $this->task_last_update = time();
@@ -633,7 +644,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     }
 
     $this->task_time_spent = $this->getTaskSpentTimeCurrent();
-    $this->done_at = $this->accepted_at + $this->task_time_spent;
+    $this->done_at = time();
     $this->status = TaskState::TASK_DONE_GAME_OVER;
 
     $this->task_last_update = time();
@@ -665,7 +676,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     $this->task_time_spent = ($this->getTaskSpentTimeCurrent() > $this->Task->Game->time_per_tip * 60)
         ? $this->getTaskSpentTimeCurrent()
         : $this->Task->Game->time_per_tip * 60;
-    $this->done_at = $this->accepted_at + $this->task_time_spent;
+    $this->done_at = time();
     $this->status = TaskState::TASK_DONE_BANNED;
 
     $this->task_last_update = time();

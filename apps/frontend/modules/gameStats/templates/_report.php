@@ -43,7 +43,7 @@
 
     <?php //Итог задания ?>
     <tr>
-      <td class="bottomWeakBorder">...итог</td>
+      <td class="bottomWeakBorder">итог</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
@@ -59,7 +59,7 @@
 
     <?php //Начало задания ?>
     <tr>
-      <td class="bottomWeakBorder">...начато</td>
+      <td class="bottomWeakBorder">начато</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
@@ -71,7 +71,7 @@
 
     <?php //Использование подсказок ?>
     <tr>
-      <td class="bottomWeakBorder">...подсказки</td>
+      <td class="bottomWeakBorder">подсказки</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
@@ -83,7 +83,7 @@
 
     <?php //Полученные ответы ?>
     <tr>
-      <td class="bottomWeakBorder">...ответы</td>
+      <td class="bottomWeakBorder">ответы</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
@@ -95,7 +95,7 @@
 
     <?php //Время простоя ?>
     <tr>
-      <td class="bottomWeakBorder">...простой</td>
+      <td class="bottomWeakBorder">простой</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
@@ -107,7 +107,7 @@
 
     <?php //Окончание задания ?>
     <tr>
-      <td class="bottomWeakBorder">...окончание</td>
+      <td class="bottomWeakBorder">окончание</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
@@ -119,7 +119,7 @@
 
     <?php //Потрачено минут ?>
     <tr>
-      <td>...длилось</td>
+      <td>длилось</td>
       <?php foreach ($index as $taskState): ?>
       <?php   if (!$taskState): ?>
       <td>&nbsp;</td>
