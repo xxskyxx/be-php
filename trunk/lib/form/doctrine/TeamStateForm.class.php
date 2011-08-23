@@ -38,7 +38,7 @@ class TeamStateForm extends BaseTeamStateForm
         'ai_enabled' => 'Автоматический выбор заданий:'
     ));
     $this->getWidgetSchema()->setHelps(array(
-        'start_delay' => '&gt;=&nbsp;0',
+        'start_delay' => '&gt;=&nbsp;0, мин',
         'ai_enabled' => ''
     ));
   }

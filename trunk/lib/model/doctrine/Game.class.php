@@ -653,6 +653,14 @@ class Game extends BaseGame implements IStored, IAuth
     //// Проверка команд ////
     foreach ($this->teamStates as $teamState)
     {
+      //Проверка доступности игрового времени
+      $gameTimeAvailable = Timing::strToDate($this->stop_datetime) - Timing::strToDate($this->start_datetime) - $teamState->start_delay*60;
+      if ($gameTimeAvailable < $this->time_per_game*60)
+      {
+        $line++;
+        $report['teams'][$teamState->team_id][$line]['errLevel'] = Game::VERIFY_WARN;
+        $report['teams'][$teamState->team_id][$line]['msg'] = 'Команде доступно на игру только '.Timing::intervalToStr($gameTimeAvailable).' из необходимых '.Timing::intervalToStr($this->time_per_game*60).'.';
+      }
       //Проверка наличия игроков и капитана.
       if ($teamState->Team->teamPlayers->count() <= 0)
       {
