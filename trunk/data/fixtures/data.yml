@@ -59,7 +59,7 @@ Game:
     status: '0'
     started_at: '0'
     finished_at: '0'
-    game_last_update: '1314098653'
+    game_last_update: '1314110472'
 GrantedPermission:
   GrantedPermission_2:
     WebUser: WebUser_1
@@ -96,7 +96,7 @@ Permission:
 SystemSettings:
   SystemSettings_0:
     id: '0'
-    site_name: 'Beaver''s Engine v0.7.1b'
+    site_name: 'Beaver''s Engine v0.7.2b'
     site_domain: localhost
     fast_user_register: false
     fast_team_create: false
@@ -204,7 +204,7 @@ TeamState:
     started_at: '0'
     finished_at: '0'
     status: '0'
-    task_state_id: '49'
+    task_state_id: '0'
     team_last_update: '0'
   TeamState_2:
     Team: Team_3

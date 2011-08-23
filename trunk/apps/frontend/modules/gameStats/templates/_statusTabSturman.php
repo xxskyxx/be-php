@@ -165,7 +165,7 @@
   <span class="dangerAction"><?php echo Utils::buttonTo('Остановить', 'gameStats/stop?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Остановить игру '.$game->name.'?'); ?></span>
 
   <?php elseif ($game->status == Game::GAME_FINISHED): ?>
-  <span class="warnAction"><?php echo Utils::buttonTo('Сдать в архив', 'gameStats/close?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Сдать в архив игру '.$game->name.'?'); ?></span>
+  <span class="warnAction"><?php echo Utils::buttonTo('Сдать в архив', 'gameStats/close?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Игру больше нельзя будет редактировать! Вы уверены, что хотите сдать в архив игру '.$game->name.'?'); ?></span>
   <?php endif; ?>
 
   <?php if ($game->status > Game::GAME_PLANNED): ?>

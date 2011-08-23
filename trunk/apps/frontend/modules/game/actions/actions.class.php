@@ -43,8 +43,6 @@ class gameActions extends MyActions
       {
         case Game::GAME_PLANNED:
           $this->_plannedGames->add($game);
-          $this->_sessionPlayIndex[$game->id] = $game->isPlayerRegistered($this->sessionWebUser);
-          $this->_sessionIsActorIndex[$game->id] = $game->isActor($this->sessionWebUser);
           break;
         case Game::GAME_VERIFICATION:
         case Game::GAME_READY:
@@ -52,8 +50,6 @@ class gameActions extends MyActions
         case Game::GAME_ACTIVE:
         case Game::GAME_FINISHED:
           $this->_activeGames->add($game);
-          $this->_sessionPlayIndex[$game->id] = $game->isPlayerRegistered($this->sessionWebUser);
-          $this->_sessionIsActorIndex[$game->id] = $game->isActor($this->sessionWebUser);
           break;
         case Game::GAME_ARCHIVED:
           $this->_archivedGames->add($game);
@@ -62,6 +58,8 @@ class gameActions extends MyActions
           $this->_plannedGames->add($game);
           break;
       }
+      $this->_sessionPlayIndex[$game->id] = $game->isPlayerRegistered($this->sessionWebUser);
+      $this->_sessionIsActorIndex[$game->id] = $game->isActor($this->sessionWebUser);
     }
     
     $gameCreateRequests = Doctrine::getTable('GameCreateRequest')

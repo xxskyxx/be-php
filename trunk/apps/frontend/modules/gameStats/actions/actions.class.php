@@ -135,7 +135,11 @@ class gameStatsActions extends MyActions
   public function executeReport(sfWebRequest $request)
   {
     $this->decodeArgs($request, false);
-    $this->errorRedirectUnless($this->game->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать игру'));
+    $this->errorRedirectUnless(
+        ($this->game->canBeObserved($this->sessionWebUser))
+        || ($this->game->status >= Game::GAME_ARCHIVED),
+        Utils::cannotMessage($this->sessionWebUser->login, 'просматривать игру')
+    );
   }
 
   public function executeAutoUpdate(sfWebRequest $request)
