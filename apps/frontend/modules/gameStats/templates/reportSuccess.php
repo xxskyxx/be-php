@@ -6,9 +6,11 @@ render_breadcombs(array(
 ?>
 
 <h2>Результаты игры <?php echo $game->name ?></h2>
+<?php if ($game->status < GAME::GAME_ARCHIVED): ?>
 <p>
   <span class="safeAction"><?php echo link_to('Обновить (без пересчета)', 'gameStats/report?id='.$game->id) ?></span>
 </p>
+<?php endif ?>
 
 <h3>Итоги</h3>
 <?php include_partial('Results', array('game' => $game)) ?>

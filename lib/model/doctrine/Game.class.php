@@ -103,17 +103,16 @@ class Game extends BaseGame implements IStored, IAuth
    */
   public function isManager(WebUser $testedPlayer)
   {
-    $res = false;
-    //Если известна команда организаторов
+    //Сданную в архив игру могут править только модераторы.
+    if ($this->status >= Game::GAME_ARCHIVED)
+    {
+      return false;
+    }
     if ($this->team_id > 0)
     {
-      //Если пользователь - капитан организаторов
-      if ($this->Team->isLeader($testedPlayer))
-      {
-        $res = true;
-      }
+      return $this->Team->isLeader($testedPlayer);
     }
-    return $res;    
+    return false;
   }
   
   /**

@@ -67,9 +67,11 @@ if ($actors)
 </p>
 
 <div class="hr"></div>
+<?php if ($_game->status < Game::GAME_ARCHIVED): ?>
 <p>
   <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$retUrlRaw, array('method' => 'post')); ?></span>
 </p>
+<?php endif ?>
 
 <h4>Регламент</h4>
 <?php
@@ -86,6 +88,13 @@ render_property('Планируется заданий:', $_game->tasks->count()
 render_property('Времени на задание:', Timing::intervalToStr($_game->time_per_task*60), $width);
 render_property('Интервал подсказок:', Timing::intervalToStr($_game->time_per_tip*60), $width);
 ?>
+<?php if ($_game->status >= GAME::GAME_ARCHIVED): ?>
+<p>
+  <div class="info">
+    <h4>Игра завершена</h4>
+  </div>
+</p>
+<?php endif ?>
 
 <?php if ($_game->teamStates->count() > 0): ?>
 <h3>Участвуют</h3>
@@ -94,9 +103,16 @@ render_property('Интервал подсказок:', Timing::intervalToStr($_
   <li>
     <?php
     $teamName = ($teamState->Team->full_name !== '') ? $teamState->Team->full_name : $teamState->Team->name;
-    echo ($teamState->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
-        ? decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id))
-        : link_to($teamName, 'team/show?id='.$teamState->team_id);
+    if ($teamState->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
+    {
+      echo ($_game->status >= Game::GAME_ARCHIVED)
+          ? decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;итогам', 'gameStats/report?id='.$_game->id))
+          : decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id));
+    }
+    else
+    {
+      echo link_to($teamName, 'team/show?id='.$teamState->team_id); 
+    }
     echo ($teamState->Team->canBeManaged($sf_user->getSessionWebUser()->getRawValue()))
         ? ' '.decorate_span('warnAction', link_to('Отказаться', 'game/removeTeam?id='.$_game->id.'&teamId='.$teamState->team_id.'&returl='.$retUrlRaw, array('confirm' => 'Вы точно хотите снять команду "'.$teamName.'" с игры "'.$_game->name.'" ?')))
         : '';
