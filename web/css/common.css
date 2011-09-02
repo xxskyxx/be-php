@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 { color: White;  font-size: 150%; padding-left: 20% }
 h2 { color: Khaki;  font-size: 130%; padding-left: 15% }
 h3 { color: Yellow; font-size: 115%; padding-left: 10%; border-top: Solid 1px DodgerBlue }
-h4 { color: Gold;   font-size: 110%; padding-left: 5% }
+h4 { color: Gold;   font-size: 105%; padding-left: 5% }
 h5 { color: Orange }
 
 ul, ol {

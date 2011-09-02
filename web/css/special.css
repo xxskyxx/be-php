@@ -75,6 +75,54 @@ div.columnName, div.columnValue {
 div.columnName  { vertical-align: bottom; font-weight: bold; color: PaleGreen; text-align: center }
 div.columnValue { /* reserved */ }
 
+/* Блог, сообщения и комментарии */
+div.blogPost,
+div.blogPost div.blogComment {
+  border: none;
+  padding-left: 5px;
+}
+div.blogPost {
+  margin-top: 3px;
+  border-top: Solid 1px DodgerBlue;
+  border-left: Solid 2px DodgerBlue;
+}
+div.blogPost div.blogComment {
+  margin: 3px 0 3px 10px;
+  border-top: Solid 1px Grey;
+  border-left: Solid 2px Grey;
+  font-size: Smaller
+}
+
+div.blogPost    div.itemControls,
+div.blogComment div.itemControls {
+  float: right;
+  margin-left: 5px;
+  padding: 0 0 2px 2px;
+  text-align: right;
+  color: Gray
+    
+}
+div.blogPost    div.itemControls {
+  border-left: Solid 1px DodgerBlue;
+  border-bottom: Solid 1px DodgerBlue;
+}
+div.blogComment div.itemControls {
+  border-left: Solid 1px Grey;
+  border-bottom: Solid 1px Grey;
+} 
+
+div.blogPost div.text,
+div.blogComment div.text {
+  margin-top: 3px;
+}
+
+div.blogPages { /*reserved*/ }
+div.blogPagesIndex { float: right }
+div.blogPagesIndex div.item,
+div.blogPagesIndex div.currentItem { display: inline-block; padding: 0 0.5ex 0 0.5ex }
+div.blogPagesIndex div.item { font-weight: bold }
+div.blogPagesIndex div.currentItem { background-color: Green }
+
 /* Главное меню */
 div.menu { background-color: Navy; border: Solid 1px DodgerBlue }
 div.menu ul { padding: 0 3px 3px 3px; list-style: none; vertical-align: middle }

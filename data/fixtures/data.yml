@@ -37,6 +37,49 @@ Answer:
     info: '3'
     value: '3333'
     Team: Team_4
+Blog:
+  Blog_1: {  }
+Comment:
+  Comment_1:
+    Post: Post_6
+    WebUser: WebUser_1
+    text: 'Комментарий 1'
+    create_time: '1314962061'
+  Comment_2:
+    Post: Post_6
+    WebUser: WebUser_1
+    text: 'Комментарий 2'
+    create_time: '1314962073'
+  Comment_3:
+    Post: Post_6
+    WebUser: WebUser_1
+    text: 'Комментарий 3'
+    create_time: '1314962078'
+  Comment_4:
+    Post: Post_6
+    WebUser: WebUser_1
+    text: 'Комментарий 4'
+    create_time: '1314962083'
+  Comment_5:
+    Post: Post_6
+    WebUser: WebUser_2
+    text: 'Комментарий 5'
+    create_time: '1314962366'
+  Comment_6:
+    Post: Post_6
+    WebUser: WebUser_2
+    text: 'Комментарий 6'
+    create_time: '1314962371'
+  Comment_7:
+    Post: Post_6
+    WebUser: WebUser_2
+    text: 'Комментарий 7'
+    create_time: '1314962379'
+  Comment_12:
+    Post: Post_5
+    WebUser: WebUser_1
+    text: 'Комментарий 8'
+    create_time: '1314993662'
 Game:
   Game_1:
     name: 'Тестовая игра'
@@ -61,7 +104,7 @@ Game:
     finished_at: '0'
     game_last_update: '1314110472'
 GrantedPermission:
-  GrantedPermission_2:
+  GrantedPermission_1:
     WebUser: WebUser_1
     Permission: Permission_1
     filter_id: '0'
@@ -93,10 +136,41 @@ Permission:
     description: 'руководить игрой'
   Permission_13:
     description: 'управлять игрой'
+Post:
+  Post_1:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Новость 1'
+    create_time: '0'
+  Post_2:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Новость 2'
+    create_time: '1314268345'
+  Post_3:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Новость 3'
+    create_time: '1314268354'
+  Post_4:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Новость 4'
+    create_time: '1314604478'
+  Post_5:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Новость 5'
+    create_time: '1314605843'
+  Post_6:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Новость 6'
+    create_time: '1314687003'
 SystemSettings:
   SystemSettings_0:
     id: '0'
-    site_name: 'Beaver''s Engine v0.7.2b'
+    site_name: 'Beaver''s Engine v0.8.1b'
     site_domain: localhost
     fast_user_register: false
     fast_team_create: false
@@ -162,51 +236,45 @@ Team:
   Team_4:
     name: Testers3
     full_name: 'Test team 3'
+TeamCandidate:
+  TeamCandidate_1:
+    WebUser: WebUser_1
+    Team: Team_1
 TeamPlayer:
+  TeamPlayer_1:
+    WebUser: WebUser_7
+    Team: Team_1
+    is_leader: true
   TeamPlayer_2:
     WebUser: WebUser_8
     Team: Team_1
-    is_leader: true
-  TeamPlayer_3:
-    WebUser: WebUser_9
-    Team: Team_1
     is_leader: false
+  TeamPlayer_3:
+    WebUser: WebUser_3
+    Team: Team_2
+    is_leader: true
   TeamPlayer_4:
     WebUser: WebUser_4
     Team: Team_2
-    is_leader: true
+    is_leader: false
   TeamPlayer_5:
     WebUser: WebUser_5
-    Team: Team_2
-    is_leader: false
+    Team: Team_3
+    is_leader: true
   TeamPlayer_6:
     WebUser: WebUser_6
     Team: Team_3
-    is_leader: true
-  TeamPlayer_7:
-    WebUser: WebUser_7
-    Team: Team_3
     is_leader: false
+  TeamPlayer_7:
+    WebUser: WebUser_9
+    Team: Team_4
+    is_leader: true
   TeamPlayer_8:
     WebUser: WebUser_10
     Team: Team_4
-    is_leader: true
-  TeamPlayer_9:
-    WebUser: WebUser_11
-    Team: Team_4
     is_leader: false
 TeamState:
-  TeamState_1:
-    Team: Team_2
-    Game: Game_1
-    start_delay: '0'
-    ai_enabled: true
-    started_at: '0'
-    finished_at: '0'
-    status: '0'
-    task_state_id: '0'
-    team_last_update: '0'
-  TeamState_2:
+  TeamState_4:
     Team: Team_3
     Game: Game_1
     start_delay: '1'
@@ -216,10 +284,20 @@ TeamState:
     status: '0'
     task_state_id: '0'
     team_last_update: '0'
-  TeamState_3:
+  TeamState_5:
     Team: Team_4
     Game: Game_1
     start_delay: '2'
+    ai_enabled: true
+    started_at: '0'
+    finished_at: '0'
+    status: '0'
+    task_state_id: '0'
+    team_last_update: '0'
+  TeamState_6:
+    Team: Team_2
+    Game: Game_1
+    start_delay: '0'
     ai_enabled: true
     started_at: '0'
     finished_at: '0'
@@ -280,63 +358,63 @@ WebUser:
     email: admin@admin.org
     tag: null
     is_enabled: true
-  WebUser_3:
+  WebUser_2:
     login: guest
     pwd_hash: a1164c734db7eb2610dd587b59a0ce06
     full_name: ItIsAGuest
     email: guest@a.bc
     tag: 8175ee7r
-    is_enabled: false
-  WebUser_4:
+    is_enabled: true
+  WebUser_3:
     login: 1leader
     pwd_hash: 17d23c7cb1cad8bcecf05a2d44a420e5
     full_name: 1leader
     email: a@b.cd
     tag: disabled
     is_enabled: true
-  WebUser_5:
+  WebUser_4:
     login: 1player
     pwd_hash: 11feef5ae890224f527e1c224e1d8f8c
     full_name: 1player
     email: a@b.cd
     tag: disabled
     is_enabled: true
-  WebUser_6:
+  WebUser_5:
     login: 2leader
     pwd_hash: 7862fb878c62adf6cacafebe8012808a
     full_name: 2leader
     email: a@b.cd
     tag: disabled
     is_enabled: true
-  WebUser_7:
+  WebUser_6:
     login: 2player
     pwd_hash: 43bfaac4c7dc6febcf7cec635d15ba08
     full_name: 2player
     email: a@b.cd
     tag: disabled
     is_enabled: true
-  WebUser_8:
+  WebUser_7:
     login: author
     pwd_hash: 1ba690114465d8a0df9c383f83d25da7
     full_name: Author
     email: vozdvin@mail.ru
     tag: 120fd466
     is_enabled: true
-  WebUser_9:
+  WebUser_8:
     login: actor
     pwd_hash: d566d28fca02c782ec39b73c516f602d
     full_name: Actor
     email: none@none.no
     tag: dbc78570
     is_enabled: true
-  WebUser_10:
+  WebUser_9:
     login: 3leader
     pwd_hash: b1a53fcff59a321df6e6848b9a5a4807
     full_name: 3leader
     email: a@b.cd
     tag: 20b06c6f
     is_enabled: true
-  WebUser_11:
+  WebUser_10:
     login: 3player
     pwd_hash: ead8caafe0115bf6ac172bb48dbb7d7d
     full_name: 3player
