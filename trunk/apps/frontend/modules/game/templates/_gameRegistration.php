@@ -43,7 +43,7 @@ render_h3_inline_end();
       if ($_sessionCanManage || $_sessionIsModerator)
       {
         echo ' '.decorate_span('safeAction', link_to('Отклонить', 'game/cancelJoin?id='.$_game->id.'&teamId='.$candidate->team_id.'&returl='.$_retUrlRaw, array('method' => 'post', 'confirm' => 'Отклонить заявку команды '.$candidate->Team->name.' на участие в игре '.$_game->name.'?')));
-        echo decorate_span('warnAction', link_to('Утвердить', 'game/addTeam?id='.$_game->id.'&teamId='.$candidate->team_id.'&returl='.$_retUrlRaw, array('method' => 'post', 'confirm' => 'Принять команду '.$candidate->Team->name.' к участию в игре '.$_game->name.'?')));
+        echo ' '.decorate_span('warnAction', link_to('Утвердить', 'game/addTeam?id='.$_game->id.'&teamId='.$candidate->team_id.'&returl='.$_retUrlRaw, array('method' => 'post', 'confirm' => 'Принять команду '.$candidate->Team->name.' к участию в игре '.$_game->name.'?')));
       }
     ?>
   </li>
