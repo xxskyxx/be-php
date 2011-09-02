@@ -14,7 +14,10 @@ class webUserActions extends MyActions
   public function executeIndex(sfWebRequest $request)
   {
     //Просматривать список пользователей можно в любом случае.
-    $this->_webUsers = Doctrine::getTable('WebUser')->findAll();
+    $this->_webUsers = Doctrine::getTable('WebUser')
+        ->createQuery('wu')
+        ->select()->orderBy('wu.login')
+        ->execute();
     $this->_sessionWebUserId = $this->sessionWebUser->id;
   }
 

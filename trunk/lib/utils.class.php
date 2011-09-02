@@ -100,7 +100,7 @@ class Utils
 
   const IMG_BUTTONS_PATH = '/images/buttons/';
   const IMG_BUTTONS_STYLE = 'imageButton';
-  
+
   /**
    * Возвращает хэш пароля с учетом "соления".
    *

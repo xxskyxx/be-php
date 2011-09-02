@@ -8,16 +8,16 @@
  * @author     VozdvIN
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class moderationActions extends MyActions
+class moderationActions extends BlogCrudActions
 {
 
   public function executeShow(sfWebRequest $request)
   {
     $this->_settings = SystemSettings::getInstance();
-    
+
     /* Соберем все данные о правах текущего пользователя */
     $this->_isAdmin = $this->sessionWebUser->canExact(Permission::ROOT, 0);
-    
+
     $this->_isWebUserModer = $this->sessionWebUser->can(Permission::WEB_USER_MODER, 0);
     $this->_isPermissionModer = $this->sessionWebUser->can(Permission::PERMISSION_MODER, 0);
 
@@ -75,14 +75,14 @@ class moderationActions extends MyActions
         //Пользователь не модерирует ни одну команду, нужна заглушка пустой коллекцией.
         $this->_gamesUnderModeration = new Doctrine_Collection('Game');
       }
-    }    
-    
+    }
+
     $hasSomeModerRights = $this->_isAdmin
         || $this->_isFullTeamModer
         || ($this->_teamsUnderModeration->count() > 0)
         || $this->_isFullGameModer
-        || ($this->_gamesUnderModeration->count() > 0);        
-    
+        || ($this->_gamesUnderModeration->count() > 0);
+
     if ( ! $hasSomeModerRights)
     {
       $this->errorRedirect('У Вас нет полномочий модератора.');
@@ -120,7 +120,7 @@ class moderationActions extends MyActions
     }
   }
 
-public function executeSMTPTest(sfWebRequest $request)
+  public function executeSMTPTest(sfWebRequest $request)
   {
     if ( ! $this->sessionWebUser->canExact(Permission::ROOT, 0))
     {
@@ -144,14 +144,46 @@ public function executeSMTPTest(sfWebRequest $request)
             );
         if (Utils::sendEmailSafe($message, $mailer))
         {
-          $this->successRedirect('Тестовое уведомление успешно отправлено на '.$settings->contact_email_addr.'.', 'moderation/show');          
+          $this->successRedirect('Тестовое уведомление успешно отправлено на '.$settings->contact_email_addr.'.', 'moderation/show');
         }
         else
         {
           $this->errorRedirect('Соединение с SMTP-сервером установлено, но отправка тестового письма не удалась. Проверьте корректность обратого адреса, аккаунта и логина SMTP-сервера.', 'moderation/show');
-        }        
+        }
       }
-    } 
+    }
+  }
+
+  //// BlogCrudActions ////
+
+  protected function canCreatePost(WebUser $webUser)
+  {
+    return $webUser->can(Permission::BLOG_MODER, 1);
+  }
+
+  protected function canEditPost(WebUser $webUser, Post $post)
+  {
+    return ($post->web_user_id == $webUser->id) || $webUser->can(Permission::BLOG_MODER, 1);
+  }
+
+  protected function canDeletePost(WebUser $webUser, Post $post)
+  {
+    return $webUser->can(Permission::BLOG_MODER, 1);
+  }
+
+  protected function canCreateComment(WebUser $webUser)
+  {
+    return true; //Неавторизованные на сайте оставлять сообщения все-равно не могут.
+  }
+  
+  protected function canEditComment(WebUser $webUser, Comment $comment)
+  {
+    return ($comment->web_user_id == $webUser->id) || $webUser->can(Permission::BLOG_MODER, 1);
+  }
+  
+  protected function canDeleteComment(WebUser $webUser, Comment $comment)
+  {
+    return ($comment->web_user_id == $webUser->id) || $webUser->can(Permission::BLOG_MODER, 1);
   }
 
 }
