@@ -10,29 +10,29 @@
  */
 class gameActions extends MyActions
 {
-  
+
   public function preExecute()
   {
     parent::preExecute();
     $this->retUrl = $this->retUrlRaw;
   }
-  
+
   public function executeIndex(sfWebRequest $request)
   {
     $this->errorRedirectIf(
         $this->sessionWebUser->cannot(Permission::GAME_INDEX, 0),
         Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список игр')
     );
-    
+
     $this->_retUrlRaw = Utils::encodeSafeUrl('game/index');
     $this->_sessionIsGameModerator = Game::isModerator($this->sessionWebUser);
-    
+
     $this->_plannedGames = new Doctrine_Collection('Game');
     $this->_activeGames = new Doctrine_Collection('Game');
     $this->_archivedGames = new Doctrine_Collection('Game');
     $this->_sessionPlayIndex = array();
     $this->_sessionIsActorIndex = array();
-    
+
     $games = Doctrine::getTable('Game')
         ->createQuery('g')
         ->select()->orderBy('g.name')
@@ -61,7 +61,7 @@ class gameActions extends MyActions
       $this->_sessionPlayIndex[$game->id] = $game->isPlayerRegistered($this->sessionWebUser);
       $this->_sessionIsActorIndex[$game->id] = $game->isActor($this->sessionWebUser);
     }
-    
+
     $gameCreateRequests = Doctrine::getTable('GameCreateRequest')
         ->createQuery('gcr')
         ->select()->orderBy('gcr.name')
@@ -81,7 +81,7 @@ class gameActions extends MyActions
         }
       }
     }
-  
+
   }
 
   public function executeShow(sfWebRequest $request)
@@ -114,11 +114,11 @@ class gameActions extends MyActions
             ->select()->where('game_id = ?', $this->_game->id)
             ->orderBy('t.name')->execute();
       }
-      $this->setTemplate('Show');
+//      $this->setTemplate('Show');
     }
     else
     {
-      $this->setTemplate('Info');
+      $this->forward('game', 'info');
     }
   }
 
@@ -197,6 +197,8 @@ class gameActions extends MyActions
   public function executeInfo(sfWebRequest $request)
   {
     $this->forward404Unless($this->_game = Game::byId($request->getParameter('id')), 'Игра не найдена.');
+    $teamList = $this->_game->getTeamsAvailableToPostJoinBy($this->sessionWebUser);
+    $this->_canPostJoin = $teamList->count() > 0;
   }
 
   public function executePostJoinManual(sfWebRequest $request)
@@ -204,18 +206,8 @@ class gameActions extends MyActions
     $this->forward404Unless($this->game = Game::byId($request->getParameter('id')), 'Игра не найдена.');
     $this->retUrl = $this->retUrlRaw;
 
-    $this->teamList = new Doctrine_Collection('Team');
-    foreach (Team::all() as $team)
-    {
-      if ($team->canBeManaged($this->sessionWebUser)
-          && (!$this->game->isTeamRegistered($team))
-          && (!$this->game->isTeamCandidate($team))
-          && ($team->id != $this->game->team_id))
-      {
-        $this->teamList->add($team);
-      }
-    }
-    $this->errorRedirectIf($this->teamList->count() <= 0, 'Нет команд, от лица которых вы можете подать заявку на игру.');
+    $this->teamList = $this->game->getTeamsAvailableToPostJoinBy($this->sessionWebUser);
+    $this->errorRedirectIf($this->teamList->count() <= 0, 'Нет команд, от лица которых Вы можете подать заявку на игру.');
   }
 
   public function executeAddTeamManual(sfWebRequest $request)
