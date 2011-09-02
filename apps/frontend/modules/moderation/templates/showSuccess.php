@@ -11,6 +11,7 @@ if ($_isAdmin)
 }
 ?>
 
+<?php if ($_isAdmin): ?>
 <h4>Реквизиты сайта</h4>
 <?php
 $width = get_text_block_size_ex('Быстрая регистрация пользователей:');
@@ -25,7 +26,6 @@ render_property('Создание игр по почте:', $_settings->email_ga
 render_property('Быстрое создание команд:', $_settings->fast_team_create ? decorate_span('warn', 'Разрешено') : 'Не разрешено', $width);
 render_property('Быстрая регистрация пользователей:', $_settings->fast_user_register ? decorate_span('warn', 'Разрешена') : 'Не разрешена', $width);
 ?>
-<?php if ($_isAdmin): ?>
 <h4>Отправка уведомлений</h4>
 <?php
 render_property('Обратный адрес:', $_settings->notify_email_addr, $width);
