@@ -67,7 +67,7 @@ if ($actors)
 </p>
 
 <div class="hr"></div>
-<?php if ($_game->status < Game::GAME_ARCHIVED): ?>
+<?php if (($_canPostJoin) && ($_game->status < Game::GAME_ARCHIVED)): ?>
 <p>
   <span class="safeAction"><?php echo link_to('Подать заявку на участие', 'game/postJoinManual?id='.$_game->id.'&returl='.$retUrlRaw, array('method' => 'post')); ?></span>
 </p>
