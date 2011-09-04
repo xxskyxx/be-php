@@ -98,6 +98,7 @@ class authActions extends MyActions
         if (SystemSettings::getInstance()->fast_user_register)
         {
           //Быстрая регистрация
+          $webUser->is_enabled = true;
           $webUser->save();
           $this->successRedirect('Вы успешно зарегистрированы. Можете входить.', 'auth/login');          
         }

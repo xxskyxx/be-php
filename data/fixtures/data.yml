@@ -109,6 +109,26 @@ GrantedPermission:
     Permission: Permission_1
     filter_id: '0'
     deny: false
+  GrantedPermission_2:
+    WebUser: WebUser_12
+    Permission: Permission_4
+    filter_id: '0'
+    deny: false
+  GrantedPermission_4:
+    WebUser: WebUser_12
+    Permission: Permission_8
+    filter_id: '0'
+    deny: false
+  GrantedPermission_5:
+    WebUser: WebUser_12
+    Permission: Permission_13
+    filter_id: '0'
+    deny: false
+  GrantedPermission_6:
+    WebUser: WebUser_12
+    Permission: Permission_5
+    filter_id: '0'
+    deny: false
 Permission:
   Permission_1:
     description: 'делать все что вздумается, ибо Админ'
@@ -170,7 +190,7 @@ Post:
 SystemSettings:
   SystemSettings_0:
     id: '0'
-    site_name: 'Beaver''s Engine v0.8.1b'
+    site_name: 'Beaver''s Engine v0.8.2b'
     site_domain: localhost
     fast_user_register: false
     fast_team_create: false
@@ -420,4 +440,11 @@ WebUser:
     full_name: 3player
     email: a@b.cd
     tag: d17be1ed
+    is_enabled: true
+  WebUser_12:
+    login: moder
+    pwd_hash: 67fcfb7192b61747e8c039219088c314
+    full_name: moder
+    email: moder@no.no
+    tag: 3ecaee78981da03f
     is_enabled: true
