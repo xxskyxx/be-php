@@ -5,18 +5,16 @@
     <meta name="title" content="Beaver's Engine" />
     <meta name="description" content="Beaver's Engine for interactive online games" />
     <meta name="language" content="en" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>Beaver's Engine</title>
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" type="text/css" media="screen" href="/css/common.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/highlights.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/css/special.css" />
   </head>
   <body>
-    <h2>
+    <h1>
       500... Internal server error
-    </h2>
-    <h3>Передайте в Хъюстон, что у него проблемы!</h3>
+    </h1>
+    <h3>Передайте в Хъюстон, что у них проблемы!</h3>
     <p>
       Будьте добры, напишите нам о том, что Вы делали непосредственно перед тем, как получили это сообщение. Мы исследуем проблему и постараемся исправить ситуацию.
     </p>
@@ -26,15 +24,4 @@
       <li><a href="/home/index">Перейти на Главную</a> страницу сайта</li>
     </ul>
   </body>
-  <div class="footer">
-    <div style="text-align:right;font-style:italic">
-      <span style="font-weight:bold">Beaver's&nbsp;Engine</span>&nbsp;&copy;&nbsp;by
-    </div>
-    <div class="first">
-      Воздвиженский&nbsp;Илья&nbsp;aka&nbsp;<a href="mailto:vozdvin@mail.ru">Ключ</a>.
-    </div>
-    <div class="next">
-      Проект&nbsp;использует&nbsp;<a href="http://symfony-project.org">symfony</a>&nbsp;и&nbsp;<a href="http://www.php.net">PHP</a>.
-    </div>
-  </div>  
 </html>
