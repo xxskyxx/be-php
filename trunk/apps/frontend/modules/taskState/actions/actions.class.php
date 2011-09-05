@@ -53,7 +53,7 @@ class taskStateActions extends MyActions
       else
       {
         // Строка с ответами пуста, просто перейдем обратно.
-        $this->redirect($this->retUrlDecoded);
+        $this->redirectSafe($this->retUrlDecoded);
       }
     }
     else
@@ -98,7 +98,7 @@ class taskStateActions extends MyActions
     // Если это задание уже закончилось, то надо перейти к текущему активному.
     if ($this->taskState->status >= TaskState::TASK_DONE)
     {
-      $this->redirect('teamState/task?id='.$this->taskState->team_state_id);
+      $this->redirectSafe('teamState/task?id='.$this->taskState->team_state_id);
     }
   }
 

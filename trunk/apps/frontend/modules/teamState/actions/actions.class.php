@@ -76,7 +76,7 @@ class teamStateActions extends myActions
     {
       if ($currentTaskStatus->status < TaskState::TASK_DONE)
       {
-        $this->redirect('taskState/task?id='.$currentTaskStatus->id);
+        $this->redirectSafe('taskState/task?id='.$currentTaskStatus->id);
       }
     }
   }

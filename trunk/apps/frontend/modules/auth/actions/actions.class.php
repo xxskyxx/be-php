@@ -9,7 +9,7 @@ class authActions extends MyActions
 
   public function executeIndex(sfWebRequest $request)
   {
-    $this->redirect('home/index');
+    $this->redirectSafe('home/index');
   }
 
   public function executeLogin(sfWebRequest $request)
@@ -148,7 +148,7 @@ class authActions extends MyActions
     $this->session->clearCredentials();
     $this->session->getAttributeHolder()->clear();
     $this->session->setAuthenticated(false);
-    $this->redirect('home/index');
+    $this->redirectSafe('home/index');
   }
 
   public function executeChangePassword(sfWebRequest $request)

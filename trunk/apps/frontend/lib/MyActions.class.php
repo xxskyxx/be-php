@@ -38,6 +38,16 @@ class MyActions extends sfActions
   }
 
   /**
+   * Простановка сообщения об ошибке без перенаправления.
+   *
+   * @param   string  $message  Сообщение
+   */
+  protected function errorMessage($message)
+  {
+    $this->session->setFlash('error', $message, false);
+  }
+
+  /**
    * Выполняет перенаправление с простановкой информационного сообщения.
    * Если адрес не указан, то пытается получить его из retUrl-параметров.
    *
@@ -46,18 +56,9 @@ class MyActions extends sfActions
    */
   protected function successRedirect($message, $target = '')
   {
-    if ($target == '')
-    {
-      $target = $this->retUrlDecoded;
-    }
-    if ($target == '')
-    {
-      $target = 'home/index';
-    }
-    $this->session->setFlash('notice', $message);
-    $this->redirect($target);
+    $this->doRedirect('notice', $message, $target);
   }
-  
+
   /**
    * Выполняет перенаправление с простановкой предупреждающего сообщения.
    * Если адрес не указан, то пытается получить его из retUrl-параметров.
@@ -67,26 +68,7 @@ class MyActions extends sfActions
    */
   protected function warningRedirect($message, $target = '')
   {
-    if ($target == '')
-    {
-      $target = $this->retUrlDecoded;
-    }
-    if ($target == '')
-    {
-      $target = 'home/index';
-    }
-    $this->session->setFlash('warning', $message);
-    $this->redirect($target);
-  }
-
-  /**
-   * Простановка сообщения об ошибке без перенаправления.
-   *
-   * @param   string  $message  Сообщение
-   */
-  protected function errorMessage($message)
-  {
-    $this->session->setFlash('error', $message, false);
+    $this->doRedirect('warning', $message, $target);
   }
 
   /**
@@ -98,16 +80,7 @@ class MyActions extends sfActions
    */
   protected function errorRedirect($message, $target = '')
   {
-    if ($target == '')
-    {
-      $target = $this->retUrlDecoded;
-    }
-    if ($target == '')
-    {
-      $target = 'home/index';
-    }
-    $this->session->setFlash('error', $message);
-    $this->redirect($target);
+    $this->doRedirect('error', $message, $target);
   }
 
   /**
@@ -138,6 +111,38 @@ class MyActions extends sfActions
     {
       $this->errorRedirect($message, $target);
     }
+  }
+
+  /**
+   * Выполняет перенаправление с простановкой сообщения об ошибке заданного типа
+   *
+   * @param   string  $messageKind  Тип сообщения
+   * @param   string  $message      Сообщение
+   * @param   string  $target       Адрес перенаправления
+   */
+  protected function doRedirect($messageKind, $message, $target = '')
+  {
+    if ($target == '')
+    {
+      $target = $this->retUrlDecoded;
+    }
+    if ($target == '')
+    {
+      $target = 'home/index';
+    }
+    $this->session->setFlash($messageKind, $message);
+    $this->redirectSafe($target);
+  }
+
+  /**
+   * Выполняет перенаправление с простановкой признака, что оно было.
+   *
+   * @param   string  $target   Адрес перенаправления
+   */
+  protected function redirectSafe($target)
+  {
+    $this->session->setAttribute('redirected', '1');
+    $this->redirect($target);
   }
 
 }
