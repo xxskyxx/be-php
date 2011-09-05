@@ -18,16 +18,12 @@ class taskActions extends MyActions
     $this->_isManager = $this->_task->canBeManaged($this->sessionWebUser);
     $this->_isModerator = Task::isModerator($this->sessionWebUser);
     $this->_tips = Doctrine::getTable('Tip')
-        ->createQuery('t')
-        ->select()
-        ->where('t.task_id = ?', $this->_task->id)
-        ->orderBy('t.delay')
+        ->createQuery('t')->innerJoin('t.Task')
+        ->select()->where('t.task_id = ?', $this->_task->id)->orderBy('t.delay')
         ->execute();
     $this->_answers = Doctrine::getTable('Answer')
-        ->createQuery('a')
-        ->select()
-        ->where('a.task_id = ?', $this->_task->id)
-        ->orderBy('a.value')
+        ->createQuery('a')->innerJoin('a.Task')
+        ->select()->where('a.task_id = ?', $this->_task->id)->orderBy('a.value')
         ->execute();
     $this->_taskConstraints = $this->_task->taskConstraints;
   }
