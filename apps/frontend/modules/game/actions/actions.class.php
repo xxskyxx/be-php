@@ -34,7 +34,7 @@ class gameActions extends MyActions
     $this->_sessionIsActorIndex = array();
 
     $games = Doctrine::getTable('Game')
-        ->createQuery('g')
+        ->createQuery('g')->leftJoin('g.teamStates')
         ->select()->orderBy('g.name')
         ->execute();
     foreach ($games as $game)
@@ -110,11 +110,10 @@ class gameActions extends MyActions
       else if ($this->_tab == 'tasks')
       {
         $this->_tasks = Doctrine::getTable('Task')
-            ->createQuery('t')
+            ->createQuery('t')->leftJoin('t.taskConstraints')
             ->select()->where('game_id = ?', $this->_game->id)
             ->orderBy('t.name')->execute();
       }
-//      $this->setTemplate('Show');
     }
     else
     {

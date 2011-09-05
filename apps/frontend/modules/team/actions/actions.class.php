@@ -16,9 +16,8 @@ class teamActions extends MyActions
     $this->errorRedirectIf($this->sessionWebUser->cannot(Permission::TEAM_INDEX, 0), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список команд'));
 
     $this->_teams = Doctrine::getTable('Team')
-        ->createQuery('t')
-        ->select()
-        ->orderBy('name')
+        ->createQuery('t')->leftJoin('t.teamPlayers')->leftJoin('t.teamCandidates')
+        ->select()->orderBy('name')
         ->execute();
     $this->_isModerator = $this->sessionWebUser->can(Permission::TEAM_MODER, 0);
     $this->_fastTeamCreate = SystemSettings::getInstance()->fast_team_create;
