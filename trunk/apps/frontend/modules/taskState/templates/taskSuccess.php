@@ -39,34 +39,34 @@ $sessionIsPlayer = $taskState->TeamState->Team->isPlayer($sessionWebUser);
 $sessionIsLeader = $taskState->TeamState->Team->isLeader($sessionWebUser);
 $sessionIsGameManager = $taskState->TeamState->Game->canBeManaged($sessionWebUser);
 
-include_partial('TaskAnswers', array('taskState' => $taskState));
+include_partial('taskAnswers', array('taskState' => $taskState));
 if ($sessionIsPlayer || $sessionIsGameManager)
 {
-  include_partial('taskState/TaskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $taskState->id, 'retUrl' => Utils::encodeSafeUrl(url_for('taskState/task?id='.$taskState->id))));
+  include_partial('taskState/taskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $taskState->id, 'retUrl' => Utils::encodeSafeUrl(url_for('taskState/task?id='.$taskState->id))));
 }
-include_partial('TaskDefine', array('taskState' => $taskState));
+include_partial('taskDefine', array('taskState' => $taskState));
 if ($sessionIsLeader || $sessionIsGameManager)
 {
-  include_partial('TaskLeaderTools', array('taskState' => $taskState));
+  include_partial('taskLeaderTools', array('taskState' => $taskState));
 }
-include_partial('TaskStats', array('taskState' => $taskState));
+include_partial('taskStats', array('taskState' => $taskState));
 ?>
 
 <?php elseif ($taskState->status == TaskState::TASK_CHEAT_FOUND): ?>
-<?php include_partial('TaskAnswers', array('taskState' => $taskState)) ?>
+<?php include_partial('taskAnswers', array('taskState' => $taskState)) ?>
 <p>
   <div class="danger">Задание дисквалифицировано. Вы больше не можете вводить ответы.</div>
 </p>
 <?php
-include_partial('TaskDefine', array('taskState' => $taskState));
-include_partial('TaskStats', array('taskState' => $taskState));
+include_partial('taskDefine', array('taskState' => $taskState));
+include_partial('taskStats', array('taskState' => $taskState));
 ?>
 
 <?php elseif ($taskState->status >= TaskState::TASK_DONE): ?>
 <p>
   <span class="info">Задание завершено.</span> <span class="safeAction"><?php echo link_to('Перейти к следующему заданию', 'teamState/task?id='.$teamState->id); ?></span>
 </p>
-<?php include_partial('TaskDefine', array('taskState' => $taskState)) ?>
+<?php include_partial('taskDefine', array('taskState' => $taskState)) ?>
 
 <?php else: ?>
 <div class="danger">С вашим заданием творится что-то непонятное. Обратитесь к организаторам.</div>

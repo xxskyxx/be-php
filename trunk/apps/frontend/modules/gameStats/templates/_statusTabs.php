@@ -41,19 +41,19 @@
         <?php
           if ($seat == 'pilot')
           {
-            include_partial('StatusTabPilot', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
+            include_partial('statusTabPilot', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
           }
           elseif ($seat == 'sturman')
           {
-            include_partial('StatusTabSturman', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
+            include_partial('statusTabSturman', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
           }
           elseif ($seat == 'engineer')
           {
-            include_partial('StatusTabEngineer', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
+            include_partial('statusTabEngineer', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
           }
           elseif ($seat == 'stuart')
           {
-            include_partial('StatusTabStuart', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
+            include_partial('statusTabStuart', array('game' => $game, 'backLinkEncoded' => $backLinkEncoded, 'sessionIsManager' => $sessionIsManager));
           }
           else
           {

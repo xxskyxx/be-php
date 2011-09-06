@@ -76,7 +76,7 @@
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
       <?php   else: ?>
-      <td class="bottomWeakBorder"><?php include_partial('taskState/UsedTips', array('taskState' => $taskState, 'onlyUsed' => true, 'withTime' => true)) ?></td>
+      <td class="bottomWeakBorder"><?php include_partial('taskState/usedTips', array('taskState' => $taskState, 'onlyUsed' => true, 'withTime' => true)) ?></td>
       <?php   endif; ?>
       <?php endforeach; ?>
     </tr>
@@ -88,7 +88,7 @@
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
       <?php   else: ?>
-      <td class="bottomWeakBorder"><?php include_partial('taskState/PostedAnswers', array('taskState' => $taskState, 'withTime' => true, 'withSender' => true, 'highlight' => true)) ?></td>
+      <td class="bottomWeakBorder"><?php include_partial('taskState/postedAnswers', array('taskState' => $taskState, 'withTime' => true, 'withSender' => true, 'highlight' => true)) ?></td>
       <?php   endif; ?>
       <?php endforeach; ?>
     </tr>

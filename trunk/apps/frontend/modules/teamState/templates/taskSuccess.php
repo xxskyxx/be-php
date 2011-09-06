@@ -104,7 +104,7 @@
   Ваши достижения:
 </p>
 <div>
-  <?php include_partial('TaskHistory', array('teamState' => $teamState, 'withLink' => false, 'withTime' => true, 'highlight' => true))?>
+  <?php include_partial('taskHistory', array('teamState' => $teamState, 'withLink' => false, 'withTime' => true, 'highlight' => true))?>
 </div>
 
 <?php elseif ($teamState->status == TeamState::TEAM_BANNED): ?>

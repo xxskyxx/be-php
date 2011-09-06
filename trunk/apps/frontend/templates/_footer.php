@@ -1,5 +1,5 @@
 <div>
-  <?php include_partial('global/SiteMap')?>
-  <?php include_partial('global/Credits')?>
+  <?php include_partial('global/siteMap')?>
+  <?php include_partial('global/credits')?>
 </div>
 

@@ -13,7 +13,7 @@ render_breadcombs(array(
 <?php endif ?>
 
 <h3>Итоги</h3>
-<?php include_partial('Results', array('game' => $game)) ?>
+<?php include_partial('results', array('game' => $game)) ?>
 
 <h3>Телеметрия</h3>
-<?php include_partial('Report', array('game' => $game)) ?>
+<?php include_partial('report', array('game' => $game)) ?>
