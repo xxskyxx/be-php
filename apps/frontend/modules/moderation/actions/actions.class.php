@@ -132,7 +132,7 @@ class moderationActions extends BlogCrudActions
       $mailer = Utils::getReadyMailer();
       if ( ! $mailer)
       {
-        $this->errorRedirect('Не удается соединиться с SMTP-сервером. Проверьте настройки имени SMTP-сервера, номера порта и способа шифрования.', 'moderation/index');
+        $this->errorRedirect('Не удается соединиться с SMTP-сервером. Проверьте настройки имени SMTP-сервера, номера порта и способа шифрования.', 'moderation/show');
       }
       else
       {
