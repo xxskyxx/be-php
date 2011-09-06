@@ -10,4 +10,4 @@
 <p>
   <?php echo link_to('Просмотр полной телеметрии', 'gameStats/report?id='.$game->id, array('target' => 'new')) ?>
 </p>
-<?php include_partial('Results', array('game' => $game)) ?>
+<?php include_partial('results', array('game' => $game)) ?>

@@ -39,16 +39,16 @@
         <?php endif; ?>
       </td>
       <td>
-        <?php include_partial('taskState/UsedTips', array('taskState' => $currentTaskState, 'withLink' => 'true')); ?>
+        <?php include_partial('taskState/usedTips', array('taskState' => $currentTaskState, 'withLink' => 'true')); ?>
       </td>
       <td>
         <?php if ($sessionIsManager && ($currentTaskState->status == TaskState::TASK_ACCEPTED)): ?>
         <div style="display:inline-block">
-          <?php echo include_partial('taskState/TaskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $currentTaskState->id, 'retUrl' => $backLinkEncoded)); ?>
+          <?php echo include_partial('taskState/taskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $currentTaskState->id, 'retUrl' => $backLinkEncoded)); ?>
         </div>
         <?php endif ?>
         <div style="display:inline-block">
-          <?php include_partial('taskState/TaskAnswers', array('taskState' => $currentTaskState, 'compact' => true, 'describe' => true)); ?>
+          <?php include_partial('taskState/taskAnswers', array('taskState' => $currentTaskState, 'compact' => true, 'describe' => true)); ?>
         </div>
       </td>
       <?php else: ?>

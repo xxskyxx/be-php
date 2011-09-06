@@ -40,9 +40,9 @@ $retUrlRaw = Utils::encodeSafeUrl(url_for('game/show?id='.$_game->id.'&tab='.$_t
       <td colspan="4" class="tabSheet">
         <?php
           $partial = null;
-          if     ($_tab == 'props') $partial = 'GameProps';
-          elseif ($_tab == 'teams') $partial = 'GameRegistration';
-          elseif ($_tab == 'tasks') $partial = 'GameTasks';
+          if     ($_tab == 'props') $partial = 'gameProps';
+          elseif ($_tab == 'teams') $partial = 'gameRegistration';
+          elseif ($_tab == 'tasks') $partial = 'gameTasks';
 
           if (isset($partial))
               include_partial($partial, array(
