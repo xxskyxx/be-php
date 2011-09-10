@@ -231,6 +231,54 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
   }
 
   /**
+   * Проверяет, есть ли у пользователя какие-либо полномочия модерирования
+   */
+  public function hasSomeToModerate()
+  {
+    $isAdmin = $this->canExact(Permission::ROOT, 0);
+
+    $isWebUserModer = $this->can(Permission::WEB_USER_MODER, 0);
+    $isPermissionModer = $this->can(Permission::PERMISSION_MODER, 0);
+    $isFullTeamModer = $this->can(Permission::TEAM_MODER, 0);
+    $isFullGameModer = $this->can(Permission::GAME_MODER, 0);
+    
+    if ($isAdmin
+        || $isWebUserModer
+        || $isPermissionModer
+        || $isFullTeamModer
+        || $isFullGameModer)
+    {
+      return true;
+    }
+    
+    $partialTeamModer = false;
+    if ( ! $isFullTeamModer)
+    {
+      $teamModerationPermissionIds = Doctrine::getTable('GrantedPermission')
+          ->createQuery('gp')->select('gp.filter_id')
+          ->where('web_user_id = ?', $this->id)
+          ->andWhere('permission_id = ?', Permission::TEAM_MODER)
+          ->andWhere('deny <= 0')
+          ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+      $partialTeamModer = count($teamModerationPermissionIds) > 0;
+    }
+
+    $partialGameModer = false;
+    if ( ! $isFullGameModer)
+    {
+      $gameModerationPermissionIds = Doctrine::getTable('GrantedPermission')
+          ->createQuery('gp')->select('gp.filter_id')
+          ->where('web_user_id = ?', $this->id)
+          ->andWhere('permission_id = ?', Permission::GAME_MODER)
+          ->andWhere('deny <= 0')
+          ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+      $partialGameModer = count($gameModerationPermissionIds) > 0;
+    }
+    
+    return $partialTeamModer || $partialGameModer;
+  }
+  
+  /**
    * Активирует учетную запись.
    * При успехе возвращает true, при неправильном ключе активации - false, в иных случах - строку с ошибкой.
    *
