@@ -2,16 +2,18 @@
 <p>
   <div class="danger">Блог не найден или неверный контекст блога</div>
 </p>
-<?php elseif ($_posts->count() == 0): ?>
-<p>
-  Здесь пока нет сообщений.
-</p>
 <?php else: ?>
 <?php   if ($_blogContext->canPost): ?>
 <p>
   <span class="safeAction"><?php echo link_to('Новое сообщение', $_blogContext->editorModule.'/newPost?blogId='.$_blog->id); ?></span>
 </p>
 <?php   endif ?>
+
+<?php   if ($_posts->count() == 0): ?>
+<p>
+  Здесь пока нет сообщений.
+</p>
+<?php   else: ?>
 <div class="blogPages">
   <?php include_partial('blog/pagesIndex', array('_blogContext' => $_blogContext)); ?>
   <div>
@@ -43,4 +45,6 @@
     ?>
   </div>    
 </div>
+<?php   endif ?>
+
 <?php endif ?>
