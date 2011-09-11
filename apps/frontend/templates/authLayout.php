@@ -5,8 +5,6 @@
     <?php include_partial('global/header'); ?>
     <?php include_partial('global/flashes'); ?>
     <?php echo $sf_content; ?>
-    <div class="hr">
-      <?php include_partial('global/credits'); ?>
-    </div>
+    <?php include_partial('global/footer'); ?>
   </body>
 </html>
