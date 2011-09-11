@@ -6,9 +6,7 @@
 /* 
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
-html {
-  font-size: 1em;
-}
+html { font-size: 1em; }
 
 body {
   background: #091936 url(/images/bg_border.png) 0 0 repeat-x;
@@ -18,7 +16,6 @@ body {
   color: GreenYellow;
   font-family: Verdana, Helvetica, Sans-Serif;
   text-align: justify;
-  width: 96%; font-size: 100% /**/
 /*  width: 765px; font-size: 100% /**/
 /*  width: 320px; font-size: 70%; /**/
 /*  width: 240px; font-size: 60%; /**/
@@ -38,10 +35,7 @@ h3 { color: Yellow; font-size: 115%; padding-left: 10%; border-top: Solid 1px Do
 h4 { color: Gold;   font-size: 105%; padding-left: 5% }
 h5 { color: Orange }
 
-ul, ol {
-  padding: 0 0 0 0;
-  margin: 0 0 0 0
-}
+ul, ol { padding: 0 0 0 0; margin: 0 0 0 0 }
 ul { padding-left: 2ex }
 ol { padding-left: 4ex }
 ul li, ol li { margin: 0 0 2px 0; }

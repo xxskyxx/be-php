@@ -1,8 +1,16 @@
 <h2>Регистрация</h2>
 
-<?php echo $form->renderFormTag('register') ?>
-<?php echo render_form_using_div($form, 'Зарегистрироваться',  ''); ?>
-<?php echo '</form>' ?>
+<div>
+  <?php include('customization/userAgreement.php') ?>
+</div>
+
+<div class="hr">
+  <p>
+    <?php echo $form->renderFormTag('register') ?>
+    <?php echo render_form_using_div($form, 'Зарегистрироваться',  ''); ?>
+    <?php echo '</form>' ?>
+  </p>
+</div>
 
 <p>
   <span class="warn">Перед вводом пароля проверьте</span>:

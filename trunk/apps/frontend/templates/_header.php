@@ -1,9 +1,5 @@
 <div>
-  <div style="text-align: left; float: left">
-    <div style="display: inline-block; vertical-align: middle"><img src="/images/favicon.png" alt="[BE]" onClick="document.location='/home/index'" /></div>
-    <div style="display: inline-block; vertical-align: middle"><span style="font-weight:bold"><?php echo SystemSettings::getInstance()->site_name ?></div>
-  </div>
-  <div style="text-align: right; height: 1.5em">
+  <div style="float: right; text-align: right; vertical-align: top; min-height: 1.5em">
     <?php
     if ($sf_user->isAuthenticated())
     {
@@ -12,9 +8,14 @@
     }
     else
     {
-      echo link_to('Регистрация', 'auth/register');
-      echo ' '.link_to('Вход', 'auth/login');
+      echo link_to('Зарегистрироваться', 'auth/register');
+      echo ' '.link_to('Войти', 'auth/login');
     }
     ?>
   </div>
+
+  <div style="min-height: 1.5em">
+    <?php include ('customization/header.php') ?>
+  </div>
+  
 </div>

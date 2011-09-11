@@ -6,6 +6,7 @@
     <?php include_partial('global/header'); ?>
     <?php include_partial('global/flashes'); ?>
     <?php echo $sf_content; ?>
+    <?php include_partial('global/siteMap'); ?>
     <?php include_partial('global/footer'); ?>
   </body>
 

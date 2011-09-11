@@ -1,9 +1,13 @@
 <?php if ($sf_user->isAuthenticated()): ?>
 <div class="siteMap">
-  <?php
-  echo decorate_div('siteMapItem', link_to('Главная', 'home/index'));
-  echo decorate_div('siteMapItem', link_to('Команды', 'team/index'));
-  echo decorate_div('siteMapItem', link_to('Игры', 'game/index'));
-  ?>
+  <ul>
+    <li><?php echo link_to('Главная', 'home/index') ?></li>
+    <li><?php echo link_to('Команды', 'team/index') ?></li>
+    <li><?php echo link_to('Игры', 'game/index') ?></li>
+    <?php
+    include ('customization/menuItemsAuth.php');
+    include ('customization/menuItemsCommon.php');
+    ?>
+  </ul>
 </div>
 <?php endif; ?>

@@ -38,7 +38,7 @@ div.breadcomb {
 /* Карта сайта и ссылки на ней */
 div.siteMap {
   margin-top: 0.5em;
-  padding-top: 2px;
+  padding: 2px 0 0 0.5ex;
   border: Solid DodgerBlue;
   border-top-width: 1px;
   border-right: none;
@@ -47,9 +47,10 @@ div.siteMap {
   font-size: smaller;
   font-style: italic;
 }
-div.siteMapItem {
+div.siteMap ul { list-style: none; padding: 0 0 0 0; margin: 0 0 0 0 }
+div.siteMap ul li {
   display: inline-block;
-  margin-left: 3px; 
+  margin-left: 0px; /* дополнительный отступ получается из-за отображения браузерами пробела на масте символа переноса строки в исходном HTML */
   padding: 0 3px 3px 0;
   border: Solid DodgerBlue;
   border-top: none;
@@ -72,7 +73,11 @@ div.columnName, div.columnValue {
   border-bottom: Solid 1px Green;
   padding-bottom: 2px
 }
-div.columnName  { vertical-align: bottom; font-weight: bold; color: PaleGreen; text-align: center }
+div.columnName  {
+  vertical-align: bottom;
+  font-weight: bold;
+  color: PaleGreen;
+  text-align: center }
 div.columnValue { /* reserved */ }
 
 /* Блог, сообщения и комментарии */
@@ -125,8 +130,13 @@ div.blogPagesIndex div.currentItem { background-color: Green }
 
 /* Главное меню */
 div.menu { background-color: Navy; border: Solid 1px DodgerBlue }
-div.menu ul { padding: 0 3px 3px 3px; list-style: none; vertical-align: middle }
-div.menu ul li { font-weight: bold; display: inline; vertical-align: middle }
+div.menu ul { padding: 3px 0 6px 0.75ex; list-style: none; vertical-align: middle }
+div.menu ul li {
+  margin-left: 0; /* дополнительный отступ получается из-за отображения браузерами пробела на масте символа переноса строки в исходном HTML */
+  font-weight: bold;
+  display: inline;
+  vertical-align: middle
+}
 div.menu ul li a,
 div.menu ul li a:visited { color: Aqua; text-decoration: none; border-bottom: Solid Aqua 1px }
 div.menu ul li a:hover,
@@ -135,13 +145,16 @@ div.menu ul li a:active  { color: White; background-color: Blue; border-bottom: 
 /* Кнопка действия (пока не используется) */
 div.imageButton { display: inline-block; vertical-align: middle }
 
-/* Табличное оформление - устаревает */
+/* Табличное оформление */
 th.bottomWeakBorder,
 td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px Blue }
 
 /* Страничный интерфейс */
 table.tabControl { width: 100%; border: none; margin-top: 0.25em }
-table.tabControl th.tabTitle { border: none; border-bottom: Solid 1px DodgerBlue; padding-bottom: 2px; }
+table.tabControl th.tabTitle {
+  border: none;
+  border-bottom: Solid 1px DodgerBlue;
+  padding-bottom: 2px; }
 table.tabControl th.tabTitleActive {
   background-color: #091936;
   border: Solid 1px DodgerBlue;
