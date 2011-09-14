@@ -436,7 +436,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     //Если задание заполнено, или требует ручного старта, то дать старт может только руководитель
     if ($this->Task->isFilled() || $this->Task->manual_start)
     {
-      if (!$this->Game->canBeManaged($actor))
+      if (!$this->canBeManaged($actor))
       {
         return Utils::cannotMessage($actor->login, Permission::byId(Permission::GAME_MODER)->description);
       }
