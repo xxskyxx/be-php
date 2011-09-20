@@ -79,14 +79,17 @@ class teamCreateRequestActions extends MyActions
           
           if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
           {
-            $this->successRedirect('Заявка на создание команды '.$object->name.' принята.', 'team/index');
+            $this->successRedirect('Заявка на создание команды '.$object->name.' принята. Вам отправлено письмо для ее подтверждения.', 'team/index');
           }
           else
           {
             $this->warningRedirect('Заявка на создание команды '.$object->name.' принята, но не удалось отправить письмо для ее подтверждения. Обратитесь к администрации сайта.', 'team/index');
           }        
         }
-        
+        else
+        {
+          $this->successRedirect('Заявка на создание команды '.$object->name.' принята. Ожидайте, пока она пройдет модерацию.', 'team/index');
+        }        
       }
       else
       {
