@@ -10,7 +10,7 @@ class permissionsFilter extends sfFilter
       $request = $this->getContext()->getRequest();
       $moduleName = strtolower($request->getParameter('module'));
       //На эти модули у всех всегда есть право
-      if ( ! (($moduleName === 'home') || ($moduleName === 'auth')) )
+      if ( ! (($moduleName === 'home') || ($moduleName === 'auth') || ($moduleName === 'static')) )
       {
         $session = $this->getContext()->getUser();
         $controller = $this->getContext()->getController();
