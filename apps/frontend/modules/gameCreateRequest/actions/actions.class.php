@@ -82,14 +82,17 @@ class gameCreateRequestActions extends MyActions
           
           if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
           {
-            $this->successRedirect('Заявка на создание игры '.$object->name.' принята.', 'game/index');
+            $this->successRedirect('Заявка на создание игры '.$object->name.' принята. Вам отправлено письмо для ее подтверждения.', 'game/index');
           }
           else
           {
             $this->warningRedirect('Заявка на создание игры '.$object->name.' принята, но не удалось отправить письмо для ее подтверждения. Обратитесь к администрации сайта.', 'game/index');
           }        
         }
-        
+        else
+        {
+          $this->successRedirect('Заявка на создание игры '.$object->name.' принята. Ожидайте, пока она пройдет модерацию.', 'game/index');
+        }
       }
       else
       {
