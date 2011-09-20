@@ -818,17 +818,39 @@ class TaskState extends BaseTaskState implements IStored, IAuth
    */
   protected function postAnswer($answerValue, $timestamp, WebUser $poster)
   {
+    $cleanValue = trim($answerValue);
     if ($this->isKnownAnswerValue($answerValue))
     {
       return;
     }
     $newPostedAnswer = new PostedAnswer;
     $newPostedAnswer->task_state_id = $this->id;
-    $newPostedAnswer->value = trim($answerValue);
+    $newPostedAnswer->value = $cleanValue;
     $newPostedAnswer->post_time = $timestamp;
     $newPostedAnswer->web_user_id = $poster->id;
     $newPostedAnswer->status = PostedAnswer::ANSWER_POSTED;
-    $newPostedAnswer->save();
+    try
+    {
+      $newPostedAnswer->save();
+    }
+    catch (Exception $e)
+    {
+      /* Ошибка как правило такая: нарушение ограничения уникальности ответов.
+       * Причина: strcasecmp в PHP не понимает русских букв (в отличие от MySQL),
+       * поэтому isKnownAnswerValue пропускает значения, отличающиеся только регистром
+       * русских букв.
+       * Решение: при возникновении этой ситуации надо переписать старое значение новым,
+       * т.е. выполнить не вставку, а замену.
+       */
+      //TODO: Принудительное вписывание кавычек работает в mySQL, но может глючить в других БД
+      $query = Doctrine::getTable('PostedAnswer')
+          ->createQuery('pa')
+          ->update()
+          ->set('pa.value', '"'.$cleanValue.'"') 
+          ->set('pa.status', '"'.PostedAnswer::ANSWER_POSTED.'"') 
+          ->where('value = ?', array($cleanValue))
+          ->execute();
+    }
   }
 
   /**
