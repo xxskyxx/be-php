@@ -10,11 +10,13 @@
   ?>
   <div class="comment"><span class="info">Внутреннее название, на игре известно только организаторам</span></div>
   <?php render_form_field_using_div($form['name'], $width) ?>
-  <div class="comment"><span class="warn">Значение (без учета регистра) которое вводится для зачета ответа</span></div>
+  <div class="comment"><span class="info">Значение, которое вводится для зачета ответа:</span></div>
+  <div class="comment"><span class="info">- для латинских букв регистр не учитывается.</span></div>
+  <div class="comment"><span class="warn">- русские буквы нужно будет вводить с учетом регистра!</span></div>
   <?php render_form_field_using_div($form['value'], $width) ?>
   <div class="comment"><span class="warn">Текст, который виден игрокам и позволяет им различать ответы (например - код опасности)</span></div>
   <?php render_form_field_using_div($form['info'], $width) ?>
-  <div class="comment"><span class="warn">Ответ считается правильным только при вводе именно этой командой (если не указано - без ограничений)</span></div>
+  <div class="comment"><span class="info">Если указана команда, то ответ считается правильным только при вводе именно ей</span></div>
   <?php render_form_field_using_div($form['team_id'], $width) ?>
   
   <?php
