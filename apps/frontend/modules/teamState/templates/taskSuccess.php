@@ -55,32 +55,31 @@
   <?php if ($taskState = $teamState->getCurrentTaskState()): ?>
   <?php
   $taskResult = $taskState->status;
-  $taskName = $taskState->Task->name;
   ?>
   <span class="<?php echo $taskState->getHighlightClass() ?>">
     <?php
       switch ($taskResult)
       {
         case TaskState::TASK_DONE_SUCCESS:
-          echo 'Вы успешно выполнили задание '.$taskName.'.';
+          echo 'Вы успешно выполнили задание.';
           break;
         case TaskState::TASK_DONE_TIME_FAIL:
-          echo 'Вы не успели выполнить задание '.$taskName.' за отведенное время.';
+          echo 'Вы не успели выполнить задание за отведенное время.';
           break;
         case TaskState::TASK_DONE_SKIPPED:
-          echo 'Вы решили отказаться от выполнения задания '.$taskName.'.';
+          echo 'Вы решили отказаться от выполнения задания.';
           break;
         case TaskState::TASK_DONE_GAME_OVER:
-          echo 'Вы не успели выполнить задание '.$taskName.' в связи с окончанием игры.';
+          echo 'Вы не успели выполнить задание в связи с окончанием игры.';
           break;
         case TaskState::TASK_DONE_BANNED:
-          echo 'Ваше задание '.$taskName.' дисквалифицировано.';
+          echo 'Ваше задание дисквалифицировано.';
           break;
         case TaskState::TASK_DONE_ABANDONED:
-          echo 'Ваше задание '.$taskName.' было отменено. Обратитесь к организаторам.';
+          echo 'Ваше задание было отменено. Обратитесь к организаторам.';
           break;
         default:
-          echo 'Вы завершили задание '.$taskName.', но не ясно с каким результатом. Обратитесь к организаторам.';
+          echo 'Вы завершили задание, но не ясно с каким результатом. Обратитесь к организаторам.';
           break;
       }
     ?>
