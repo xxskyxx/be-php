@@ -76,7 +76,7 @@ if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('
 render_h3_inline_end();
 ?>
 <?php if ($_answers->count() <= 0): ?>
-<div class="danger">Нет подсказок!</div>
+<div class="danger">Нет ответов!</div>
 <?php else: ?>
 <ul>
   <?php foreach ($_answers as $answer): ?>
