@@ -152,24 +152,24 @@
   
   <?php // switch как-то вообще по дикому себя ведет, включенного HTML не допускает никак, придется костылить ?>
   <?php if     ($game->status == Game::GAME_PLANNED): ?>
-  <span class="safeAction"><?php echo Utils::buttonTo('Подготовить к запуску', 'gameStats/verify?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Подготовить игру '.$game->name.' к запуску?'); ?></span>
+  <span class="safeAction"><?php echo link_to('Подготовить к запуску', 'gameStats/verify?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Подготовить игру '.$game->name.' к запуску?')); ?></span>
 
   <?php elseif ($game->status == Game::GAME_VERIFICATION): ?>
-  <span class="safeAction"><?php echo Utils::buttonTo('Повторить проверку', 'gameStats/verify?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Повторить предстартовую проверку игры '.$game->name.'?'); ?></span>
+  <span class="safeAction"><?php echo link_to('Повторить проверку', 'gameStats/verify?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Повторить предстартовую проверку игры '.$game->name.'?')); ?></span>
 
   <?php elseif ($game->status == Game::GAME_READY): ?>
-  <span class="warnAction"><?php echo Utils::buttonTo('Запустить', 'gameStats/start?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Запустить игру '.$game->name.'?'); ?></span>
-  <span class="safeAction"><?php echo Utils::buttonTo('Повторить проверку', 'gameStats/verify?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Повторить предстартовую проверку игры '.$game->name.'?'); ?></span>
+  <span class="warnAction"><?php echo link_to('Запустить', 'gameStats/start?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Запустить игру '.$game->name.'?')); ?></span>
+  <span class="safeAction"><?php echo link_to('Повторить проверку', 'gameStats/verify?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Повторить предстартовую проверку игры '.$game->name.'?')); ?></span>
 
   <?php elseif (($game->status == Game::GAME_STEADY) || ($game->status == Game::GAME_ACTIVE)): ?>
-  <span class="dangerAction"><?php echo Utils::buttonTo('Остановить', 'gameStats/stop?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Остановить игру '.$game->name.'?'); ?></span>
+  <span class="dangerAction"><?php echo link_to('Остановить', 'gameStats/stop?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Остановить игру '.$game->name.'?')); ?></span>
 
   <?php elseif ($game->status == Game::GAME_FINISHED): ?>
-  <span class="warnAction"><?php echo Utils::buttonTo('Сдать в архив', 'gameStats/close?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Игру больше нельзя будет редактировать! Вы уверены, что хотите сдать в архив игру '.$game->name.'?'); ?></span>
+  <span class="warnAction"><?php echo link_to('Сдать в архив', 'gameStats/close?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Игру больше нельзя будет редактировать! Вы уверены, что хотите сдать в архив игру '.$game->name.'?')); ?></span>
   <?php endif; ?>
 
   <?php if ($game->status > Game::GAME_PLANNED): ?>
-  <span class="dangerAction"><?php echo Utils::buttonTo('Перезапустить', 'gameStats/reset?id='.$game->id.'&returl='.$backLinkEncoded, 'post', 'Перезапустить игру '.$game->name.'?');?></span>
+  <span class="dangerAction"><?php echo link_to('Перезапустить', 'gameStats/reset?id='.$game->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Перезапустить игру '.$game->name.'?'));?></span>
   <?php endif; ?>
   
 </div>

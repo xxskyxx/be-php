@@ -37,18 +37,18 @@
         <?php   endif; ?>
 
         <?php   if ($currentTaskStatus->status == TaskState::TASK_GIVEN): ?>
-        <span class="warnAction"><?php echo Utils::buttonTo('Cтарт', 'taskState/start?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, 'post', 'Дать старт заданию '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?'); ?></span>
+        <span class="warnAction"><?php echo link_to('Cтарт', 'taskState/start?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Дать старт заданию '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?')); ?></span>
 
         <?php   elseif ($currentTaskStatus->status == TaskState::TASK_STARTED): ?>
-        <span class="safeAction"><?php echo Utils::buttonTo('Рестарт', 'taskState/restart?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, 'post', 'Отменить старт задания '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?'); ?></span>
-        <span class="dangerAction"><?php echo Utils::buttonTo('Прочесть', 'taskState/forceAccept?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, 'post', 'Подтвердить просмотр задания '.$currentTaskStatus->Task->name.' командой '.$teamState->Team->name.' ?'); ?></span>
+        <span class="safeAction"><?php echo link_to('Рестарт', 'taskState/restart?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Отменить старт задания '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?')); ?></span>
+        <span class="dangerAction"><?php echo link_to('Прочесть', 'taskState/forceAccept?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Подтвердить просмотр задания '.$currentTaskStatus->Task->name.' командой '.$teamState->Team->name.' ?')); ?></span>
         <?php   endif; ?>
 
         <?php   if ($currentTaskStatus->status < TaskState::TASK_DONE): ?>
         <?php     if ($currentTaskStatus->status >= TaskState::TASK_ACCEPTED): ?>
-        <span class="dangerAction"><?php echo Utils::buttonTo('Пропустить', 'taskState/skip?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, 'post', 'Прропустить задание '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?'); ?></span>
+        <span class="dangerAction"><?php echo link_to('Пропустить', 'taskState/skip?id='.$currentTaskStatus->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Прропустить задание '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?')); ?></span>
         <?php     endif; ?>
-        <span class="dangerAction"><?php echo Utils::buttonTo('Прекратить', 'teamState/abandonTask?id='.$teamState->id.'&returl='.$backLinkEncoded, 'post', 'Прекратить задание '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?'); ?></span>
+        <span class="dangerAction"><?php echo link_to('Прекратить', 'teamState/abandonTask?id='.$teamState->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Прекратить задание '.$currentTaskStatus->Task->name.' команды '.$teamState->Team->name.' ?')); ?></span>
         <?php   endif; ?>
         <?php else: ?>
 &nbsp;

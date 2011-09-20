@@ -53,7 +53,7 @@ render_breadcombs(array(
 <?php endif; ?>
 <div>
   <?php if (!$cannotStart): ?>
-  <span class="warnAction"><?php echo Utils::buttonTo('Запустить игру', 'gameStats/start?id='.$game->id.'&returl='.Utils::encodeSafeUrl(url_for('gameStats/status?id='.$game->id)), 'post', 'Запустить игру '.$game->name.'?'); ?></span>
+  <span class="warnAction"><?php echo link_to('Запустить игру', 'gameStats/start?id='.$game->id.'&returl='.Utils::encodeSafeUrl(url_for('gameStats/status?id='.$game->id)), array('method' => 'post', 'confirm' => 'Запустить игру '.$game->name.'?')); ?></span>
   <?php endif; ?>
-  <span class="safeAction"><?php echo Utils::buttonTo('Повторить проверку', 'gameStats/verify?id='.$game->id.'&returl='.Utils::encodeSafeUrl(url_for('gameStats/status?id='.$game->id))); ?></span>
+  <span class="safeAction"><?php echo link_to('Повторить проверку', 'gameStats/verify?id='.$game->id.'&returl='.Utils::encodeSafeUrl(url_for('gameStats/status?id='.$game->id)), array('method' => 'post')); ?></span>
 </div>

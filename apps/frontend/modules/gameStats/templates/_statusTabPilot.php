@@ -34,7 +34,7 @@
         <span class="warn">Заполнено</span>
         <?php   endif; ?>
         <?php   if (!$currentTaskState->canBeStarted() && $sessionIsManager): ?>
-        <span class="warnAction"><?php echo Utils::buttonTo('Старт', 'taskState/start?id='.$currentTaskState->id.'&returl='.$backLinkEncoded, 'post', 'Дать старт заданию '.$currentTaskState->Task->name.' команды '.$teamState->Team->name.' ?'); ?></span>
+        <span class="warnAction"><?php echo link_to('Старт', 'taskState/start?id='.$currentTaskState->id.'&returl='.$backLinkEncoded, array('method' => 'post', 'confirm' => 'Дать старт заданию '.$currentTaskState->Task->name.' команды '.$teamState->Team->name.' ?')); ?></span>
         <?php   endif; ?>
         <?php endif; ?>
       </td>
