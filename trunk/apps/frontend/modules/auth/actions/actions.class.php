@@ -81,6 +81,28 @@ class authActions extends MyActions
           $this->errorMessage('Регистрация не удалась. Пользователь '.$formData['login'].' уже существует. Придумайте другое имя и попробуйте снова.');
           return;
         }
+        $loginParts = explode(' ', $formData['login']);
+        if (count($loginParts) != 1)
+        {
+          $this->errorMessage('Регистрация не удалась. Имя пользователя должно состоять из одного слова.');
+          return;
+        }
+        $fullNameParts = explode(' ', $formData['full_name']);
+        $count = count($fullNameParts);
+        if ($formData['full_name'] !== "")
+        {
+          if ($count < 2)
+          {
+            $this->errorMessage('Регистрация не удалась. В поле "ФИО" должны быть указаны хотя бы фамилия и имя.');
+            return;
+          }
+          if ($count > 3)
+          {
+            $this->errorMessage('Регистрация не удалась. В поле "ФИО" должны быть указаны только фамилия, имя и отчество.');
+            return;
+          }
+        }
+        
         //Длину пароля надо проверять вручную, так как при проверке на форме он может быть непреднамеренно показан
         if (strlen($formData['password']) < WebUser::MIN_PWD_LENGTH)
         {
@@ -126,7 +148,7 @@ class authActions extends MyActions
           }
           else
           {
-            $this->errorMessage('Регистрация не удалась. Не удается отправить письмо с активационным ключем.');
+            $this->errorMessage('Регистрация не удалась. Не удается отправить письмо с активационным ключем. Обратитесь к администрации.');
           }
         }
         else

@@ -13,7 +13,7 @@
                 ?>">
       <?php
       echo link_to($webUser->login, url_for('webUser/show?id='.$webUser->id));
-      echo ' ('.$webUser->full_name.')';
+      echo ', '.$webUser->full_name;
       echo ($webUser->id == $_sessionWebUserId) ? ' - это Вы' : '';
       echo (!$webUser->is_enabled) ? ' - блокирован' : '';
       ?>
