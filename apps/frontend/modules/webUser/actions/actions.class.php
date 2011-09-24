@@ -77,4 +77,26 @@ class webUserActions extends MyActions
     }
   }
 
+  public function executeEnable(sfWebRequest $request)
+  {
+    $this->forward404Unless($request->isMethod(sfRequest::POST));
+    $request->checkCSRFProtection();
+    $this->errorRedirectUnless(WebUser::isModerator($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'разблокировать пользователя'));
+    $this->forward404Unless($webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
+    $webUser->is_enabled = true;
+    $webUser->save();
+    $this->successRedirect('Пользователь успешно разблокирован');
+  }
+
+  public function executeDisable(sfWebRequest $request)
+  {
+    $this->forward404Unless($request->isMethod(sfRequest::POST));
+    $request->checkCSRFProtection();
+    $this->errorRedirectUnless(WebUser::isModerator($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'блокировать пользователя'));
+    $this->forward404Unless($webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
+    $webUser->is_enabled = false;
+    $webUser->save();
+    $this->successRedirect('Пользователь успешно заблокирован');
+  }
+
 }

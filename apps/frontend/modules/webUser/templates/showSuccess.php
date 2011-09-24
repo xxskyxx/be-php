@@ -31,8 +31,15 @@ render_property_if($_isSelf,
                    'Пароль:', decorate_span('warnAction', link_to('Сменить пароль', 'auth/changePassword', array('method' => 'get'))), $width);
 render_property_if($_isSelf || $_isModerator,
                    'E-Mail:', ($_webUser->email !== '') ? mail_to($_webUser->email) : '', $width);
+$propValue = $_webUser->is_enabled ? 'Активен' : decorate_span('warn', 'Заблокирован');
+if ($_isModerator)
+{
+  $propValue .= $_webUser->is_enabled
+      ? '&nbsp;'.decorate_span('warnAction', link_to('Блокировать', 'webUser/disable?id='.$_webUser->id.'&returl='.$retUrlRaw, array('method' => 'post')))
+      : '&nbsp;'.decorate_span('warnAction', link_to('Разблокировать', 'webUser/enable?id='.$_webUser->id.'&returl='.$retUrlRaw, array('method' => 'post')));
+}
 render_property_if($_isModerator,
-                   'Статус:', $_webUser->is_enabled ? 'Активен' : 'Заблокирован', $width);
+                   'Статус:', $propValue, $width);
 render_property_if($_isModerator,
                    'Тэг:', $_webUser->tag, $width);
 ?>
