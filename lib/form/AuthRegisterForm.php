@@ -21,7 +21,7 @@ class AuthRegisterForm extends BaseForm
     ));
     $this->setValidators(array(
         'login' => new sfValidatorString(array('min_length' => WebUser::MIN_NAME_LENGTH, 'max_length' => 30)),
-        'full_name' => new sfValidatorString(array('required' => false)),
+        'full_name' => new sfValidatorString(array('required' => true)),
         'password' => new sfValidatorString(array('required' => true)),
         'passwordRepeat' => new sfValidatorString(array('required' => true)),
         'email' => new sfValidatorEmail()
@@ -32,11 +32,15 @@ class AuthRegisterForm extends BaseForm
     //Configure
     $this->getWidgetSchema()->setNameFormat('register[%s]');
     $this->getWidgetSchema()->setLabels(array(
-        'login' => 'Имя (от '.WebUser::MIN_NAME_LENGTH.' до 32 символов):',
-        'full_name' => 'Полное имя (до 255 символов):',
-        'password' => 'Пароль (не менее '.WebUser::MIN_PWD_LENGTH.' символов):',
+        'login' => 'Имя:',
+        'full_name' => 'Ф.И.(О.)',
+        'password' => 'Пароль:',
         'passwordRepeat' => 'Повторите пароль:',
         'email' => 'Адрес e-mail:'));
+    $this->getWidgetSchema()->setHelps(array(
+        'login' => 'одно слово, от '.WebUser::MIN_NAME_LENGTH.' до 32 букв',
+        'full_name' => '2 или 3 слова, всего до 255 букв',
+        'password' => WebUser::MIN_PWD_LENGTH.' и более символов'));
   }
 
 }

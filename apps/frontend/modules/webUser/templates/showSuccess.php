@@ -22,11 +22,11 @@ render_h3_inline_end();
 
 <?php
 //Формирование анкеты
-$width = get_text_block_size_ex('Полное имя:');
+$width = get_text_block_size_ex('Ф.И.(О.):');
 render_property_if($_isModerator,
                    'Id:', $_webUser->id, $width);
 render_property   ('Имя:', $_webUser->login, $width);
-render_property   ('Полное имя:', $_webUser->full_name, $width);
+render_property   ('Ф.И.(О.):', $_webUser->full_name, $width);
 render_property_if($_isSelf,
                    'Пароль:', decorate_span('warnAction', link_to('Сменить пароль', 'auth/changePassword', array('method' => 'get'))), $width);
 render_property_if($_isSelf || $_isModerator,
