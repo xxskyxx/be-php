@@ -46,16 +46,16 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   {
     return $this->Game->canBeObserved($account) || $this->Team->canBeObserved($account);
   }
-  
+
   //// Public ////
   // Info
 
   /**
    * Проверяет, обладает ли пользователь правом обновлять состояние команды
-   * 
-   * @param WebUser $account 
+   *
+   * @param WebUser $account
    */
-  function canUpdateState(WebUser $account)
+  public function canUpdateState(WebUser $account)
   {
     if (!$this->Game->teams_can_update)
     {
@@ -69,9 +69,9 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       /* Проверка на то, что команда зарегистрирована не нужна, так как
        * экземпляр состояния команды создается только при регистрации.
        */
-    }    
+    }
   }
-  
+
   /**
    * Описывает состояние команды по коду статуса
    *
@@ -145,7 +145,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     foreach ($this->taskStates as $taskState)
     {
       $gameSpentTime += $taskState->getTaskSpentTimeCurrent();
-    }    
+    }
     return $gameSpentTime;
   }
 
@@ -215,56 +215,40 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   }
 
   /**
-   * Проверяет, может ли команда перейти на указанное задание.
-   * 
-   * @param   Task  $task 
-   * @return  boolean
+   * Возвращает статус наиболее позднего задания, с которым ознакомилась команда.
+   * Это задание может быть как завершенным, так и активным.
+   *
+   * @return  TaskState   Или false, если команда только приступила к игре.
    */
-  public function canGetTask(Task $task)
+  public function getLastKnownTaskState()
   {
-    //Если задание уже выдавалось или оно блокировано
-    if (($this->findKnownTaskState($task) !== false)
-        || $task->locked)
+    $currentTask = $this->getCurrentTaskState();
+    if ( $currentTask )
+    {
+      return $currentTask;
+    }
+    elseif ($lastDoneTask = $this->getLastDoneTaskState())
+    {
+      return $lastDoneTask;
+    }
+    else
     {
       return false;
     }
-    //TODO: в будущем должна учитывать задания, входящие в последовательности:
-    //- Если предыдущее задание не входило в цепочку или оно ее закончило, то доступны:
-    //  - любые неизвестные одиночные
-    //  - любые неизвестные, начинающие цепочки.
-    //- Иначе доступно только следующее задание в цепочке.
-    //  - ??!! Что делать, если следующее задание в цепочке блокировано?
-    return true;
   }
-  
+
   /**
    * Возвращает приоритет перехода на указанное задание.
-   * Если переход на это задание невозможен - вернет false.
-   * 
+   * ВНИМАНИЕ! Не проверяет задание на допустимость перехода.
+   *
    * @param   Task      $task   Задание, приоритет перехода на которое надо посчитать.
-   * 
+   *
    * @return  integer
    */
   public function getPriorityOfTask(Task $task)
   {
-    if ((!$this->canGetTask($task))
-        || ($this->status == TeamState::TEAM_FINISHED))
-    {
-      return false;
-    }
-    if ($currentTask = $this->getCurrentTaskState())
-    {
-      $baseTask = $currentTask;
-    }
-    elseif ($lastDoneTask = $this->getLastDoneTaskState())
-    {
-      $baseTask = $lastDoneTask;
-    }
-    else
-    {
-      $baseTask = false;
-    }
-    if (!$baseTask)
+    $baseTask = $this->getLastKnownTaskState();
+    if ( ! $baseTask)
     {
       //Команда только стартовала, поэтому все определяется собственным приоритетом задания.
       return $task->getPrioritySelf();
@@ -273,29 +257,35 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       //TODO: Здесь нужна корректировка приоритета, зависящая от команды и ее истории заданий.
       return $baseTask->Task->getPriorityOn($task);
-    }    
+    }
+  }
+
+  /**
+   * Возвращает список всех доступных для выдачи заданий.
+   * Учитывает фильтры переходов.
+   * Если последнее известное задание не закончилось,
+   * то фильтры применяются для случая неуспешного завершения задания.
+   *
+   * @return  Doctrine_Collection   Или false, если нет доступных заданий.
+   */
+  public function getTasksAvailableAll()
+  {
+    return $this->getAvailableTasks(false);
   }
   
   /**
-   * Возвращает список доступных для выдачи заданий.
+   * Возвращает список всех заданий, доступных для ручного выбора.
+   * Учитывает фильтры переходов.
+   * Если последнее известное задание не закончилось,
+   * то фильтры применяются для случая неуспешного завершения задания.
    *
-   * @return  Doctrine_Collection   Или false, если нет неизвестных заданий.
+   * @return  Doctrine_Collection   Или false, если нет доступных заданий.
    */
-  public function getAvailableTasks()
+  public function getTasksAvailableForManualSelect()
   {
-    $res = new Doctrine_Collection('Task');
-    foreach ($this->Game->tasks as $task)
-    {
-      if ($this->canGetTask($task))
-      {
-        $res->add($task);
-      }
-    }
-    return ($res->count() > 0)
-        ? $res
-        : false;
+    return $this->getAvailableTasks(true);
   }
-
+  
   /**
    * Возвращает результаты команды в виде массива:
    * - ключи:
@@ -358,7 +348,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       return Utils::cannotMessage($actor->login, 'обновлять состояние команды');
     }
-    
+
     $res = 'Неизвестная ошибка обновления состояния команды '.$this->Team->name;
 
     // Возможно игра уже закончилась.
@@ -426,7 +416,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
         {
           //То выдавать следующее задание нельзя, финишируем.
           $res = $this->finish($actor);
-        }  
+        }
         else
         {
           if ($this->task_id > 0)
@@ -440,17 +430,22 @@ class TeamState extends BaseTeamState implements IStored, IAuth
           else
           {
             // Следующее задание еще не назначено.
-            $availableTasks = $this->getAvailableTasks();
-            if (!$availableTasks)
+            $availableTasks = $this->getTasksAvailableAll();
+            if ( ! $availableTasks)
             {
               // У команды нет доступных заданий, значит она завершила игру.
               $res = $this->finish($actor);
             }
             else
             {
-              if ($this->ai_enabled)
+              $availableTasksManual = $this->getTasksAvailableForManualSelect();
+              if ( ! $availableTasksManual)
               {
-                $this->autoSelectNextTask();
+                // У команды нет заданий для выбора вручную, назначим автоматически.
+                if ($this->ai_enabled)
+                {
+                  $this->autoSelectNextTaskFrom($availableTasks);
+                }
               }
               $res = true;
             }
@@ -510,7 +505,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     // Сбросим счетчик времени
     // Сбросим текущее задание
     $this->task_state_id = 0;
-    // Удалим все достижения 
+    // Удалим все достижения
     foreach ($this->taskStates as $taskState)
     {
       $taskState->delete();
@@ -600,22 +595,57 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   public function setNextTask($task, WebUser $actor)
   {
-    if (!$this->canUpdateState($actor))
-    {
-      return Utils::cannotMessage($actor->login, 'обновлять состояние команды');
-    }
     if ($task == null)
-    { // Выполняется отмена выбора следующего задания
+    {
+      // Выполняется отмена выбора следующего задания, 
+      // ее может сделать только руководитель игры
+      if ( ! $this->canUpdateState($actor))
+      {
+        return Utils::cannotMessage($actor->login, 'назначать состояние команды');
+      }
       $this->Task = null;
+      return true;
     }
     else
-    { 
-      // Назначим следующее задание
+    {
       if ($this->findKnownTaskState($task) !== false)
       {
         return 'Команда '.$this->Team->name.' уже получала задание '.$task->name;
       }
-      $this->task_id = $task->id;
+      
+      if ($this->canUpdateState($actor))
+      {
+        // Руководитель игры может назначить любое задание из неизвестных
+        $this->task_id = $task->id;
+        return true;
+      }
+      
+      //Возможно это капитан команды вручную выбирает следующее задание
+      //Если он не капитан, то это делать нельзя
+      if ( ! $this->Team->canBeManaged($actor))
+      {
+        // Руководитель игры может назначить любое задание из неизвестных
+        return Utils::cannotMessage($actor->login, 'выбирать следующее задание');
+      }
+      
+      //Выбор вручную возможен только при наличии разрешенных для этого заданий
+      $availableTasksManual = $this->getTasksAvailableForManualSelect();
+      if ($availableTasksManual->count() > 0)
+      {
+        //Если задание не входит в список доступных, то его не выбрать
+        if ( ! Task::isTaskInList($task, $availableTasksManual))
+        {
+          return 'Это задание недоступно для ручного выбора командой.';
+        }
+        
+        // Назначаем следующее задание
+        $this->task_id = $task->id;
+        return true;
+      }
+      else
+      {
+        return 'Нет заданий доступных для ручного выбора.';
+      }
     }
   }
 
@@ -749,15 +779,17 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    * Результат устанавливается в качестве следующего задания команды.
    * Если задание уже установлено - не меняет его.
    * Если задание выбрать не удастся - ничего не делает.
+   * 
+   * @param   Doctrine_Collection   $availableTasks   Задания, из которых выбирать следующее.
    */
-  protected function autoSelectNextTask()
+  protected function autoSelectNextTaskFrom(Doctrine_Collection $availableTasks)
   {
     //Если команде уже назначено следующее задание
-    //или вдруг на игре нет заданий
-    if (($this->task_id > 0) || ($this->Game->tasks->count() <= 0))
+    //или список потенциальных заданий пуст
+    if (($this->task_id > 0) || ($availableTasks->count() <= 0))
     {
       return;
-    }    
+    }
     //Определим текущие приоритеты заданий и максимальный из них.
     $candidates = array();
     $candidatesCount = 0;
@@ -765,7 +797,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     //а то что-то сравнение с null норовит отбросить знак
     //и отрицательные приоритеты считать положительными.
     $maxPriority = $this->getPriorityOfTask($this->Game->tasks->getFirst());
-    foreach ($this->Game->tasks as $task)
+    foreach ($availableTasks as $task)
     {
       $candidate = array();
       $candidate['task_id'] = $task->id;
@@ -796,7 +828,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       $this->save();
       return;
     }
-    
+
     // Отберем задания с максимальным приоритетом и сосчитаем их.
     $finalCandidates = array();
     $finalCandidatesMaxIndex = 0;
@@ -808,13 +840,13 @@ class TeamState extends BaseTeamState implements IStored, IAuth
         $finalCandidatesMaxIndex++;
       }
     }
-    
+
     // Выберем случайное из отобранных заданий в качестве следующего.
     $this->task_id = $finalCandidates[rand(0, $finalCandidatesMaxIndex - 1)]['task_id'];
     $this->save();
     return;
   }
-  
+
   /**
    * Проверяет, играет ли команда в данный момент
    */
@@ -823,4 +855,62 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     return $this->status < TeamState::TEAM_FINISHED;
   }
 
+  /**
+   * Возвращает список известных команде заданий.
+   *
+   * @return  Doctrine_Collection<Task>
+   */
+  protected function getKnownTasks()
+  {
+    $result = new Doctrine_Collection('Task');
+    foreach ($this->Game->tasks as $task)
+    {
+      $knownTaskState = $this->findKnownTaskState($task);
+      if ($knownTaskState)
+      {
+        $result->add($task);
+      }
+    }
+    return $result;
+  }
+
+  /**
+   * Возвращает список доступных для выдачи заданий: все или только для ручного выбора.
+   * Учитывает фильтры последнего известного задания.
+   * Если последнее известное задание не закончилось,
+   * то фильтры применяются для случая неуспешного завершения задания.
+   * 
+   * @param   boolean               $forManualSelectOnly  Только задания для ручного выбора.
+   *
+   * @return  Doctrine_Collection   Или false, если нет доступных заданий.
+   */
+  protected function getAvailableTasks($forManualSelectOnly)
+  {
+    $allTasks = $this->Game->tasks;
+    $knownTasks = $this->getKnownTasks();
+    $unknownTasks = Task::excludeTasks($allTasks, $knownTasks);
+
+    $lastKnownTaskState = $this->getLastKnownTaskState();
+    if ( ! $lastKnownTaskState ) 
+    {
+      // Команда еще не делала ни одного задания.
+      if ($forManualSelectOnly)
+      {
+        return false; // Первое задание не может быть выбрано вручную.
+      }
+      return $unknownTasks;      
+    }
+    $isLastKnownTaskSucceeded = $lastKnownTaskState->status == TaskState::TASK_DONE_SUCCESS;
+    $tasksPassedTransitionsFilter = $lastKnownTaskState->Task->getNextTasks($isLastKnownTaskSucceeded, $forManualSelectOnly);
+    if ($tasksPassedTransitionsFilter->count() == 0)
+    {
+      $result = $unknownTasks;
+    }
+    else
+    {
+      $result = Task::excludeTasks($tasksPassedTransitionsFilter, $knownTasks);
+    }
+    return ($result->count() > 0) ? $result : false;
+  }
+  
 }

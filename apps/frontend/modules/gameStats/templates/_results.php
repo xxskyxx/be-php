@@ -19,9 +19,9 @@ $results = $game->getGameResults();
     <?php $place = 1 ?>
     <?php foreach ($results as $teamResult): ?>
     <tr>
-      <td><?php echo $place ?></td>
+      <td style="text-align: center"><?php echo $place ?></td>
       <td><?php echo Team::byId($teamResult['id'])->name ?></td>
-      <td><?php echo $teamResult['points'] ?></td>
+      <td style="text-align: center"><?php echo $teamResult['points'] ?></td>
       <td><?php echo Timing::intervalToStr($teamResult['time']) ?></td>
     </tr>
     <?php $place++ ?>

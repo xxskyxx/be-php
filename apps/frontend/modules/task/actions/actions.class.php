@@ -26,6 +26,7 @@ class taskActions extends MyActions
         ->select()->where('a.task_id = ?', $this->_task->id)->orderBy('a.value')
         ->execute();
     $this->_taskConstraints = $this->_task->taskConstraints;
+    $this->_taskTransitions = $this->_task->taskTransitions;
   }
 
   public function executeNew(sfWebRequest $request)
@@ -35,6 +36,7 @@ class taskActions extends MyActions
     $newTask = new Task;
     $newTask->game_id = $game->id;
     $newTask->name = 'Задание'.($game->tasks->count()+1);
+    $newTask->public_name = 'Задание'.($game->tasks->count()+1);
     $this->form = new taskForm($newTask);
   }
 
@@ -70,7 +72,7 @@ class taskActions extends MyActions
     $this->errorRedirectUnless($this->task->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'удалять задания для игры'));
     $game_id = $this->task->game_id;
     $this->task->delete();
-    $this->successRedirect('Задание успешно удалено.', 'game/show?id='.$game_id);
+    $this->successRedirect('Задание успешно удалено.', 'game/show?id='.$game_id.'&tab=tasks');
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)
@@ -101,4 +103,53 @@ class taskActions extends MyActions
     }
   }
 
+  public function executeTransitions(sfWebRequest $request)
+  {
+    $this->forward404Unless($request->isMethod(sfRequest::POST));
+    $request->checkCSRFProtection();
+    $this->forward404Unless($this->_task = Task::byId($request->getParameter('id')), 'Задание не найдено');
+    $this->errorRedirectUnless($this->_task->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'редактировать задания игры'));
+    $operation = $request->getParameter('operation');
+    if ($operation === 'allManual')
+    {
+      try
+      {
+        $this->_task->allTransitionsSetManual(true, $this->sessionWebUser);
+      }
+      catch (Exception $e)
+      {
+        $this->errorRedirect('Не удалось назначить признак "Разрешить выбор вручную": '.$e->getMessage());
+      }
+      $this->successRedirect('Всем фильтрам назначен признак "Разрешить выбор вручную"');
+    }
+    elseif ($operation === 'allAuto')
+    {
+      try
+      {
+        $this->_task->allTransitionsSetManual(false, $this->sessionWebUser);
+      }
+      catch (Exception $e)
+      {
+        $this->errorRedirect('Не удалось назначить признак "Разрешить выбор вручную": '.$e->message);
+      }
+      $this->successRedirect('Со всех фильтров снят признак "Разрешить выбор вручную"');
+    }
+    elseif ($operation === 'addAll')
+    {
+      try
+      {
+        $this->_task->addTransitionsToAllTasks($this->sessionWebUser);
+      }
+      catch (Exception $e)
+      {
+        $this->errorRedirect('Не удалось добавить фильтры: '.$e->getMessage());
+      }
+      $this->successRedirect('Добавлены фильтры перехода на все остальные задания');
+    }
+    else
+    {
+      $this->errorRedirect('Неизвестная операция над фильтрами: '.$operation);
+    }
+  }
+  
 }

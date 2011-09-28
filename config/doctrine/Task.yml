@@ -5,6 +5,8 @@ Task:
     id: { type: integer, primary: true, notnull: true, autoincrement: true }
     # Краткое название
     name: { type: string(32), notnull: true }
+    # Название, доступное игрокам
+    public_name: { type: string(255), notnull: true }
     # Общее время на задание, мин (Если 0 - брать из настроек игры)
     time_per_task_local: { type: integer, notnull: true, default : 0 }
     # Признак ручного старта, т.е. после выдачи старт заданию дает руководитель игры.

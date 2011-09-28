@@ -10,10 +10,16 @@
   render_form_field_using_div($form['game_id'], $width);
   ?>
   <h4>Основные</h4>
-  <div class="comment"><span class="info">Если "Длительность" пусто или равно нулю</span>, то будет установлено значение из свойств игры.</div>
-  <div class="comment"><span class="info">Если "Неверных ответов" пусто или равно нулю</span>, то будет установлено значение из свойств игры.</div>
   <?php
   render_form_field_using_div($form['name'], $width);
+  ?>
+  <div class="comment"><span class="warn">Открытое название может быть показано игрокам на игре. Не пишите сюда информацию, облегчающую разгадывание.</div>
+  <?php
+  render_form_field_using_div($form['public_name'], $width);
+  ?>
+  <div class="comment"><span class="info">Если "Длительность" пусто или равно нулю</span>, то будет установлено значение из свойств игры.</div>
+  <div class="comment"><span class="info">Если "Неверных ответов" пусто или равно нулю</span>, то будет установлено значение из свойств игры.</div>
+<?php
   render_form_field_using_div($form['time_per_task_local'], $width);
   render_form_field_using_div($form['try_count_local'], $width);
   ?>
