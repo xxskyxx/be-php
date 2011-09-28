@@ -17,6 +17,7 @@ abstract class BaseTaskForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'                  => new sfWidgetFormInputHidden(),
       'name'                => new sfWidgetFormInputText(),
+      'public_name'         => new sfWidgetFormInputText(),
       'time_per_task_local' => new sfWidgetFormInputText(),
       'manual_start'        => new sfWidgetFormInputCheckbox(),
       'try_count_local'     => new sfWidgetFormInputText(),
@@ -33,6 +34,7 @@ abstract class BaseTaskForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'                  => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'name'                => new sfValidatorString(array('max_length' => 32)),
+      'public_name'         => new sfValidatorString(array('max_length' => 255)),
       'time_per_task_local' => new sfValidatorInteger(array('required' => false)),
       'manual_start'        => new sfValidatorBoolean(array('required' => false)),
       'try_count_local'     => new sfValidatorInteger(array('required' => false)),

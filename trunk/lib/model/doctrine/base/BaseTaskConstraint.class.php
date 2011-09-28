@@ -53,7 +53,7 @@ abstract class BaseTaskConstraint extends sfDoctrineRecord
              ));
 
 
-        $this->index('ui_game_task_next_task', array(
+        $this->index('ui_task_target_task', array(
              'type' => 'unique',
              'fields' => 
              array(

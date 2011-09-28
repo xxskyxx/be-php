@@ -233,6 +233,83 @@ class Task extends BaseTask implements IStored, IAuth
   }
 
   /**
+   * Устанавливает всем существующим фильтрам перехода признак ручного выбора.
+   * 
+   * @param   boolean   $value    Устанавливаемое значение
+   * @param   WebUser   $account  Авторизация операции
+   */
+  public function allTransitionsSetManual($value, WebUser $account)
+  {
+    if ( ! $this->canBeManaged($account))
+    {
+      throw new Exception(Utils::cannotMessage($account->login, 'редактировать фильтры переходов'));
+    }
+    foreach ($this->taskTransitions as $taskTransition)
+    {
+      $taskTransition->manual_selection = $value;
+    }
+    $this->save();
+  }
+  
+  /**
+   * Создает безусловные переходы на все остальные задания.
+   * 
+   * @param   WebUser   $account  Авторизация операции
+   */
+  public function addTransitionsToAllTasks(WebUser $account)
+  {
+    if ( ! $this->canBeManaged($account))
+    {
+      throw new Exception(Utils::cannotMessage($account->login, 'редактировать фильтры переходов'));
+    }
+    foreach ($this->Game->tasks as $task)
+    {
+      if (($this->id != $task->id) && ( ! $this->hasTransitionToTask($task)))
+      {
+        $newTransition = new TaskTransition();
+        $newTransition->task_id = $this->id;
+        $newTransition->target_task_id = $task->id;
+        $this->taskTransitions->add($newTransition);
+      }
+    }
+    $this->save();
+  }
+
+  /**
+   * Возвращает список заданий доступных для перехода,
+   * если успешность выполнения данного задания равна указанному значению.
+   * 
+   * @param   boolean   $currentTaskResult    Успешность задания, на основе этого значения сработают фильтры
+   * @param   boolean   $forManualSelectOnly  Отбирать только задания с признаком ручного выбора.
+   * 
+   * @return  Doctrine_Collection<Task>
+   */
+  public function getNextTasks($currentTaskResult, $forManualSelectOnly)
+  {
+    $result = new Doctrine_Collection('Task');
+    foreach ($this->taskTransitions as $taskTransition)
+    {
+      if (
+           ($taskTransition->isTransitionPassForResult($currentTaskResult))
+           &&
+           (
+             ( ! $forManualSelectOnly)
+             ||
+             ($taskTransition->manual_selection == $forManualSelectOnly)
+           )
+         )
+      {
+        $targetTask = $taskTransition->getTargetTaskSafe();
+        if ($targetTask)
+        {
+          $result->add($targetTask);
+        }
+      }
+    }
+    return $result;
+  }
+  
+  /**
    * Ищет в указанном списке ответ с заданным значением.
    * 
    * @param   string                  $answerValue      значение для поиска
@@ -253,4 +330,67 @@ class Task extends BaseTask implements IStored, IAuth
     return false;
   }
   
+  /**
+   * Убирает из исходного списка заданий все задания, встречающиеся во втором списке.
+   *
+   * @param   Doctrine_Collection<Task>   $sourceTaskList       Исходный список
+   * @param   Doctrine_Collection<Task>   $tasksToExcludeList   Список заданий, которые нужно убрать из исходного
+   * 
+   * @return  Doctrine_Collection<Task>
+   */
+  public static function excludeTasks(Doctrine_Collection $sourceTaskList, Doctrine_Collection $tasksToExcludeList)
+  {
+    $result = new Doctrine_Collection('Task');
+    foreach ($sourceTaskList as $sourceTask)
+    {
+      if ( ! Task::isTaskInList($sourceTask, $tasksToExcludeList))
+      $result->add($sourceTask);
+    }
+    return $result;
+  }
+
+  /**
+   * Проверяет, присутствует ли указанное заданеи в указанном списке.
+   *
+   * @param   Task                  $task       Задание которое искать
+   * @param   Doctrine_Collection   $taskList   Список где искать
+   *
+   * @return  boolean
+   */
+  public static function isTaskInList(Task $targetTask, Doctrine_Collection $taskList)
+  {
+    foreach ($taskList as $task)
+    {
+      if ($task->id == $targetTask->id)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //// Self ////
+  
+  /**
+   * Проверяет, задан ли фильтр перехода на указанное задание.
+   * 
+   * @param   Task  $task 
+   * 
+   * @return  boolean
+   */
+  protected function hasTransitionToTask(Task $task)
+  {
+    foreach ($this->taskTransitions as $taskTransition)
+    {
+      $targetTask = $taskTransition->getTargetTaskSafe();
+      if ($targetTask)
+      {
+        if ($targetTask->id == $task->id)
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }

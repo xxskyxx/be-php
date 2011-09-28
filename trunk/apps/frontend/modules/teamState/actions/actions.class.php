@@ -57,27 +57,50 @@ class teamStateActions extends myActions
 
   public function executeTask(sfWebRequest $request)
   {
-    $this->forward404Unless($this->teamState = TeamState::byId($request->getParameter('id')), 'Состояние команды не найдено.');
-    $this->errorRedirectUnless($this->teamState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать текущее задание команды'));
+    $this->forward404Unless($this->_teamState = TeamState::byId($request->getParameter('id')), 'Состояние команды не найдено.');
+    $this->errorRedirectUnless($this->_teamState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать текущее задание команды'));
 
-    if ($this->teamState->Game->teams_can_update)
+    if ($this->_teamState->Game->teams_can_update)
     {
-      if (is_string($res = $this->teamState->updateState($this->sessionWebUser)))
+      if (is_string($res = $this->_teamState->updateState($this->sessionWebUser)))
       {
         $this->errorMessage('Не удалось обновить состояние команды: '.$res);
       }
       else
       {
-        $this->teamState->save();
+        $this->_teamState->save();
       }
     }
 
-    if ($currentTaskStatus = $this->teamState->getCurrentTaskState())
+    if ($currentTaskStatus = $this->_teamState->getCurrentTaskState())
     {
       if ($currentTaskStatus->status < TaskState::TASK_DONE)
       {
         $this->redirectSafe('taskState/task?id='.$currentTaskStatus->id);
       }
+    }
+    
+    switch ($this->_teamState->status)
+    {
+      case TeamState::TEAM_WAIT_GAME: $this->setTemplate('teamWaitGame'); break;
+      case TeamState::TEAM_WAIT_START: $this->setTemplate('teamWaitStart'); break;
+      case TeamState::TEAM_WAIT_TASK:
+        $this->_availableTasksManual = $this->_teamState->getTasksAvailableForManualSelect();
+        if ($this->_availableTasksManual && ($this->_teamState->task_id <= 0))
+        {
+          $this->_isLeader = $this->_teamState->Team->canBeManaged($this->sessionWebUser);
+          $this->setTemplate('teamSelectTask');
+        }
+        else
+        {
+          $this->setTemplate('teamWaitTask');
+        }
+        break;
+      case TeamState::TEAM_HAS_TASK: $this->setTemplate('teamHasTask'); break;
+      case TeamState::TEAM_FINISHED: $this->setTemplate('teamFinished'); break;
+        
+      default:
+        throw new Exception('TeamStateActions::executeTask: Неизвестное состояние команды - #'.$this->_teamState->status);
     }
   }
 

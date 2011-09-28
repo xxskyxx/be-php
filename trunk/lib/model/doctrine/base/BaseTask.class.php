@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property string $name
+ * @property string $public_name
  * @property integer $time_per_task_local
  * @property boolean $manual_start
  * @property integer $try_count_local
@@ -22,11 +23,13 @@
  * @property Doctrine_Collection $answers
  * @property Doctrine_Collection $taskConstraints
  * @property Doctrine_Collection $taskStates
+ * @property Doctrine_Collection $taskTransitions
  * @property Doctrine_Collection $TeamState
  * @property Doctrine_Collection $tips
  * 
  * @method integer             getId()                  Returns the current record's "id" value
  * @method string              getName()                Returns the current record's "name" value
+ * @method string              getPublicName()          Returns the current record's "public_name" value
  * @method integer             getTimePerTaskLocal()    Returns the current record's "time_per_task_local" value
  * @method boolean             getManualStart()         Returns the current record's "manual_start" value
  * @method integer             getTryCountLocal()       Returns the current record's "try_count_local" value
@@ -42,10 +45,12 @@
  * @method Doctrine_Collection getAnswers()             Returns the current record's "answers" collection
  * @method Doctrine_Collection getTaskConstraints()     Returns the current record's "taskConstraints" collection
  * @method Doctrine_Collection getTaskStates()          Returns the current record's "taskStates" collection
+ * @method Doctrine_Collection getTaskTransitions()     Returns the current record's "taskTransitions" collection
  * @method Doctrine_Collection getTeamState()           Returns the current record's "TeamState" collection
  * @method Doctrine_Collection getTips()                Returns the current record's "tips" collection
  * @method Task                setId()                  Sets the current record's "id" value
  * @method Task                setName()                Sets the current record's "name" value
+ * @method Task                setPublicName()          Sets the current record's "public_name" value
  * @method Task                setTimePerTaskLocal()    Sets the current record's "time_per_task_local" value
  * @method Task                setManualStart()         Sets the current record's "manual_start" value
  * @method Task                setTryCountLocal()       Sets the current record's "try_count_local" value
@@ -61,6 +66,7 @@
  * @method Task                setAnswers()             Sets the current record's "answers" collection
  * @method Task                setTaskConstraints()     Sets the current record's "taskConstraints" collection
  * @method Task                setTaskStates()          Sets the current record's "taskStates" collection
+ * @method Task                setTaskTransitions()     Sets the current record's "taskTransitions" collection
  * @method Task                setTeamState()           Sets the current record's "TeamState" collection
  * @method Task                setTips()                Sets the current record's "tips" collection
  * 
@@ -83,6 +89,11 @@ abstract class BaseTask extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'length' => 32,
+             ));
+        $this->hasColumn('public_name', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 255,
              ));
         $this->hasColumn('time_per_task_local', 'integer', null, array(
              'type' => 'integer',
@@ -157,6 +168,10 @@ abstract class BaseTask extends sfDoctrineRecord
              'foreign' => 'task_id'));
 
         $this->hasMany('TaskState as taskStates', array(
+             'local' => 'id',
+             'foreign' => 'task_id'));
+
+        $this->hasMany('TaskTransition as taskTransitions', array(
              'local' => 'id',
              'foreign' => 'task_id'));
 

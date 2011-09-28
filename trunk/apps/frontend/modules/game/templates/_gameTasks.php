@@ -92,7 +92,7 @@ render_h3_inline_end();
           $targetTask = $taskConstraint->getTargetTaskSafe();
           if ( ! $targetTask)
           {
-            $html .= decorate_span('danger', 'Переход не найден!');
+            $html .= decorate_span('danger', 'Не&nbsp;найден!');
           }
           else
           {  
@@ -100,6 +100,53 @@ render_h3_inline_end();
             $html .= link_to($targetTask->name, 'task/show?id='.$targetTask->id, array ('target' => 'new'));
           }
         }
+      }
+    }
+    render_property(link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')).': ', $html, $widthName);
+  }
+?>
+</ul>
+
+<h3>Фильтры переходов</h3>
+<p class="comment">
+  Обозначения: <span class="info">переход при успехе</span>, <span class="warn">переход при неудаче</span>, переход в любом случае.
+</p>
+<ul>
+<?php
+  foreach ($_tasks as $task)
+  {
+    $html = '';
+    if ($task->taskTransitions->count() <= 0)
+    { 
+      $html = '&ndash;';
+    }
+    else
+    {
+      foreach ($task->taskTransitions as $taskTransition)
+      {
+        $html .= ($html !== '') ? '; ' : '';
+        $targetTask = $taskTransition->getTargetTaskSafe();
+        if ( ! $targetTask)
+        {
+          $html .= decorate_span('danger', 'Не&nbsp;найден!');
+        }
+        else
+        {  
+          $link = link_to($targetTask->name, 'task/show?id='.$targetTask->id, array ('target' => 'new'));
+          $tail = $taskTransition->manual_selection ? '&nbsp;вручную': '';
+          if ($taskTransition->allow_on_success && $taskTransition->allow_on_fail)
+          {
+            $html .= $link;
+          }
+          elseif ($taskTransition->allow_on_success)
+          {
+            $html .= decorate_span('info', $link.$tail);
+          }
+          else
+          {
+            $html .= decorate_span('warn', $link.$tail);
+          }
+        }        
       }
     }
     render_property(link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')).': ', $html, $widthName);

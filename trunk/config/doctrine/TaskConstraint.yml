@@ -16,8 +16,9 @@ TaskConstraint:
       onDelete: CASCADE
   indexes:
   # Переход с опорного задания на другое должен быть уникален
-    ui_game_task_next_task:
+    ui_task_target_task:
       type: unique
       fields:
         - task_id
         - target_task_id
+

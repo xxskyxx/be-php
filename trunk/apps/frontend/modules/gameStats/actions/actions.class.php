@@ -118,7 +118,7 @@ class gameStatsActions extends MyActions
           $this->errorRedirect('Назначить команде '.$this->teamState->Team->name.' следующее задание не удалось: '.$res);
         }
         $this->teamState->save();
-        $this->successRedirect('Команде '.$this->teamState->Team->name.' назначено следующее задание - '.$task->name);
+        $this->successRedirect('Команде '.$this->teamState->Team->name.' успешно назначено следующее задание.');
       }
     }
     else

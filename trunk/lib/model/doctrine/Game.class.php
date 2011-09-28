@@ -703,8 +703,8 @@ class Game extends BaseGame implements IStored, IAuth
       else
       {
         $line++;
-        $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_ERR;
-        $report['tasks'][$task->id][$line]['msg'] = 'Задание не имеет ответов.';
+        $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_WARN;
+        $report['tasks'][$task->id][$line]['msg'] = 'Задание не имеет ответов: будет зачтено успешным сразу после получения.';
       }
     }
 

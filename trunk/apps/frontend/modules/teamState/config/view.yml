@@ -1,9 +1,16 @@
-taskSuccess:
+editSuccess:
   metas:
-    title: "Текущее задание"
+    title: "Настройки команды"
   has_layout: true  
-  layout:     currentTaskLayout
+  layout:     layout
+showSuccess:
+  metas:
+    title: "Настройки команды"
+  has_layout: true  
+  layout:     layout
 
 all:
   metas:
-    title: "Состояние команды"
+    title: "Текущее задание"
+  has_layout: true  
+  layout:     currentTaskLayout    

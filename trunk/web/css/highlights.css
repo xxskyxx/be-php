@@ -23,6 +23,16 @@ span.indent, div.indent, span.indentAction { /* reserved */ }
 span.info,   div.info,   span.safeAction   { background: DarkGreen;   color: GreenYellow }
 span.warn,   div.warn,   span.warnAction   { background: SaddleBrown; color: Yellow }
 span.danger, div.danger, span.dangerAction { background: DarkRed;     color: Gold }
+span.indentAction, span.safeAction, span.warnAction, span.dangerAction
+{
+  display: inline-block;
+  padding: 0px 2px 3px 2px;
+  border: 1px Solid;
+}
+span.indentAction { padding: 1px 3px 4px 3px; border: none }
+span.safeAction   { border-color: GreenYellow }
+span.warnAction   { border-color: Yellow }
+span.dangerAction { border-color: Gold }
 span.safeAction a, span.warnAction a, span.dangerAction a { color: inherit }
 span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White }
 
