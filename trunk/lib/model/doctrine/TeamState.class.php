@@ -902,7 +902,8 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     }
     $isLastKnownTaskSucceeded = $lastKnownTaskState->status == TaskState::TASK_DONE_SUCCESS;
     $tasksPassedTransitionsFilter = $lastKnownTaskState->Task->getNextTasks($isLastKnownTaskSucceeded, $forManualSelectOnly);
-    if ($tasksPassedTransitionsFilter->count() == 0)
+    if (($tasksPassedTransitionsFilter->count() == 0)
+        && ( ! $forManualSelectOnly)) // Ручной выбор может быть только на основе фильтров
     {
       $result = $unknownTasks;
     }

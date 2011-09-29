@@ -23,7 +23,7 @@ $width = get_text_block_size_ex('Когда кем-то выполняется:'
 render_property_if($_isModerator, 'id:', $_task->id, $width);
 render_property('Внутреннее название:', $_task->name, $width);
 render_property('Открытое название:', $_task->public_name, $width);
-render_property('Длительность:', Timing::intervalToStr($_task->time_per_task_local), $width);
+render_property('Длительность:', Timing::intervalToStr($_task->time_per_task_local*60), $width);
 render_property('Неверных ответов:', 'не&nbsp;более&nbsp;'.$_task->try_count_local, $width);
 ?>
 <h4>Управление</h4>
