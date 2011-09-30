@@ -35,8 +35,7 @@ render_property('Заблокировано:', $_task->locked ? decorate_span('w
 <h4>Приоритеты опорные</h4>
 <?php
 render_property('Когда свободно:', decorate_number($_task->priority_free), $width);
-render_property('Когда кому-то выдано:', decorate_number($_task->priority_queued), $width);
-render_property('Когда кем-то выполняется:', decorate_number($_task->priority_busy), $width);
+render_property('Когда кому-то выдано:', decorate_number($_task->priority_busy), $width);
 ?>
 <h4>Приоритеты дополнительные</h4>
 <?php

@@ -33,7 +33,6 @@
   <div class="comment"><span class="warn">Приоритеты из трех следующих полей являются взаимоисключающими.</span></div>
   <?php
   render_form_field_using_div($form['priority_free'], $width);
-  render_form_field_using_div($form['priority_queued'], $width);
   render_form_field_using_div($form['priority_busy'], $width);
   ?>
   <h4>Приоритеты дополнительные</h4>

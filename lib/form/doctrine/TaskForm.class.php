@@ -15,6 +15,7 @@ class TaskForm extends BaseTaskForm
   {
     //Игра будет задаваться принудительно.
     unset($this['game_id']);
+    unset($this['priority_queued']);
     $this->setWidget('game_id', new sfWidgetFormInputHidden());
     $this->setValidator('game_id', new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Game'))));
 
@@ -28,8 +29,7 @@ class TaskForm extends BaseTaskForm
         'max_teams' => 'Выполняющих команд:',
         'locked' => 'Заблокировано:',
         'priority_free' => 'Когда свободно:',
-        'priority_queued' => 'Когда кому-то выдано:',
-        'priority_busy' => 'Когда кем-то выполняется:',
+        'priority_busy' => 'Когда кому-то выдано:',
         'priority_filled' => 'Когда заполнено:',
         'priority_per_team' => 'На каждую команду:'
     ));
@@ -42,7 +42,6 @@ class TaskForm extends BaseTaskForm
         'max_teams' => 'не более ...',
         'locked' => '',
         'priority_free' => '',
-        'priority_queued' => '',
         'priority_busy' => '',
         'priority_filled' => '',
         'priority_per_team' => ''

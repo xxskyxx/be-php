@@ -272,7 +272,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   {
     return $this->getAvailableTasks(false);
   }
-  
+
   /**
    * Возвращает список всех заданий, доступных для ручного выбора.
    * Учитывает фильтры переходов.
@@ -285,7 +285,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   {
     return $this->getAvailableTasks(true);
   }
-  
+
   /**
    * Возвращает результаты команды в виде массива:
    * - ключи:
@@ -446,6 +446,23 @@ class TeamState extends BaseTeamState implements IStored, IAuth
                 {
                   $this->autoSelectNextTaskFrom($availableTasks);
                 }
+                if ($this->task_id > 0)
+                {
+                  // Следующее задание выбрано, выдадим его сразу.
+                  $nextTask = $this->Task;
+                  $this->Task = null;
+                  $res = $this->giveTask($nextTask, $actor);
+                }
+                else
+                {
+                  // Следующее задание выбрать не удалось.
+                  // Проблема: при следующем цикле пересчета для попытки
+                  // выбора задания будет выбрана эта же команда, что вызовет
+                  // зацикливание и невозможность другим командам 
+                  // автоматически выбрать задание.
+                  // Решение: отключить автовыбор заданий для "проблемной" команды.
+                  $this->ai_enabled = false;
+                }
               }
               $res = true;
             }
@@ -597,7 +614,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   {
     if ($task == null)
     {
-      // Выполняется отмена выбора следующего задания, 
+      // Выполняется отмена выбора следующего задания,
       // ее может сделать только руководитель игры
       if ( ! $this->canUpdateState($actor))
       {
@@ -612,14 +629,14 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       {
         return 'Команда '.$this->Team->name.' уже получала задание '.$task->name;
       }
-      
+
       if ($this->canUpdateState($actor))
       {
         // Руководитель игры может назначить любое задание из неизвестных
         $this->task_id = $task->id;
         return true;
       }
-      
+
       //Возможно это капитан команды вручную выбирает следующее задание
       //Если он не капитан, то это делать нельзя
       if ( ! $this->Team->canBeManaged($actor))
@@ -627,7 +644,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
         // Руководитель игры может назначить любое задание из неизвестных
         return Utils::cannotMessage($actor->login, 'выбирать следующее задание');
       }
-      
+
       //Выбор вручную возможен только при наличии разрешенных для этого заданий
       $availableTasksManual = $this->getTasksAvailableForManualSelect();
       if ($availableTasksManual->count() > 0)
@@ -637,7 +654,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
         {
           return 'Это задание недоступно для ручного выбора командой.';
         }
-        
+
         // Назначаем следующее задание
         $this->task_id = $task->id;
         return true;
@@ -671,21 +688,21 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       return 'Команда '.$this->Team->name.' уже получала задание '.$task->name;
     }
-    $newStatus = new TaskState();
-    $newStatus->team_state_id = $this->id;
-    $newStatus->task_id = $task->id;
-    $newStatus->given_at = time();
-    $newStatus->started_at = 0;
-    $newStatus->accepted_at = 0;
-    $newStatus->task_idle_time = 0;
-    $newStatus->done_at = 0;
-    $newStatus->closed = false;
-    $newStatus->status = TaskState::TASK_GIVEN;
-    $newStatus->task_time_spent = 0;
-    $newStatus->task_last_update = time();
-    $newStatus->save(); //Опасно!! Но по другому не получится получить реальный id новой записи для... (1)
-    $this->taskStates->add($newStatus);
-    $this->task_state_id = $newStatus->id; //(1)... использования здесь
+    $newTaskState = new TaskState();
+    $newTaskState->team_state_id = $this->id;
+    $newTaskState->task_id = $task->id;
+    $newTaskState->given_at = time();
+    $newTaskState->started_at = 0;
+    $newTaskState->accepted_at = 0;
+    $newTaskState->task_idle_time = 0;
+    $newTaskState->done_at = 0;
+    $newTaskState->closed = false;
+    $newTaskState->status = TaskState::TASK_GIVEN;
+    $newTaskState->task_time_spent = 0;
+    $newTaskState->task_last_update = time();
+    $newTaskState->save(); //Опасно!! Но по другому не получится получить реальный id новой записи для... (1)
+    $this->taskStates->add($newTaskState);
+    $this->task_state_id = $newTaskState->id; //(1)... использования здесь
 
     $this->status = TeamState::TEAM_HAS_TASK;
     $this->team_last_update = time();
@@ -779,7 +796,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    * Результат устанавливается в качестве следующего задания команды.
    * Если задание уже установлено - не меняет его.
    * Если задание выбрать не удастся - ничего не делает.
-   * 
+   *
    * @param   Doctrine_Collection   $availableTasks   Задания, из которых выбирать следующее.
    */
   protected function autoSelectNextTaskFrom(Doctrine_Collection $availableTasks)
@@ -879,7 +896,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    * Учитывает фильтры последнего известного задания.
    * Если последнее известное задание не закончилось,
    * то фильтры применяются для случая неуспешного завершения задания.
-   * 
+   *
    * @param   boolean               $forManualSelectOnly  Только задания для ручного выбора.
    *
    * @return  Doctrine_Collection   Или false, если нет доступных заданий.
@@ -891,14 +908,14 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     $unknownTasks = Task::excludeTasks($allTasks, $knownTasks);
 
     $lastKnownTaskState = $this->getLastKnownTaskState();
-    if ( ! $lastKnownTaskState ) 
+    if ( ! $lastKnownTaskState )
     {
       // Команда еще не делала ни одного задания.
       if ($forManualSelectOnly)
       {
         return false; // Первое задание не может быть выбрано вручную.
       }
-      return $unknownTasks;      
+      return $unknownTasks;
     }
     $isLastKnownTaskSucceeded = $lastKnownTaskState->status == TaskState::TASK_DONE_SUCCESS;
     $tasksPassedTransitionsFilter = $lastKnownTaskState->Task->getNextTasks($isLastKnownTaskSucceeded, $forManualSelectOnly);
@@ -913,5 +930,5 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     }
     return ($result->count() > 0) ? $result : false;
   }
-  
+
 }

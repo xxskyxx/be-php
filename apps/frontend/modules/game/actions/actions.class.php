@@ -110,7 +110,7 @@ class gameActions extends MyActions
       else if ($this->_tab == 'tasks')
       {
         $this->_tasks = Doctrine::getTable('Task')
-            ->createQuery('t')->leftJoin('t.taskConstraints')
+            ->createQuery('t')->leftJoin('t.taskConstraints')->leftJoin('t.taskTransitions')
             ->select()->where('game_id = ?', $this->_game->id)
             ->orderBy('t.name')->execute();
       }

@@ -433,10 +433,7 @@ class Game extends BaseGame implements IStored, IAuth
     {
       return Utils::cannotMessage($actor->login, Permission::byId(Permission::GAME_MODER)->description);
     }
-
-    $errors = array();
-    $errCount = 0;
-
+    $res = true;
     switch ($this->status)
     {
       //Ожидание начала игры.
@@ -447,6 +444,7 @@ class Game extends BaseGame implements IStored, IAuth
           $this->started_at = time();
           $this->status = Game::GAME_ACTIVE;
         }
+        $res = true;
         break;
 
       //Нормальный ход игры.
@@ -467,37 +465,31 @@ class Game extends BaseGame implements IStored, IAuth
           $this->stop($actor);
           $this->save();
         }
-        //break здесь не нужен, нужно еще пересчитать состояние.
-
-      //Игра завершена, но обновления надо продолжать, чтобы все команды
-      //корректно закончили игру.
-      case Game::GAME_FINISHED:
-        foreach ($this->teamStates as $teamState) //??!! Выполнение этого цикла приводит к отмене всех ранее сделанных изменений в данном экземпляре игры.
+        // Принудительное окончание игры
+        if (time() > $this->getGameStopTime())
         {
-          if (is_string($res = $teamState->updateState($actor)))
-          {
-            $errors[$teamState->team_id] = $res;
-            $errCount++;
-          };
+          $this->stop($actor);
         }
+        //Обновим состояние команд.
+        $res = $this->updateTeamStates($actor);
+        break;
+
+      //Игра завершена
+      case Game::GAME_FINISHED:
+        //Обновления команд надо продолжать, чтобы все команды корректно закончили игру.
+        //Обновим состояние команд.
+        $res = $this->updateTeamStates($actor);
         break;
 
       default:
+        $res = true;
         break;
-    }
-
-    // Принудительное окончание игры
-    if (time() > $this->getGameStopTime())
-    {
-      $this->stop($actor);
     }
 
     $this->game_last_update = time();
     $this->save();
 
-    return ($errCount > 0)
-        ? $errors
-        : true;
+    return ($res);
   }
 
   /**
@@ -888,6 +880,60 @@ class Game extends BaseGame implements IStored, IAuth
     }
   }
 
+  //// Self
+  
+  /** 
+   * Обновляет состояние команд, возвращает список ошибок при этом.
+   * 
+   * @param   WebUser   $actor  Авторизация
+   * 
+   * @return  mixed     True при отсутствии ошибок, иначе массив-индекс [ключ_команды]="сообщение об ошибке"
+   */
+  protected function updateTeamStates(WebUser $actor)
+  {
+    $teamStateToSendTask = null;
+    $errors = array();
+    foreach ($this->teamStates as $teamState)
+    {
+      try
+      {
+        //Если команде назначено следующее задание
+        //или она не ждет задания
+        //или для нее выключен автовыбор заданий
+        if (($teamState->task_id > 0)
+            ||
+            ($teamState->status != TeamState::TEAM_WAIT_TASK)
+            ||
+            ( ! $teamState->ai_enabled))
+        {
+          $teamState->updateState($actor);
+        }
+        else
+        {
+          //Задание выдается только одной из команд за всеь цикл обновления,
+          //так как автоматический выбор задания требует интенсивного обмена с БД.
+          $teamStateToSendTask = ($teamStateToSendTask === null) ? $teamState : $teamStateToSendTask;
+        }
+      }
+      catch (Exception $e)
+      {
+        $errors[$teamState->team_id] = $e->getMessage();
+      }
+      
+      if ($teamStateToSendTask !== null)
+      {
+        try
+        {
+          $teamStateToSendTask->updateState($actor); //Задание будет выдано в результате обновления состояния.
+        }
+        catch (Exception $e)
+        {
+          $errors[$teamState->team_id] = $e->getMessage();
+        }
+      }
+    }
+    return (count($errors) > 0) ? $errors : true;
+  }
 }
 
 function compareTeamPlaces($a, $b)

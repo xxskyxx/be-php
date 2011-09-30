@@ -25,7 +25,7 @@
                     {
                       echo 'warn';
                     }
-                    elseif ($task->getActiveTaskStates() === false)
+                    elseif ($task->taskStates->count() == 0)
                     {
                       echo 'info';
                     }
