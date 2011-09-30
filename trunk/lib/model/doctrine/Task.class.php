@@ -45,41 +45,22 @@ class Task extends BaseTask implements IStored, IAuth
   //// Public ////
 
   /**
-   * Возвращает список состояний заданий команд, которые получили это задание,
-   * но еще не ознакомились с ним.
-   *
-   * @return  Doctrine_Collection   Или false, если не найдено.
-   */
-  public function getQueuedTaskStates()
-  {
-    $res = new Doctrine_Collection('TaskState');
-    foreach ($this->taskStates as $taskState)
-    {
-      if ($taskState->status < TaskState::TASK_ACCEPTED)
-      {
-        $res->add($taskState);
-      }
-    }
-    return ($res->count() > 0) ? $res : false;
-  }
-
-  /**
    * Возвращает список состояний заданий команд, которые выполняют это задание.
    *
-   * @return  Doctrine_Collection   Или false, если не найдено.
+   * @return  Doctrine_Collection
    */
   public function getActiveTaskStates()
   {
     $res = new Doctrine_Collection('TaskState');
     foreach ($this->taskStates as $taskState)
     {
-      if (($taskState->status >= TaskState::TASK_ACCEPTED)
+      if (($taskState->status >= TaskState::TASK_STARTED)
           && ($taskState->status < TaskState::TASK_DONE))
       {
         $res->add($taskState);
       }
     }
-    return ($res->count() > 0) ? $res : false;
+    return $res;
   }
 
   /**
@@ -89,27 +70,16 @@ class Task extends BaseTask implements IStored, IAuth
    */
   public function getPrioritySelf()
   {
-    $activeTaskStates = $this->getActiveTaskStates();
-    if ($activeTaskStates === false)
+    if ($this->taskStates->count() == 0)
     {
-      // Нет выполняющих команд, проверим сколько в очереди
-      $queuedTaskStates = $this->getQueuedTaskStates();
-      if ($queuedTaskStates === false)
-      {
-        // Задание никому не выдано
-        return $this->priority_free;
-      }
-      else
-      {
-        // Задание выдано по крайней мере одной команде
-        return $this->priority_queued;
-      }
+      // Задание никому не выдано
+      return $this->priority_free;
     }
     else
     {
-      // Есть выполняющие команды
-      $res = $this->priority_busy + $activeTaskStates->count()*$this->priority_per_team;
-      if (($this->max_teams > 0) && ($activeTaskStates->count() >= $this->max_teams))
+      // Задание выдано по крайней мере одной команде
+      $res = $this->priority_busy + ($this->taskStates->count() * $this->priority_per_team);
+      if ($this->isFilled())
       {
         $res += $this->priority_filled;
       }
@@ -165,12 +135,7 @@ class Task extends BaseTask implements IStored, IAuth
    */
   public function isFilled()
   {
-    if ($this->max_teams == 0)
-    {
-      return false;
-    }
-    $teams = $this->getActiveTaskStates();
-    return (!$teams) ? false : ($teams->count() >= $this->max_teams);
+    return ($this->max_teams > 0) && ($this->taskStates->count() >= $this->max_teams);
   }
 
   /**

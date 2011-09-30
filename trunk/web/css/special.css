@@ -104,17 +104,8 @@ div.blogComment div.itemControls {
   margin-left: 5px;
   padding: 0 0 1px 2px;
   text-align: right;
-  color: Gray
-    
+  color: Gray 
 }
-div.blogPost    div.itemControls {
-  border-left: Solid 1px DodgerBlue;
-  border-bottom: Solid 1px DodgerBlue;
-}
-div.blogComment div.itemControls {
-  border-left: Solid 1px Grey;
-  border-bottom: Solid 1px Grey;
-} 
 
 div.blogPost div.text,
 div.blogComment div.text {

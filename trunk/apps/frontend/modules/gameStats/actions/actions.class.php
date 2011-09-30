@@ -124,7 +124,7 @@ class gameStatsActions extends MyActions
     else
     {
       // Диалог только что открыт, надо сформировать список для выбора.
-      $this->tasks = $this->teamState->getAvailableTasks();
+      $this->tasks = $this->teamState->getAvailableTasks(false);
       if (!$this->tasks)
       {
         $this->errorRedirect('У команды '.$this->teamState->Team->name.' нет доступных для выдачи заданий.');

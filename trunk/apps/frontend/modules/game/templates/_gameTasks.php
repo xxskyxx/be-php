@@ -33,7 +33,7 @@ render_h3_inline_end();
 <?php foreach ($_tasks as $task): ?>
   <div>
     <?php
-    render_column_value(link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')), $widthName, 'left');
+    render_column_value(link_to($task->name, 'task/show?id='.$task->id), $widthName, 'left');
     render_column_value(Timing::intervalToStr($task->time_per_task_local*60), $widthTaskTime, 'center');
     render_column_value('&lt;=&nbsp;'.$task->try_count_local, $widthTryCount, 'center');
     render_column_value(($task->max_teams > 0) ? '&lt;=&nbsp;'.$task->max_teams : '&infin;', $widthMaxTeam, 'center');
@@ -49,11 +49,9 @@ render_h3_inline_end();
   render_column_name('Задание', $widthName);
   $widthFree = get_text_block_size_ex('Свободно');
   render_column_name('Свободно', $widthFree);
-  $widthQueue = get_text_block_size_ex('Выдано');
-  render_column_name('Выдано', $widthQueue);
-  $widthBusy = get_text_block_size_ex('Выполняется');
-  render_column_name('Выполняется', $widthBusy);
-  $widthFill = get_text_block_size_ex('Заполнено');
+  $widthBusy = get_text_block_size_ex('Выдано');
+  render_column_name('Выдано', $widthBusy);
+  $widthFill = get_text_block_size_ex('Заполнено');  
   render_column_name('Заполнено', $widthFill);
   $widthPerTeam = get_text_block_size_ex('На&nbsp;команду');
   render_column_name('На&nbsp;команду', $widthPerTeam);
@@ -62,9 +60,8 @@ render_h3_inline_end();
 <?php foreach ($_tasks as $task): ?>
   <div>
     <?php
-    render_column_value(link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')), $widthName, 'left');
+    render_column_value(link_to($task->name, 'task/show?id='.$task->id), $widthName, 'left');
     render_column_value(decorate_number($task->priority_free), $widthFree, 'center');
-    render_column_value(decorate_number($task->priority_queued), $widthQueue, 'center');
     render_column_value(decorate_number($task->priority_busy), $widthBusy, 'center');
     render_column_value(decorate_number($task->priority_filled), $widthFill, 'center');
     render_column_value(decorate_number($task->priority_per_team), $widthPerTeam, 'center');
@@ -102,7 +99,7 @@ render_h3_inline_end();
         }
       }
     }
-    render_property(link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')).': ', $html, $widthName);
+    render_property(link_to($task->name, 'task/show?id='.$task->id).': ', $html, $widthName);
   }
 ?>
 </ul>
@@ -149,7 +146,7 @@ render_h3_inline_end();
         }        
       }
     }
-    render_property(link_to($task->name, 'task/show?id='.$task->id, array ('target' => 'new')).': ', $html, $widthName);
+    render_property(link_to($task->name, 'task/show?id='.$task->id).': ', $html, $widthName);
   }
 ?>
 </ul>

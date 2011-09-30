@@ -26,10 +26,11 @@ span.danger, div.danger, span.dangerAction { background: DarkRed;     color: Gol
 span.indentAction, span.safeAction, span.warnAction, span.dangerAction
 {
   display: inline-block;
-  padding: 0px 2px 3px 2px;
+  padding: 0px 2px 1px 2px;
   border: 1px Solid;
+  border-bottom: none;
 }
-span.indentAction { padding: 1px 3px 4px 3px; border: none }
+span.indentAction { padding: 1px 3px 2px 3px; border: none }
 span.safeAction   { border-color: GreenYellow }
 span.warnAction   { border-color: Yellow }
 span.dangerAction { border-color: Gold }
@@ -45,7 +46,14 @@ div.infoBorder   { border: Solid Lime 2px }
 div.warnBorder   { border: Solid Yellow 2px }
 div.dangerBorder { border: Solid Red 2px }
 
-span.indentBorder, span.infoBorder, span.warnBorder, span.dangerBorder { display: inline-block }
-span.infoBorder   { border: Solid Lime 2px }
-span.warnBorder   { border: Solid Yellow 2px }
-span.dangerBorder { border: Solid Red 2px }
+span.indentBorder, span.infoBorder, span.warnBorder, span.dangerBorder {
+  display: inline-block;
+  border-style: Solid;
+  border-top-width: 1px;
+  border-right-width: 2px;
+  border-bottom-width: 1px;
+  border-left-width: 2px;
+}
+span.infoBorder   { border-color: Lime }
+span.warnBorder   { border-color: Yellow }
+span.dangerBorder { border-color: Red }

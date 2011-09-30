@@ -1,132 +1,98 @@
 Answer:
   Answer_1:
     Task: Task_1
-    name: Ответ1
-    info: '1'
+    name: ОтветПервый
+    info: 'Введите:1111'
     value: '1111'
     Team: Team_2
   Answer_2:
     Task: Task_1
-    name: Ответ2
-    info: '2'
+    name: ОтветВторой
+    info: 'Введите:2222'
     value: '2222'
     Team: Team_3
   Answer_3:
-    Task: Task_2
-    name: Ответ1
-    info: '1'
-    value: '1111'
-  Answer_4:
-    Task: Task_2
-    name: Ответ2
-    info: '2'
-    value: '2222'
-  Answer_5:
-    Task: Task_3
-    name: Ответ1
-    info: '1'
-    value: '1111'
-  Answer_6:
-    Task: Task_3
-    name: Ответ2
-    info: '2'
-    value: '2222'
-  Answer_7:
     Task: Task_1
-    name: Ответ3
-    info: '3'
+    name: ОтветТретий
+    info: 'Введите:3333'
     value: '3333'
     Team: Team_4
+  Answer_4:
+    Task: Task_1
+    name: ОтветЧетвертый
+    info: 'Введите:4444'
+    value: '4444'
+    Team: Team_5
+  Answer_5:
+    Task: Task_1
+    name: ОтветПятый
+    info: 'Введите:5555'
+    value: '5555'
+    Team: Team_6
+  Answer_6:
+    Task: Task_1
+    name: ОтветОбщий
+    info: 'Введите:0000'
+    value: '0000'
+  Answer_11:
+    Task: Task_5
+    name: Ответ
+    info: 'Введите:0000'
+    value: '0000'
+  Answer_12:
+    Task: Task_6
+    name: СПодсказкой
+    info: 'Введите:0000'
+    value: '0000'
+  Answer_13:
+    Task: Task_6
+    name: ОтветОбычный
+    info: 'Введите:1111'
+    value: '1111'
+  Answer_14:
+    Task: Task_7
+    name: Ответ
+    info: 'Введите:0000'
+    value: '0000'
+  Answer_15:
+    Task: Task_8
+    name: Ответ
+    info: 'Введите:0000'
+    value: '0000'
+  Answer_16:
+    Task: Task_9
+    name: Ответ
+    info: 'Введите:Абв'
+    value: Абв
 Blog:
   Blog_1: {  }
-Comment:
-  Comment_1:
-    Post: Post_6
-    WebUser: WebUser_1
-    text: 'Комментарий 1'
-    create_time: '1314962061'
-  Comment_2:
-    Post: Post_6
-    WebUser: WebUser_1
-    text: 'Комментарий 2'
-    create_time: '1314962073'
-  Comment_3:
-    Post: Post_6
-    WebUser: WebUser_1
-    text: 'Комментарий 3'
-    create_time: '1314962078'
-  Comment_4:
-    Post: Post_6
-    WebUser: WebUser_1
-    text: 'Комментарий 4'
-    create_time: '1314962083'
-  Comment_5:
-    Post: Post_6
-    WebUser: WebUser_2
-    text: 'Комментарий 5'
-    create_time: '1314962366'
-  Comment_6:
-    Post: Post_6
-    WebUser: WebUser_2
-    text: 'Комментарий 6'
-    create_time: '1314962371'
-  Comment_7:
-    Post: Post_6
-    WebUser: WebUser_2
-    text: 'Комментарий 7'
-    create_time: '1314962379'
-  Comment_12:
-    Post: Post_5
-    WebUser: WebUser_1
-    text: 'Комментарий 8'
-    create_time: '1314993662'
 Game:
   Game_1:
-    name: 'Тестовая игра'
-    description: 'Тестовая игра'
+    name: Случайная
+    description: "Пример игры со случайным порядком прохождения заданий.\r\n\r\nТакже демонстрируется:\r\n- влияние приоритетов на порядок заданий\r\n- задание с персональными ответами для каждой команды\r\n- задание с подсказкой, активируемой ответом.\r\n- задание с ограничением на число одновременно выполняющих его команд.\r\n- задание с паузой перед его стартом.\r\n- задание с ответом, содержащим русские буквы"
     Team: Team_1
-    team_name_backup: TestOrgs
+    team_name_backup: TestAuthors
     start_briefing_datetime: '2011-01-01 00:00:00'
-    start_datetime: '2011-01-01 00:01:00'
+    start_datetime: '2011-01-01 00:00:01'
     stop_datetime: '2011-12-31 23:59:58'
     finish_briefing_datetime: '2011-12-31 23:59:59'
-    time_per_game: '540'
+    time_per_game: '30'
     time_per_task: '3'
     time_per_tip: '1'
     try_count: '5'
     update_interval: '5'
     teams_can_update: false
-    update_interval_max: '60'
+    update_interval_max: '600'
     task_define_default_name: Загадка
     task_tip_prefix: Подсказка
-    status: '0'
-    started_at: '0'
+    status: '400'
+    started_at: '1317324156'
     finished_at: '0'
-    game_last_update: '1314110472'
+    game_last_update: '1317378860'
 GrantedPermission:
   GrantedPermission_1:
     WebUser: WebUser_1
     Permission: Permission_1
-    filter_id: '0'
-    deny: false
-  GrantedPermission_2:
-    WebUser: WebUser_12
-    Permission: Permission_4
-    filter_id: '0'
-    deny: false
-  GrantedPermission_4:
-    WebUser: WebUser_12
-    Permission: Permission_8
-    filter_id: '0'
-    deny: false
-  GrantedPermission_5:
-    WebUser: WebUser_12
-    Permission: Permission_13
-    filter_id: '0'
-    deny: false
-  GrantedPermission_6:
-    WebUser: WebUser_12
-    Permission: Permission_5
     filter_id: '0'
     deny: false
 Permission:
@@ -156,48 +122,52 @@ Permission:
     description: 'руководить игрой'
   Permission_13:
     description: 'управлять игрой'
+  Permission_14:
+    description: 'модерировать блог'
 Post:
-  Post_1:
-    Blog: Blog_1
-    WebUser: WebUser_1
-    text: 'Новость 1'
-    create_time: '0'
-  Post_2:
-    Blog: Blog_1
-    WebUser: WebUser_1
-    text: 'Новость 2'
-    create_time: '1314268345'
-  Post_3:
-    Blog: Blog_1
-    WebUser: WebUser_1
-    text: 'Новость 3'
-    create_time: '1314268354'
-  Post_4:
-    Blog: Blog_1
-    WebUser: WebUser_1
-    text: 'Новость 4'
-    create_time: '1314604478'
-  Post_5:
-    Blog: Blog_1
-    WebUser: WebUser_1
-    text: 'Новость 5'
-    create_time: '1314605843'
   Post_6:
     Blog: Blog_1
     WebUser: WebUser_1
-    text: 'Новость 6'
-    create_time: '1314687003'
+    text: 'Обновление до ревизии #72, переход к версии 0.9.х'
+    create_time: '1317240803'
+  Post_7:
+    Blog: Blog_1
+    WebUser: WebUser_1
+    text: 'Обновление до ревизии #73'
+    create_time: '1317285681'
+PostedAnswer:
+  PostedAnswer_32:
+    TaskState: TaskState_44
+    value: '0000'
+    post_time: '1317324238'
+    WebUser: WebUser_1
+    Answer: Answer_11
+    status: '200'
+  PostedAnswer_33:
+    TaskState: TaskState_45
+    value: '0000'
+    post_time: '1317324241'
+    WebUser: WebUser_1
+    Answer: Answer_11
+    status: '200'
+  PostedAnswer_34:
+    TaskState: TaskState_52
+    value: '0000'
+    post_time: '1317327693'
+    WebUser: WebUser_1
+    Answer: Answer_11
+    status: '200'
 SystemSettings:
   SystemSettings_0:
     id: '0'
-    site_name: 'Beaver''s Engine v0.8.6b'
+    site_name: 'Beaver''s Engine v0.9.3b'
     site_domain: localhost
     fast_user_register: false
     fast_team_create: false
-    email_team_create: true
+    email_team_create: false
     email_game_create: false
     notify_email_addr: do_not_reply@somehost.inf
-    contact_email_addr: feedback@somehost.inf
+    contact_email_addr: vozdvin@mail.ru
     smtp_host: smtp.somehost.inf
     smtp_port: '25'
     smtp_security: ''
@@ -205,7 +175,8 @@ SystemSettings:
     smtp_password: ''
 Task:
   Task_1:
-    name: Задание1
+    name: ПерсональныеОтветы
+    public_name: 'Персональные ответы'
     time_per_task_local: '3'
     manual_start: false
     try_count_local: '5'
@@ -217,8 +188,23 @@ Task:
     max_teams: '0'
     locked: false
     Game: Game_1
-  Task_2:
-    name: Задание2
+  Task_5:
+    name: '!Стартовое'
+    public_name: Стартовое
+    time_per_task_local: '3'
+    manual_start: false
+    try_count_local: '5'
+    priority_free: '1000'
+    priority_queued: '1000'
+    priority_busy: '1000'
+    priority_filled: '-500'
+    priority_per_team: '-10'
+    max_teams: '0'
+    locked: false
+    Game: Game_1
+  Task_6:
+    name: ПодсказкаОтветом
+    public_name: 'Подсказка ответом'
     time_per_task_local: '3'
     manual_start: false
     try_count_local: '5'
@@ -230,8 +216,37 @@ Task:
     max_teams: '0'
     locked: false
     Game: Game_1
-  Task_3:
-    name: Задание3
+  Task_7:
+    name: ЛимитКоманд
+    public_name: 'Лимит команд'
+    time_per_task_local: '3'
+    manual_start: false
+    try_count_local: '5'
+    priority_free: '0'
+    priority_queued: '-10'
+    priority_busy: '0'
+    priority_filled: '-500'
+    priority_per_team: '-10'
+    max_teams: '2'
+    locked: false
+    Game: Game_1
+  Task_8:
+    name: ВходнаяПауза
+    public_name: 'Входная пауза'
+    time_per_task_local: '3'
+    manual_start: true
+    try_count_local: '5'
+    priority_free: '0'
+    priority_queued: '-10'
+    priority_busy: '0'
+    priority_filled: '-500'
+    priority_per_team: '-10'
+    max_teams: '0'
+    locked: false
+    Game: Game_1
+  Task_9:
+    name: 'РусскийОтвет'
+    public_name: 'Русский ответ'
     time_per_task_local: '3'
     manual_start: false
     try_count_local: '5'
@@ -243,208 +258,420 @@ Task:
     max_teams: '0'
     locked: false
     Game: Game_1
+TaskConstraint:
+  TaskConstraint_2:
+    Task: Task_5
+    target_task_id: '7'
+    priority_shift: '100'
+TaskState:
+  TaskState_44:
+    TeamState: TeamState_1
+    Task: Task_5
+    given_at: '1317324168'
+    started_at: '1317324173'
+    accepted_at: '1317324233'
+    task_idle_time: '0'
+    done_at: '1317324238'
+    task_time_spent: '5'
+    closed: true
+    status: '910'
+    task_last_update: '1317324244'
+  TaskState_45:
+    TeamState: TeamState_2
+    Task: Task_5
+    given_at: '1317324224'
+    started_at: '1317324229'
+    accepted_at: '1317324234'
+    task_idle_time: '0'
+    done_at: '1317324241'
+    task_time_spent: '7'
+    closed: true
+    status: '910'
+    task_last_update: '1317324244'
+  TaskState_52:
+    TeamState: TeamState_3
+    Task: Task_5
+    given_at: '1317324522'
+    started_at: '1317324536'
+    accepted_at: '1317327690'
+    task_idle_time: '0'
+    done_at: '1317327693'
+    task_time_spent: '3'
+    closed: true
+    status: '910'
+    task_last_update: '1317327698'
+  TaskState_67:
+    TeamState: TeamState_1
+    Task: Task_7
+    given_at: '1317378842'
+    started_at: '1317378845'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '100'
+    task_last_update: '1317378859'
+  TaskState_68:
+    TeamState: TeamState_2
+    Task: Task_7
+    given_at: '1317378846'
+    started_at: '1317378849'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '100'
+    task_last_update: '1317378859'
+  TaskState_69:
+    TeamState: TeamState_3
+    Task: Task_1
+    given_at: '1317378849'
+    started_at: '1317378856'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '100'
+    task_last_update: '1317378859'
+  TaskState_70:
+    TeamState: TeamState_4
+    Task: Task_5
+    given_at: '1317378857'
+    started_at: '1317378860'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '100'
+    task_last_update: '1317378860'
+  TaskState_71:
+    TeamState: TeamState_5
+    Task: Task_5
+    given_at: '1317378860'
+    started_at: '0'
+    accepted_at: '0'
+    task_idle_time: '0'
+    done_at: '0'
+    task_time_spent: '0'
+    closed: false
+    status: '0'
+    task_last_update: '1317378860'
 Team:
   Team_1:
-    name: TestOrgs
-    full_name: 'Test game authors'
+    name: TestAuthors
+    full_name: 'Test authors'
   Team_2:
     name: Testers1
-    full_name: 'Test team 1'
+    full_name: ''
   Team_3:
     name: Testers2
-    full_name: 'Test team 2'
+    full_name: ''
   Team_4:
     name: Testers3
-    full_name: 'Test team 3'
+    full_name: ''
+  Team_5:
+    name: Testers4
+    full_name: ''
+  Team_6:
+    name: Testers5
+    full_name: ''
 TeamCandidate:
-  TeamCandidate_1:
+  TeamCandidate_2:
     WebUser: WebUser_1
     Team: Team_1
 TeamPlayer:
   TeamPlayer_1:
-    WebUser: WebUser_7
+    WebUser: WebUser_8
     Team: Team_1
     is_leader: true
   TeamPlayer_2:
-    WebUser: WebUser_8
-    Team: Team_1
-    is_leader: false
-  TeamPlayer_3:
     WebUser: WebUser_3
     Team: Team_2
     is_leader: true
-  TeamPlayer_4:
+  TeamPlayer_3:
     WebUser: WebUser_4
-    Team: Team_2
-    is_leader: false
-  TeamPlayer_5:
-    WebUser: WebUser_5
     Team: Team_3
+    is_leader: true
+  TeamPlayer_4:
+    WebUser: WebUser_5
+    Team: Team_4
+    is_leader: true
+  TeamPlayer_5:
+    WebUser: WebUser_6
+    Team: Team_5
     is_leader: true
   TeamPlayer_6:
-    WebUser: WebUser_6
+    WebUser: WebUser_7
+    Team: Team_6
+    is_leader: true
+  TeamPlayer_7:
+    WebUser: WebUser_14
+    Team: Team_1
+    is_leader: false
+  TeamPlayer_8:
+    WebUser: WebUser_9
+    Team: Team_2
+    is_leader: false
+  TeamPlayer_9:
+    WebUser: WebUser_10
     Team: Team_3
     is_leader: false
-  TeamPlayer_7:
-    WebUser: WebUser_9
+  TeamPlayer_10:
+    WebUser: WebUser_11
     Team: Team_4
-    is_leader: true
-  TeamPlayer_8:
-    WebUser: WebUser_10
-    Team: Team_4
+    is_leader: false
+  TeamPlayer_11:
+    WebUser: WebUser_12
+    Team: Team_5
+    is_leader: false
+  TeamPlayer_12:
+    WebUser: WebUser_13
+    Team: Team_6
     is_leader: false
 TeamState:
-  TeamState_4:
-    Team: Team_3
-    Game: Game_1
-    start_delay: '1'
-    ai_enabled: true
-    started_at: '0'
-    finished_at: '0'
-    status: '0'
-    task_state_id: '0'
-    team_last_update: '0'
-  TeamState_5:
-    Team: Team_4
-    Game: Game_1
-    start_delay: '2'
-    ai_enabled: true
-    started_at: '0'
-    finished_at: '0'
-    status: '0'
-    task_state_id: '0'
-    team_last_update: '0'
-  TeamState_6:
+  TeamState_1:
     Team: Team_2
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '0'
+    started_at: '1317324165'
     finished_at: '0'
-    status: '0'
-    task_state_id: '0'
-    team_last_update: '0'
+    status: '300'
+    task_state_id: '67'
+    team_last_update: '1317378859'
+  TeamState_2:
+    Team: Team_3
+    Game: Game_1
+    start_delay: '1'
+    ai_enabled: true
+    started_at: '1317324219'
+    finished_at: '0'
+    status: '300'
+    task_state_id: '68'
+    team_last_update: '1317378859'
+  TeamState_3:
+    Team: Team_4
+    Game: Game_1
+    start_delay: '2'
+    ai_enabled: true
+    started_at: '1317324329'
+    finished_at: '0'
+    status: '300'
+    task_state_id: '69'
+    team_last_update: '1317378859'
+  TeamState_4:
+    Team: Team_5
+    Game: Game_1
+    start_delay: '3'
+    ai_enabled: true
+    started_at: '1317324522'
+    finished_at: '0'
+    status: '300'
+    task_state_id: '70'
+    team_last_update: '1317378860'
+  TeamState_5:
+    Team: Team_6
+    Game: Game_1
+    start_delay: '4'
+    ai_enabled: true
+    started_at: '1317324523'
+    finished_at: '0'
+    status: '300'
+    task_state_id: '71'
+    team_last_update: '1317378860'
 Tip:
   Tip_1:
     Task: Task_1
     name: Загадка
-    define: Формулировка_задания_Задание1
-    delay: '0'
-  Tip_2:
-    Task: Task_2
-    name: Загадка
-    define: Формулировка_задания_Задание2
+    define: "Это задание демонстрирует персональные ответы для каждой команды.\r\n\r\nКаждая команда для зачета должна ввести два ответа: общий \"ОтветОбщий\" и ответ, привязанный к ней, например, команда \"Testers1\" должна ввести ответ \"ОтветПервый\"."
     delay: '0'
   Tip_3:
-    Task: Task_3
-    name: Загадка
-    define: Формулировка_задания_Задание3
-    delay: '0'
+    Task: Task_1
+    name: Подсказка1
+    define: Подсказка1_к_заданию_ПерсональныеОтветы
+    delay: '1'
   Tip_4:
     Task: Task_1
-    name: Подсказка1
-    define: Подсказка1_к_заданию_Задание1
-    delay: '1'
-  Tip_5:
-    Task: Task_1
     name: Подсказка2
-    define: Подсказка2_к_заданию_Задание1
+    define: Подсказка2_к_заданию_ПерсональныеОтветы
     delay: '2'
-  Tip_6:
-    Task: Task_2
+  Tip_14:
+    Task: Task_5
+    name: Загадка
+    define: "Это задание демонстрирует принудительное назначение приоритетов.\r\n\r\nОпорные приоритеты выставлены на +1000, в результате все команды получат это задание в качестве своего первого.\r\n\r\nКроме того, в разделе приоритетов переходов поставлен приоритет +100 на задание \"ЛимитКоманд\", чтобы в тестовых целях создать скопление команд там."
+    delay: '0'
+  Tip_15:
+    Task: Task_6
+    name: Загадка
+    define: "Задание демонстрирует выдачу подсказки при получении определенного ответа.\r\n\r\nПри вводе ответа \"СПодсказкой\" будет выдана подсказка \"Дополнительная\": у нее ответ \"СПодсказкой\" указан как активирующий ее выдачу. [warn]Подсказка, привязанная к ответу, выдается только при получении этого ответа. Если ответ не введен, подсказка не будет выдана сколько бы времени ни прошло.[/warn] Задержка выдачи для этой подсказки не имеет смысла и не используется. \r\n\r\nОстальные подсказки выдаются как обычно - по времени.\r\n\r\nДля того, чтобы увидеть подсказку, введите сначала ответ \"0000\"."
+    delay: '0'
+  Tip_16:
+    Task: Task_6
     name: Подсказка1
-    define: Подсказка1_к_заданию_Задание2
+    define: Подсказка1_к_заданию_ПодсказкаОтветом
     delay: '1'
-  Tip_7:
-    Task: Task_2
+  Tip_17:
+    Task: Task_6
     name: Подсказка2
-    define: Подсказка2_к_заданию_Задание2
+    define: Подсказка2_к_заданию_ПодсказкаОтветом
     delay: '2'
-  Tip_8:
-    Task: Task_3
-    name: Подсказка1
-    define: Подсказка1_к_заданию_Задание3
-    delay: '1'
-  Tip_9:
-    Task: Task_3
-    name: Подсказка2
-    define: Подсказка2_к_заданию_Задание3
-    delay: '2'
+  Tip_18:
+    Task: Task_6
+    name: Дополнительная
+    define: "[rem]Эта подсказка выдана после ввода ответа \"0000\"[/rem]\r\nПодсказка к ответу \"СПодсказкой\""
+    delay: '3'
+    Answer: Answer_12
+  Tip_19:
+    Task: Task_7
+    name: Загадка
+    define: "У этого задания поставлено ограничение на число команд: не более двух.\r\n\r\nПосле того, как команда приступит к этому заданию, задание получит дополнительный приоритет -500, что значительно снизит вероятность получения этого задания другими командами. [rem]Если все-таки какая-то команда получит это задание (например это задание будет у команды единственным из оставшихся), то она автоматически встанет в очередь и будет ждать, пока задание не освободится.[/rem] Ожидающие команды не увидят формулировку задания, пока оно не освободится. [rem]Игровое время для ожидающих в очереди команд идти не будет.[/rem]\r\n\r\nДля имитации скопления команд на этом задании, на него поставлен высокий приоритет перехода в задании \"Стартовое\""
+    delay: '0'
+  Tip_20:
+    Task: Task_8
+    name: Загадка
+    define: "У этого задания поставлен признак \"Ручной старт\".\r\n\r\nЭто означает, что любая команда, получившая это задание, будет стоять в очереди до тех пор, пока руководитель игры не разрешит команде приступить к заданию. Ожидающие команды не увидят формулировку задания, пока не будет разрешен старт. [rem]Для ожидающих в очереди команд игровое время идти не будет.[/rem]\r\n\r\nРазрешение на старт заданию дается кнопкой \"Старт\" на вкладке \"Пилот\" или \"Бортинженер\" страницы управления игрой."
+    delay: '0'
+  Tip_21:
+    Task: Task_9
+    name: Загадка
+    define: "Задание демонстрирует использование русских букв в ответах. В общем-то это не рекомендуется, но если очень нужно, то внимательно изучите написанное ниже.\r\n\r\n[warn]Ответы с русскими буквами являются регистрозависимыми, т.е. ответы \"Абв\" и \"аБВ\" распознаются как разные ответы.[/warn]\r\n\r\n[warn]Ответ будет засчитан правильным только тогда, когда он введен дословно с соблюдением регистра русских букв.[/warn] [rem]Все попытки, отличающиеся от правильной только регистром русских букв, будут считаться одной неверной попыткой.[/rem]\r\n\r\nРассмотрим на примере. Введите сначала ответ \"абв\". Он будет засчитан как неправильный и появится в списке неверных ответов. Введите затем \"АБВ\". Этот ответ также будет засчитан неправильным, но он не будет зафиксирован как новый неверный ответ, а заместит имеющийся. Зачтено задание будет только тогда, когда будет введен ответ \"Абв\", даже если в списке неверных ответов есть аналоги."
+    delay: '0'
+UsedTip:
+  UsedTip_54:
+    TaskState: TaskState_44
+    Tip: Tip_14
+    status: '900'
+    used_since: '1317324173'
+  UsedTip_55:
+    TaskState: TaskState_45
+    Tip: Tip_14
+    status: '900'
+    used_since: '1317324229'
+  UsedTip_58:
+    TaskState: TaskState_52
+    Tip: Tip_14
+    status: '900'
+    used_since: '1317324536'
+  UsedTip_70:
+    TaskState: TaskState_67
+    Tip: Tip_19
+    status: '900'
+    used_since: '1317378845'
+  UsedTip_71:
+    TaskState: TaskState_68
+    Tip: Tip_19
+    status: '900'
+    used_since: '1317378849'
+  UsedTip_72:
+    TaskState: TaskState_69
+    Tip: Tip_1
+    status: '900'
+    used_since: '1317378856'
+  UsedTip_73:
+    TaskState: TaskState_70
+    Tip: Tip_14
+    status: '900'
+    used_since: '1317378860'
 WebUser:
   WebUser_1:
     login: admin
     pwd_hash: f99cf418670b465d4ee37b0bac36265e
-    full_name: Admin
-    email: admin@admin.org
+    full_name: 'Илья Воздвиженский'
+    email: vozdvin@mail.ru
     tag: null
     is_enabled: true
-  WebUser_2:
-    login: guest
-    pwd_hash: a1164c734db7eb2610dd587b59a0ce06
-    full_name: ItIsAGuest
-    email: guest@a.bc
-    tag: 8175ee7r
-    is_enabled: true
   WebUser_3:
-    login: 1leader
-    pwd_hash: 17d23c7cb1cad8bcecf05a2d44a420e5
-    full_name: 1leader
-    email: a@b.cd
-    tag: disabled
+    login: leader1
+    pwd_hash: 33a0517dd0d778d886bd422e3f048463
+    full_name: ''
+    email: no@nowhere.no
+    tag: 83a66025b85113be
     is_enabled: true
   WebUser_4:
-    login: 1player
-    pwd_hash: 11feef5ae890224f527e1c224e1d8f8c
-    full_name: 1player
-    email: a@b.cd
-    tag: disabled
+    login: leader2
+    pwd_hash: 90b5458dc7463b422d892900f2997b3c
+    full_name: ''
+    email: no@nowhere.no
+    tag: 81ef3a427e9d5acb
     is_enabled: true
   WebUser_5:
-    login: 2leader
-    pwd_hash: 7862fb878c62adf6cacafebe8012808a
-    full_name: 2leader
-    email: a@b.cd
-    tag: disabled
+    login: leader3
+    pwd_hash: fbc03098b1907fb75d56a2263d2ec091
+    full_name: ''
+    email: no@nowhere.no
+    tag: 7c9163a7fcd88209
     is_enabled: true
   WebUser_6:
-    login: 2player
-    pwd_hash: 43bfaac4c7dc6febcf7cec635d15ba08
-    full_name: 2player
-    email: a@b.cd
-    tag: disabled
+    login: leader4
+    pwd_hash: cd508e0649698e4d2f48422e78f75c74
+    full_name: ''
+    email: no@nowhere.no
+    tag: f3fea03408e5e308
     is_enabled: true
   WebUser_7:
-    login: author
-    pwd_hash: 1ba690114465d8a0df9c383f83d25da7
-    full_name: Author
-    email: vozdvin@mail.ru
-    tag: 120fd466
+    login: leader5
+    pwd_hash: 8279c40498a44010fa348cfedb8019fe
+    full_name: ''
+    email: no@nowhere.no
+    tag: 0a8eb9c433b7e1f8
     is_enabled: true
   WebUser_8:
-    login: actor
-    pwd_hash: d566d28fca02c782ec39b73c516f602d
-    full_name: Actor
-    email: none@none.no
-    tag: dbc78570
+    login: author
+    pwd_hash: 1ba690114465d8a0df9c383f83d25da7
+    full_name: ''
+    email: no@nowhere.no
+    tag: 7a495ef53b1f5da1
     is_enabled: true
   WebUser_9:
-    login: 3leader
-    pwd_hash: b1a53fcff59a321df6e6848b9a5a4807
-    full_name: 3leader
-    email: a@b.cd
-    tag: 20b06c6f
+    login: player1
+    pwd_hash: b54b506947def2f10f4ac52ab4f19e7a
+    full_name: ''
+    email: no@nowhere.no
+    tag: aeb8fdad49e61158
     is_enabled: true
   WebUser_10:
-    login: 3player
-    pwd_hash: ead8caafe0115bf6ac172bb48dbb7d7d
-    full_name: 3player
-    email: a@b.cd
-    tag: d17be1ed
+    login: player2
+    pwd_hash: 4bfb1db1e1d90c18cb6bddfd01ae1f78
+    full_name: ''
+    email: no@nowhere.no
+    tag: 5ce8612157744bdd
+    is_enabled: true
+  WebUser_11:
+    login: player3
+    pwd_hash: f2eaf0c9c46449dea0c33b5fe72969bf
+    full_name: ''
+    email: no@nowhere.no
+    tag: d0a66f5118c1263e
     is_enabled: true
   WebUser_12:
-    login: moder
-    pwd_hash: 67fcfb7192b61747e8c039219088c314
-    full_name: moder
-    email: moder@no.no
-    tag: 3ecaee78981da03f
+    login: player4
+    pwd_hash: 0950ce609636bb8798b115be9e0bdc90
+    full_name: ''
+    email: no@nowhere.no
+    tag: b21d6b6acbd04230
+    is_enabled: true
+  WebUser_13:
+    login: player5
+    pwd_hash: 4ddba793880a7517494104da8858bf43
+    full_name: ''
+    email: no@nowhere.no
+    tag: 0a2d97a55ed2afd2
+    is_enabled: true
+  WebUser_14:
+    login: actor
+    pwd_hash: d566d28fca02c782ec39b73c516f602d
+    full_name: ''
+    email: no@nowhere.no
+    tag: c641bcc8e24769f0
+    is_enabled: true
+  WebUser_17:
+    login: guest
+    pwd_hash: a1164c734db7eb2610dd587b59a0ce06
+    full_name: ''
+    email: vozdvin@mail.ru
+    tag: 4b75920616026ce4
     is_enabled: true
