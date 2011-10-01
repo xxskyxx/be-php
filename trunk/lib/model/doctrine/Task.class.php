@@ -45,6 +45,24 @@ class Task extends BaseTask implements IStored, IAuth
   //// Public ////
 
   /**
+   * Возвращает список состояний заданий команд, которые получили это задание, но еще не сделали.
+   *
+   * @return  Doctrine_Collection
+   */
+  public function getNotDoneTaskStates()
+  {
+    $res = new Doctrine_Collection('TaskState');
+    foreach ($this->taskStates as $taskState)
+    {
+      if ($taskState->status < TaskState::TASK_DONE)
+      {
+        $res->add($taskState);
+      }
+    }
+    return $res;
+  }
+
+  /**
    * Возвращает список состояний заданий команд, которые выполняют это задание.
    *
    * @return  Doctrine_Collection
@@ -135,7 +153,7 @@ class Task extends BaseTask implements IStored, IAuth
    */
   public function isFilled()
   {
-    return ($this->max_teams > 0) && ($this->taskStates->count() >= $this->max_teams);
+    return ($this->max_teams > 0) && ($this->getNotDoneTaskStates()->count() >= $this->max_teams);
   }
 
   /**

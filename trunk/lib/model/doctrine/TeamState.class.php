@@ -239,14 +239,18 @@ class TeamState extends BaseTeamState implements IStored, IAuth
 
   /**
    * Возвращает приоритет перехода на указанное задание.
-   * ВНИМАНИЕ! Не проверяет задание на допустимость перехода.
    *
    * @param   Task      $task   Задание, приоритет перехода на которое надо посчитать.
    *
-   * @return  integer
+   * @return  integer           Или false, если задание уже было у команды.
    */
   public function getPriorityOfTask(Task $task)
   {
+    $isKnownTask = $this->findKnownTaskState($task);
+    if ($isKnownTask)
+    {
+      return false;
+    }
     $baseTask = $this->getLastKnownTaskState();
     if ( ! $baseTask)
     {
