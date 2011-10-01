@@ -59,65 +59,28 @@
       <td style="text-align:center">
         <?php
         $priority = $teamState->getPriorityOfTask($task->getRawValue());
-        //Определим класс, которым нужно отобразить приоритет.
-        if ($priority === false)
+        if ( $priority === false )
         {
-          //По умолчанию для невозможного задания:
-          $class = 'indent';
-          $message = '-';
           $allowSetNext = false;
-
-          // Возможно, текущее задание известно команде
-          $knownTask = $teamState->findKnownTaskState($task->getRawValue());
-          if ($knownTask !== false)
+          if ( $currentTaskState && ($currentTaskState->task_id == $task->id) )
           {
-            //По умолчанию для известного задания:
-            $class = $knownTask->getHighlightClass();
-            $message = '=';
-            
-            // Возможно, команда сейчас занимается или ждет этого задания
-            if ($currentTaskState)
+            $class = 'indent';
+            $message = $currentTaskState->describeStatus();
+          }
+          else
+          {
+            $knownTaskState = $teamState->findKnownTaskState($task->getRawValue());
+            if ($knownTaskState)
             {
-              if ($currentTaskState->task_id == $task->id)
-              {
-                if ($currentTaskState->status == TaskState::TASK_CHEAT_FOUND)
-                {
-                  $class = 'danger';
-                  $message = '&nbsp;!&nbsp;';
-                }
-                elseif ($currentTaskState->status < TaskState::TASK_ACCEPTED)
-                {
-                  $class = 'indent';
-                  $message = '@';
-                }
-                elseif ($currentTaskState->status < TaskState::TASK_DONE)
-                {
-                  $class = 'info';
-                  $message = '>';
-                }
-                else
-                {
-                  $class = $currentTaskState->getHighlightClass();
-                  $message = '+';
-                }                
-              }
+              $class = $knownTaskState->getHighlightClass();
+              $message = $knownTaskState->describeStatus();
             }
-            // Возможно, команда только что занималась этим заданием
-            elseif ($lastTaskState = $teamState->getLastDoneTaskState())
+            else
             {
-              if ($lastTaskState->task_id == $task->id)
-              {
-                $class = $lastTaskState->getHighlightClass();
-                $message = '*';
-              }
+              $class = 'indent';
+              $message = '-';
             }
           }
-        }
-        elseif ($task->isFilled())
-        {
-          $class = 'warn';
-          $message = $priority;
-          $allowSetNext = true;
         }
         else
         {
@@ -194,19 +157,9 @@
     <li>Ссылка в колонке "ИИ" открывает редактор игровых настроек команды.</li>
     <li>Статус задания по доступности для команд: <span class="info">свободно</span>, занято, <span class="warn">перегружено</span>, <span class="danger">заблокировано</span>.</li>
     <li>Статус команды по наличию текущего задания: есть или <span class="warn">нет</span>.</li>
-    <li>Число в ячейке отображает текущий приоритет задания.</li>
-    <li>
-      Нечисловые обозначения в ячейках сообщают, что задание:
-      <ul>
-        <li>- - не может быть назначено команде;</li>
-        <li>@ - выдано команде, но еще неизвестно ей;</li>
-        <li>> - выполняется в данный момент;</li>
-        <li>! - дисквалифицировано, ждет автоматического пропуска;</li>
-        <li>= - было завершено командой ранее <span class="info">успешно</span>, <span class="warn">неудачно</span> или <span class="danger">некорректно</span>.</li>
-        <li>+ - завершено командой только что <span class="info">успешно</span>, <span class="warn">неудачно</span> или <span class="danger">некорректно</span>.</li>
-        <li>* - завершено командой последним <span class="info">успешно</span>, <span class="warn">неудачно</span> или <span class="danger">некорректно</span>.</li>
-      </ul>
-    </li>
+    <li>Число в ячейке отображает текущий приоритет неизвестного команде задания.</li>
+    <li>Слова в ячейках обозначают состояния заданий.</li>
+    <li>Цветом в ячейках выделены задания завершенные <span class="info">успешно</span>, <span class="warn">неудачно</span> или <span class="danger">некорректно</span>.</li>
     <li><span class="infoBorder">Рамка</span> отмечает выбранное следующее задание.</li>
     <li>Нажатие ссылки с числом (приоритетом) выбирает следующее задание или отменяет выбор.</li>
   </ul>
