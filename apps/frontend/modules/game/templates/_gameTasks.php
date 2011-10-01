@@ -133,7 +133,7 @@ render_h3_inline_end();
           $tail = $taskTransition->manual_selection ? '&nbsp;вручную': '';
           if ($taskTransition->allow_on_success && $taskTransition->allow_on_fail)
           {
-            $html .= $link;
+            $html .= $link.$tail;
           }
           elseif ($taskTransition->allow_on_success)
           {
