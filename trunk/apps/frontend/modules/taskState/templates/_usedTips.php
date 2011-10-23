@@ -14,7 +14,14 @@ $withTime = (isset($withTime)) ? $withTime : false;
 $highlight = (isset($highlight)) ? $highlight : false;
 $column = (isset($column)) ? $column : false;
 
-foreach ($taskState->usedTips as $usedTip)
+$usedTips = Doctrine::getTable('UsedTip')
+    ->createQuery('ut')
+    ->select()->innerJoin('ut.TaskState')->innerJoin('ut.Tip')
+    ->where('ut.task_state_id = ?', $taskState->id)
+    ->orderBy('ut.used_since')
+    ->execute();
+    
+foreach ($usedTips as $usedTip)
 {
   if ($onlyUsed && ($usedTip->status != UsedTip::TIP_USED))
   {

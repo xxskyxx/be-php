@@ -119,7 +119,7 @@ render_h3_inline_end();
             echo '&nbsp-&nbsp;завершена';
             if ($_sessionIsPlayer)
             {
-              echo ', '.link_to('посмотреть&nbsp;итоги', 'gameStats/report?id='.$teamState->game_id, array('target' => 'new'));
+              echo ', '.link_to('посмотреть&nbsp;итоги', 'gameControl/report?id='.$teamState->game_id, array('target' => 'new'));
             }
             break;
           default:
@@ -159,7 +159,7 @@ render_h3_inline_end();
             echo '&nbsp-&nbsp;проводится&nbsp;сейчас';
             if ($_sessionIsPlayer)
             {
-              echo ', '.link_to('перейти&nbsp;к&nbsp;состоянию', 'gameStats/status?id='.$game->id, array('target' => 'new'));
+              echo ', '.link_to('перейти&nbsp;к&nbsp;состоянию', 'gameControl/status?id='.$game->id, array('target' => 'new'));
             }
             break;
           case Game::GAME_STEADY:
@@ -167,7 +167,7 @@ render_h3_inline_end();
             echo '&nbsp-&nbsp;завершена';
             if ($_sessionIsPlayer)
             {
-              echo ', '.link_to('перейти&nbsp;к&nbsp;итогам', 'gameStats/report?id='.$game->id, array('target' => 'new'));
+              echo ', '.link_to('перейти&nbsp;к&nbsp;итогам', 'gameControl/report?id='.$game->id, array('target' => 'new'));
             }
             break;
           default:

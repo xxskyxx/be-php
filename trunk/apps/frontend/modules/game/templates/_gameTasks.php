@@ -17,17 +17,17 @@ render_h3_inline_end();
 <div>
   <?php
   $widthName = get_text_block_size_ex(get_max_field_length($_tasks->getRawValue(), 'name'));
-  $widthTaskTime = get_text_block_size_ex('Дано времени');
+  $widthTaskTime = get_text_block_size_ex('Выполнять');
   $widthTryCount = get_text_block_size_ex('Ошибок');
   $widthMaxTeam = get_text_block_size_ex('Команд');
   $widthManualStart = get_text_block_size_ex('Пауза');
-  $widthBlocked = get_text_block_size_ex('Заблокировано');
+  $widthBlocked = get_text_block_size_ex('Блокировано');
   render_column_name('Название', $widthName);
-  render_column_name('Дано времени', $widthTaskTime);
+  render_column_name('Выполнять', $widthTaskTime);
   render_column_name('Ошибок', $widthTryCount);
   render_column_name('Команд', $widthMaxTeam);
   render_column_name('Пауза', $widthManualStart);
-  render_column_name('Заблокировано', $widthBlocked);
+  render_column_name('Блокировано', $widthBlocked);
   ?>
 </div>
 <?php foreach ($_tasks as $task): ?>
@@ -37,8 +37,8 @@ render_h3_inline_end();
     render_column_value(Timing::intervalToStr($task->time_per_task_local*60), $widthTaskTime, 'center');
     render_column_value('&lt;=&nbsp;'.$task->try_count_local, $widthTryCount, 'center');
     render_column_value(($task->max_teams > 0) ? '&lt;=&nbsp;'.$task->max_teams : '&infin;', $widthMaxTeam, 'center');
-    render_column_value(($task->manual_start) ? decorate_span('info', 'Да') : '&nbsp;', $widthManualStart, 'center');
-    render_column_value(($task->locked) ? decorate_span('warn', 'Да') : '&nbsp;', $widthBlocked, 'center');
+    render_column_value(($task->manual_start) ? decorate_span('info', 'Да') : '-', $widthManualStart, 'center');
+    render_column_value(($task->locked) ? decorate_span('warn', 'Да') : '-', $widthBlocked, 'center');
     ?>
   </div>
 <?php endforeach ?>
@@ -77,7 +77,7 @@ render_h3_inline_end();
     $html = '';
     if ($task->taskConstraints->count() <= 0)
     { 
-      $html = '&ndash;';
+      $html = '-';
     }
     else
     {
@@ -115,7 +115,7 @@ render_h3_inline_end();
     $html = '';
     if ($task->taskTransitions->count() <= 0)
     { 
-      $html = '&ndash;';
+      $html = '-';
     }
     else
     {

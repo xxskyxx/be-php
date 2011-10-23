@@ -87,7 +87,7 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
                 else                                      echo 'indent';
                 ?>">
       <?php
-      echo link_to($game->name, 'game/show?id='.$game->id).' ('.link_to('итоги', 'gameStats/report?id='.$game->id).')';
+      echo link_to($game->name, 'game/show?id='.$game->id).' ('.link_to('итоги', 'gameControl/report?id='.$game->id).')';
       echo ($_sessionPlayIndex[$game->id]) ? '&nbsp;-&nbsp;Вы&nbsp;играли' : '';
       echo ($_sessionIsActorIndex[$game->id]) ? '&nbsp;-&nbsp;Вы&nbsp;были&nbsp;организатором' : '';
       ?>

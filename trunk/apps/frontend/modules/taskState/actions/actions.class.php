@@ -82,9 +82,12 @@ class taskStateActions extends MyActions
       }
     }
 
-    // Если это задание еще не было просмотрено, то надо подтвердить его просмотр.
+    // Если это задание еще не было просмотрено,
+    // то надо подтвердить его просмотр,
+    // но только если текущий пользователь - игрок.
     if ( ($this->taskState->status == TaskState::TASK_STARTED)
-         && ($this->taskState->accepted_at == 0) )
+         && ($this->taskState->accepted_at == 0)
+         && ($this->taskState->TeamState->Team->isPlayer($this->sessionWebUser)) )
     {
       if (is_string($res = $this->taskState->accept($this->sessionWebUser)))
       {
@@ -95,6 +98,7 @@ class taskStateActions extends MyActions
         $this->taskState->save();
       }
     }
+    
     // Если это задание уже закончилось, то надо перейти к текущему активному.
     if ($this->taskState->status >= TaskState::TASK_DONE)
     {

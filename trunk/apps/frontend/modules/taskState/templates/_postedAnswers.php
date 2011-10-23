@@ -10,7 +10,14 @@ $highlight = (isset($highlight)) ? $highlight : false;
 $withTime = (isset($withTime)) ? $withTime : false;
 $withSender = (isset($withSender)) ? $withSender : false;
 
-foreach ($taskState->postedAnswers as $postedAnswer)
+$postedAnswers = Doctrine::getTable('PostedAnswer')
+    ->createQuery('pa')
+    ->select()->leftJoin('pa.TaskState')->innerJoin('pa.WebUser')
+    ->where('pa.task_state_id = ?', $taskState->id)
+    ->orderBy('pa.post_time')
+    ->execute();
+
+foreach ($postedAnswers as $postedAnswer)
 {
   $value = $postedAnswer->value;
   $needSender = $withSender && ($postedAnswer->web_user_id > 0);

@@ -4,7 +4,6 @@ class Timing
 {
   const NO_DATE = '____:__:__';
   const NO_TIME = '--:--:--';
-  const ACTIVATION_KEY_LENGTH = 16;
 
   /**
    * Проверяет, отстоит ли $testTime от $baseTime не менее чем на $interval секунд.
@@ -88,6 +87,98 @@ class Timing
     }
   }
 
+}
+
+/**
+ * Класс для работы с Doctrine_Collection
+ */
+class DCTools
+{
+  /**
+   * Ищет в указанной коллекции запись с соответствующим id (это НЕ внутренный ключ коллекции).
+   * 
+   * @param   Doctrine_Collection   $collection
+   * @param   string                $id 
+   * 
+   * @return  Doctrine_Record       Или false, если не найдено.
+   */
+  public static function recordById(Doctrine_Collection $collection, $id)
+  {
+    foreach ($collection as $item)
+    {
+      if ($item->id === $id) return $item;
+    }
+    return false;
+  }
+  
+  /**
+   * Ищет в указанной коллекции запись с указанным значением в казанном поле
+   * 
+   * @param Doctrine_Collection $collection   Где искать
+   * @param string              $fieldName    В каком поле искать
+   * @param string              $value        Что искать
+   * 
+   * @return  Doctrine_Record       Или false, если не найдено.
+   */
+  public static function recordByFieldValue(Doctrine_Collection $collection, $fieldName, $value)
+  {
+    foreach ($collection as $item)
+    {
+      if ($item->$fieldName === $value) return $item;
+    }
+    return false;
+  }
+  
+  /**
+   * Возвращает все значения поля id в виде массива.
+   * 
+   * @param   Doctrine_Collection   $collection   Коллекция на обработку
+   * 
+   * @return  array
+   */
+  public static function idsToArray(Doctrine_Collection $collection)
+  {
+    $res = array();
+    foreach ($collection as $item)
+    {
+      array_push($res, $item->id);
+    }
+    return $res;
+  }
+  
+  /**
+   * Возвращает все значения указанного поля в виде массива.
+   * 
+   * @param   Doctrine_Collection   $collection   Коллекция на обработку
+   * @param   string                $fieldName    Поле
+   * @param   boolean               $distinct     Не дублировать
+   * @param   boolean               $dropNulls    Не включать null значения
+   * 
+   * @return  array
+   */
+  public static function fieldValuesToArray(Doctrine_Collection $collection, $fieldName, $distinct, $dropNulls)
+  {
+    $res = array();
+    if ($dropNulls)
+    {
+      foreach ($collection as $item)
+      {
+        if ($item->$fieldName !== null)
+        {
+          array_push($res, $item->$fieldName);
+        }
+      }
+    }
+    else
+    {
+      foreach ($collection as $item)
+      {
+        array_push($item->$fieldName);
+      }
+    }    
+    return ($distinct) ? array_unique($res) : $res;
+  }
+  
 }
 
 /**
