@@ -19,6 +19,7 @@ foreach ($targetAnswers as $answer)
 {
   $answersIndex[$answer->id] = false;
 }
+
 //Проверим, какие из них введены и подтверждены
 foreach ($taskState->postedAnswers as $postedAnswer)
 {
@@ -32,17 +33,20 @@ foreach ($taskState->postedAnswers as $postedAnswer)
 <?php if (!$compact): ?>
 <h4>Ответы:</h4>
 <?php endif ?>
-<?php foreach ($targetAnswers as $answer): ?>
-<?php   if (!$answersIndex[$answer->id]): ?>
-<?php     if (!$describe): ?>
-<span class="indent"><?php echo $answer->info ?></span>
-<?php     else: ?>
-<span class="indent"><?php echo $answer->name ?></span>
-<?php     endif; ?>
-<?php   else: ?>
-<span class="info"><?php echo $answer->value ?></span>
-<?php   endif; ?>
-<?php endforeach; ?>
+
+<?php
+foreach ($targetAnswers as $answer)
+{
+  if ( ! $answersIndex[$answer->id])
+  {
+    echo decorate_span('indent', $describe ? $answer->name : $answer->info).' ';
+  }
+  else
+  {
+    echo decorate_span('info', $answer->value).' ';
+  }
+}
+?>
 
 <?php
 //Выпишем ответы, находящиеся на проверке, заодно сосчитаем неверные.

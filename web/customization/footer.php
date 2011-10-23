@@ -11,6 +11,6 @@
  */
 ?>
 
-<div class="hr" style="text-align: right; font-style: italic; font-size: smaller">
+<div style="text-align: right; font-style: italic; font-size: smaller">
   <div>&copy;&nbsp;Илья <?php echo mail_to(SystemSettings::getInstance()->contact_email_addr, 'Ключ')?> Воздвиженский</div>
 </div>

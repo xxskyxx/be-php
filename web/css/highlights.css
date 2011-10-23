@@ -37,23 +37,33 @@ span.dangerAction { border-color: Gold }
 span.safeAction a, span.warnAction a, span.dangerAction a { color: inherit }
 span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White }
 
+div.complexList { vertical-align: top }
+div.complexList div.cell { display: inline-block; vertical-align: inherit } 
+div.evenLine, div.oddLine {
+  padding: 0px 0 4px 0;
+  vertical-align: inherit;
+}
+div.evenLine { background: none }
+div.oddLine { background-color: Navy }
+
 /* Выделение текста цветной рамкой */
-span.indentBorder, div.indentBorder { padding: 3px 5px 3px 5px; border: none }
+span.indentBorder, div.indentBorder { padding: 3px 5px 4px 5px; border: none }
 span.infoBorder,   div.infoBorder,
 span.warnBorder,   div.warnBorder, 
-span.dangerBorder, div.dangerBorder { padding: 1px 3px 1px 3px }
-div.infoBorder   { border: Solid Lime 2px }
-div.warnBorder   { border: Solid Yellow 2px }
-div.dangerBorder { border: Solid Red 2px }
-
-span.indentBorder, span.infoBorder, span.warnBorder, span.dangerBorder {
+span.dangerBorder, div.dangerBorder { padding: 1px 3px 2px 3px }
+span.indentBorder, span.infoBorder, span.warnBorder, span.dangerBorder
+{
   display: inline-block;
+}
+span.infoBorder, span.warnBorder, span.dangerBorder,
+div.infoBorder, div.warnBorder, div.dangerBorder
+{
   border-style: Solid;
   border-top-width: 1px;
   border-right-width: 2px;
   border-bottom-width: 1px;
   border-left-width: 2px;
 }
-span.infoBorder   { border-color: Lime }
-span.warnBorder   { border-color: Yellow }
-span.dangerBorder { border-color: Red }
+span.infoBorder,   div.infoBorder   { border-color: Lime }
+span.warnBorder,   div.warnBorder   { border-color: Yellow }
+span.dangerBorder, div.dangerBorder { border-color: Red }

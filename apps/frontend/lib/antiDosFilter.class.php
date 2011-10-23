@@ -6,7 +6,7 @@
 class antiDosFilter extends sfFilter
 {
   const INTEGRATION_INTERVAL = 5; //Интервал подсчета запросов, сек
-  const REQUESTS_TRESHOLD = 10; //Максимально допустимое число запросов за интервал
+  const REQUESTS_TRESHOLD = 20; //Максимально допустимое число запросов за интервал
   const BLOCK_INTERVAL = 30; //Интервал, на который блокируется доступ при превышении числа, сек
 
   public function execute($filterChain)
@@ -16,7 +16,7 @@ class antiDosFilter extends sfFilter
       $session = $this->getContext()->getUser();
 
       $timeNow = time();
-      $lastTimeStamp = $session->getAttribute('lastTimeStamp', time());
+      $lastTimeStamp = $session->getAttribute('lastTimeStamp', $timeNow);
       $requestCount = $session->getAttribute('requestCount', 0);
       $blocked = $session->getAttribute('blocked', 0);
 

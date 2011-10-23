@@ -7,6 +7,6 @@ reportSuccess:
 
 all:
   metas:
-    title: "Состояние игры"
+    title: "Управление игрой"
   has_layout: true
-  layout:     fullWideLayout    
+  layout:     fullWideLayout  

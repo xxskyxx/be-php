@@ -1,22 +1,41 @@
 <?php
 /**
  * Входные аргументы:
- * - Game $game - игра, для которой строится отчет.
+ * - Game $_game - игра, для которой строится отчет.
  */
+
+$teamStates = Doctrine::getTable('TeamState')
+    ->createQuery('ts')
+    ->select()
+        ->innerJoin('ts.Game')
+        ->innerJoin('ts.Team')
+        ->leftJoin('ts.taskStates')
+    ->where('game_id = ?', $_game->id)
+    ->execute();
+
+$tasks = Doctrine::getTable('Task')
+    ->createQuery('t')
+    ->select()
+        ->innerJoin('t.Game')
+        ->leftJoin('t.taskStates')
+    ->where('game_id = ?', $_game->id)
+    ->orderBy('t.name')
+    ->execute();
+
 ?>
 
 <table cellspacing="0">
   <thead>
     <tr>
       <th>Команда</th>
-      <?php foreach ($game->tasks as $Task): ?>
-      <th><?php echo $Task->name?></th>
+      <?php foreach ($tasks as $Task): ?>
+      <th><?php echo $Task->name ?></th>
       <?php endforeach; ?>
     </tr>
   </thead>
 
   <tbody>
-    <?php foreach ($game->teamStates as $teamState): ?>
+    <?php foreach ($_game->teamStates as $teamState): ?>
 
     <?php
     // Построим индекс колонок, чтобы не сопоставлять каждый раз задание с состоянием.

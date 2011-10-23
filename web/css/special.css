@@ -157,3 +157,32 @@ table.tabControl td.tabSheet {
   border: Solid 1px DodgerBlue; border-top: none
 }
 
+div.tabHeaderBox { display: inline-block; width: 25%; }
+div.tabHeader {
+  border: none;
+  border-bottom: Solid 1px DodgerBlue;
+  text-align: center;
+  padding-bottom: 3px;
+} 
+div.tabHeader a:hover {
+  display: inline-block;
+  width: 99%;
+  border: Solid 1px DodgerBlue;
+  border-top-width: 3px;
+  border-bottom: none;
+} 
+div.tabHeaderActive {
+  background-color: #091936;
+  border: Solid 1px DodgerBlue;
+  border-top-width: 3px;
+  text-align: center;
+  padding-bottom: 3px;
+} 
+div.tabSheet {
+  background: Black url(/images/bg_main.png) 0 0 repeat-x;
+  border: Solid 1px DodgerBlue;
+  border-top: none;
+  padding: 3px 1ex 0.5em 1ex; 
+}
+
+

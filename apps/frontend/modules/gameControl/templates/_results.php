@@ -1,10 +1,11 @@
 <?php
 /**
  * Входные аргументы:
- * - Game $game - игра, для которой строится отчет.
+ * - Game $_game - игра, для которой строится отчет.
  */
-$results = $game->getGameResults();
+$results = $_game->getGameResults();
 ?>
+
 <table cellspacing="0">
   <thead>
     <tr>

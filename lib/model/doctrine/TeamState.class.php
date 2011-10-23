@@ -160,33 +160,15 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   public function getCurrentTaskState()
   {
-    if ($this->task_state_id <= 0)
+    //TODO: Убрать из модели поле TeamState::task_state_id за неиспользуемостью
+    foreach ($this->taskStates as $taskState)
     {
-      return false;
-    }
-    //Попробуем найти по ссылке
-    $res = TaskState::byId($this->task_state_id);
-    if (!$res)
-    {
-      //Ссылка на состояние задания устарела. Удалим ее.
-      $this->task_state_id = 0;
-      $res = false;
-      // Внимание! Ссылка могла устареть, если состояние БД было восстановелено из архива.
-      // Т.е. ссылка неверная, а реально у команды есть текущее задание.
-      // Это задание можно найти по отсутствию признака закрытия. Попробуем.
-      foreach ($this->taskStates as $taskState)
+      if ( ! $taskState->closed)
       {
-        if (!$taskState->closed)
-        {
-          //Нашли незакрытое задание, запомним его как текущее.
-          $this->task_state_id = $taskState->id;
-          $this->save();
-          $res = $taskState;
-          break;
-        }
+        return $taskState;
       }
     }
-    return $res;
+    return false;
   }
 
   /**
@@ -704,9 +686,8 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     $newTaskState->status = TaskState::TASK_GIVEN;
     $newTaskState->task_time_spent = 0;
     $newTaskState->task_last_update = time();
-    $newTaskState->save(); //Опасно!! Но по другому не получится получить реальный id новой записи для... (1)
+    $newTaskState->save();
     $this->taskStates->add($newTaskState);
-    $this->task_state_id = $newTaskState->id; //(1)... использования здесь
 
     $this->status = TeamState::TEAM_HAS_TASK;
     $this->team_last_update = time();
@@ -772,9 +753,9 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     if ($currentTaskStatus->status < TaskState::TASK_ACCEPTED)
     {
       $currentTaskStatus->delete();
-      $this->task_state_id = 0;
-      $this->save();
+      $this->refresh(true);
       $this->status = TeamState::TEAM_WAIT_TASK;
+      $this->save();
     }
     //Задание было просмотрено, его надо завершить корректно
     elseif ($currentTaskStatus->status >= TaskState::TASK_DONE)

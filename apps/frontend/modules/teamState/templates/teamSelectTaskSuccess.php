@@ -11,7 +11,7 @@ $retUrlRaw = Utils::encodeSafeUrl(url_for('teamState/task?id='.$_teamState->id))
 <?php foreach ($_availableTasksManual as $task): ?>
   <li>
   <?php if ($_isLeader): ?>
-    <span class="safeAction"><?php echo link_to($task->public_name, 'gameStats/setNext?teamState='.$_teamState->id.'&taskId='.$task->id.'&returl='.$retUrlRaw, array('method' => 'post', 'confirm' => 'Вы уверены, что хотите приступить к выполнению задания "'.$task->public_name.'"?')) ?></span>
+    <span class="safeAction"><?php echo link_to($task->public_name, 'gameControl/setNext?teamState='.$_teamState->id.'&taskId='.$task->id.'&returl='.$retUrlRaw, array('method' => 'post', 'confirm' => 'Вы уверены, что хотите приступить к выполнению задания "'.$task->public_name.'"?')) ?></span>
   <?php else: ?>
     <?php echo $task->public_name ?>
   <?php endif ?>

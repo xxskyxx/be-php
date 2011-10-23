@@ -106,7 +106,7 @@ render_property('Интервал подсказок:', Timing::intervalToStr($_
     if ($teamState->Team->isPlayer($sf_user->getSessionWebUser()->getRawValue()))
     {
       echo ($_game->status >= Game::GAME_ARCHIVED)
-          ? decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;итогам', 'gameStats/report?id='.$_game->id))
+          ? decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;итогам', 'gameControl/report?id='.$_game->id))
           : decorate_span('info', link_to($teamName, 'team/show?id='.$teamState->team_id).' -&nbsp;'.link_to('перейти&nbsp;к&nbsp;заданию', 'teamState/task?id='.$teamState->id));
     }
     else
