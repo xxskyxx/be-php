@@ -167,7 +167,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
       return $this->task_time_spent;
     }
     $res = ($this->accepted_at > 0)
-        ? (time() - $this->accepted_at - $this->task_idle_time)
+        ? (time() - $this->accepted_at - $this->getActualTaskIdleTime())
         : 0;
     return ($res < $this->getActualTimePerTask())
         ? $res
@@ -183,10 +183,20 @@ class TaskState extends BaseTaskState implements IStored, IAuth
   public function getTaskStopTime()
   {
     return ($this->accepted_at > 0)
-        ? ($this->accepted_at + $this->getActualTimePerTask() + $this->task_idle_time)
+        ? ($this->accepted_at + $this->getActualTimePerTask() + $this->getActualTaskIdleTime())
         : 0;
   }
 
+  /**
+   * Возвращает время простоя задания.
+   *
+   * @return  integer
+   */
+  public function getActualTaskIdleTime()
+  {
+    return ($this->Task->Game->teams_can_update) ? 0 : $this->task_idle_time;
+  }
+  
   /**
    * Возвращает результаты задания в виде массива:
    * - ключи:
@@ -259,15 +269,16 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     }
 
     /* Прежде чем заниматься расчетами, проверим состояние задания на устаревание */
-    // Простой имеет смысл фиксировать только при активном задании
     if (($this->status >= TaskState::TASK_ACCEPTED)
-        && ($this->status < TaskState::TASK_DONE))
+        &&
+        ($this->status < TaskState::TASK_DONE)
+        &&
+        ( ! $this->TeamState->Game->teams_can_update)
+        &&
+        (Timing::isExpired($time, $this->TeamState->Game->update_interval_max, $this->task_last_update)))
     {
-      if (Timing::isExpired($time, $this->TeamState->Game->update_interval_max, $this->task_last_update))
-      {
-        $this->task_idle_time += $time - $this->task_last_update - $this->TeamState->Game->update_interval_max;
-        $this->save();
-      }
+      $this->task_idle_time += $time - $this->task_last_update - $this->TeamState->Game->update_interval_max;
+      $this->save();
     }
     
     switch ($this->status)
@@ -556,7 +567,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
           : $this->task_last_update;
     }
 
-    $this->task_time_spent = $doneTime - $this->accepted_at - $this->task_idle_time;
+    $this->task_time_spent = $doneTime - $this->accepted_at - $this->getActualTaskIdleTime();
     $this->done_at = $doneTime;
     $this->status = TaskState::TASK_DONE_SUCCESS;
 

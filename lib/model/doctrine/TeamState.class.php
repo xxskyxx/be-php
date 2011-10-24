@@ -121,8 +121,9 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       return 0;
     }
-    return time() + ($this->Game->time_per_game * 60 - $this->getGameSpentTimeCurrent());
+    $res = time() + ($this->Game->time_per_game * 60 - $this->getGameSpentTimeCurrent());
     //TODO: Учесть корректировки доступного игрового времени.
+    return $res;
   }
 
   /**
@@ -160,7 +161,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   public function getCurrentTaskState()
   {
-    //TODO: Убрать из модели поле TeamState::task_state_id за неиспользуемостью
     foreach ($this->taskStates as $taskState)
     {
       if ( ! $taskState->closed)
@@ -505,9 +505,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       return Utils::cannotMessage($actor->login, Permission::byId(Permission::GAME_MODER)->description);
     }
 
-    // Сбросим счетчик времени
-    // Сбросим текущее задание
-    $this->task_state_id = 0;
     // Удалим все достижения
     foreach ($this->taskStates as $taskState)
     {
@@ -538,8 +535,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     }
     // Запомним реальное время старта
     $this->started_at = time();
-    // Сбросим текущее задание
-    $this->task_state_id = 0;
     // Разрешим получать задания
     $this->status = TeamState::TEAM_WAIT_TASK;
 
@@ -722,7 +717,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
 
     $currentTaskStatus->closed = true;
     $currentTaskStatus->save();
-    $this->task_state_id = 0;
 
     $this->status = TeamState::TEAM_WAIT_TASK;
     return true;
