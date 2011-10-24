@@ -141,7 +141,7 @@ include_partial('header', array(
       Ожидаемые ответы указаны названиями.
     </p>
     <p>
-      Полученные ответы указаны так: <span class="info">правильные</span>, <span class="warn">не проверенные</span> и <span class="danger">неверные</span>.
+      Полученные ответы указаны значениями: <span class="info">правильными</span>, <span class="warn">не проверенными</span> и <span class="danger">неверными</span>.
     </p>
 
     <h4>Текущие задания</h4>

@@ -45,7 +45,7 @@ include_partial('header', array(
             echo decorate_span('indent', Timing::timeToStr($currentTaskState->given_at)).', ';
             echo decorate_span('indent', Timing::timeToStr($currentTaskState->started_at)).', ';
             echo decorate_span('info', Timing::timeToStr($currentTaskState->accepted_at)).', ';
-            echo decorate_span('warn', Timing::timeToStr($currentTaskState->task_idle_time)).', ';
+            echo decorate_span('warn', Timing::intervalToStr($currentTaskState->task_idle_time)).', ';
             echo decorate_span('indent', Timing::timeToStr($currentTaskState->done_at)).', ';
             echo decorate_span('indent', Timing::intervalToStr($currentTaskState->getTaskSpentTimeCurrent()));
           }
@@ -130,7 +130,7 @@ include_partial('header', array(
         <div class="cell">Название_Команды: </div>
         <div class="cell">
           <div>Название_задания - состояние_задания(На_момент)</div>
-          <div>Выдано_в, Стартовало_в, <span class="info">Прочтено_в</span>, <span class="warn">Простой_в</span>, Завершено_в, Потрачено</div>
+          <div>Выдано_в, Стартовало_в, <span class="info">Прочтено_в</span>, <span class="warn">Простой</span>, Завершено_в, Потрачено</div>
           <div>Подсказка1(Выдана_в) ... ПодсказкаN(Выдана_в)</div>
           <div>Ответ1(От_кого@Когда) ... ОтветN(От_кого@Когда)</div>
         </div>
