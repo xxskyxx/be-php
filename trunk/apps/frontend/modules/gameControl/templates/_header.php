@@ -46,7 +46,7 @@
   <span class="warnAction"><?php echo link_to('Запуск автопересчета', url_for('gameControl/autoUpdate?id='.$_game->id), array('target' => 'window')) ?></span>  
   <?php endif; ?>
 
-  <?php if ($_game->isActive() && (Timing::isExpired(time(), $_game->update_interval_max, $_game->game_last_update))): ?>
+  <?php if (( ! $_game->teams_can_update) && $_game->isActive() && (Timing::isExpired(time(), $_game->update_interval_max, $_game->game_last_update))): ?>
   <span class="danger">Пересчет состояния просрочен на <?php echo Timing::intervalToStr(time() - $_game->game_last_update - $_game->update_interval_max) ?>!</span>
   <?php endif ?>
 </p>
