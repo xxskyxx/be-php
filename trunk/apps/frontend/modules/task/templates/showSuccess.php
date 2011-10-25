@@ -20,27 +20,27 @@ render_h3_inline_end();
 <h4>Основные</h4>
 <?php
 $width = get_text_block_size_ex('Когда кем-то выполняется:');
-render_property_if($_isModerator, 'id:', $_task->id, $width);
-render_property('Внутреннее название:', $_task->name, $width);
-render_property('Открытое название:', $_task->public_name, $width);
-render_property('Длительность:', Timing::intervalToStr($_task->time_per_task_local*60), $width);
-render_property('Неверных ответов:', 'не&nbsp;более&nbsp;'.$_task->try_count_local, $width);
+render_named_line_if($_isModerator, $width, 'Id:', array($_task->id));
+render_named_line($width, 'Внутреннее название:', array($_task->name));
+render_named_line($width, 'Открытое название:', array($_task->public_name));
+render_named_line($width, 'Длительность:', array(Timing::intervalToStr($_task->time_per_task_local*60)));
+render_named_line($width, 'Неверных ответов:', array('не&nbsp;более&nbsp;'.$_task->try_count_local));
 ?>
 <h4>Управление</h4>
 <?php
-render_property('Выполняющих команд:', ($_task->max_teams > 0) ? 'не&nbsp;более&nbsp;'.$_task->max_teams : 'без&nbsp;ограничений', $width);
-render_property('Ручной старт:', $_task->manual_start ? decorate_span('info', 'Да') : 'Нет', $width);
-render_property('Заблокировано:', $_task->locked ? decorate_span('warn', 'Да') : 'Нет', $width);
+render_named_line($width, 'Выполняющих команд:', array(($_task->max_teams > 0) ? 'не&nbsp;более&nbsp;'.$_task->max_teams : 'без&nbsp;ограничений'));
+render_named_line($width, 'Ручной старт:', array($_task->manual_start ? decorate_span('info', 'Да') : 'Нет'));
+render_named_line($width, 'Заблокировано:', array($_task->locked ? decorate_span('warn', 'Да') : 'Нет'));
 ?>
 <h4>Приоритеты опорные</h4>
 <?php
-render_property('Когда свободно:', decorate_number($_task->priority_free), $width);
-render_property('Когда кому-то выдано:', decorate_number($_task->priority_busy), $width);
+render_named_line($width, 'Когда свободно:', array(decorate_number($_task->priority_free)));
+render_named_line($width, 'Когда кому-то выдано:', array(decorate_number($_task->priority_busy)));
 ?>
 <h4>Приоритеты дополнительные</h4>
 <?php
-render_property('Когда заполнено:', decorate_number($_task->priority_filled), $width);
-render_property('На каждую команду:', decorate_number($_task->priority_per_team), $width);
+render_named_line($width, 'Когда заполнено:', array(decorate_number($_task->priority_filled)));
+render_named_line($width, 'На каждую команду:', array(decorate_number($_task->priority_per_team)));
 ?>
 
 <?php
@@ -134,14 +134,14 @@ render_h3_inline_end();
 ?>
 <?php if ($_isManager || $_isModerator): ?>
 <p>
-  <span class="safeAction"><?php echo link_to('Добавить фильтры переходов на все остальные задания', 'task/transitions?id='.$_task->id.'&operation=addAll'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
+  <span class="safeAction"><?php echo link_to('Добавить на все остальные задания', 'task/transitions?id='.$_task->id.'&operation=addAll'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
 </p>
 <?php   if ($_taskTransitions->count() > 0): ?>
 <p>
-  <span class="safeAction"><?php echo link_to('Поставить всем фильтрам признак "Разрешить ручной выбор"', 'task/transitions?id='.$_task->id.'&operation=allManual'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
+  <span class="safeAction"><?php echo link_to('Поставить всем признак "Разрешить ручной выбор"', 'task/transitions?id='.$_task->id.'&operation=allManual'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
 </p>
 <p>
-  <span class="safeAction"><?php echo link_to('Снять со всех всех фильтров признак "Разрешить ручной выбор"', 'task/transitions?id='.$_task->id.'&operation=allAuto'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
+  <span class="safeAction"><?php echo link_to('Снять со всех признак "Разрешить ручной выбор"', 'task/transitions?id='.$_task->id.'&operation=allAuto'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
 </p>
 <?php   endif ?>
 <?php endif ?>

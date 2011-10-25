@@ -34,7 +34,7 @@ class SystemSettingsForm extends BaseSystemSettingsForm
       'email_team_create'  => 'Cоздание команд по почте:',
       'email_game_create'  => 'Cоздание игр по почте:',
       'fast_team_create'   => 'Быстрое создание команд:',
-      'fast_user_register' => 'Быстрая регистрация пользователей:',
+      'fast_user_register' => 'Быстрая регистрация:',
       'notify_email_addr'  => 'Обратный адрес:',
       'contact_email_addr' => 'Адрес администраторов:',
       'smtp_host'          => 'SMTP-сервер:',
@@ -44,16 +44,17 @@ class SystemSettingsForm extends BaseSystemSettingsForm
       'smtp_password'      => 'Пароль:'
     ));
     $this->getWidgetSchema()->setHelps(array(
-      'site_name'          => '',
-      'site_domain'        => 'без HTTP://',
-      'fast_user_register' => 'использовать c осторожноcтью!',
-      'email_team_create'  => '',
-      'fast_team_create'   => 'использовать c осторожноcтью!',
-      'notify_email_addr'  => 'нужен действующий',
-      'contact_email_addr' => 'лучше действующий',
+      'site_name'          => 'Показано в заголовке страницы, на главной странице и указывается в письмах-уведомлениях.',
+      'site_domain'        => '<span class="warn">Обязательно без "http://".</span>',
+      'email_team_create'  => 'переходом по ссылке из письма.',
+      'email_game_create'  => 'переходом по ссылке из письма.',
+      'fast_team_create'   => 'самостоятельным утверждением заявки без подтверждения по почте.|<span class="warn">Использовать c осторожноcтью!</span>',
+      'fast_user_register' => 'пользователей без подтверждения по почте.|<span class="warn">Использовать c осторожноcтью во избежание авторегистраций!</span>',
+      'notify_email_addr'  => '<span class="warn">Обязательно действующий.</span>',
+      'contact_email_addr' => 'Лучше действующий.',
       'smtp_host'          => '',
-      'smtp_port'          => 'обычно 25, для ssl - 465',
-      'smtp_security'      => 'пусто, tls или ssl',
+      'smtp_port'          => 'Обычно 25, для ssl - 465.',
+      'smtp_security'      => 'Пусто, tls или ssl.',
       'smtp_login'         => '',
       'smtp_password'      => ''
     ));

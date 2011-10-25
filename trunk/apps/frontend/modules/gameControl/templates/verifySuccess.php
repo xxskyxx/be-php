@@ -4,7 +4,7 @@ $sessionWebUser = $sf_user->getSessionWebUser()->getRawValue();
 render_breadcombs(array(
     link_to('Игры', 'game/index'),
     link_to($_game->name, 'game/show?id='.$_game->id),
-    link_to('Состояние', 'gameStats/status?id='.$_game->id)
+    link_to('Состояние', 'gameControl/pilot?id='.$_game->id)
 ))
 ?>
 <h2>Предстартовая проверка игры <?php echo $_game->name ?></h2>

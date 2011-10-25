@@ -27,7 +27,7 @@ class GameCreateRequestForm extends BaseGameCreateRequestForm
     );
     $this->getWidgetSchema()->setHelps(
         array(
-          'name' => 'Чем короче тем лучше',
+          'name' => '',
           'description' => ''
         )
     );    

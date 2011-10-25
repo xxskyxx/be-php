@@ -16,7 +16,13 @@ class antiDosFilter extends sfFilter
       $session = $this->getContext()->getUser();
 
       $timeNow = time();
-      $lastTimeStamp = $session->getAttribute('lastTimeStamp', $timeNow);
+      $lastTimeStamp = $session->getAttribute('lastTimeStamp', 0);
+      if ($lastTimeStamp == 0)
+      {
+        //Подсчет только начался, отметим это.
+        $session->setAttribute('lastTimeStamp', $timeNow);
+        $lastTimeStamp = $timeNow;
+      }
       $requestCount = $session->getAttribute('requestCount', 0);
       $blocked = $session->getAttribute('blocked', 0);
 

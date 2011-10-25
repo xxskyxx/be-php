@@ -13,7 +13,14 @@
     echo ($_blogContext->canDeleteAny || ($_blogContext->canDeleteSelf && ($_post->web_user_id == $_blogContext->webUserId)))
         ? decorate_span('dangerAction', link_to('Удалить', $_blogContext->editorModule.'/deletePost?id='.$_post->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Удалить запись?'))).' ' : '';
     echo Timing::dateToStr($_post->create_time).' ';
-    echo decorate_span('safeAction', link_to_if(!$_blogContext->readOnly, $_post->WebUser->login, 'webUser/show?id='.$_post->web_user_id, array('target' => 'new')));
+    if ($_blogContext->readOnly)
+    {
+      echo decorate_span('info', $_post->WebUser->login);
+    }
+    else
+    {
+      echo decorate_span('safeAction', link_to($_post->WebUser->login, 'webUser/show?id='.$_post->web_user_id, array('target' => 'new')));
+    }
     ?>
   </div>
   

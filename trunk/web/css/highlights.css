@@ -20,9 +20,9 @@ div.flashError   { border-color: Red;         background: DarkRed;     color: Go
 
 /* Выделение текста, общее */
 span.indent, div.indent, span.indentAction { /* reserved */ }
-span.info,   div.info,   span.safeAction   { background: DarkGreen;   color: GreenYellow }
-span.warn,   div.warn,   span.warnAction   { background: SaddleBrown; color: Yellow }
-span.danger, div.danger, span.dangerAction { background: DarkRed;     color: Gold }
+span.info,   div.info,   span.safeAction   { color: Lime }
+span.warn,   div.warn,   span.warnAction   { color: Yellow }
+span.danger, div.danger, span.dangerAction { color: Red }
 span.indentAction, span.safeAction, span.warnAction, span.dangerAction
 {
   display: inline-block;
@@ -31,11 +31,11 @@ span.indentAction, span.safeAction, span.warnAction, span.dangerAction
   border-bottom: none;
 }
 span.indentAction { padding: 1px 3px 2px 3px; border: none }
-span.safeAction   { border-color: GreenYellow }
-span.warnAction   { border-color: Yellow }
-span.dangerAction { border-color: Gold }
+span.safeAction   { /* reserved */ }
+span.warnAction   { /* reserved */ }
+span.dangerAction { /* reserved */ }
 span.safeAction a, span.warnAction a, span.dangerAction a { color: inherit }
-span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White }
+/* span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White } */
 
 div.complexList { vertical-align: top }
 div.complexList div.cell { display: inline-block; vertical-align: inherit } 

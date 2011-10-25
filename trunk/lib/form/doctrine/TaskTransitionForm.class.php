@@ -42,7 +42,13 @@ class TaskTransitionForm extends BaseTaskTransitionForm
         'target_task_id' => 'На задание:',
         'allow_on_success' => 'При успехе:',
         'allow_on_fail' => 'При неудаче:',
-        'manual_selection' => 'Разрешить выбор вручную:',
+        'manual_selection' => 'Выбор вручную:',
+    ));
+    $this->getWidgetSchema()->setHelps(array(
+        'target_task_id' => '',
+        'allow_on_success' => '',
+        'allow_on_fail' => '',
+        'manual_selection' => 'Команда сама сможет выбрать это задание в качестве своего следующего.',
     ));
   }
 }

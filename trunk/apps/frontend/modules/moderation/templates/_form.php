@@ -4,18 +4,16 @@
 <form action="<?php echo url_for('moderation/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>  
   <?php
   //Служебные поля
-  $width = get_text_block_size_ex('Быстрая регистрация пользователей:');
+  $width = get_text_block_size_ex('Cоздание команд по почте:');
   render_form_field_using_div($form['_csrf_token'], $width);
   render_form_field_using_div($form['id'], $width);
   ?>
-  
   <h4>Реквизиты сайта</h4>
   <?php
   render_form_field_using_div($form['site_name'], $width);
   render_form_field_using_div($form['site_domain'], $width);
   render_form_field_using_div($form['contact_email_addr'], $width);
   ?>
-  
   <h4>Модерация</h4>
   <?php
   render_form_field_using_div($form['email_team_create'], $width);

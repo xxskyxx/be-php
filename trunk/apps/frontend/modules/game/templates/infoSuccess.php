@@ -76,24 +76,22 @@ if ($actors)
 <h4>Регламент</h4>
 <?php
 $width = get_text_block_size_ex('Планируется заданий:');
-render_property('Брифинг:', $_game->start_briefing_datetime, $width);
-render_property('Старт игры:', $_game->start_datetime, $width);
-render_property('Длительность игры:', Timing::intervalToStr($_game->time_per_game*60), $width);
-render_property('Остановка игры:', $_game->stop_datetime, $width);
-render_property('Подведение итогов:', $_game->finish_briefing_datetime, $width);
+render_named_line($width, 'Брифинг:', array($_game->start_briefing_datetime));
+render_named_line($width, 'Старт игры:', array($_game->start_datetime));
+render_named_line($width, 'Длительность игры:', array(Timing::intervalToStr($_game->time_per_game*60)));
+render_named_line($width, 'Остановка игры:', array($_game->stop_datetime));
+render_named_line($width, 'Подведение итогов:', array($_game->finish_briefing_datetime));
 ?>
 <h4>Задания</h4>
 <?php
-render_property('Планируется заданий:', $_game->tasks->count(), $width);
-render_property('Времени на задание:', Timing::intervalToStr($_game->time_per_task*60), $width);
-render_property('Интервал подсказок:', Timing::intervalToStr($_game->time_per_tip*60), $width);
+render_named_line($width, 'Планируется заданий:', array($_game->tasks->count()));
+render_named_line($width, 'Времени на задание:', array(Timing::intervalToStr($_game->time_per_task*60)));
+render_named_line($width, 'Интервал подсказок:', array(Timing::intervalToStr($_game->time_per_tip*60)));
 ?>
 <?php if ($_game->status >= GAME::GAME_ARCHIVED): ?>
-<p>
-  <div class="info">
-    <h4>Игра завершена</h4>
-  </div>
-</p>
+<div class="info">
+  <h4>Игра завершена</h4>
+</div>
 <?php endif ?>
 
 <?php if ($_game->teamStates->count() > 0): ?>
