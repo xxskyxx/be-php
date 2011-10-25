@@ -142,16 +142,15 @@ class gameControlActions extends MyActions
   
   public function executeAutoUpdate(sfWebRequest $request)
   {
-    $this->checkPostAndCsrf($request);
     $this->checkAndSetGame($request);
     $this->errorRedirectUnless($this->_game->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'обновлять состояние игры'));
     if (is_bool($res = $this->_game->updateState($this->sessionWebUser)))
     {
-      $this->result = 'Ok';
+      $this->_result = 'Ok';
     }
     else
     {
-      $this->result = var_dump($res); //TODO: Переделать во что-то более дружественное.
+      $this->_result = var_dump($res); //TODO: Переделать во что-то более дружественное.
     }
   }
   
