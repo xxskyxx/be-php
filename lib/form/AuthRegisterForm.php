@@ -38,9 +38,12 @@ class AuthRegisterForm extends BaseForm
         'passwordRepeat' => 'Повторите пароль:',
         'email' => 'Адрес e-mail:'));
     $this->getWidgetSchema()->setHelps(array(
-        'login' => 'одно слово, от '.WebUser::MIN_NAME_LENGTH.' до 32 букв',
-        'full_name' => '2 или 3 слова, всего до 255 букв',
-        'password' => WebUser::MIN_PWD_LENGTH.' и более символов'));
+        'login' => 'Одно слово, от '.WebUser::MIN_NAME_LENGTH.' до 32 букв.',
+        'full_name' => '2 или 3 слова, всего до 255 букв.',
+        'password' => 'От '.WebUser::MIN_PWD_LENGTH.' до 32 символов.',
+        'passwordRepeat' => 'Лучше снова набрать вручную, а не копировать.',
+        'email' => 'Желательно действующий.'
+    ));
   }
 
 }

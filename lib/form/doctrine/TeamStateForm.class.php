@@ -38,8 +38,8 @@ class TeamStateForm extends BaseTeamStateForm
         'ai_enabled' => 'Автоматический выбор заданий:'
     ));
     $this->getWidgetSchema()->setHelps(array(
-        'start_delay' => '&gt;=&nbsp;0, мин',
-        'ai_enabled' => ''
+        'start_delay' => '&gt;=&nbsp;0, мин.|Задержка будет отсчитана от фактического времени начала игры.',
+        'ai_enabled' => '<span class="warn">При отключении каждое следующее задание должно назначаться вручную или выбраться самой командой.</span>'
     ));
   }
 }

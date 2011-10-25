@@ -24,7 +24,7 @@ class TipForm extends BaseTipForm
         ->where('task_id = ?', array($this->getObject()->task_id));
     $this->setWidget('answer_id', new sfWidgetFormDoctrineChoice(array('model' => 'Answer', 'add_empty' => '(нет)', 'method' => 'getName', 'query' => $query)));
     $this->setValidator('answer_id', new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Answer'), 'required' => false)));
-    
+
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
         'name' => 'Название:',
@@ -32,12 +32,12 @@ class TipForm extends BaseTipForm
         'delay' => 'Задержка выдачи:',
         'answer_id' => 'Выдавать после ответа:'
     ));
-    
+
     $this->getWidgetSchema()->setHelps(array(
-        'name' => '',
-        'define' => 'Разрешен BBCode',
-        'delay' => 'мин',
-        'answer_id' => ''
-    ));    
+        'name' => 'На игре известно только организаторам.',
+        'define' => 'Разрешен BBCode.',
+        'delay' => 'мин.|<span class="info">Если пусто или "0", а подсказка только что создана, то будет взято значение из свойств игры, умноженное на число уже имеющихся подсказок.</span>',
+        'answer_id' => 'Подсказка выдается сразу после ввода этого ответа и только в таком случае, а не по задержке.'
+    ));
   }
 }

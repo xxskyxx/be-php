@@ -13,7 +13,7 @@ body {
   padding: 0 1ex 0 1ex;
   margin-left: auto;
   margin-right: auto;
-  color: GreenYellow;
+  color: LightGrey;
   font-family: Verdana, Helvetica, Sans-Serif;
   text-align: justify;
 /*  width: 765px; font-size: 100% /**/
@@ -22,28 +22,27 @@ body {
 /*  width: 176px; font-size: 50%; /**/
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 5px 0 3px 0;
+h1, h2, h3, h4, h5 {
+  margin: 6px 0 0 0;
   text-align: Left;
   font-family: Arial, Helvetica, Sans-serif;
   font-size: 100%;
-  font-weight: Bold;
 }
-h1 { color: White;  font-size: 150%; padding-left: 20% }
-h2 { color: Khaki;  font-size: 130%; padding-left: 15% }
-h3 { color: Yellow; font-size: 115%; padding-left: 10%; border-top: Solid 1px DodgerBlue }
-h4 { color: Gold;   font-size: 105%; padding-left: 5% }
-h5 { color: Orange }
+h1 { color: White;         font-size: 150%; padding-left: 20% }
+h2 { color: AliceBlue;     font-size: 130%; padding-left: 15% }
+h3 { color: PaleTurquoise; font-size: 115%; padding-left: 10%; border-top: Solid 1px DodgerBlue }
+h4 { color: Turquoise;     font-size: 105%; padding-left: 5% }
+h5 { color: DarkTurquoise }
 
 ul, ol { padding: 0 0 0 0; margin: 0 0 0 0 }
 ul { padding-left: 2ex }
 ol { padding-left: 4ex }
-ul li, ol li { margin: 0 0 2px 0; }
+ul li, ol li { margin: 2px 0 1px 0; }
 
 p { margin: 4px 0 4px 0; text-indent: 0; text-align: justify }
 li p { margin: 4px 0 4px 0 }
 
-a { color: Aquamarine; text-decoration: none }
+a { color: Bisque; text-decoration: none }
 a:link    { border-bottom: Solid 1px }
 a:visited { border-bottom: Dashed 1px }
 a:hover   { border-bottom: none; color: White }

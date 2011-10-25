@@ -16,6 +16,6 @@ render_h3_inline_end();
 ?>
 <?php
 $width = get_text_block_size_ex('Автоматический выбор заданий:');
-render_property('Задержка старта:', ($_teamState->start_delay > 0) ? Timing::intervalToStr($_teamState->start_delay) : 'Нет', $width);
-render_property('Автоматический выбор заданий:', ($_teamState->ai_enabled ? 'Да' : 'Нет'), $width);
+render_named_line($width, 'Задержка старта:', array(($_teamState->start_delay > 0) ? Timing::intervalToStr($_teamState->start_delay) : 'Нет'));
+render_named_line($width, 'Автоматический выбор заданий:', array(($_teamState->ai_enabled ? 'Да' : 'Нет')));
 ?>

@@ -14,6 +14,7 @@
   Здесь пока нет сообщений.
 </p>
 <?php   else: ?>
+<?php     if ($_blogContext->pageCount > 1): ?>
 <div class="blogPages">
   <?php include_partial('blog/pagesIndex', array('_blogContext' => $_blogContext)); ?>
   <div>
@@ -24,6 +25,7 @@
     ?>
   </div>    
 </div>
+<?php     endif ?>
 <div>
   <?php
   foreach ($_posts as $post)
@@ -35,6 +37,7 @@
   }
   ?>
 </div>
+<?php     if ($_blogContext->pageCount > 1): ?>
 <div class="blogPages">
   <?php include_partial('blog/pagesIndex', array('_blogContext' => $_blogContext)); ?>
   <div>
@@ -45,6 +48,7 @@
     ?>
   </div>    
 </div>
+<?php     endif ?>
 <?php   endif ?>
 
 <?php endif ?>

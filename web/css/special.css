@@ -10,10 +10,25 @@
 /* Комментарии на страницах */
 div.comment, p.comment { font-style: italic; font-size: small }
 
-/* Форматирование списка свойств */
-div.propName, div.propValue { display: inline-block; vertical-align: top; padding-bottom: 2px }
-div.propName  { text-align: right; color: LightGrey }
-div.propValue { padding-left: 0.5ex }
+/* Форматирование строки с заголовком */
+/*
+В этом разделе нельзя использовать width и max-width,
+так как они рассчитываются при создании страницы.
+*/
+div.namedLineBox {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-bottom: 1px Solid DarkCyan;
+  text-align: left;
+}
+div.namedLineName, div.namedLineValue
+{
+  display: inline-block;
+  vertical-align: top;
+}
+div.namedLineName  { text-align: right; color: LightSkyBlue }
+div.namedLineValue { padding-left: 0.5ex; text-align: left }
+
 
 /* Форматирование "хлебных крошек" */
 div.breadcombs {
@@ -60,23 +75,22 @@ div.siteMap ul li {
 }
 
 /* Горизонтальная линия над блоком */
-div.hr { border-top: Solid 1px DodgerBlue; margin: 3px 0 3px 0 }
+div.hr { border-top: Solid 1px DodgerBlue; margin: 6px 0 0 0 }
 
 /* Заголовок с возможностью дописывания */
-div.h3inline { border-top: Solid 1px DodgerBlue; margin: 5px 0 3px 0 }
+div.h3inline { border-top: Solid 1px DodgerBlue; margin: 6px 0 0 0 }
 h3.inline { display: inline; margin: 0 0 0 0; border: none}
 
 /* Cтолбцы данных */
 div.columnName, div.columnValue {
   display: inline-block;
   margin-top: 1px;
-  border-bottom: Solid 1px Green;
+  border-bottom: Solid 1px DarkCyan;
   padding-bottom: 2px
 }
 div.columnName  {
   vertical-align: bottom;
   font-weight: bold;
-  color: PaleGreen;
   text-align: center }
 div.columnValue { /* reserved */ }
 
@@ -88,13 +102,15 @@ div.blogPost div.blogComment {
 }
 div.blogPost {
   margin-top: 3px;
-  border-top: Solid 1px DodgerBlue;
-  border-left: Solid 2px DodgerBlue;
+  border-top: Solid 1px;
+  border-left: Solid 2px;
+  border-color: DodgerBlue;
 }
 div.blogPost div.blogComment {
   margin: 3px 0 3px 10px;
-  border-top: Solid 1px Grey;
-  border-left: Solid 2px Grey;
+  border-top: Solid 1px;
+  border-left: Solid 2px;
+  border-color: DarkCyan;
   font-size: Smaller
 }
 
@@ -103,8 +119,7 @@ div.blogComment div.itemControls {
   float: right;
   margin-left: 5px;
   padding: 0 0 1px 2px;
-  text-align: right;
-  color: Gray 
+  text-align: right
 }
 
 div.blogPost div.text,
@@ -117,7 +132,7 @@ div.blogPagesIndex { float: right }
 div.blogPagesIndex div.item,
 div.blogPagesIndex div.currentItem { display: inline-block; padding: 0 0.5ex 0 0.5ex }
 div.blogPagesIndex div.item { font-weight: bold }
-div.blogPagesIndex div.currentItem { background-color: Green }
+div.blogPagesIndex div.currentItem { /*reserved*/ }
 
 /* Главное меню */
 div.menu { background-color: Navy; border: Solid 1px DodgerBlue }
@@ -140,7 +155,7 @@ div.imageButton { display: inline-block; vertical-align: middle }
 th.bottomWeakBorder,
 td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px Blue }
 
-/* Страничный интерфейс */
+/* Страничный интерфейс, устаревает */
 table.tabControl { width: 100%; border: none; margin-top: 0.25em }
 table.tabControl th.tabTitle {
   border: none;

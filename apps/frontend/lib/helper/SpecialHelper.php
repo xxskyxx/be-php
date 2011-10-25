@@ -2,7 +2,7 @@
 
 /**
  * Формирует HTML-код ссылки на статическую страницу
- * 
+ *
  * @param   string  $text   текст ссылки
  * @param   string  $url    адрес страницы
  */
@@ -13,24 +13,24 @@ function link_to_static($text, $url)
 
 /**
  * Рассчитывает ширину блока (в ex) для размещения текста указанной длины.
- * 
+ *
  * @param   mixed   $value  (Число) - длина строки, (Строка) - как есть.
- * 
+ *
  * @return  integer         ширина блока в единицах ex
  */
 function get_text_block_size_ex($value)
 {
   $length = (is_string($value)) ? strlen($value) : $value;
   //Делитель не больше 1.5!
-  return (1 + round($length / 1.5)); //Как точно считать - не ясно, пусть так будет.
+  return (1 + round($length / 1.6)); //Как точно считать - не ясно, пусть так будет.
 }
 
 /**
  * Возвращает длину самой длинной строки из указанного массива.
  * При каких-либо проблемах вернет 0.
- * 
+ *
  * @param   array   $array  массив со строками
- * 
+ *
  * @return  integer
  */
 function get_max_strlen($array)
@@ -56,10 +56,10 @@ function get_max_strlen($array)
 /**
  * Возвращает длину самого длинного значения из указанного поля коллекции.
  * При каких-либо проблемах вернет 0.
- * 
+ *
  * @param   Doctrine_Collection   $collection   коллекция
  * @param   string                $fieldName    имя поля
- * 
+ *
  * @return  integer
  */
 function get_max_field_length(Doctrine_Collection $collection, $fieldName)
@@ -84,9 +84,9 @@ function get_max_field_length(Doctrine_Collection $collection, $fieldName)
 
 /**
  * Генерирует код оформления числа в зависимости от его знака
- * 
+ *
  * @param   integer   $value  исходное число
- * 
+ *
  * @return  string
  */
 function decorate_number($value)
@@ -102,11 +102,11 @@ function decorate_number($value)
 
 /**
  * Возвращает HTML-код, обрамляющий указанный, для выделения соответствующим span-классом.
- * 
+ *
  * @param   string   $class       CSS-класс тега span
  * @param   string   $innerHtml   HTML-код для обрамления
- *  
- * @return  string 
+ *
+ * @return  string
  */
 function decorate_span($class, $innerHtml)
 {
@@ -115,11 +115,11 @@ function decorate_span($class, $innerHtml)
 
 /**
  * Возвращает HTML-код, обрамляющий указанный, для выделения соответствующим div-классом.
- * 
+ *
  * @param   string   $class       CSS-класс тега span
  * @param   string   $innerHtml   HTML-код для обрамления
- *  
- * @return  string 
+ *
+ * @return  string
  */
 function decorate_div($class, $innerHtml)
 {
@@ -127,50 +127,61 @@ function decorate_div($class, $innerHtml)
 }
 
 /**
- * Генерирует в поток вывода HTML-код одной строки для свойства и его значения
+ * Генерирует в поток вывода HTML-код одной строки с заголовком и несколькими значениями,
+ * но только в том случае, если выполнено условие.
  * 
- * @param   string  $name       имя свойства
- * @param   string  $value      значение свойства
- * @param   string  $nameWidth  ширина колонки названия свойства (в единицах ex)
- * 
- * @return  string
+ * @param   string          $nameWidth  ширина колонки названия свойства (в единицах ex)
+ * @param   string          $name       заголовок строки
+ * @param   array<string>   $value      значения
  */
-function render_property($name, $value, $nameWidth = 0)
+function render_named_line($nameWidth, $name, $values)
 {
-  echo '<div>';
-  echo '<div class="propName"'.(($nameWidth > 0) ? ' style="width:'.$nameWidth.'ex"' : '').'>';
+  echo "\n".'<div class="namedLineBox">'."\n";
+
+  /* Финт ушами:
+   * Конструкция style="width: 100%; max-width: ?" позволяет элементу
+   * сжиматься менее max-width если max-width шире экрана,
+   * в тоже время при достатке места он не будет шире max-width;
+   */
+  echo '<div class="namedLineName"'.(($nameWidth > 0) ? ' style="width: 100%; max-width:'.$nameWidth.'ex"' : '').'>';
   echo $name;
   echo '</div>';
-  echo '<div class="propValue">';
-  echo $value;
-  echo '</div>';
-  echo '</div>'."\n";
+  
+  if (is_array($values))
+  {
+    foreach ($values as $value)
+    {
+      echo '<div class="namedLineValue">';
+      echo $value;
+      echo '</div>';
+    }
+  }
+  
+  echo "\n".'</div>'."\n";
 }
 
 /**
- * Генерирует в поток вывода HTML-код одной строки для свойства и его значения,
+ * Генерирует в поток вывода HTML-код одной строки с заголовком и несколькими значениями,
  * но только в том случае, если выполнено условие.
  * 
- * @param   string  $name       имя свойства
- * @param   string  $value      значение свойства
- * @param   string  $nameWidth  ширина колонки названия свойства (в единицах ex)
- * 
- * @return  string
+ * @param   string          $nameWidth  ширина колонки названия свойства (в единицах ex)
+ * @param   string          $name       заголовок строки
+ * @param   array<string>   $value      значения
  */
-function render_property_if($condition, $name, $value, $nameWidth = 0)
+function render_named_line_if($condition, $nameWidth, $name, $values)
 {
   if ($condition)
   {
-    render_property($name, $value, $nameWidth);
-  }
+    render_named_line($nameWidth, $name, $values);
+  } 
 }
 
 /**
  * Генерирует в поток вывода HTML-код "хлебных крошек" по списку указанных ссылок.
- * 
+ *
  * @param   array   $links  Список HTML-кодов ссылок
- * 
- * @return  string 
+ *
+ * @return  string
  */
 function render_breadcombs($links = null)
 {
@@ -188,10 +199,10 @@ function render_breadcombs($links = null)
 
 /**
  * Генерирует в поток вывода HTML-код начала заколовка h3 с встроенными ссылками.
- * 
+ *
  * @param   string   $headerText  текст заголовка
- * 
- * @return  string 
+ *
+ * @return  string
  */
 function render_h3_inline_begin($headerText)
 {
@@ -203,8 +214,8 @@ function render_h3_inline_begin($headerText)
 
 /**
  * Генерирует в поток вывода HTML-код завершения заколовка h3 с встроенными ссылками.
- * 
- * @return  string 
+ *
+ * @return  string
  */
 function render_h3_inline_end()
 {
@@ -213,35 +224,38 @@ function render_h3_inline_end()
 
 /**
  * Генерирует код одного поля формы с разметкой, аналогичной списку свойств.
- * 
+ *
  * @param   sfFormField   $field  поле для отображения
  * @param   integer       $width  ширина колонки с меткой поля, в ex
- * 
+ *
  * @return  string
  */
 function render_form_field_using_div(sfFormField $field, $width)
 {
   if ( ! $field->isHidden())
   {
-    $htmlLabel = $field->renderLabel();
-    $htmlField = $field->render();
-    $htmlHelp = ' '.$field->getParent()->getWidget()->getHelp($field->getName());
-    $htmlError = ($field->hasError())
-        ? ' '.decorate_span('danger', $field->getError())
-        : '';
-
-    $html = $htmlField.$htmlError.$htmlHelp;
-    render_property($htmlLabel, $html, $width);
+    $htmlValues = array();
+    array_push($htmlValues, $field->render());
+    if ($field->hasError())
+    {
+      array_push($htmlValues, decorate_span('danger', $field->getError()));
+    }
+    $helps = explode('|', $field->getParent()->getWidget()->getHelp($field->getName()));
+    foreach ($helps as $help)
+    {
+      array_push($htmlValues, $help);
+    }
+    render_named_line($width, $field->renderLabel(), $htmlValues);
   }
   else
   {
     echo '<div>'.$field->render().'</div>'."\n";
-  }  
+  }
 }
 
 /**
  * Генерирует код для отправки формы с разметкой, аналогичной списку свойств.
- * 
+ *
  * @param   sfForm    $form         форма для отображения
  * @param   string    $commitLabel  название кнопки отправки формы
  * @param   string    $backHtml     html-код обратного перехода при отказе от отправки.
@@ -252,21 +266,21 @@ function render_form_commit_using_div(sfForm $form, $commitLabel, $backHtml, $wi
   //Если это не Doctrine-форма, то с нее объект не получить
   if ( ! ($form instanceof sfFormDoctrine))
   {
-    render_property('<input type="submit" value="'.$commitLabel.'" />', ($backHtml !== '') ? '' : $backHtml, $width);
+    render_named_line($width, '<input type="submit" value="'.$commitLabel.'" />', array(($backHtml !== '') ? '' : $backHtml));
     return;
   }
   //Генерируем способ отправки
   if ( ! $form->getObject()->isNew())
   {
     echo '<input type="hidden" name="sf_method" value="put" />';
-  } 
+  }
   //Генерируем подвал формы
-  render_property('<input type="submit" value="'.$commitLabel.'" />', ($form->getObject()->isNew()) ? '' : $backHtml, $width);
+  render_named_line($width, '<input type="submit" value="'.$commitLabel.'" />', array(($form->getObject()->isNew()) ? '' : $backHtml));
 }
 
 /**
  * Генерирует код формы (без заголовка) с разметкой, аналогичной списку свойств.
- * 
+ *
  * @param   sfForm    $form         форма для отображения
  * @param   string    $commitLabel  название кнопки отправки формы
  * @param   string    $backHtml     html-код обратного перехода при отказе от отправки.
@@ -285,7 +299,7 @@ function render_form_using_div(sfForm $form, $commitLabel, $backHtml)
 
 /**
  * Генерирует код заголовка столбца
- * 
+ *
  * @param   string    $columnName   заголовок
  * @param   integer   $width        ширина в ex
  */

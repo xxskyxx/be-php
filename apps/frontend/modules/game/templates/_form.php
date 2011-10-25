@@ -16,8 +16,6 @@
   render_form_field_using_div($form['description'], $width);
   ?>
   <h4>Регламент</h4>
-  <div class="comment"><span class="warn">Дата окончания игры должна отстоять от начала игры на интервал не меньший, чем сумма длительности игры и самой большой задержки старта команд.</span></div>
-  <div class="comment"><span class="info">Также рекомендуется зарезервировать некоторое время на ожидание между заданиями и/или предполагаемое пребывание команд в очередях.</span></div>
   <?php
   render_form_field_using_div($form['start_briefing_datetime'], $width);
   render_form_field_using_div($form['start_datetime'], $width);
@@ -26,7 +24,6 @@
   render_form_field_using_div($form['finish_briefing_datetime'], $width);
   ?>
   <h4>Параметры новых заданий</h4>
-  <div class="comment"><span class="warn">Изменения в параметрах новых заданий не влияют на уже созданные задания/подсказки!</span></div>
   <?php
   render_form_field_using_div($form['time_per_task'], $width);
   render_form_field_using_div($form['time_per_tip'], $width);

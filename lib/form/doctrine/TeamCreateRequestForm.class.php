@@ -28,7 +28,7 @@ class TeamCreateRequestForm extends BaseTeamCreateRequestForm
     );
     $this->getWidgetSchema()->setHelps(
         array(
-          'name' => 'Чем короче тем лучше',
+          'name' => 'Рекомендуется от 3 до 8 символов.',
           'full_name' => '',
           'description' => ''
         )

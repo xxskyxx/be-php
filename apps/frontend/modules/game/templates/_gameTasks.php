@@ -99,7 +99,7 @@ render_h3_inline_end();
         }
       }
     }
-    render_property(link_to($task->name, 'task/show?id='.$task->id).': ', $html, $widthName);
+    render_named_line($widthName, link_to($task->name, 'task/show?id='.$task->id).': ', array($html));
   }
 ?>
 </ul>
@@ -146,7 +146,7 @@ render_h3_inline_end();
         }        
       }
     }
-    render_property(link_to($task->name, 'task/show?id='.$task->id).': ', $html, $widthName);
+    render_named_line($widthName, link_to($task->name, 'task/show?id='.$task->id).': ', array($html));
   }
 ?>
 </ul>
