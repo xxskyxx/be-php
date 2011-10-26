@@ -23,7 +23,6 @@ abstract class BaseTeamStateForm extends BaseFormDoctrine
       'started_at'       => new sfWidgetFormInputText(),
       'finished_at'      => new sfWidgetFormInputText(),
       'status'           => new sfWidgetFormInputText(),
-      'task_state_id'    => new sfWidgetFormInputText(),
       'task_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Task'), 'add_empty' => true)),
       'team_last_update' => new sfWidgetFormInputText(),
     ));
@@ -37,7 +36,6 @@ abstract class BaseTeamStateForm extends BaseFormDoctrine
       'started_at'       => new sfValidatorInteger(array('required' => false)),
       'finished_at'      => new sfValidatorInteger(array('required' => false)),
       'status'           => new sfValidatorInteger(array('required' => false)),
-      'task_state_id'    => new sfValidatorInteger(array('required' => false)),
       'task_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Task'), 'required' => false)),
       'team_last_update' => new sfValidatorInteger(),
     ));

@@ -46,8 +46,8 @@ class TaskTransitionForm extends BaseTaskTransitionForm
     ));
     $this->getWidgetSchema()->setHelps(array(
         'target_task_id' => '',
-        'allow_on_success' => '',
-        'allow_on_fail' => '',
+        'allow_on_success' => 'Следующее задание доступно при успехе текущего.',
+        'allow_on_fail' => 'Следующее задание доступно при неудаче текущего.',
         'manual_selection' => 'Команда сама сможет выбрать это задание в качестве своего следующего.',
     ));
   }

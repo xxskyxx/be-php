@@ -28,7 +28,7 @@ include_partial('header', array(
         $currentTaskState = $teamState->getCurrentTaskState();
         if ($currentTaskState)
         {
-          echo $currentTaskState->Task->name.': ';
+          ?><span style="font-weight: bold"><?php echo $currentTaskState->Task->name.': ';?></span><?php
           if ($currentTaskState->status == TaskState::TASK_ACCEPTED)
           {
             ?><div style="display: inline-block"><?php
@@ -135,9 +135,6 @@ include_partial('header', array(
       Ссылка с названием команды - переход к настройкам команды.
     </p>
     <p>
-      Ссылка с названием задания - переход к просмотру задания.
-    </p>
-    <p>
       Ожидаемые ответы указаны названиями.
     </p>
     <p>
@@ -146,10 +143,10 @@ include_partial('header', array(
 
     <h4>Текущие задания</h4>
     <p>
-      Ссылка с состоянием задания - переход к текущему заданию команды.
+      Ссылка с названием задания - переход к просмотру задания.
     </p>
     <p>
-      Ссылка с названием подсказки - переход к просмотру задания.
+      Ссылка с состоянием задания - переход к странице текущего задания.
     </p>
     <p>
       Формат строки:

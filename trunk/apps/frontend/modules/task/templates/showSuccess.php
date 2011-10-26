@@ -85,7 +85,7 @@ render_h3_inline_end();
         ? decorate_span('dangerAction', link_to('Удалить', 'answer/delete?id='.$answer->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'conform' => 'Вы действительно хотите удалить ответ '.$answer->name.' задания '.$_task->name.'?')))
         : '';
     echo ' '.link_to($answer->name, 'answer/edit?id='.$answer->id);
-    echo '&nbsp;'.$answer->value.'&nbsp;('.$answer->info.')';
+    echo '&nbsp;'.decorate_span('info', $answer->value).'&nbsp;('.$answer->info.')';
     echo (($answer->team_id !== null) && ($answer->team_id != 0))
         ? ' только для '.link_to($answer->Team->name, 'team/show?id='.$answer->team_id, array('target' => 'new'))
         : '';

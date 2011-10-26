@@ -13,7 +13,6 @@
  * @property integer $started_at
  * @property integer $finished_at
  * @property integer $status
- * @property integer $task_state_id
  * @property integer $task_id
  * @property integer $team_last_update
  * @property Team $Team
@@ -29,7 +28,6 @@
  * @method integer             getStartedAt()        Returns the current record's "started_at" value
  * @method integer             getFinishedAt()       Returns the current record's "finished_at" value
  * @method integer             getStatus()           Returns the current record's "status" value
- * @method integer             getTaskStateId()      Returns the current record's "task_state_id" value
  * @method integer             getTaskId()           Returns the current record's "task_id" value
  * @method integer             getTeamLastUpdate()   Returns the current record's "team_last_update" value
  * @method Team                getTeam()             Returns the current record's "Team" value
@@ -44,7 +42,6 @@
  * @method TeamState           setStartedAt()        Sets the current record's "started_at" value
  * @method TeamState           setFinishedAt()       Sets the current record's "finished_at" value
  * @method TeamState           setStatus()           Sets the current record's "status" value
- * @method TeamState           setTaskStateId()      Sets the current record's "task_state_id" value
  * @method TeamState           setTaskId()           Sets the current record's "task_id" value
  * @method TeamState           setTeamLastUpdate()   Sets the current record's "team_last_update" value
  * @method TeamState           setTeam()             Sets the current record's "Team" value
@@ -96,11 +93,6 @@ abstract class BaseTeamState extends sfDoctrineRecord
              'default' => 0,
              ));
         $this->hasColumn('status', 'integer', null, array(
-             'type' => 'integer',
-             'notnull' => true,
-             'default' => 0,
-             ));
-        $this->hasColumn('task_state_id', 'integer', null, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => 0,
