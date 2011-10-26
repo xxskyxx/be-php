@@ -19,7 +19,7 @@ include_partial('header', array(
   <table cellspacing="0">
     <thead>
       <tr>
-        <th>Команда</th>
+        <th style="font-weight: bold">Команда</th>
         <?php foreach ($_tasks as $task): ?>
         <th>
           <?php
@@ -48,7 +48,7 @@ include_partial('header', array(
     <tbody>
       <?php foreach ($_teamStates as $teamState): ?>
       <tr>
-        <td>
+        <td style="font-weight: bold">
           <?php
           echo $teamState->Team->name;
           $currentTaskState = $teamState->getCurrentTaskState();

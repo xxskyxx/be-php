@@ -12,7 +12,7 @@
 <p>
   <span class="safeAction"><?php echo link_to('Обновить', Utils::decodeSafeUrl($_retUrlRaw)) ?></span>
 
-  <span class="infoBorder">Игра&nbsp;сейчас: <?php echo $_game->describeStatus() ?></span>
+  Игра&nbsp;сейчас: <?php echo $_game->describeStatus() ?>
 
   <?php if ($_isManager): ?>
   <?php   if     ($_game->status == Game::GAME_PLANNED): ?>

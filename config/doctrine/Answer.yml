@@ -11,18 +11,8 @@ Answer:
     info: { type: string(32), notnull: true }
     # Значение (вводится игроками для зачета)
     value: { type: string(32), notnull: true }
-    # При вводе приносит очков команде
-    points: { type: integer, notnull: true, default: 0 }
-    # При вводе изменяет зачетное время на, сек
-    time_correction: { type: string(32), notnull: true, default: 0 }
     # Принимать только от указанной команды
     team_id: { type: integer, notnull: false, default: null }
-    # После ввода кода задание принудительно завершается (успешно)
-    is_force_close_task: { type: integer, notnull: false, default: null }
-    # При принудительном завершении считать задание проваленным
-    is_force_close_as_failed: { type: integer, notnull: false, default: null }
-    # После ввода устанавливать указанное задание следующим
-    force_next_task_id: { type: integer, notnull: false, default: null }
   relations:
     Task:
       foreignAlias: answers

@@ -88,7 +88,7 @@ include_partial('header', array(
     <?php $odd = true ?>
     <?php foreach ($_teamStates as $teamState): ?>
     <div class="<?php echo $odd ? 'oddLine' : 'evenLine' ?>">
-      <div class="cell">
+      <div class="cell" style="font-weight: bold">
         <?php echo $teamState->Team->name.': ' ?>
       </div>
       <div class="cell">

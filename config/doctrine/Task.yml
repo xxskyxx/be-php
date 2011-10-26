@@ -11,22 +11,8 @@ Task:
     time_per_task_local: { type: integer, notnull: true, default : 0 }
     # Признак ручного старта, т.е. после выдачи старт заданию дает руководитель игры.
     manual_start: { type: boolean, notnull: true, default: false }
-    # Разрешение на пропуск задания
-    is_allowed_to_skip: { type: boolean, notnull: true, default: false }
     # Число попыток подбора ответа максимальное
     try_count_local: { type: integer, notnull: true, default : 0 }
-    # Минимальное число баллов для зачета задания (0 - зачет при вводе всех кодов)
-    min_points_to_success: { type: integer, notnull: true, default : 0 }
-    # Продолжать задание после набора необходимого числа баллов.
-    answers_after_success: { type: boolean, notnull: true, default: false }
-    # Переносить в итоги задания баллы ответов.
-    use_answers_points: { type: boolean, notnull: true, default: false }
-    # Учитывать в итоговом времени игры (!) корректировку времени, набранную ответами
-    use_answers_time_correction: { type: boolean, notnull: true, default: false }
-    # Задание является вспомогательным и не учитывается в итогах.
-    is_stub: { type: boolean, notnull: true, default: false }
-    # После задания команда принудительно финиширует.
-    is_force_finish: { type: boolean, notnull: true, default: false }
     # Приоритет задания, когда свободно.
     priority_free: { type: integer, notnull: true, default: 0 }
     # Приоритет задания, когда кому-то выдано, но никем не выполняется.
@@ -41,8 +27,6 @@ Task:
     max_teams: { type: integer, notnull: true, default: 0 }
     # Признак полной блокировки, т.е. задание считается отсутствующим.
     locked: { type: boolean, notnull: true, default: false }
-    # Описание логики решения, задач и т.п.
-    solution: { type: clob }
     # Игра
     game_id: { type: integer, notnull: true }
     # Подсказки
