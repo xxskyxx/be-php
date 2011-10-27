@@ -23,7 +23,7 @@ foreach ($postedAnswers as $postedAnswer)
   $needSender = $withSender && ($postedAnswer->web_user_id > 0);
   $value = ($withTime || $withSender) ? $value.'(' : $value;
   $value = $needSender ? $value.$postedAnswer->WebUser->login : $value;
-  $value = ($withTime && $withSender) ? $value.'@' : $value;
+  $value = ($withTime && $withSender) ? $value.',' : $value;
   $value = $withTime ? $value.Timing::timeToStr($postedAnswer->post_time) : $value;
   $value = ($withTime || $withSender) ? $value.')' : $value;
 

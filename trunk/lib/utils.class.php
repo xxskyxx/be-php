@@ -15,7 +15,7 @@ class Timing
    */
   public static function isExpired($testTime, $interval, $baseTime)
   {
-    return ($testTime - $baseTime) >= $interval;
+    return ($testTime - $baseTime) > $interval;
   }
 
   /**
@@ -61,7 +61,9 @@ class Timing
     {
       return Timing::NO_TIME;
     }
-    return gmdate('H:i:s', $time);
+    return ($time > 0)
+      ? gmdate('H:i:s', $time)
+      : '-'.gmdate('H:i:s', -1*$time);
   }
 
   /**

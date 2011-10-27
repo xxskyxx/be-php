@@ -27,6 +27,8 @@ Task:
     max_teams: { type: integer, notnull: true, default: 0 }
     # Признак полной блокировки, т.е. задание считается отсутствующим.
     locked: { type: boolean, notnull: true, default: false }
+    # Необходимое число ответов для зачета (0 - по всем ответам)
+    min_answers_to_success: { type: integer, notnull: true, default: 0 }
     # Игра
     game_id: { type: integer, notnull: true }
     # Подсказки
