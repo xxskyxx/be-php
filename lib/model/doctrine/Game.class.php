@@ -657,6 +657,18 @@ class Game extends BaseGame implements IStored, IAuth
             $report['tasks'][$task->id][$line]['msg'] = 'Ответ "'.$answer->name.'" не может быть введен (содержит невидимые символы).';
           }
         }
+        
+        /* Проверка необходимого числа ответов */
+        //Если требуется ответов больше чем есть - это не ошибка, просто
+        //тогда зачет будет выполнен по всем имеющимся ответам.
+        if (($task->min_answers_to_success > 0)
+            && ($task->answers->count() < $task->min_answers_to_success))
+        {
+          $line++;
+          $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_WARN;
+          $report['tasks'][$task->id][$line]['msg'] = 'В задании меньше ответов ('.$task->answers->count().') чем требуется для зачета ('.$task->min_answers_to_success.').';
+        }
+        
         /* Проверка персональных ответов */
         //Построим индекс, какой команде сколько ответов доступно.
         $answersPerTeamIndex = array();
@@ -664,6 +676,13 @@ class Game extends BaseGame implements IStored, IAuth
         {
           $answersPerTeam[$teamState->id]['teamName'] = $teamState->Team->name;
           $answersPerTeam[$teamState->id]['answerCount'] = $task->getTargetAnswersForTeam($teamState->Team)->count();
+          if (($task->min_answers_to_success > 0)
+              && ($answersPerTeam[$teamState->id]['answerCount'] < $task->min_answers_to_success))
+          {
+            $line++;
+            $report['tasks'][$task->id][$line]['errLevel'] = Game::VERIFY_WARN;
+            $report['tasks'][$task->id][$line]['msg'] = 'Команде '.$answersPerTeam[$teamState->id]['teamName'].' не хватает ответов ('.$answersPerTeam[$teamState->id]['answerCount'].') для зачета ('.$task->min_answers_to_success.'), зачет будет выполнен по всем доступным ответам.';
+          }
         }
         //Анализируем индекс
         $minAnswers = $task->answers->count();

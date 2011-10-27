@@ -18,6 +18,7 @@ class TaskForm extends BaseTaskForm
     unset($this['priority_queued']);
     $this->setWidget('game_id', new sfWidgetFormInputHidden());
     $this->setValidator('game_id', new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Game'))));
+    $this->setValidator('min_answers_to_success', new sfValidatorInteger(array('required' => 'true', 'min' => 0)));
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
@@ -31,7 +32,8 @@ class TaskForm extends BaseTaskForm
         'priority_free' => 'Когда свободно:',
         'priority_busy' => 'Когда кому-то выдано:',
         'priority_filled' => 'Когда заполнено:',
-        'priority_per_team' => 'На каждую команду:'
+        'priority_per_team' => 'На каждую команду:',
+        'min_answers_to_success' => 'Ответов для зачета:'
     ));
     
     $this->getWidgetSchema()->setHelps(array(
@@ -45,7 +47,8 @@ class TaskForm extends BaseTaskForm
         'priority_free' => 'Задание не выдано никому.',
         'priority_busy' => 'Задание выдано одной или более командам.',
         'priority_filled' => 'Cуммируется с "Когда кому-то выдано" когда задание заполнено.',
-        'priority_per_team' => 'Умножается на число команд, получивших задание, и суммируется с "Когда кому-то выдано".'
+        'priority_per_team' => 'Умножается на число команд, получивших задание, и суммируется с "Когда кому-то выдано".',
+        'min_answers_to_success' => '&gt;&nbsp;0.|Необходимое число ответов для зачета задания.|<span class="info">Если пусто или "0" задание зачитывается только по всем ответам.</span>|<span class="warn">Если команде доступно меньшее число ответов, то задание будет засчитано, когда команда соберет все доступные ей ответы.</span>'
     ));    
   }
 

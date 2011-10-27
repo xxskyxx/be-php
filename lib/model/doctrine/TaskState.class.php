@@ -557,7 +557,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
 
     // Длительность задания - от старта до последнего правильного кода.
     $this->processPostedAnswers();
-    $doneTime = $this->checkTargets();
+    $doneTime = $this->checkTargets(); //TODO: Повторный вызов, сразу перед вызовом doneSuccess() уже был вызов checkTargets()
     // Если ни одного кода нет, но задание нужно завершить,
     // тогда завершаем его по времени последнего обновления.
     if ($doneTime <= 0)
@@ -981,20 +981,38 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     {
       return false;
     }
-    $lastGoodAnswerTime = $this->processPostedAnswers();
-
-    $answersRequired = $this->Task->getTargetAnswersForTeam($this->TeamState->Team)->count();
-    $answersGot = 0;
+    $answersAvailableForTeam = $this->Task->getTargetAnswersForTeam($this->TeamState->Team)->count();
+    if ($this->Task->min_answers_to_success == 0)
+    {
+      $answersRequired = $answersAvailableForTeam;
+    }
+    else
+    {
+      $answersRequired = ($answersAvailableForTeam < $this->Task->min_answers_to_success)
+          ? $answersAvailableForTeam
+          : $this->Task->min_answers_to_success;
+    }
+    $goodAnswers = array();
     foreach ($this->postedAnswers as $postedAnswer)
     {
       if ($postedAnswer->status == PostedAnswer::ANSWER_OK)
       {
-        $answersGot++;
+        array_push($goodAnswers, $postedAnswer->post_time);
       }
     }
-    return ($answersGot >= $answersRequired)
-        ? $lastGoodAnswerTime
-        : 0;
+    sort($goodAnswers);
+    if (   (count($goodAnswers) == 0)
+        || (count($goodAnswers) < $answersRequired))
+    {
+      return 0;
+    }
+    for ($index = 0; $index < count($goodAnswers); $index++)
+    {
+      if ($index == ($answersRequired - 1))
+      {
+        return $goodAnswers[$index];
+      }      
+    }
   }
 
   /**

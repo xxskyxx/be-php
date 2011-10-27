@@ -18,7 +18,7 @@ render_breadcombs(array(
 <ul>
 <?php    foreach ($taskReport as $reportLine): ?>
 <?php      if ($reportLine['errLevel'] == Game::VERIFY_ERR):?>
-  <li><div class="warn"><?php echo $reportLine['msg']; $cannotStart = true; ?></div></li>
+  <li><div class="danger"><?php echo $reportLine['msg']; $cannotStart = true; ?></div></li>
 <?php       else:?>
   <li><div class="info"><?php echo $reportLine['msg'] ?></div></li>
 <?php      endif; ?>
@@ -34,7 +34,7 @@ render_breadcombs(array(
 <ul>
 <?php    foreach ($teamReport as $reportLine): ?>
 <?php      if ($reportLine['errLevel'] == Game::VERIFY_ERR):?>
-  <li><div class="warn"><?php echo $reportLine['msg']; $cannotStart = true; ?></div></li>
+  <li><div class="danger"><?php echo $reportLine['msg']; $cannotStart = true; ?></div></li>
 <?php       else:?>
   <li><div class="info"><?php echo $reportLine['msg'] ?></div></li>
 <?php      endif; ?>

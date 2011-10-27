@@ -25,6 +25,7 @@ render_named_line($width, 'Внутреннее название:', array($_task
 render_named_line($width, 'Открытое название:', array($_task->public_name));
 render_named_line($width, 'Длительность:', array(Timing::intervalToStr($_task->time_per_task_local*60)));
 render_named_line($width, 'Неверных ответов:', array('не&nbsp;более&nbsp;'.$_task->try_count_local));
+render_named_line($width, 'Ответов для зачета:', array(($_task->min_answers_to_success > 0) ? decorate_span('info', $_task->min_answers_to_success) : 'все'));
 ?>
 <h4>Управление</h4>
 <?php

@@ -15,6 +15,7 @@
   render_form_field_using_div($form['public_name'], $width);
   render_form_field_using_div($form['time_per_task_local'], $width);
   render_form_field_using_div($form['try_count_local'], $width);
+  render_form_field_using_div($form['min_answers_to_success'], $width);
   ?>
   <h4>Управление</h4>
   <?php
