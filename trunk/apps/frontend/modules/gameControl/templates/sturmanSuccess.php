@@ -23,17 +23,17 @@ include_partial('header', array(
         <?php foreach ($_tasks as $task): ?>
         <th>
           <?php
-          if ($task->getNotDoneTaskStates()->count() == 0)
+          if ($task->locked)
+          {
+            $class = 'danger';
+          }
+          elseif ($task->getNotDoneTaskStates()->count() == 0)
           {
             $class = 'info';
           }
           elseif ($task->isFilled())
           {
             $class = 'warn';
-          }
-          elseif ($task->locked)
-          {
-            $class = 'danger';
           }
           else
           {
