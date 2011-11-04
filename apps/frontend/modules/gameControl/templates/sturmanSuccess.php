@@ -49,11 +49,7 @@ include_partial('header', array(
       <?php foreach ($_teamStates as $teamState): ?>
       <tr>
         <td style="font-weight: bold">
-          <?php
-          echo $teamState->Team->name;
-          $currentTaskState = $teamState->getCurrentTaskState();
-          $lastDoneTaskState = $teamState->getLastDoneTaskState();
-          ?>
+          <?php echo $teamState->Team->name; ?>
         </td>
         <?php foreach ($_tasks->getRawValue() as $task): ?>
         <td style="text-align: center">
@@ -68,7 +64,10 @@ include_partial('header', array(
           }
           else
           {
-            echo '-';
+            $priority = $teamState->getPriorityOfTask($task);
+            echo ($priority !== false)
+              ? decorate_number($priority)
+              : '&nbsp;-&nbsp;';
           }
           ?>
         </td>
