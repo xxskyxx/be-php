@@ -21,7 +21,7 @@ include_partial('header', array(
     <?php foreach ($_teamStates as $teamState): ?>
     <div class="<?php echo $odd ? 'oddLine' : 'evenLine' ?>">
       <div class="cell">
-        <?php echo link_to($teamState->Team->name, 'teamState/show?id='.$teamState->team_id).': ' ?>
+        <?php echo link_to($teamState->Team->name, 'teamState/show?id='.$teamState->id).': ' ?>
       </div>
       <div class="cell">
         <?php
