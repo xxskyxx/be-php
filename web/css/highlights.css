@@ -34,6 +34,7 @@ span.indentAction { padding: 1px 3px 2px 3px; border: none }
 span.safeAction   { /* reserved */ }
 span.warnAction   { /* reserved */ }
 span.dangerAction { /* reserved */ }
+span.info a, span.warn a, span.danger a,
 span.safeAction a, span.warnAction a, span.dangerAction a { color: inherit }
 /* span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White } */
 

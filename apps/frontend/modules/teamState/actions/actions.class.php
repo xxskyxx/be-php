@@ -114,6 +114,18 @@ class teamStateActions extends myActions
     }
     $teamState->save();
     $this->successRedirect('Текущее задание команды '.$teamState->Team->name.' успешно отменено.');
-
   }
+  
+  public function executeForceFinish(sfWebRequest $request)
+  {
+    $this->forward404Unless($teamState = TeamState::byId($request->getParameter('id')), 'Состояние команды не найдено.');
+    $this->errorRedirectUnless($teamState->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'управлять состоянием команды'));
+    if (is_string($res = $teamState->finish($this->sessionWebUser)))
+    {
+      $this->errorRedirect('Не удался принудительный финиш команды '.$teamState->Team->name.' : '.$res);
+    }
+    $teamState->save();
+    $this->successRedirect('Команда '.$teamState->Team->name.' принудительно финишировала.');
+  }
+  
 }

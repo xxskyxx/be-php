@@ -104,7 +104,17 @@ include_partial('header', array(
             };            
             ?>
           <?php else: ?>
-            <?php echo decorate_span('warnBorder', link_to('Нет&nbsp;задания', 'teamState/task?id='.$teamState->id, array('target' => 'new'))) ?>
+            <?php
+            if ($teamState->status == TeamState::TEAM_FINISHED)
+            {
+              echo decorate_span('info', link_to('Финишировала', 'teamState/task?id='.$teamState->id, array('target' => 'new')));
+            }
+            else
+            {
+              echo decorate_span('warnBorder', link_to('Нет&nbsp;задания', 'teamState/task?id='.$teamState->id, array('target' => 'new')));
+              echo ' '.decorate_span('dangerAction', link_to('Финишировать','teamState/forceFinish?id='.$teamState->id.'&returl='.$retUrlRaw, array('method' => 'post', 'confirm' => 'Отправить команду '.$teamState->Team->name.' на финиш?')));
+            }
+            ?>
           <?php endif ?>
         </div>
         <div class="comment">
