@@ -12,6 +12,13 @@ render_breadcombs(array(
 <ul>
   <li><span class="warnAction"><?php echo link_to('Отменить&nbsp;назначение (будет использован ИИ, если он включен для этой команды)', 'gameControl/setNext?teamState='.$_teamState->id.'&taskId=0&returl='.$_retUrl, array ('method' => 'post')); ?></span></li>
   <?php foreach ($_availableTasks as $task): ?>
-  <li><?php echo link_to($task->name, 'gameControl/setNext?teamState='.$_teamState->id.'&taskId='.$task->id.'&returl='.$_retUrl, array ('method' => 'post')); ?></li>
+  <li>
+    <?php
+    $htmlLink = link_to($task->name, 'gameControl/setNext?teamState='.$_teamState->id.'&taskId='.$task->id.'&returl='.$_retUrl, array ('method' => 'post'));
+    echo ($task->locked)
+        ? decorate_span('danger', $htmlLink.',&nbsp;заблокировано')
+        : decorate_span('info', $htmlLink);
+    ?>
+  </li>
   <?php endforeach; ?>
 </ul>

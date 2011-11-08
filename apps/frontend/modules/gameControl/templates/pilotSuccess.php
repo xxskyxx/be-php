@@ -112,7 +112,15 @@ include_partial('header', array(
             else
             {
               echo decorate_span('warnBorder', link_to('Нет&nbsp;задания', 'teamState/task?id='.$teamState->id, array('target' => 'new')));
-              echo ' '.decorate_span('dangerAction', link_to('Финишировать','teamState/forceFinish?id='.$teamState->id.'&returl='.$retUrlRaw, array('method' => 'post', 'confirm' => 'Отправить команду '.$teamState->Team->name.' на финиш?')));
+              
+              if ($teamState->status == TeamState::TEAM_WAIT_TASK)
+              {
+                $htmlLink = link_to('Финишировать','teamState/forceFinish?id='.$teamState->id.'&returl='.$retUrlRaw, array('method' => 'post', 'confirm' => 'Отправить команду '.$teamState->Team->name.' на финиш?'));
+                $availableTasks = $teamState->getTasksAvailableAll(false);
+                echo ($availableTasks === false)
+                  ? ' '.decorate_span('safeAction', $htmlLink)
+                  : ' '.decorate_span('dangerAction', $htmlLink);
+              }
             }
             ?>
           <?php endif ?>
