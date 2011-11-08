@@ -420,7 +420,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
             if ( ! $availableTasks)
             {
               // У команды нет доступных заданий, значит она завершила игру.
-              $res = $this->finish($actor);
+              // Ничего не делаем, руководство игры само решит финишировать или нет.
             }
             else
             {
@@ -449,6 +449,10 @@ class TeamState extends BaseTeamState implements IStored, IAuth
                   // Решение: отключить автовыбор заданий для "проблемной" команды.
                   $this->ai_enabled = false;
                 }
+              }
+              else
+              {
+                //Задание выбирает сама команда вручную.
               }
               $res = true;
             }
@@ -554,6 +558,10 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     if (!$this->canUpdateState($actor))
     {
       return Utils::cannotMessage($actor->login, 'обновлять состояние команды');
+    }
+    if ($this->status <= TeamState::TEAM_WAIT_START)
+    {
+      return 'Команда '.$this->Team->name.' еще не стартовала в игре '.$this->Game->name;
     }
     if ($this->status >= TeamState::TEAM_FINISHED)
     {
