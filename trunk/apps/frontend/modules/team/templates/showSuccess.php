@@ -19,10 +19,10 @@ render_h3_inline_end();
 <?php
 $width = get_text_block_size_ex('Полное название:');
 render_named_line_if($_sessionIsModerator,
-                     $width, 'Id:', array($_team->id));
-render_named_line   ($width, 'Название:', array($_team->name));
+                     $width, 'Id:', $_team->id);
+render_named_line   ($width, 'Название:', $_team->name);
 render_named_line_if($_team->full_name !== '',
-                     $width, 'Полное название:', array($_team->full_name));
+                     $width, 'Полное название:', $_team->full_name);
 ?>
 
 <?php if ($_sessionIsPlayer || $_sessionIsModerator): ?>

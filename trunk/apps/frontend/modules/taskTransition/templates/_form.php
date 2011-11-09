@@ -8,7 +8,7 @@
   render_form_field_using_div($form['id'], $width);
   render_form_field_using_div($form['task_id'], $width);
   //Подсказка
-  render_named_line($width, 'С задания:', array($task->name));
+  render_named_line($width, 'С задания:', $task->name);
   //Видимые поля
   render_form_field_using_div($form['target_task_id'], $width);
   render_form_field_using_div($form['allow_on_success'], $width);

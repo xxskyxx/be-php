@@ -15,30 +15,30 @@ if ($_isAdmin)
 <h4>Реквизиты сайта</h4>
 <?php
 $width = get_text_block_size_ex('Создание команд по почте:');
-render_named_line($width, 'Название сайта:', array($_settings->site_name));
-render_named_line($width, 'Домен сайта:', array($_settings->site_domain));
-render_named_line($width, 'Адрес администраторов:', array($_settings->contact_email_addr));
+render_named_line($width, 'Название сайта:', $_settings->site_name);
+render_named_line($width, 'Домен сайта:', $_settings->site_domain);
+render_named_line($width, 'Адрес администраторов:', $_settings->contact_email_addr);
 ?>
 <h4>Модерация</h4>
 <?php
-render_named_line($width, 'Создание команд по почте:', array($_settings->email_team_create ? decorate_span('info', 'Разрешено') : 'Не разрешено'));
-render_named_line($width, 'Создание игр по почте:', array($_settings->email_game_create ? decorate_span('info', 'Разрешено') : 'Не разрешено'));
-render_named_line($width, 'Быстрое создание команд:', array($_settings->fast_team_create ? decorate_span('warn', 'Разрешено') : 'Не разрешено'));
-render_named_line($width, 'Быстрая регистрация:', array($_settings->fast_user_register ? decorate_span('warn', 'Разрешена') : 'Не разрешена'));
+render_named_line($width, 'Создание команд по почте:', $_settings->email_team_create ? decorate_span('info', 'Разрешено') : 'Не разрешено');
+render_named_line($width, 'Создание игр по почте:', $_settings->email_game_create ? decorate_span('info', 'Разрешено') : 'Не разрешено');
+render_named_line($width, 'Быстрое создание команд:', $_settings->fast_team_create ? decorate_span('warn', 'Разрешено') : 'Не разрешено');
+render_named_line($width, 'Быстрая регистрация:', $_settings->fast_user_register ? decorate_span('warn', 'Разрешена') : 'Не разрешена');
 ?>
 <h4>Отправка уведомлений</h4>
 <?php
-render_named_line($width, 'Обратный адрес:', array($_settings->notify_email_addr));
-render_named_line($width, 'SMTP-сервер:', array($_settings->smtp_host));
-render_named_line($width, 'Порт:', array($_settings->smtp_port));
+render_named_line($width, 'Обратный адрес:', $_settings->notify_email_addr);
+render_named_line($width, 'SMTP-сервер:', $_settings->smtp_host);
+render_named_line($width, 'Порт:', $_settings->smtp_port);
 if (($_settings->smtp_security !== null) && ($_settings->smtp_security !== ''))
 {
-render_named_line($width, 'Шифрование:', array($_settings->smtp_security));
+render_named_line($width, 'Шифрование:', $_settings->smtp_security);
 }
 if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
 {
-  render_named_line($width, 'Аккаунт:', array($_settings->smtp_login));
-  render_named_line($width, 'Пароль:', array($_settings->smtp_password));
+  render_named_line($width, 'Аккаунт:', $_settings->smtp_login);
+  render_named_line($width, 'Пароль:', $_settings->smtp_password);
 }
 echo "<p>\n".decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest'))."\n</p>\n";
 ?>

@@ -8,7 +8,7 @@
   render_form_field_using_div($form['id'], $width);
   render_form_field_using_div($form['team_id'], $width);
   //Подсказка
-  render_named_line($width, 'Организаторы:', array(Team::byId($form['team_id']->getValue())));
+  render_named_line($width, 'Организаторы:', Team::byId($form['team_id']->getValue()));
   //Видимые поля
   render_form_field_using_div($form['name'], $width);
   render_form_field_using_div($form['description'], $width);

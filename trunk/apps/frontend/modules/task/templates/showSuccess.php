@@ -20,28 +20,28 @@ render_h3_inline_end();
 <h4>Основные</h4>
 <?php
 $width = get_text_block_size_ex('Когда кем-то выполняется:');
-render_named_line_if($_isModerator, $width, 'Id:', array($_task->id));
-render_named_line($width, 'Внутреннее название:', array($_task->name));
-render_named_line($width, 'Открытое название:', array($_task->public_name));
-render_named_line($width, 'Длительность:', array(Timing::intervalToStr($_task->time_per_task_local*60)));
-render_named_line($width, 'Неверных ответов:', array('не&nbsp;более&nbsp;'.$_task->try_count_local));
-render_named_line($width, 'Ответов для зачета:', array(($_task->min_answers_to_success > 0) ? decorate_span('info', $_task->min_answers_to_success) : 'все'));
+render_named_line_if($_isModerator, $width, 'Id:', $_task->id);
+render_named_line($width, 'Внутреннее название:', $_task->name);
+render_named_line($width, 'Открытое название:', $_task->public_name);
+render_named_line($width, 'Длительность:', Timing::intervalToStr($_task->time_per_task_local*60));
+render_named_line($width, 'Неверных ответов:', 'не&nbsp;более&nbsp;'.$_task->try_count_local);
+render_named_line($width, 'Ответов для зачета:', ($_task->min_answers_to_success > 0) ? decorate_span('info', $_task->min_answers_to_success) : 'все');
 ?>
 <h4>Управление</h4>
 <?php
-render_named_line($width, 'Выполняющих команд:', array(($_task->max_teams > 0) ? 'не&nbsp;более&nbsp;'.$_task->max_teams : 'без&nbsp;ограничений'));
-render_named_line($width, 'Ручной старт:', array($_task->manual_start ? decorate_span('info', 'Да') : 'Нет'));
-render_named_line($width, 'Заблокировано:', array($_task->locked ? decorate_span('warn', 'Да') : 'Нет'));
+render_named_line($width, 'Выполняющих команд:', ($_task->max_teams > 0) ? 'не&nbsp;более&nbsp;'.$_task->max_teams : 'без&nbsp;ограничений');
+render_named_line($width, 'Ручной старт:', $_task->manual_start ? decorate_span('info', 'Да') : 'Нет');
+render_named_line($width, 'Заблокировано:', $_task->locked ? decorate_span('warn', 'Да') : 'Нет');
 ?>
 <h4>Приоритеты опорные</h4>
 <?php
-render_named_line($width, 'Когда свободно:', array(decorate_number($_task->priority_free)));
-render_named_line($width, 'Когда кому-то выдано:', array(decorate_number($_task->priority_busy)));
+render_named_line($width, 'Когда свободно:', decorate_number($_task->priority_free));
+render_named_line($width, 'Когда кому-то выдано:', decorate_number($_task->priority_busy));
 ?>
 <h4>Приоритеты дополнительные</h4>
 <?php
-render_named_line($width, 'Когда заполнено:', array(decorate_number($_task->priority_filled)));
-render_named_line($width, 'На каждую команду:', array(decorate_number($_task->priority_per_team)));
+render_named_line($width, 'Когда заполнено:', decorate_number($_task->priority_filled));
+render_named_line($width, 'На каждую команду:', decorate_number($_task->priority_per_team));
 ?>
 
 <?php
