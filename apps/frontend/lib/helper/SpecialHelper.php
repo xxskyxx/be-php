@@ -130,12 +130,14 @@ function decorate_div($class, $innerHtml)
  * Генерирует в поток вывода HTML-код одной строки с заголовком и несколькими значениями,
  * но только в том случае, если выполнено условие.
  * 
- * @param   string          $nameWidth  ширина колонки названия свойства (в единицах ex)
- * @param   string          $name       заголовок строки
- * @param   array<string>   $value      значения
+ * @param   string  $nameWidth  ширина колонки названия свойства (в единицах ex)
+ * @param   string  $name       заголовок строки
+ * @param   mixed   $value      значение строкой или значения массивом
  */
 function render_named_line($nameWidth, $name, $values)
 {
+  $useValues = (is_array($values)) ? $values : array($values);
+  
   echo "\n".'<div class="namedLineBox">'."\n";
 
   /* Финт ушами:
@@ -147,14 +149,11 @@ function render_named_line($nameWidth, $name, $values)
   echo $name;
   echo '</div>';
   
-  if (is_array($values))
+  foreach ($useValues as $value)
   {
-    foreach ($values as $value)
-    {
-      echo '<div class="namedLineValue">';
-      echo $value;
-      echo '</div>';
-    }
+    echo '<div class="namedLineValue">';
+    echo $value;
+    echo '</div>';
   }
   
   echo "\n".'</div>'."\n";
