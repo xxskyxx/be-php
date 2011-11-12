@@ -871,7 +871,7 @@ class Game extends BaseGame implements IStored, IAuth
     $activeTasks = false;
     foreach ($this->teamStates as $teamState)
     {
-      if ($teamState->getActiveTaskState())
+      if ($teamState->status != TeamState::TEAM_FINISHED)
       {
         $activeTasks = true;
         break;
