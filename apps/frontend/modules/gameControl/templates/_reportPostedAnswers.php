@@ -52,3 +52,4 @@ foreach ($postedAnswers as $postedAnswer)
   echo '<span class="'.$class.'">'.$value.'</span> ';
 }
 ?>
+

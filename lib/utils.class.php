@@ -342,6 +342,7 @@ class Utils
     $res = preg_replace('/\[back=(#[0-9a-fA-F]{6}|[a-z-]+)]([^\]]+)\[\/back\]/', '<span style="background-color:$1">$2</span>', $res);
     //Формат текста предопределенный
     $res = preg_replace('/\[rem\]([^\]]+)\[\/rem\]/', '<span class="info">$1</span>', $res);
+    $res = preg_replace('/\[info\]([^\]]+)\[\/info\]/', '<span class="info">$1</span>', $res);
     $res = preg_replace('/\[warn\]([^\]]+)\[\/warn\]/', '<span class="warn">$1</span>', $res);
     $res = preg_replace('/\[danger\]([^\]]+)\[\/danger\]/', '<span class="danger">$1</span>', $res);
     //Ссылки
@@ -351,9 +352,9 @@ class Utils
     $res = preg_replace('/\[img\]([^\]]+)\[\/img\]/', '<img src="$1" alt="$1" />', $res);
     $res = preg_replace('/\[img=([^\]]+)]/', '<img src="$1" alt="$1" />', $res);
     //Оформление переносов строк
-    $res = preg_replace('/\n\r|\r\n/', '</p><p>', $res);
+    $res = preg_replace('/\n\r|\r\n/', '</div><div>', $res);
     //Оформление пустых строк
-    $res = preg_replace('/<p><\/p>/', '<p>&nbsp;</p>', $res);
+    $res = preg_replace('/<div><\/div>/', '<div style="margin-top: 0.5em"></div>', $res);
     //Усё...
     return $monospaced
         ? '<div style="font-family:monospace">'.$res.'</div>'

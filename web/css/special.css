@@ -29,7 +29,6 @@ div.namedLineName, div.namedLineValue
 div.namedLineName  { text-align: right; color: LightSkyBlue }
 div.namedLineValue { padding-left: 0.5ex; text-align: left }
 
-
 /* Форматирование "хлебных крошек" */
 div.breadcombs {
   border: Solid DodgerBlue;
@@ -94,48 +93,8 @@ div.columnName  {
   text-align: center }
 div.columnValue { /* reserved */ }
 
-/* Блог, сообщения и комментарии */
-div.blogPost,
-div.blogPost div.blogComment {
-  border: none;
-  padding-left: 5px;
-}
-div.blogPost {
-  margin-top: 3px;
-  border-top: Solid 1px;
-  border-left: Solid 2px;
-  border-color: DodgerBlue;
-}
-div.blogPost div.blogComment {
-  margin: 3px 0 3px 10px;
-  border-top: Solid 1px;
-  border-left: Solid 2px;
-  border-color: DarkCyan;
-  font-size: Smaller
-}
-
-div.blogPost    div.itemControls,
-div.blogComment div.itemControls {
-  float: right;
-  margin-left: 5px;
-  padding: 0 0 1px 2px;
-  text-align: right
-}
-
-div.blogPost div.text,
-div.blogComment div.text {
-  margin-top: 6px;
-}
-
-div.blogPages { /*reserved*/ }
-div.blogPagesIndex { float: right }
-div.blogPagesIndex div.item,
-div.blogPagesIndex div.currentItem { display: inline-block; padding: 0 0.5ex 0 0.5ex }
-div.blogPagesIndex div.item { font-weight: bold }
-div.blogPagesIndex div.currentItem { /*reserved*/ }
-
 /* Главное меню */
-div.menu { background-color: Navy; border: Solid 1px DodgerBlue }
+div.menu { background-color: DarkGreen; border: Solid 1px Lime }
 div.menu ul { padding: 3px 0 6px 0.75ex; list-style: none; vertical-align: middle }
 div.menu ul li {
   margin-left: 0; /* дополнительный отступ получается из-за отображения браузерами пробела на масте символа переноса строки в исходном HTML */
@@ -144,18 +103,15 @@ div.menu ul li {
   vertical-align: middle
 }
 div.menu ul li a,
-div.menu ul li a:visited { color: Aqua; text-decoration: none; border-bottom: Solid Aqua 1px }
+div.menu ul li a:visited { color: GreenYellow; text-decoration: none; border-bottom: Solid GreenYellow 1px }
 div.menu ul li a:hover,
-div.menu ul li a:active  { color: White; background-color: Blue; border-bottom: none }
-
-/* Кнопка действия (пока не используется) */
-div.imageButton { display: inline-block; vertical-align: middle }
+div.menu ul li a:active  { color: White; background-color: Green; border-bottom: none }
 
 /* Табличное оформление */
 th.bottomWeakBorder,
 td.bottomWeakBorder { vertical-align: top; border-bottom: Solid 1px Blue }
 
-/* Страничный интерфейс, устаревает */
+/* Страничный интерфейс на таблицах, устаревает */
 table.tabControl { width: 100%; border: none; margin-top: 0.25em }
 table.tabControl th.tabTitle {
   border: none;
@@ -172,6 +128,7 @@ table.tabControl td.tabSheet {
   border: Solid 1px DodgerBlue; border-top: none
 }
 
+/* Страничный интерфейс, новый */
 div.tabHeaderBox { display: inline-block; width: 25%; }
 div.tabHeader {
   border: none;

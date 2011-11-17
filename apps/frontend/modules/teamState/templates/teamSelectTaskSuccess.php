@@ -3,9 +3,11 @@ include_partial('header', array('teamState' => $_teamState));
 $retUrlRaw = Utils::encodeSafeUrl(url_for('teamState/task?id='.$_teamState->id));
 ?>
 
-<p>
-  <div class="warn">Ваша команда может выбрать себе следующее задание:</div>
-</p>
+<div class="warn">
+  <p>
+    Ваша команда может выбрать себе следующее задание:
+  </p>
+</div>
 
 <ul>
 <?php foreach ($_availableTasksManual as $task): ?>
@@ -20,15 +22,21 @@ $retUrlRaw = Utils::encodeSafeUrl(url_for('teamState/task?id='.$_teamState->id))
 </ul>
 
 <?php if ( ! $_isLeader): ?>
-<p>
-  <div class="info">Выбрать следующее задание может только капитан команды.</div>
-</p>
+<div class="info">
+  <p>
+    Выбрать следующее задание может только капитан команды.
+  </p>
+</div>
 <?php endif ?>
 
-<p>
-  <div class="info">Задание стартует только тогда, когда Вы его в первый раз увидите.</div>
-</p>
+<div class="info">
+  <p>
+    Задание стартует только тогда, когда Вы его в первый раз увидите.
+  </p>
+</div>
 
-<p>
-  <div class="info">Время ожидания не влияет на доступное игровое время.</div>
-</p>
+<div class="info">
+  <p>
+    Время ожидания не влияет на доступное игровое время.
+  </p>
+</div>

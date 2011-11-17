@@ -4,11 +4,13 @@
   <body style="width:auto">
     <?php include_partial('global/flashes'); ?>
     <?php echo $sf_content; ?>
-    <div class="credits">
-      <?php
-      echo link_to('Главная', 'home/index').', ';
-      echo link_to('Выйти', 'auth/logout');
-      ?>
+    <div>
+      <p>
+        <?php
+        echo link_to('Главная', 'home/index').', ';
+        echo link_to('Выйти', 'auth/logout');
+        ?>
+      </p>
     </div>
   </body>
 </html>

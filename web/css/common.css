@@ -62,7 +62,7 @@ td, th {
   padding: 0 1px 2px 1px;
   font-weight: normal
 }
-th { color: LightGrey }
+th { color: LightGrey; font-weight: bold }
 td { text-align: left }
 tbody th { text-align: right }
 thead th, tfoot td { vertical-align: bottom; text-align: center }

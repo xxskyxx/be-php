@@ -36,8 +36,8 @@ span.warnAction   { /* reserved */ }
 span.dangerAction { /* reserved */ }
 span.info a, span.warn a, span.danger a,
 span.safeAction a, span.warnAction a, span.dangerAction a { color: inherit }
-/* span.safeAction a:hover, span.warnAction a:hover, span.dangerAction a:hover { color: White } */
 
+/* Визуальное разделение данных в сложных списках */
 div.complexList { vertical-align: top }
 div.complexList div.cell { display: inline-block; vertical-align: inherit } 
 div.evenLine, div.oddLine {

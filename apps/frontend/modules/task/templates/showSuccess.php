@@ -183,14 +183,17 @@ render_h3_inline_end();
   <?php endforeach ?>
 </ul>
 <p class="comment">
-  <span class="warn">Если через фильтры не пройдет ни одного задания, то выбор будет выполняться среди всех доступных заданий без учета фильтров</span>
+  <span class="info">Если через фильтры пройдет несколько заданий, то выбор будет выполняться среди них согласно текущих приоритетов.</span>
+</p>
+<p class="comment">
+  <span class="warn">Если через фильтры не пройдет ни одного задания, то выбор будет выполняться по приоритетам среди всех доступных заданий без учета фильтров.</span>
 </p>
 
 <h3>Предварительный просмотр</h3>
 <?php foreach ($_tips as $tip): ?>
-<p>
-  <div style="background-color: Navy"><?php echo link_to($tip->name, 'tip/edit?id='.$tip->id); ?></div>
-</p>
+<div style="background-color: Navy">
+  <?php echo link_to($tip->name, 'tip/edit?id='.$tip->id); ?>
+</div>
 <div>
   <?php echo Utils::decodeBB($tip->define) ?>
 </div>

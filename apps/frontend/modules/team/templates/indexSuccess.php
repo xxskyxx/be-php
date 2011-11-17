@@ -2,7 +2,7 @@
 
 <h2>Команды</h2>
 
-<p>
+<div>
   <?php if ($_isModerator): ?>
   <div><?php echo link_to('Создать новую команду', 'team/new') ?></div>
   <?php elseif ($_fastTeamCreate): ?>
@@ -10,7 +10,7 @@
   <?php else: ?>
   <div><?php echo link_to('Подать заявку на создание команды', 'teamCreateRequest/new') ?></div>
   <?php endif; ?>
-</p>
+</div>
 
 <?php if ($_teams->count() > 0): ?>
 <h3>Существующие</h3>

@@ -95,7 +95,7 @@ $tasks = Doctrine::getTable('Task')
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
       <?php   else: ?>
-      <td class="bottomWeakBorder"><?php include_partial('taskState/usedTips', array('taskState' => $taskState, 'onlyUsed' => true, 'withTime' => true)) ?></td>
+      <td class="bottomWeakBorder"><?php include_partial('reportUsedTips', array('taskState' => $taskState, 'onlyUsed' => true, 'withTime' => true)) ?></td>
       <?php   endif; ?>
       <?php endforeach; ?>
     </tr>
@@ -107,7 +107,7 @@ $tasks = Doctrine::getTable('Task')
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
       <?php   else: ?>
-      <td class="bottomWeakBorder"><?php include_partial('taskState/postedAnswers', array('taskState' => $taskState, 'withTime' => true, 'withSender' => true, 'highlight' => true)) ?></td>
+      <td class="bottomWeakBorder"><?php include_partial('reportPostedAnswers', array('taskState' => $taskState, 'withTime' => true, 'withSender' => true, 'highlight' => true)) ?></td>
       <?php   endif; ?>
       <?php endforeach; ?>
     </tr>
