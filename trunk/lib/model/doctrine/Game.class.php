@@ -51,7 +51,8 @@ class Game extends BaseGame implements IStored, IAuth
     if (!$res)
     {
       //Возможно пользователь может модерировать эту игру
-      $res = $account->can(Permission::GAME_MODER, $this->id);
+      $res = $account->can(Permission::GAME_AUTHOR, $this->id)
+          || $account->can(Permission::GAME_MODER, $this->id);
     }
     return $res;
   }
