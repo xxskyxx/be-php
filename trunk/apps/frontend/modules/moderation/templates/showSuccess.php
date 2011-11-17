@@ -40,8 +40,10 @@ if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
   render_named_line($width, 'Аккаунт:', $_settings->smtp_login);
   render_named_line($width, 'Пароль:', $_settings->smtp_password);
 }
-echo "<p>\n".decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest'))."\n</p>\n";
 ?>
+<p>
+  <?php echo decorate_span('safeAction', link_to('Отправить тестовое уведомление на '.$_settings->contact_email_addr, 'moderation/SMTPTest')) ?>
+</p>
 <?php endif ?>
 
 <?php if ($_isAdmin): ?>

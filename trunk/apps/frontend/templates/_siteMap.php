@@ -5,8 +5,8 @@
     <li><?php echo link_to('Команды', 'team/index') ?></li>
     <li><?php echo link_to('Игры', 'game/index') ?></li>
     <?php
-    include ('customization/menuItemsAuth.php');
     include ('customization/menuItemsCommon.php');
+    include ('customization/menuItemsAuth.php');
     ?>
   </ul>
 </div>

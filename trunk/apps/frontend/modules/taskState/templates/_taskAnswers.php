@@ -78,9 +78,7 @@ foreach ($taskState->postedAnswers as $postedAnswer)
   <?php echo $allBad ?>
   <?php $tryCount = $taskState->Task->try_count_local - $badCount; ?>
   <?php   if ($tryCount >= 0): ?>
-  <p>
-    <div class="danger">Осталось неверных попыток: <?php echo $taskState->Task->try_count_local - $badCount ?></div>
-  </p>
+  <div class="danger">Осталось неверных попыток: <?php echo $taskState->Task->try_count_local - $badCount ?></div>
 </div>
 <?php     endif ?>
 <?php   endif ?>

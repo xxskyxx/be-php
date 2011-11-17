@@ -9,7 +9,7 @@
 
 <?php if ($taskState->status == TaskState::TASK_GIVEN): ?>
 <p>
-  <div>Вашей команде назначено задание, но его старт пока не разрешен.</div>
+  Вашей команде назначено задание, но его старт пока не разрешен.
 </p>
 <p>
   Обновляйте страницу время от времени.
@@ -17,23 +17,31 @@
 <p>
   Как только Вашему заданию будет дан старт, вы его увидите.
 </p>
-<p>
-  <div class="info">Задание стартует только тогда, когда вы его в первый раз увидите.</div>
-</p>
-<p>
-  <div class="info">Время ожидания не влияет на доступное игровое время.</div>
-</p>
+<div class="info">
+  <p>
+    Задание стартует только тогда, когда вы его в первый раз увидите.
+  </p>
+</div>
+<div class="info">
+  <p>
+    Время ожидания не влияет на доступное игровое время.
+  </p>
+</div>
 
 <?php elseif ($taskState->status == TaskState::TASK_STARTED): ?>
 <p>
   Заданию разрешен старт.
 </p>
-<p>
-  <div class="danger">Если Вы игрок: обратитесь к организаторам, так как Вы здесь должны видеть свое задание.</div>
-</p>
-<p>
-  <div class="warn">Если Вы руководитель игры: для подтверждения прочтения этого задания командой нужно использовать ссылку "Прочесть" на странице управления игрой.</div>
-</p>
+<div class="danger">
+  <p>
+    Если Вы игрок: обратитесь к организаторам, так как Вы здесь должны видеть свое задание.
+  </p>
+</div>
+<div class="warn">
+  <p>
+    Если Вы руководитель игры: для подтверждения прочтения этого задания командой нужно использовать ссылку "Прочесть" на странице управления игрой.
+  </p>
+</div>
 
 <?php elseif ($taskState->status == TaskState::TASK_ACCEPTED): ?>
 <?php
@@ -57,9 +65,11 @@ include_partial('taskStats', array('taskState' => $taskState));
 
 <?php elseif ($taskState->status == TaskState::TASK_CHEAT_FOUND): ?>
 <?php include_partial('taskAnswers', array('taskState' => $taskState)) ?>
-<p>
-  <div class="danger">Задание дисквалифицировано. Вы больше не можете вводить ответы.</div>
-</p>
+<div class="danger">
+  <p>
+    Задание дисквалифицировано. Вы больше не можете вводить ответы.
+  </p>
+</div>
 <?php
 include_partial('taskDefine', array('taskState' => $taskState));
 include_partial('taskStats', array('taskState' => $taskState));

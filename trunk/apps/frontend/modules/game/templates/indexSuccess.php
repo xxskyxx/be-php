@@ -7,13 +7,13 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
 
 <h2>Игры</h2>
 
-<p>
+<div>
   <?php if ($_sessionIsGameModerator): ?>
   <div><?php echo link_to('Создать новую игру', 'game/new') ?></div>
   <?php else: ?>
   <div><?php echo link_to('Подать заявку на создание игры', 'gameCreateRequest/newManual') ?></div>
   <?php endif; ?>
-</p>
+</div>
 
 <?php if ($_activeGames->count() > 0): ?>
 <h3>Проходят сейчас</h3>

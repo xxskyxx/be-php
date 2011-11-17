@@ -21,15 +21,21 @@ $taskState = $_teamState->getCurrentTaskState()
     ?>
   </span>
   <?php else: ?>
-  <p>
-    <div class="danger">У Вас должно быть текущее задание, но его не удалось найти.</div>      
-  </p>
-  <p>
-    <div class="warn">Скорее всего, оно было отменено.</div>
-  </p>
-  <p>
-    <div class="info">Обратитесь к организаторам.</div>
-  </p>
+  <div class="danger">
+    <p>
+      У Вас должно быть текущее задание, но его не удалось найти.
+    </p>
+  </div>
+  <div class="warn">
+    <p>
+      Скорее всего, оно было отменено.
+    </p>
+  </div>
+  <div class="info">
+    <p>
+      Обратитесь к организаторам.
+    </p>
+  </div>
   <?php endif; ?>
 </div>
 
