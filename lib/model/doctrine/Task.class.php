@@ -296,7 +296,7 @@ class Task extends BaseTask implements IStored, IAuth
    * Ищет в указанном списке ответ с заданным значением.
    * 
    * @param   string                  $answerValue      значение для поиска
-   * @param   Doctrine_Collection     $correctAnswers   список ворректных ответов
+   * @param   Doctrine_Collection     $correctAnswers   список корректных ответов
    * 
    * @return  Doctrine_Record<Answer>                   Найденный ответ, или False если не найден.
    */
@@ -333,7 +333,7 @@ class Task extends BaseTask implements IStored, IAuth
   }
 
   /**
-   * Проверяет, присутствует ли указанное заданеи в указанном списке.
+   * Проверяет, присутствует ли указанное задание в указанном списке.
    *
    * @param   Task                  $task       Задание которое искать
    * @param   Doctrine_Collection   $taskList   Список где искать

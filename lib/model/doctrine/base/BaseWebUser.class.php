@@ -12,7 +12,6 @@
  * @property string $email
  * @property string $tag
  * @property boolean $is_enabled
- * @property Doctrine_Collection $posts
  * @property Doctrine_Collection $grantedPermissions
  * @property Doctrine_Collection $postedAnswers
  * @property Doctrine_Collection $TeamCandidate
@@ -26,7 +25,6 @@
  * @method string              getEmail()              Returns the current record's "email" value
  * @method string              getTag()                Returns the current record's "tag" value
  * @method boolean             getIsEnabled()          Returns the current record's "is_enabled" value
- * @method Doctrine_Collection getPosts()              Returns the current record's "posts" collection
  * @method Doctrine_Collection getGrantedPermissions() Returns the current record's "grantedPermissions" collection
  * @method Doctrine_Collection getPostedAnswers()      Returns the current record's "postedAnswers" collection
  * @method Doctrine_Collection getTeamCandidate()      Returns the current record's "TeamCandidate" collection
@@ -39,7 +37,6 @@
  * @method WebUser             setEmail()              Sets the current record's "email" value
  * @method WebUser             setTag()                Sets the current record's "tag" value
  * @method WebUser             setIsEnabled()          Sets the current record's "is_enabled" value
- * @method WebUser             setPosts()              Sets the current record's "posts" collection
  * @method WebUser             setGrantedPermissions() Sets the current record's "grantedPermissions" collection
  * @method WebUser             setPostedAnswers()      Sets the current record's "postedAnswers" collection
  * @method WebUser             setTeamCandidate()      Sets the current record's "TeamCandidate" collection
@@ -94,10 +91,6 @@ abstract class BaseWebUser extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('Comment as posts', array(
-             'local' => 'id',
-             'foreign' => 'web_user_id'));
-
         $this->hasMany('GrantedPermission as grantedPermissions', array(
              'local' => 'id',
              'foreign' => 'web_user_id'));

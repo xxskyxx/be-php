@@ -191,9 +191,6 @@ class Utils
   const PASSWORD_SALT = 'cHaNgEtHiS';
   const ACTIVATION_KEY_LENGTH = 16;
 
-  const IMG_BUTTONS_PATH = '/images/buttons/';
-  const IMG_BUTTONS_STYLE = 'imageButton';
-
   /**
    * Возвращает хэш пароля с учетом "соления".
    *
@@ -323,72 +320,6 @@ class Utils
   }
 
   /**
-   * Формирует HTML-код кнопки для указанного действия методом POST с CSRF-подписью.
-   * В отличие от button_to, назначение адреса перехода происходит только при
-   * утвердительном ответе на вопрос, поэтому можно использовать не только в формах.
-   * Если вопрос не указан, переходит сразу.
-   *
-   * @param   string  $caption          Надпись на кнопке
-   * @param   string  $url              Адрес перехода
-   * @param   string  $method           Вариант метода
-   * @param   string  $confirmQuestion  Вопрос для выполнения
-   * @return  string
-   */
-  public static function buttonTo($caption, $url, $method='post', $confirmQuestion = '')
-  {
-    return '<input value="'.$caption.'" type="button" onclick="'.Utils::urlRedirectScript($url, $method, $confirmQuestion).'" />';
-  }
-
-  /**
-   * Аналог buttonTo, но картинкой.
-   *
-   * @param   string  $hint             Всплывающая подсказка, она же текст замещения.
-   * @param   string  $uniqueName       Служебное название кнопки, должно быть иникально на странице.
-   * @param   string  $normalPicture    Имя файла с картинкой обычного состояния кнопки.
-   * @param   string  $hoverPicture     Имя файла с картинкой подствеченного состояния кнопки.
-   * @param   string  $pressedPicture   Имя файла с картинкой нажатого состояния кнопки.
-   * @param   string  $url              Адрес перехода
-   * @param   string  $method           Вариант метода
-   * @param   string  $confirmQuestion  Вопрос для выполнения
-   * @return  string
-   */
-  public static function imgButtonTo($hint, $uniqueName, $normalPicture, $hoverPicture, $pressedPicture, $url, $method='post', $confirmQuestion = '')
-  {
-    return '<div class="imageButton"><img title="'.$hint.'" id="'.$uniqueName.'" src="'.$normalPicture.'" alt="'.$hint.'" onclick="'.Utils::urlRedirectScript($url, $method, $confirmQuestion).'" onmouseup="'.$uniqueName.'.src=\''.$normalPicture.'\'" onmouseout="'.$uniqueName.'.src=\''.$normalPicture.'\'" onmouseover="'.$uniqueName.'.src=\''.$hoverPicture.'\'" onmousedown="'.$uniqueName.'.src=\''.$pressedPicture.'\'" /></div>';
-  }
-
-  /**
-   * Кнопка с картинкой с сокращенным указанием имен картинок:
-   * - Обычное состояние кнопки - $pictureAlias.'.png',
-   * - Подсвеченное состояние -  $pictureAlias.'hover.png',
-   * - Нажатое состояние - $pictureAlias.'Pressed.png',
-   *
-   * @param   string  $hint             Всплывающая подсказка, она же текст замещения.
-   * @param   string  $uniqueName       Служебное название кнопки, должно быть иникально на странице.
-   * @param   string  $pictureAlias     Общая часть группы файлов с картинками состояний кнопки.
-   * @param   string  $url              Адрес перехода
-   * @param   string  $method           Вариант метода
-   * @param   string  $confirmQuestion  Вопрос для выполнения
-   * @return  string
-   */
-  public static function imgButtonTemplate($hint, $uniqueName, $pictureAlias, $url, $method='post', $confirmQuestion = '')
-  {
-    return Utils::imgButtonTo($hint, $uniqueName, Utils::IMG_BUTTONS_PATH.$pictureAlias.'.png', Utils::IMG_BUTTONS_PATH.$pictureAlias.'hover.png', Utils::IMG_BUTTONS_PATH.$pictureAlias.'Pressed.png', $url, $method, $confirmQuestion);
-  }
-
-  /**
-   * Преобразует текст с переносами строк (любого вида) в текст с <div>-блоками
-   *
-   * @param   string  $text   Данные из БД
-   * @return  string          HTML-код
-   */
-  public static function convertEOLNtoDIV($text)
-  {
-    $res = preg_replace('/\n\r|\r\n/', '</div><div>', $text);
-    return '<div>'.$res.'</div>';
-  }
-
-  /**
    * Расшифровывает BB-код в исходной строке.
    *
    * @param   string  $text         Исходный текст
@@ -450,18 +381,6 @@ class Utils
   }
 
   /**
-   * Формирует HTML-код для отображения строки по вертикали.
-   * 
-   * @todo: Пока заглушка, надо разобраться, как вставлять пробелы в UTF8-строку.
-   * 
-   * @return string
-   */
-  public static function renderVertical($sourceString)
-  {
-    return $sourceString;
-  }
-  
-  /**
    * Создает и настраивает экземпляр SwiftMailer, параметры берутся из
    * системных настроек. При неудаче соединения возвращает false.
    * 
@@ -516,44 +435,6 @@ class Utils
     return $isSent;
   }
   
-  //// Self ////
-
-  /**
-   * Формирует HTML-код c JavaScript-обработчиком для перехода по указанному адресу.
-   * Используется метод POST и CSRF-проверка.
-   * При указании вопроса c подтверждением - переход только при утвердительном ответе, иначе сразу.
-   * @param   string  url
-   * @param   string  $method
-   * @param   string  $confirmQuestion
-   * @return  string
-   */
-  protected static function urlRedirectScript($url, $method='post', $confirmQuestion = '')
-  {
-    if ($confirmQuestion != '')
-    {
-      $proc = "if(confirm('".htmlspecialchars($confirmQuestion)."')){";
-    }
-    else
-    {
-      $proc = '';
-    }
-
-    $proc .= "var f=document.createElement('form');f.style.display='none';this.parentNode.appendChild(f);f.method='post';f.action='".url_for($url)."';var m=document.createElement('input');m.setAttribute('type','hidden');m.setAttribute('name','sf_method');m.setAttribute('value','".htmlspecialchars($method)."');f.appendChild(m);";
-
-    $form = new BaseForm();
-    if ($form->isCSRFProtected())
-    {
-      $proc .= "var m=document.createElement('input');m.setAttribute('name','".$form->getCSRFFieldName()."');m.setAttribute('value','".$form->getCSRFToken()."');f.appendChild(m);";
-    };
-    $proc .= "f.submit();";
-    if ($confirmQuestion != '')
-    {
-      $proc .= "};";
-    }
-
-    return $proc;
-  }
-
 }
 
 ?>

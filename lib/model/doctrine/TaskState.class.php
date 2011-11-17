@@ -102,7 +102,7 @@ class TaskState extends BaseTaskState implements IStored, IAuth
         break;
       case TaskState::TASK_DONE_TIME_FAIL: return 'провалено';
         break;
-      case TaskState::TASK_DONE_GAME_OVER: return 'стоп-игра';
+      case TaskState::TASK_DONE_GAME_OVER: return 'остановлено с игрой';
         break;
       case TaskState::TASK_DONE_BANNED: return 'дисквалифицировано';
         break;

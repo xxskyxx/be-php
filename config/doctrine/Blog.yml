@@ -1,5 +1,0 @@
-# Блог (исключительно индекс существующих, вся логика - в программной части)
-Blog:
-  tableName: blogs
-  columns:
-    id: { type: integer, primary: true, notnull: true, autoincrement: true }
