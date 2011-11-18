@@ -133,19 +133,6 @@ render_h3_inline_begin('Фильтры переходов');
 if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Добавить', 'taskTransition/new?taskId='.$_task->id));
 render_h3_inline_end();
 ?>
-<?php if ($_isManager || $_isModerator): ?>
-<p>
-  <span class="safeAction"><?php echo link_to('Добавить на все остальные задания', 'task/transitions?id='.$_task->id.'&operation=addAll'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
-</p>
-<?php   if ($_taskTransitions->count() > 0): ?>
-<p>
-  <span class="safeAction"><?php echo link_to('Поставить всем признак "Разрешить ручной выбор"', 'task/transitions?id='.$_task->id.'&operation=allManual'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
-</p>
-<p>
-  <span class="safeAction"><?php echo link_to('Снять со всех признак "Разрешить ручной выбор"', 'task/transitions?id='.$_task->id.'&operation=allAuto'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
-</p>
-<?php   endif ?>
-<?php endif ?>
 <ul>
   <?php foreach ($_taskTransitions as $taskTransition): ?>
   <li>
@@ -182,6 +169,17 @@ render_h3_inline_end();
   </li>
   <?php endforeach ?>
 </ul>
+<?php if ($_isManager || $_isModerator): ?>
+<p>
+  <span class="safeAction"><?php echo link_to('Добавить на все остальные задания', 'task/transitions?id='.$_task->id.'&operation=addAll'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
+</p>
+<?php   if ($_taskTransitions->count() > 0): ?>
+<p>
+  <span class="warnAction"><?php echo link_to('Поставить всем "Выбор вручную"', 'task/transitions?id='.$_task->id.'&operation=allManual'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
+  <span class="safeAction"><?php echo link_to('Снять со всех "Выбор вручную"', 'task/transitions?id='.$_task->id.'&operation=allAuto'.'&returl='.$retUrlRaw, array('method' => 'post')) ?></span>
+</p>
+<?php   endif ?>
+<?php endif ?>
 <p class="comment">
   <span class="info">Если через фильтры пройдет несколько заданий, то выбор будет выполняться среди них согласно текущих приоритетов.</span>
 </p>

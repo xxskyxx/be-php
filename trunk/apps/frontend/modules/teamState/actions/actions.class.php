@@ -86,7 +86,7 @@ class teamStateActions extends myActions
       case TeamState::TEAM_WAIT_START: $this->setTemplate('teamWaitStart'); break;
       case TeamState::TEAM_WAIT_TASK:
         $this->_availableTasksManual = $this->_teamState->getTasksAvailableForManualSelect();
-        if ($this->_availableTasksManual && ($this->_teamState->task_id <= 0))
+        if (($this->_availableTasksManual->count() > 0) && ($this->_teamState->task_id <= 0))
         {
           $this->_isLeader = $this->_teamState->Team->canBeManaged($this->sessionWebUser);
           $this->setTemplate('teamSelectTask');

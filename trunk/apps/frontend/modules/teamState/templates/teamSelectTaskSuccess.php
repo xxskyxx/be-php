@@ -3,7 +3,7 @@ include_partial('header', array('teamState' => $_teamState));
 $retUrlRaw = Utils::encodeSafeUrl(url_for('teamState/task?id='.$_teamState->id));
 ?>
 
-<div class="warn">
+<div class="info">
   <p>
     Ваша команда может выбрать себе следующее задание:
   </p>

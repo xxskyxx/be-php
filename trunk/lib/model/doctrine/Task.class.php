@@ -333,6 +333,25 @@ class Task extends BaseTask implements IStored, IAuth
   }
 
   /**
+   * Сохраняет в исходном списке заданий те задания, которые встречаются во втором списке.
+   *
+   * @param   Doctrine_Collection<Task>   $sourceTaskList   Исходный список
+   * @param   Doctrine_Collection<Task>   $tasksToSave      Список заданий, которые нужно оставить в исходном
+   * 
+   * @return  Doctrine_Collection<Task>
+   */
+  public static function filterTasks(Doctrine_Collection $sourceTaskList, Doctrine_Collection $tasksToSave)
+  {
+    $result = new Doctrine_Collection('Task');
+    foreach ($sourceTaskList as $sourceTask)
+    {
+      if (Task::isTaskInList($sourceTask, $tasksToSave))
+      $result->add($sourceTask);
+    }
+    return $result;
+  }
+
+  /**
    * Проверяет, присутствует ли указанное задание в указанном списке.
    *
    * @param   Task                  $task       Задание которое искать

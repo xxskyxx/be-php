@@ -185,9 +185,33 @@ class gameControlActions extends MyActions
     }
     else
     {
-      // Диалог только что открыт, надо сформировать список для выбора.
-      $this->_availableTasks = $this->_teamState->getAvailableTasks(false);
-      if ( ! $this->_availableTasks)
+      // Диалог только что открыт, надо сформировать списки для выбора.
+      $tasksAll = Doctrine::getTable('Task')
+          ->createQuery('t')
+          ->select()
+          ->where('t.game_id = ?', $this->_teamState->game_id)
+          ->orderBy('t.name')
+          ->execute();
+      $tasksNonBlocked = Doctrine::getTable('Task')
+          ->createQuery('t')
+          ->select()
+          ->where('t.game_id = ?', $this->_teamState->game_id)
+          ->andWhere('t.locked = ?', false)
+          ->orderBy('t.name')
+          ->execute();
+      $tasksAvailableAll = $this->_teamState->getTasksAvailableAll();
+      $tasksKnown = $this->_teamState->getKnownTasks();
+      $tasksAvailableManual = $this->_teamState->getTasksAvailableForManualSelect();
+      
+      $this->_tasksInSequenceManual = Task::filterTasks($tasksNonBlocked, $tasksAvailableManual);
+      $this->_tasksInSequence = Task::filterTasks($tasksNonBlocked, $tasksAvailableAll);
+      $this->_tasksNonSequence = Task::excludeTasks(Task::excludeTasks($tasksNonBlocked, $tasksKnown), $tasksAvailableAll);
+      $this->_tasksLocked = Task::excludeTasks(Task::excludeTasks($tasksAll, $tasksNonBlocked), $tasksKnown);
+      
+      if (    ($this->_tasksInSequenceManual->count() <= 0)
+           && ($this->_tasksInSequence->count() <= 0)
+           && ($this->_tasksNonSequence->count() <= 0)
+           && ($this->_tasksLocked->count() <= 0) )
       {
         $this->errorRedirect('У команды '.$this->_teamState->Team->name.' нет доступных для выдачи заданий.');
       }

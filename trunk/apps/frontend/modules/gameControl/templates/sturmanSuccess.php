@@ -143,6 +143,9 @@ include_partial('header', array(
   <div class="comment">
 
     <h4>Карта игровой ситуации</h4>
+    <p>
+      В первой строке таблицы указаны задания: занятые, <span class="info">свободные</span>, <span class="warn">заполненные</span> и <span class="danger">заблокированные</span>.
+    </p>
     
     <h4>Следующие задания</h4>
     <p>
