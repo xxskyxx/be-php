@@ -252,7 +252,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    * Если последнее известное задание не закончилось,
    * то фильтры применяются для случая неуспешного завершения задания.
    *
-   * @return  Doctrine_Collection   Или false, если нет доступных заданий.
+   * @return  Doctrine_Collection<Task>
    */
   public function getTasksAvailableAll()
   {
@@ -265,7 +265,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    * Если последнее известное задание не закончилось,
    * то фильтры применяются для случая неуспешного завершения задания.
    *
-   * @return  Doctrine_Collection   Или false, если нет доступных заданий.
+   * @return  Doctrine_Collection<Task>
    */
   public function getTasksAvailableForManualSelect()
   {
@@ -313,7 +313,26 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     return false;
   }
 
-  // Action
+  /**
+   * Возвращает список известных команде заданий.
+   *
+   * @return  Doctrine_Collection<Task>
+   */
+  public function getKnownTasks()
+  {
+    $result = new Doctrine_Collection('Task');
+    foreach ($this->Game->tasks as $task)
+    {
+      $knownTaskState = $this->findKnownTaskState($task);
+      if ($knownTaskState)
+      {
+        $result->add($task);
+      }
+    }
+    return $result;
+  }
+
+    // Action
 
   /**
    * Обновляет состояние команды (сохраняет в БД).
@@ -417,7 +436,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
           {
             // Следующее задание еще не назначено.
             $availableTasks = $this->getTasksAvailableAll();
-            if ( ! $availableTasks)
+            if ($availableTasks->count() <= 0)
             {
               // У команды нет доступных заданий, значит она завершила игру.
               // Ничего не делаем, руководство игры само решит финишировать или нет.
@@ -425,7 +444,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
             else
             {
               $availableTasksManual = $this->getTasksAvailableForManualSelect();
-              if ( ! $availableTasksManual)
+              if ($availableTasksManual->count() <= 0)
               {
                 // У команды нет заданий для выбора вручную, назначим автоматически.
                 if ($this->ai_enabled)
@@ -630,7 +649,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       //Если он не капитан, то это делать нельзя
       if ( ! $this->Team->canBeManaged($actor))
       {
-        // Руководитель игры может назначить любое задание из неизвестных
         return Utils::cannotMessage($actor->login, 'выбирать следующее задание');
       }
 
@@ -746,8 +764,11 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       return Utils::cannotMessage($actor->login, Permission::byId(Permission::GAME_MODER)->description);
     }
-    if (!($currentTaskStatus = $this->getCurrentTaskState()))
+    if ( ! ($currentTaskStatus = $this->getCurrentTaskState()))
     {
+      //Если текущее задание не найдено, то нужно просто сменить статус команды.
+      $this->status = TeamState::TEAM_WAIT_TASK;
+      $this->save();
       return true;
     }
 
@@ -860,25 +881,6 @@ class TeamState extends BaseTeamState implements IStored, IAuth
   }
 
   /**
-   * Возвращает список известных команде заданий.
-   *
-   * @return  Doctrine_Collection<Task>
-   */
-  protected function getKnownTasks()
-  {
-    $result = new Doctrine_Collection('Task');
-    foreach ($this->Game->tasks as $task)
-    {
-      $knownTaskState = $this->findKnownTaskState($task);
-      if ($knownTaskState)
-      {
-        $result->add($task);
-      }
-    }
-    return $result;
-  }
-
-  /**
    * Возвращает список доступных для выдачи заданий: все или только для ручного выбора.
    * Учитывает фильтры последнего известного задания.
    * Если последнее известное задание не закончилось,
@@ -886,10 +888,11 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    *
    * @param   boolean               $forManualSelectOnly  Только задания для ручного выбора.
    *
-   * @return  Doctrine_Collection   Или false, если нет доступных заданий.
+   * @return  Doctrine_Collection<Task>
    */
   protected function getAvailableTasks($forManualSelectOnly)
   {
+    $empty = new Doctrine_Collection('Task');
     $allTasks = $this->Game->tasks;
     $knownTasks = $this->getKnownTasks();
     $unknownTasks = Task::excludeTasks($allTasks, $knownTasks);
@@ -900,7 +903,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       // Команда еще не делала ни одного задания.
       if ($forManualSelectOnly)
       {
-        return false; // Первое задание не может быть выбрано вручную.
+        return $empty; // Первое задание не может быть выбрано вручную.
       }
       return $unknownTasks;
     }
@@ -915,7 +918,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     {
       $result = Task::excludeTasks($tasksPassedTransitionsFilter, $knownTasks);
     }
-    return ($result->count() > 0) ? $result : false;
+    return ($result->count() > 0) ? $result : $empty;
   }
 
 }

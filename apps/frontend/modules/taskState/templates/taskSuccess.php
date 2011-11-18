@@ -1,15 +1,15 @@
 <div>
-  <span class="safeAction"><?php echo link_to('Обновить', 'taskState/task?id='.$taskState->id); ?></span>
+  <span class="safeAction"><?php echo link_to('Обновить', 'taskState/task?id='.$_taskState->id); ?></span>
 </div>
 
-<?php $teamState = $taskState->TeamState; ?>
+<?php $teamState = $_taskState->TeamState; ?>
 
 <h2><?php echo $teamState->Game->name ?></h2>
 <h3><?php echo $teamState->Team->name ?></h3>
 
-<?php if ($taskState->status == TaskState::TASK_GIVEN): ?>
+<?php if ($_taskState->status == TaskState::TASK_GIVEN): ?>
 <p>
-  Вашей команде назначено задание, но его старт пока не разрешен.
+  Вашей команде назначено задание, ожидайте его старта.
 </p>
 <p>
   Обновляйте страницу время от времени.
@@ -28,7 +28,7 @@
   </p>
 </div>
 
-<?php elseif ($taskState->status == TaskState::TASK_STARTED): ?>
+<?php elseif ($_taskState->status == TaskState::TASK_STARTED): ?>
 <p>
   Заданию разрешен старт.
 </p>
@@ -43,43 +43,43 @@
   </p>
 </div>
 
-<?php elseif ($taskState->status == TaskState::TASK_ACCEPTED): ?>
+<?php elseif ($_taskState->status == TaskState::TASK_ACCEPTED): ?>
 <?php
 $sessionWebUser = $sf_user->getSessionWebUser()->getRawValue();
-$sessionIsPlayer = $taskState->TeamState->Team->isPlayer($sessionWebUser);
-$sessionIsLeader = $taskState->TeamState->Team->isLeader($sessionWebUser);
-$sessionIsGameManager = $taskState->TeamState->Game->canBeManaged($sessionWebUser);
+$sessionIsPlayer = $_taskState->TeamState->Team->isPlayer($sessionWebUser);
+$sessionIsLeader = $_taskState->TeamState->Team->isLeader($sessionWebUser);
+$sessionIsGameManager = $_taskState->TeamState->Game->canBeManaged($sessionWebUser);
 
-include_partial('taskAnswers', array('taskState' => $taskState));
+include_partial('taskAnswers', array('taskState' => $_taskState));
 if ($sessionIsPlayer || $sessionIsGameManager)
 {
-  include_partial('taskState/taskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $taskState->id, 'retUrl' => Utils::encodeSafeUrl(url_for('taskState/task?id='.$taskState->id))));
+  include_partial('taskState/taskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $_taskState->id, 'retUrl' => Utils::encodeSafeUrl(url_for('taskState/task?id='.$_taskState->id))));
 }
-include_partial('taskDefine', array('taskState' => $taskState));
+include_partial('taskDefine', array('taskState' => $_taskState));
 if ($sessionIsLeader || $sessionIsGameManager)
 {
-  include_partial('taskLeaderTools', array('taskState' => $taskState));
+  include_partial('taskLeaderTools', array('taskState' => $_taskState));
 }
-include_partial('taskStats', array('taskState' => $taskState));
+include_partial('taskStats', array('taskState' => $_taskState));
 ?>
 
-<?php elseif ($taskState->status == TaskState::TASK_CHEAT_FOUND): ?>
-<?php include_partial('taskAnswers', array('taskState' => $taskState)) ?>
+<?php elseif ($_taskState->status == TaskState::TASK_CHEAT_FOUND): ?>
+<?php include_partial('taskAnswers', array('taskState' => $_taskState)) ?>
 <div class="danger">
   <p>
     Задание дисквалифицировано. Вы больше не можете вводить ответы.
   </p>
 </div>
 <?php
-include_partial('taskDefine', array('taskState' => $taskState));
-include_partial('taskStats', array('taskState' => $taskState));
+include_partial('taskDefine', array('taskState' => $_taskState));
+include_partial('taskStats', array('taskState' => $_taskState));
 ?>
 
-<?php elseif ($taskState->status >= TaskState::TASK_DONE): ?>
+<?php elseif ($_taskState->status >= TaskState::TASK_DONE): ?>
 <p>
   <span class="info">Задание завершено.</span> <span class="safeAction"><?php echo link_to('Перейти к следующему заданию', 'teamState/task?id='.$teamState->id); ?></span>
 </p>
-<?php include_partial('taskDefine', array('taskState' => $taskState)) ?>
+<?php include_partial('taskDefine', array('taskState' => $_taskState)) ?>
 
 <?php else: ?>
 <div class="danger">С вашим заданием творится что-то непонятное. Обратитесь к организаторам.</div>

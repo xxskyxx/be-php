@@ -64,45 +64,45 @@ class taskStateActions extends MyActions
 
   public function executeTask(sfWebRequest $request)
   {
-    if (!($this->taskState = TaskState::byId($request->getParameter('id'))))
+    if (!($this->_taskState = TaskState::byId($request->getParameter('id'))))
     {
       $this->successRedirect('Информация об игре устарела. Для получения актуальных данных зайдите в игру снова.');
     }
-    $this->errorRedirectUnless($this->taskState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать текущее задание команды'));
+    $this->errorRedirectUnless($this->_taskState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать текущее задание команды'));
 
-    if ($this->taskState->TeamState->Game->teams_can_update)
+    if ($this->_taskState->TeamState->Game->teams_can_update)
     {
-      if (is_string($res = $this->taskState->updateState($this->sessionWebUser)))
+      if (is_string($res = $this->_taskState->updateState($this->sessionWebUser)))
       {
         $this->errorMessage('Не удалось обновить состояние задания: '.$res);
       }
       else
       {      
-        $this->taskState->save();
+        $this->_taskState->save();
       }
     }
 
     // Если это задание еще не было просмотрено,
     // то надо подтвердить его просмотр,
     // но только если текущий пользователь - игрок.
-    if ( ($this->taskState->status == TaskState::TASK_STARTED)
-         && ($this->taskState->accepted_at == 0)
-         && ($this->taskState->TeamState->Team->isPlayer($this->sessionWebUser)) )
+    if ( ($this->_taskState->status == TaskState::TASK_STARTED)
+         && ($this->_taskState->accepted_at == 0)
+         && ($this->_taskState->TeamState->Team->isPlayer($this->sessionWebUser)) )
     {
-      if (is_string($res = $this->taskState->accept($this->sessionWebUser)))
+      if (is_string($res = $this->_taskState->accept($this->sessionWebUser)))
       {
         $this->errorRedirect('Обратитесь к организаторам - не удалось подтвердить просмотр Вами задания: '.$res);
       }
       else
       {
-        $this->taskState->save();
+        $this->_taskState->save();
       }
     }
     
     // Если это задание уже закончилось, то надо перейти к текущему активному.
-    if ($this->taskState->status >= TaskState::TASK_DONE)
+    if ($this->_taskState->status >= TaskState::TASK_DONE)
     {
-      $this->redirectSafe('teamState/task?id='.$this->taskState->team_state_id);
+      $this->redirectSafe('teamState/task?id='.$this->_taskState->team_state_id);
     }
   }
 
@@ -159,4 +159,5 @@ class taskStateActions extends MyActions
     $this->taskName = $this->taskState->Task->name;
     $this->teamName = $this->taskState->TeamState->Team->name;
   }
+
 }
