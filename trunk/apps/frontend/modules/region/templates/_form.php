@@ -1,7 +1,6 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
-
-<form action="<?php echo url_for('moderation/'.($form->getObject()->isNew() ? 'createPost' : 'updatePost').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
+<form action="<?php echo url_for('region/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
   <?php
   echo render_form_using_div(
       $form,
@@ -10,8 +9,8 @@
           'warnAction',
           link_to(
               'Отмена',
-              'home/index',
+              'region/index',
               array('confirm' => 'Вернуться без сохранения?')))
-  );
+  )
   ?>
 </form>

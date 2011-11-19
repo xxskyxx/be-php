@@ -1,7 +1,7 @@
 <?php render_breadcombs(array('Пользователи')); ?>
 
 <h2>Пользователи</h2>
-<h3>Все</h3>
+<h3></h3>
 
 <ul>
   <?php foreach ($_webUsers as $webUser): ?>
