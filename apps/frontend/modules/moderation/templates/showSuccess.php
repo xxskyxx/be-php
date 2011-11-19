@@ -2,14 +2,16 @@
 
 <h2>Модерирование</h2>
 
-<?php
-if ($_isAdmin)
-{
+<?php if ($_isAdmin): ?>
+<p>
+<?php echo decorate_span('safeAction', link_to('Управление регионами', 'region/index'))?>
+</p>
+<?php 
   render_h3_inline_begin('Системные настройки');
   echo ' '.decorate_span('safeAction', link_to('Редактировать', 'moderation/edit'));
   render_h3_inline_end();
-}
 ?>
+<?php endif ?>
 
 <?php if ($_isAdmin): ?>
 <h4>Реквизиты сайта</h4>
@@ -46,16 +48,7 @@ if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
 </p>
 <?php endif ?>
 
-<?php if ($_isAdmin): ?>
-<?php
-{
-render_h3_inline_begin('Вы');
-echo ' - администратор сайта и '.decorate_span('warn', 'обладаете полномочиями на любые действия');
-render_h3_inline_end();
-}
-?>
-<?php else: ?>
-
+<?php if ( ! $_isAdmin): ?>
 <?php   if ($_isWebUserModer): ?>
 <h3>Пользователи</h3>
 <p>

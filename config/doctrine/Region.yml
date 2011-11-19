@@ -1,0 +1,14 @@
+# Регион
+Region:
+  tableName: regions
+  columns:
+    id: { type: integer, notnull: true, primary: true, autoincrement: true }
+    # Название
+    name: { type: string(32), notnull: true } 
+  indexes:
+    # Каждый регион уникален
+    ui_state_value:
+      type: unique
+      fields:
+        - id
+        - name
