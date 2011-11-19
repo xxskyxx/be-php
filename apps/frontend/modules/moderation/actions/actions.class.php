@@ -8,7 +8,7 @@
  * @author     VozdvIN
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class moderationActions extends BlogCrudActions
+class moderationActions extends myActions
 {
 
   public function executeShow(sfWebRequest $request)
@@ -152,38 +152,6 @@ class moderationActions extends BlogCrudActions
         }
       }
     }
-  }
-
-  //// BlogCrudActions ////
-
-  protected function canCreatePost(WebUser $webUser)
-  {
-    return $webUser->can(Permission::BLOG_MODER, 1);
-  }
-
-  protected function canEditPost(WebUser $webUser, Post $post)
-  {
-    return ($post->web_user_id == $webUser->id) || $webUser->can(Permission::BLOG_MODER, 1);
-  }
-
-  protected function canDeletePost(WebUser $webUser, Post $post)
-  {
-    return $webUser->can(Permission::BLOG_MODER, 1);
-  }
-
-  protected function canCreateComment(WebUser $webUser)
-  {
-    return true; //Неавторизованные на сайте оставлять сообщения все-равно не могут.
-  }
-  
-  protected function canEditComment(WebUser $webUser, Comment $comment)
-  {
-    return ($comment->web_user_id == $webUser->id) || $webUser->can(Permission::BLOG_MODER, 1);
-  }
-  
-  protected function canDeleteComment(WebUser $webUser, Comment $comment)
-  {
-    return ($comment->web_user_id == $webUser->id) || $webUser->can(Permission::BLOG_MODER, 1);
   }
 
 }
