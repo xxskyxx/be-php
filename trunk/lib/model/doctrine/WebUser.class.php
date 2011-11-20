@@ -86,6 +86,20 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
 
   //// Public ////
 
+  public function getSafeRegion()
+  {
+    if ($this->region_id === null || $this->region_id <= Region::DEFAULT_REGION)
+    {
+      $this->region_id = Region::DEFAULT_REGION;
+      $this->save();
+      return Region::byId(Region::DEFAULT_REGION);
+    }
+    else
+    {
+      return Region::byId($this->region_id);
+    }
+  }
+  
   /**
    * Проверяет, разрешено ли пользователю указанное действие вообще или с указанным объектом.
    * Также возвращает положительный результат, если пользователь обладает правом супер-админа.

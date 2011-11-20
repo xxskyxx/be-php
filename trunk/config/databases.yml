@@ -2,6 +2,6 @@ all:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn: 'mysql:host=localhost;port=3307;dbname=be-php'
-      username: be-php
+      dsn: 'mysql:host=localhost;port=3307;dbname=be_php'
+      username: be_php
       password: UltraSecret

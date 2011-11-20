@@ -9,9 +9,11 @@
  * @property string $login
  * @property string $pwd_hash
  * @property string $full_name
+ * @property integer $region_id
  * @property string $email
  * @property string $tag
  * @property boolean $is_enabled
+ * @property Region $Region
  * @property Doctrine_Collection $grantedPermissions
  * @property Doctrine_Collection $postedAnswers
  * @property Doctrine_Collection $TeamCandidate
@@ -22,9 +24,11 @@
  * @method string              getLogin()              Returns the current record's "login" value
  * @method string              getPwdHash()            Returns the current record's "pwd_hash" value
  * @method string              getFullName()           Returns the current record's "full_name" value
+ * @method integer             getRegionId()           Returns the current record's "region_id" value
  * @method string              getEmail()              Returns the current record's "email" value
  * @method string              getTag()                Returns the current record's "tag" value
  * @method boolean             getIsEnabled()          Returns the current record's "is_enabled" value
+ * @method Region              getRegion()             Returns the current record's "Region" value
  * @method Doctrine_Collection getGrantedPermissions() Returns the current record's "grantedPermissions" collection
  * @method Doctrine_Collection getPostedAnswers()      Returns the current record's "postedAnswers" collection
  * @method Doctrine_Collection getTeamCandidate()      Returns the current record's "TeamCandidate" collection
@@ -34,9 +38,11 @@
  * @method WebUser             setLogin()              Sets the current record's "login" value
  * @method WebUser             setPwdHash()            Sets the current record's "pwd_hash" value
  * @method WebUser             setFullName()           Sets the current record's "full_name" value
+ * @method WebUser             setRegionId()           Sets the current record's "region_id" value
  * @method WebUser             setEmail()              Sets the current record's "email" value
  * @method WebUser             setTag()                Sets the current record's "tag" value
  * @method WebUser             setIsEnabled()          Sets the current record's "is_enabled" value
+ * @method WebUser             setRegion()             Sets the current record's "Region" value
  * @method WebUser             setGrantedPermissions() Sets the current record's "grantedPermissions" collection
  * @method WebUser             setPostedAnswers()      Sets the current record's "postedAnswers" collection
  * @method WebUser             setTeamCandidate()      Sets the current record's "TeamCandidate" collection
@@ -72,6 +78,9 @@ abstract class BaseWebUser extends sfDoctrineRecord
              'type' => 'string',
              'length' => 255,
              ));
+        $this->hasColumn('region_id', 'integer', null, array(
+             'type' => 'integer',
+             ));
         $this->hasColumn('email', 'string', 255, array(
              'type' => 'string',
              'notnull' => true,
@@ -91,6 +100,11 @@ abstract class BaseWebUser extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasOne('Region', array(
+             'local' => 'region_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
         $this->hasMany('GrantedPermission as grantedPermissions', array(
              'local' => 'id',
              'foreign' => 'web_user_id'));

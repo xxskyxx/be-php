@@ -22,7 +22,9 @@ class regionActions extends myActions
   {
     $this->_regions = Doctrine_Core::getTable('Region')
       ->createQuery('r')
-      ->select()->orderBy('r.name')
+      ->select()
+      ->where('r.id <> ?', Region::DEFAULT_REGION)
+      ->orderBy('r.name')
       ->execute();
   }
 
@@ -42,6 +44,10 @@ class regionActions extends myActions
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($region = Doctrine_Core::getTable('Region')->find(array($request->getParameter('id'))), sprintf('Object region does not exist (%s).', $request->getParameter('id')));
+    if ($region->id == Region::DEFAULT_REGION)
+    {
+      $this->errorRedirect('Нельзя править регион, используемый по умолчанию.', 'region/index');
+    }
     $this->form = new RegionForm($region);
   }
 
@@ -58,6 +64,10 @@ class regionActions extends myActions
   {
     $request->checkCSRFProtection();
     $this->forward404Unless($region = Doctrine_Core::getTable('Region')->find(array($request->getParameter('id'))), sprintf('Object region does not exist (%s).', $request->getParameter('id')));
+    if ($region->id == Region::DEFAULT_REGION)
+    {
+      $this->errorRedirect('Нельзя удалять регион, используемый по умолчанию.', 'region/index');
+    }
     $region->delete();
     $this->redirect('region/index');
   }
@@ -68,7 +78,7 @@ class regionActions extends myActions
     if ($form->isValid())
     {
       $region = $form->save();
-      $this->redirect('region/edit?id='.$region->getId());
+      $this->successRedirect('Регион успешно сохранен.', 'region/index');
     }
   }
 }

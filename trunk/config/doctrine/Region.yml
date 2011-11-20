@@ -5,6 +5,8 @@ Region:
     id: { type: integer, notnull: true, primary: true, autoincrement: true }
     # Название
     name: { type: string(32), notnull: true } 
+    # Пользователи из данного региона
+    #webUsers: Doctrine_Collection<WebUser>
   indexes:
     # Каждый регион уникален
     ui_state_value:
