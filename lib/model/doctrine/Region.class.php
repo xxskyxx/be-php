@@ -12,7 +12,9 @@
  */
 class Region extends BaseRegion implements IStored
 {
-
+  
+  const DEFAULT_REGION = 1;
+  
   //// IStored ////
   
   public static function all()

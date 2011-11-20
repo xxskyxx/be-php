@@ -9,6 +9,8 @@ WebUser:
     pwd_hash: { type: string(32), notnull: true }
     # Полное имя пользователя
     full_name: string(255)
+    # Регон пребывания по умолчанию
+    region_id: { type: integer }
     # Адрес электронной почты
     email: { type: string(255), notnull: true }
     # Ключ активации
@@ -19,3 +21,7 @@ WebUser:
     #grantedPermissions: Doctrine_Collection<GrantedPermission>
     # Введенные пользователем ответы
     #postedAnswers: Doctrine_Collection<PostedAnswer>
+  relations:
+    Region:
+      foreignAlias: webUsers
+      onDelete: SET NULL

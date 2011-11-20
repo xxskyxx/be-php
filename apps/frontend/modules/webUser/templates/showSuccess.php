@@ -27,6 +27,7 @@ render_named_line_if($_isModerator,
                      $width, 'Id:', $_webUser->id);
 render_named_line   ($width, 'Имя:', $_webUser->login);
 render_named_line   ($width, 'Ф.И.(О.):', $_webUser->full_name);
+render_named_line   ($width, 'Регион:', $_webUser->getSafeRegion()->name);
 render_named_line_if($_isSelf,
                      $width, 'Пароль:', decorate_span('warnAction', link_to('Сменить пароль', 'auth/changePassword', array('method' => 'get'))));
 render_named_line_if($_isSelf || $_isModerator,

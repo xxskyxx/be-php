@@ -29,8 +29,16 @@ class WebUserForm extends BaseWebUserForm
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
         'login' => 'Имя:',
-        'full_name' => 'Полное имя:',
-        'email' => 'E-Mail:'
+        'full_name' => 'Ф.И.(О.):',
+        'email' => 'E-Mail:',
+        'region_id' => 'Регион:'
+    ));
+
+    $this->getWidgetSchema()->setHelps(array(
+        'login' => 'Лучше короткий ник-нейм',
+        'full_name' => 'Фамилия и имя, отчество по желанию.',
+        'email' => 'Настоятельно рекомендуется действующий.',
+        'region_id' => 'Регон по умолчанию.|Основа для фильтрации показываемых данных.|<span class="info">Не препятствует вступлению в команды других регионов.</span>|<span class="info">Не препятствует участию в играх других регионов.</span>'
     ));
   }
 
