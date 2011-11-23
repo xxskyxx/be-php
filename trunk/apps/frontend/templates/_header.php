@@ -3,8 +3,13 @@
     <?php
     if ($sf_user->isAuthenticated())
     {
-      echo '('.link_to($sf_user->getAttribute('login'), 'webUser/show?id='.$sf_user->getAttribute('id')).')';
-      echo ' '.link_to('Выйти', 'auth/logout');
+      //$backLink = 'home/index';
+      $backLink = $_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING'];
+      echo '(';
+      echo link_to($sf_user->getAttribute('login'), 'webUser/show?id='.$sf_user->getAttribute('id'));
+      echo '&nbsp;@&nbsp;';
+      echo link_to(Region::byId($sf_user->getAttribute('region_id'))->name, 'region/setCurrent?returl='.Utils::encodeSafeUrl($backLink));
+      echo ') '.link_to('Выйти', 'auth/logout');
     }
     else
     {

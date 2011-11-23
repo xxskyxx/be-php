@@ -2,12 +2,12 @@
 $retUrlRaw = Utils::encodeSafeUrl('webUser/show?id='.$_webUser->id);
 
 render_breadcombs(array(
-    link_to('Пользователи', 'webUser/index'),
+    link_to('Люди', 'webUser/index'),
     $_webUser->login
 ));
 ?>
 
-<h2>Пользователь <?php echo $_webUser->login ?></h2>
+<h2>Анкета <?php echo $_webUser->login ?></h2>
 
 <?php if ($_isSelf): ?>
 <div class="info">Это Ваша анкета.</div>
@@ -27,7 +27,7 @@ render_named_line_if($_isModerator,
                      $width, 'Id:', $_webUser->id);
 render_named_line   ($width, 'Имя:', $_webUser->login);
 render_named_line   ($width, 'Ф.И.(О.):', $_webUser->full_name);
-render_named_line   ($width, 'Регион:', $_webUser->getSafeRegion()->name);
+render_named_line   ($width, 'Регион:', $_webUser->getRegionSafe()->name);
 render_named_line_if($_isSelf,
                      $width, 'Пароль:', decorate_span('warnAction', link_to('Сменить пароль', 'auth/changePassword', array('method' => 'get'))));
 render_named_line_if($_isSelf || $_isModerator,
@@ -55,7 +55,7 @@ render_h3_inline_end();
 <ul>
   <?php if ($_webUser->grantedPermissions->count() <= 0): ?>
   <li>
-    <div class="indent">У пользователя нет особых разрешений или запретов.</div>
+    <div class="indent">У этого человека нет особых разрешений или запретов.</div>
   </li>
   <?php else: ?>
   <?php   foreach ($_webUser->grantedPermissions as $grantedPermission): ?>

@@ -10,7 +10,7 @@
  * @author     VozdvIN
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class WebUser extends BaseWebUser implements IStored, INamed, IAuth
+class WebUser extends BaseWebUser implements IStored, INamed, IAuth, IRegion
 {
   const MIN_NAME_LENGTH = 2;
   const MIN_PWD_LENGTH = 5;
@@ -84,22 +84,36 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
     return false;
   }
 
-  //// Public ////
+  //// IRegions ////
 
-  public function getSafeRegion()
+  public static function byRegion($region)
   {
-    if ($this->region_id === null || $this->region_id <= Region::DEFAULT_REGION)
+    if ( ( ! ($region instanceof Region))
+         || ($region->id == Region::DEFAULT_REGION) )
     {
-      $this->region_id = Region::DEFAULT_REGION;
-      $this->save();
-      return Region::byId(Region::DEFAULT_REGION);
+      return Doctrine::getTable('WebUser')
+        ->createQuery('wu')
+        ->select()->orderBy('wu.login')
+        ->execute();
     }
     else
     {
-      return Region::byId($this->region_id);
+      return Doctrine::getTable('WebUser')
+        ->createQuery('wu')
+        ->select()
+        ->where('region_id = ?', $region->id)
+        ->orderBy('wu.login')
+        ->execute();
     }
   }
   
+  public function getRegionSafe()
+  {
+    return Region::byIdSafe($this->region_id);
+  }
+  
+  //// Public ////
+
   /**
    * Проверяет, разрешено ли пользователю указанное действие вообще или с указанным объектом.
    * Также возвращает положительный результат, если пользователь обладает правом супер-админа.

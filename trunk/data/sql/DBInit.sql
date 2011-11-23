@@ -1,7 +1,7 @@
 # Все значения первичных ключей актуальны только при первом запуске,
 # при последующем они будут другими.
 
-INSERT INTO regions (id, name) VALUES (1, '(Не задан)');
+INSERT INTO regions (id, name) VALUES (1, '(Любой)');
 
 INSERT INTO web_users(id, login, pwd_hash, is_enabled, region_id) VALUES (1, 'admin', 'f99cf418670b465d4ee37b0bac36265e', 1, 1);
 

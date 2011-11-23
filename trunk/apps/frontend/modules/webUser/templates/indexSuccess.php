@@ -1,7 +1,13 @@
-<?php render_breadcombs(array('Пользователи')); ?>
+<?php render_breadcombs(array('Люди')); ?>
 
-<h2>Пользователи</h2>
-<h3></h3>
+<?php if ($_currentRegion->id == Region::DEFAULT_REGION): ?>
+<h2>Люди из всех регионов</h2>
+<?php else: ?>
+<h2>Люди в регионе <?php echo $_currentRegion->name ?></h2>
+<?php endif ?>
+
+<?php include_partial('region/setRegion', array('retUrl' => 'webUser/index'))?>
+<div class="hr"></div>
 
 <ul>
   <?php foreach ($_webUsers as $webUser): ?>
@@ -13,7 +19,7 @@
                 ?>">
       <?php
       echo link_to($webUser->login, url_for('webUser/show?id='.$webUser->id));
-      echo ', '.$webUser->full_name;
+      echo ($webUser->full_name !== '') ? ', '.$webUser->full_name : '';
       echo ($webUser->id == $_sessionWebUserId) ? ' - это Вы' : '';
       echo (!$webUser->is_enabled) ? ' - блокирован' : '';
       ?>
