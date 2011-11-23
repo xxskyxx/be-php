@@ -104,7 +104,7 @@ class Team extends BaseTeam implements IStored, IAuth
   {
     if ($this->isPlayer($candidate))
     {
-      return 'Пользователь '.$candidate->login.' уже входит в состав команды '.$this->name.'.';
+      return $candidate->login.' уже входит в состав команды '.$this->name.'.';
     }
     return $this->addCandidate($candidate);
   }

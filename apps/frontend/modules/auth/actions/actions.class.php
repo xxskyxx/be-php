@@ -36,6 +36,7 @@ class authActions extends MyActions
             {
               $this->session->setAttribute('login', $webUser->getLogin());
               $this->session->setAttribute('id', $webUser->getId());
+              $this->session->setAttribute('region_id', $webUser->getRegionSafe()->id);
               $this->session->setAuthenticated(true);
               $this->successRedirect('Вход выполнен. Добро пожаловать!');
             }
@@ -46,12 +47,12 @@ class authActions extends MyActions
           }
           else
           {
-            $this->errorMessage('Вход не удался. Такое сочетание пользователя и пароля неизвестно.');
+            $this->errorMessage('Вход не удался. Такое сочетание имени и пароля неизвестно.');
           }
         }
         else
         {
-          $this->errorMessage('Вход не удался. Такое сочетание пользователя и пароля неизвестно.');
+          $this->errorMessage('Вход не удался. Такое сочетание имени и пароля неизвестно.');
         }
       }
       else
@@ -84,7 +85,7 @@ class authActions extends MyActions
         $loginParts = explode(' ', $formData['login']);
         if (count($loginParts) != 1)
         {
-          $this->errorMessage('Регистрация не удалась. Имя пользователя должно состоять из одного слова.');
+          $this->errorMessage('Регистрация не удалась. Имя должно состоять из одного слова.');
           return;
         }
         $fullNameParts = explode(' ', $formData['full_name']);

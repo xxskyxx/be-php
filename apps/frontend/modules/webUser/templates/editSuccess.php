@@ -1,6 +1,6 @@
 <?php
   render_breadcombs(array(
-      link_to('Пользователи', 'webUser/index'),
+      link_to('Люди', 'webUser/index'),
       link_to($form->getObject()->login,
           'webUser/show?id='.$form->getObject()->id,
           array('confirm' => 'Вернуться без сохранения?'))

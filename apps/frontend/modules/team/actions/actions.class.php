@@ -144,7 +144,7 @@ class teamActions extends MyActions
     {
       $this->errorRedirect('Зарегистрировать заявку в состав команды '.$this->team->name.' не удалось: '.$res);
     }
-    $this->successRedirect('Пользователь '.$this->candidate->login.' подал заявку в состав команды '.$this->team->name.'.');
+    $this->successRedirect($this->candidate->login.' подал заявку в состав команды '.$this->team->name.'.');
   }
 
   public function executeCancelJoin(sfWebRequest $request)
@@ -155,7 +155,7 @@ class teamActions extends MyActions
     {
       $this->errorRedirect('Отменить заявку в состав команды '.$this->team->name.' не удалось: '.$res);
     }
-    $this->successRedirect('Заявка пользователя '.$this->candidate->login.' в состав команды '.$this->team->name.' отменена.');
+    $this->successRedirect('Заявка от '.$this->candidate->login.' в состав команды '.$this->team->name.' отменена.');
   }
 
   public function executeSetPlayer(sfWebRequest $request)
@@ -167,13 +167,13 @@ class teamActions extends MyActions
     
     if (is_string($res = $this->team->registerPlayer($this->candidate, ($this->team->teamPlayers->count() == 0), $this->sessionWebUser)))
     {
-      $this->errorRedirect('Назначить пользователя рядовым игроком команды '.$this->team->name.' не удалось: '.$res);
+      $this->errorRedirect('Назначить '.$this->candidate->login.' рядовым игроком команды '.$this->team->name.' не удалось: '.$res);
     }
     
     $this->successRedirect(
         $willBeLeader
-            ? 'Пользователь '.$this->candidate->login.' назначен капитаном команды '.$this->team->name.'.'
-            : 'Пользователь '.$this->candidate->login.' назначен рядовым в команде '.$this->team->name.'.'
+            ? $this->candidate->login.' назначен капитаном команды '.$this->team->name.'.'
+            : $this->candidate->login.' назначен рядовым в команде '.$this->team->name.'.'
     );
   }
 
@@ -182,9 +182,9 @@ class teamActions extends MyActions
     $this->prepareArgs($request);
     if (is_string($res = $this->team->registerPlayer($this->candidate, true, $this->sessionWebUser)))
     {
-      $this->errorRedirect('Назначить пользователя капитаном команды '.$this->team->name.' не удалось: '.$res);
+      $this->errorRedirect('Назначить '.$this->candidate->login.' капитаном команды '.$this->team->name.' не удалось: '.$res);
     }
-    $this->successRedirect('Пользователь '.$this->candidate->login.' назначен капитаном команды '.$this->team->name.'.');
+    $this->successRedirect($this->candidate->login.' назначен капитаном команды '.$this->team->name.'.');
   }
 
   public function executeUnregister(sfWebRequest $request)
@@ -192,9 +192,9 @@ class teamActions extends MyActions
     $this->prepareArgs($request);
     if (is_string($res = $this->team->unregisterPlayer($this->candidate, $this->sessionWebUser)))
     {
-      $this->errorRedirect('Исключить игрока из состава команды '.$this->team->name.' не удалось: '.$res);
+      $this->errorRedirect('Исключить '.$this->candidate->login.' из состава команды '.$this->team->name.' не удалось: '.$res);
     }
-    $this->successRedirect('Пользователь '.$this->candidate->login.' исключен из состава команды '.$this->team->name.'.');
+    $this->successRedirect($this->candidate->login.' исключен из состава команды '.$this->team->name.'.');
   }
 
   public function executeRegisterPlayer(sfWebRequest $request)

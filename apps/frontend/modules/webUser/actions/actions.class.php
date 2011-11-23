@@ -14,11 +14,9 @@ class webUserActions extends MyActions
   public function executeIndex(sfWebRequest $request)
   {
     //Просматривать список пользователей можно в любом случае.
-    $this->_webUsers = Doctrine::getTable('WebUser')
-        ->createQuery('wu')
-        ->select()->orderBy('wu.login')
-        ->execute();
     $this->_sessionWebUserId = $this->sessionWebUser->id;
+    $this->_currentRegion = Region::byIdSafe($this->session->getAttribute('region_id'));
+    $this->_webUsers = WebUser::byRegion($this->_currentRegion);
   }
 
   public function executeShow(sfWebRequest $request)
@@ -26,7 +24,7 @@ class webUserActions extends MyActions
     //Просматривать пользователя можно в любом случае,
     //но на самой странице просмотра будут дополнительные ограничения
     $this->_webUser = WebUser::byId($request->getParameter('id'));
-    $this->forward404Unless($this->_webUser, 'Пользователь не найден.' );
+    $this->forward404Unless($this->_webUser, 'Анкета не найдена.');
     //Подготовим данные о правах:
     $this->_isSelf = ($this->_webUser->id == $this->sessionWebUser->id);
     $this->_isModerator = $this->sessionWebUser->can(Permission::WEB_USER_MODER, $this->_webUser->id);
@@ -35,15 +33,15 @@ class webUserActions extends MyActions
 
   public function executeEdit(sfWebRequest $request)
   {
-    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
-    $this->errorRedirectUnless($this->webUser->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'редактировать пользователя'));
+    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Анкета не найдена.');
+    $this->errorRedirectUnless($this->webUser->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'редактировать анкету'));
     $this->form = new webUserForm($this->webUser);
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
+    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Анкета не найдена.');
     $this->form = new webUserForm($this->webUser);
     $this->processForm($request, $this->form);
     $this->setTemplate('edit');
@@ -53,7 +51,7 @@ class webUserActions extends MyActions
   {
     $this->forward404Unless($request->isMethod(sfRequest::DELETE));
     $request->checkCSRFProtection();
-    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
+    $this->forward404Unless($this->webUser = WebUser::byId($request->getParameter('id')), 'Анкета не найдена.');
     $this->errorRedirectIf($this->webUser->id == $this->sessionWebUser->id, 'Cуицид не приветствуется. Обратитесь к администратору.');
     $this->errorRedirectUnless(WebUser::isModerator($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'удалять пользователя'));
     $this->errorRedirectIf($this->webUser->can(Permission::ROOT) && (!$this->sessionWebUser->can(Permission::ROOT)), 'Удалять администраторов может только администратор.');
@@ -67,13 +65,13 @@ class webUserActions extends MyActions
     if ($form->isValid())
     {
       $object = $form->updateObject();
-      $this->errorRedirectUnless($object->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'изменять пользователей'));
+      $this->errorRedirectUnless($object->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'изменять анкету'));
       $object = $form->save();
-      $this->successRedirect('Пользователь '.$object->login.' успешно сохранен.', 'webUser/show?id='.$object->id);
+      $this->successRedirect('Анкета '.$object->login.' успешно сохранена.', 'webUser/show?id='.$object->id);
     }
     else
     {
-      $this->errorMessage('Сохранить пользователя не удалось. Исправьте ошибки и попробуйте снова.');
+      $this->errorMessage('Сохранить анкету не удалось. Исправьте ошибки и попробуйте снова.');
     }
   }
 
@@ -82,7 +80,7 @@ class webUserActions extends MyActions
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $request->checkCSRFProtection();
     $this->errorRedirectUnless(WebUser::isModerator($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'разблокировать пользователя'));
-    $this->forward404Unless($webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
+    $this->forward404Unless($webUser = WebUser::byId($request->getParameter('id')), 'Анкета не найдена.');
     $webUser->is_enabled = true;
     $webUser->save();
     $this->successRedirect('Пользователь успешно разблокирован');
@@ -93,7 +91,7 @@ class webUserActions extends MyActions
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $request->checkCSRFProtection();
     $this->errorRedirectUnless(WebUser::isModerator($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'блокировать пользователя'));
-    $this->forward404Unless($webUser = WebUser::byId($request->getParameter('id')), 'Пользователь не найден.');
+    $this->forward404Unless($webUser = WebUser::byId($request->getParameter('id')), 'Анкета не найдена.');
     $webUser->is_enabled = false;
     $webUser->save();
     $this->successRedirect('Пользователь успешно заблокирован');

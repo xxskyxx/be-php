@@ -26,5 +26,13 @@ class Region extends BaseRegion implements IStored
   {
     return Utils::byId('Region', $id);
   }
+
+  /// Public ////
+  
+  public static function byIdSafe($id)
+  {
+    $res = Utils::byId('Region', $id);    
+    return ($res === false) ? Region::byId(Region::DEFAULT_REGION) : $res;
+  }
   
 }

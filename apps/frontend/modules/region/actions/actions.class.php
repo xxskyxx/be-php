@@ -81,4 +81,26 @@ class regionActions extends myActions
       $this->successRedirect('Регион успешно сохранен.', 'region/index');
     }
   }
+  
+  public function executeSetCurrent(sfWebRequest $request)
+  {
+    if ($request->isMethod(sfRequest::POST))
+    {
+      $this->forward404Unless($region = Region::byId($request->getParameter('id')), 'Регион не найден.');
+      $this->session->setAttribute('region_id', $region->id);
+      $this->successRedirect('Установлен текущий регион - '.$region->name);
+    }
+    else
+    {
+      $this->_regions = Doctrine_Core::getTable('Region')
+          ->createQuery('r')
+          ->select()->orderBy('r.name')
+          ->execute();
+      $this->_retUrlRaw = $this->retUrlRaw;
+      $this->_retUrlDecoded = Utils::getReturnUrl($request);
+      $this->_selfRegionId = $this->sessionWebUser->getRegionSafe()->id;
+    }
+  }
+  
+  
 }
