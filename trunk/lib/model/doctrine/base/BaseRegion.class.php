@@ -7,13 +7,16 @@
  * 
  * @property integer $id
  * @property string $name
+ * @property Doctrine_Collection $teams
  * @property Doctrine_Collection $webUsers
  * 
  * @method integer             getId()       Returns the current record's "id" value
  * @method string              getName()     Returns the current record's "name" value
+ * @method Doctrine_Collection getTeams()    Returns the current record's "teams" collection
  * @method Doctrine_Collection getWebUsers() Returns the current record's "webUsers" collection
  * @method Region              setId()       Sets the current record's "id" value
  * @method Region              setName()     Sets the current record's "name" value
+ * @method Region              setTeams()    Sets the current record's "teams" collection
  * @method Region              setWebUsers() Sets the current record's "webUsers" collection
  * 
  * @package    sf
@@ -34,6 +37,7 @@ abstract class BaseRegion extends sfDoctrineRecord
         $this->hasColumn('name', 'string', 32, array(
              'type' => 'string',
              'notnull' => true,
+             'default' => '(Любой)',
              'length' => 32,
              ));
 
@@ -51,6 +55,10 @@ abstract class BaseRegion extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('Team as teams', array(
+             'local' => 'id',
+             'foreign' => 'region_id'));
+
         $this->hasMany('WebUser as webUsers', array(
              'local' => 'id',
              'foreign' => 'region_id'));

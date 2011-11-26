@@ -7,6 +7,8 @@ Region:
     name: { type: string(32), notnull: true, default: '(Любой)' } 
     # Пользователи из данного региона
     #webUsers: Doctrine_Collection<WebUser>
+    # Команды из данного региона
+    #teams: Doctrine_Collection<Team>
   indexes:
     # Каждый регион уникален
     ui_state_value:

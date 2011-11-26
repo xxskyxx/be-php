@@ -84,7 +84,7 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
     return false;
   }
 
-  //// IRegions ////
+  //// IRegion ////
 
   public static function byRegion($region)
   {
