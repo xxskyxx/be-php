@@ -13,13 +13,13 @@ class regionActions extends myActions
 
   public function preExecute()
   {
-    parent::preExecute();
-    
-    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));    
+    parent::preExecute();    
   }
   
   public function executeIndex(sfWebRequest $request)
   {
+    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));        
+    
     $this->_regions = Doctrine_Core::getTable('Region')
       ->createQuery('r')
       ->select()
@@ -30,11 +30,15 @@ class regionActions extends myActions
 
   public function executeNew(sfWebRequest $request)
   {
+    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));        
+    
     $this->form = new RegionForm();
   }
 
   public function executeCreate(sfWebRequest $request)
   {
+    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));        
+    
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->form = new RegionForm();
     $this->processForm($request, $this->form);
@@ -43,6 +47,8 @@ class regionActions extends myActions
 
   public function executeEdit(sfWebRequest $request)
   {
+    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));        
+    
     $this->forward404Unless($region = Doctrine_Core::getTable('Region')->find(array($request->getParameter('id'))), sprintf('Object region does not exist (%s).', $request->getParameter('id')));
     if ($region->id == Region::DEFAULT_REGION)
     {
@@ -53,6 +59,8 @@ class regionActions extends myActions
 
   public function executeUpdate(sfWebRequest $request)
   {
+    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));        
+    
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->forward404Unless($region = Doctrine_Core::getTable('Region')->find(array($request->getParameter('id'))), sprintf('Object region does not exist (%s).', $request->getParameter('id')));
     $this->form = new RegionForm($region);
@@ -62,6 +70,8 @@ class regionActions extends myActions
 
   public function executeDelete(sfWebRequest $request)
   {
+    $this->errorRedirectUnless($this->sessionWebUser->can(Permission::ROOT, 0), Utils::cannotMessage($this->sessionWebUser->login, 'управлять регионами'));        
+    
     $request->checkCSRFProtection();
     $this->forward404Unless($region = Doctrine_Core::getTable('Region')->find(array($request->getParameter('id'))), sprintf('Object region does not exist (%s).', $request->getParameter('id')));
     if ($region->id == Region::DEFAULT_REGION)
