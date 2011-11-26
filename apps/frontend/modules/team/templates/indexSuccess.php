@@ -12,8 +12,15 @@
   <?php endif; ?>
 </div>
 
+<?php if ($_currentRegion->id == Region::DEFAULT_REGION): ?>
+<h3>Все</h3>
+<?php else: ?>
+<h3>Из региона <?php echo $_currentRegion->name ?></h3>
+<?php endif ?>
+
+<?php include_partial('region/setRegion', array('retUrl' => 'team/index'))?>
+
 <?php if ($_teams->count() > 0): ?>
-<h3>Существующие</h3>
 <ul>
   <?php $sessionWebUser = $sf_user->getSessionWebUser()->getRawValue() ?>
   <?php foreach ($_teams as $team): ?>
@@ -41,10 +48,16 @@
   </li>
   <?php endforeach; ?>
 </ul>
+<?php else: ?>
+<div class="info">В этом регионе нет команд.</div>
 <?php endif; ?>
 
 <?php if ($_teamCreateRequests->count() > 0): ?>
-<h3>Заявки на создание</h3>
+<?php   if ($_isModerator): ?>
+<h3>Заявки на создание (все регионы)</h3>
+<?php   else: ?>
+<h3>Заявки на создание (ваши)</h3>
+<?php   endif ?>
 <ul>
   <?php foreach ($_teamCreateRequests as $teamCreateRequest): ?>
   <li>

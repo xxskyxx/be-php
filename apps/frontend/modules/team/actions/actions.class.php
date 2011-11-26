@@ -15,10 +15,25 @@ class teamActions extends MyActions
   {
     $this->errorRedirectIf($this->sessionWebUser->cannot(Permission::TEAM_INDEX, 0), Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список команд'));
 
-    $this->_teams = Doctrine::getTable('Team')
-        ->createQuery('t')->leftJoin('t.teamPlayers')->leftJoin('t.teamCandidates')
-        ->select()->orderBy('name')
-        ->execute();
+    $this->_currentRegion = Region::byIdSafe($this->session->getAttribute('region_id'));
+    
+    if ($this->_currentRegion->id == Region::DEFAULT_REGION)
+    {
+      $this->_teams = Doctrine::getTable('Team')
+          ->createQuery('t')->leftJoin('t.teamPlayers')->leftJoin('t.teamCandidates')
+          ->select()->orderBy('name')
+          ->execute();
+    }
+    else
+    {
+      $this->_teams = Doctrine::getTable('Team')
+          ->createQuery('t')->leftJoin('t.teamPlayers')->leftJoin('t.teamCandidates')
+          ->select()
+          ->where('region_id = ?', $this->_currentRegion->id)
+          ->orderBy('name')
+          ->execute();      
+    }  
+    
     $this->_isModerator = $this->sessionWebUser->can(Permission::TEAM_MODER, 0);
     $this->_fastTeamCreate = SystemSettings::getInstance()->fast_team_create;
     if ($this->_isModerator)

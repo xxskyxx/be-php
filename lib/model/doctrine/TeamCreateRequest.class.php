@@ -39,6 +39,7 @@ class TeamCreateRequest extends BaseTeamCreateRequest implements IStored
     $team = new Team;
     $team->name = $teamCreateRequest->name;
     $team->full_name = $teamCreateRequest->full_name;
+    $team->region_id = $teamCreateRequest->WebUser->region_id;
     $team->save(); //Требуется, так как иначе не удастся включить капитана.
     //Так как команда еще не существует, то в нее можно просто включить
     //автора заявки без всяких проверок.

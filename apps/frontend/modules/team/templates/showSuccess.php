@@ -23,6 +23,7 @@ render_named_line_if($_sessionIsModerator,
 render_named_line   ($width, 'Название:', $_team->name);
 render_named_line_if($_team->full_name !== '',
                      $width, 'Полное название:', $_team->full_name);
+render_named_line   ($width, 'Регион:', $_team->getRegionSafe()->name);
 ?>
 
 <?php if ($_sessionIsPlayer || $_sessionIsModerator): ?>
@@ -40,7 +41,7 @@ render_h3_inline_end();
     $leader = $teamPlayer->is_leader;
     echo decorate_span(
         ($leader ? 'warn' : 'indent'),
-        ($leader ? 'Капитан' : 'Рядовой').'&nbsp;'.link_to($webUser->login, 'webUser/show?id='.$webUser->id, array('target' => 'new'))
+        link_to($webUser->login, 'webUser/show?id='.$webUser->id, array('target' => 'new')).($leader ? ',&nbsp;капитан' : ',&nbsp;рядовой')
     );
     echo ' ';
     if ($_sessionIsLeader || $_sessionIsModerator)

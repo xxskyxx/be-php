@@ -8,6 +8,8 @@
  * @property integer $id
  * @property string $name
  * @property string $full_name
+ * @property integer $region_id
+ * @property Region $Region
  * @property Doctrine_Collection $Answer
  * @property Doctrine_Collection $games
  * @property Doctrine_Collection $gameCandidates
@@ -19,6 +21,8 @@
  * @method integer             getId()                 Returns the current record's "id" value
  * @method string              getName()               Returns the current record's "name" value
  * @method string              getFullName()           Returns the current record's "full_name" value
+ * @method integer             getRegionId()           Returns the current record's "region_id" value
+ * @method Region              getRegion()             Returns the current record's "Region" value
  * @method Doctrine_Collection getAnswer()             Returns the current record's "Answer" collection
  * @method Doctrine_Collection getGames()              Returns the current record's "games" collection
  * @method Doctrine_Collection getGameCandidates()     Returns the current record's "gameCandidates" collection
@@ -29,6 +33,8 @@
  * @method Team                setId()                 Sets the current record's "id" value
  * @method Team                setName()               Sets the current record's "name" value
  * @method Team                setFullName()           Sets the current record's "full_name" value
+ * @method Team                setRegionId()           Sets the current record's "region_id" value
+ * @method Team                setRegion()             Sets the current record's "Region" value
  * @method Team                setAnswer()             Sets the current record's "Answer" collection
  * @method Team                setGames()              Sets the current record's "games" collection
  * @method Team                setGameCandidates()     Sets the current record's "gameCandidates" collection
@@ -61,11 +67,19 @@ abstract class BaseTeam extends sfDoctrineRecord
              'type' => 'string',
              'length' => 255,
              ));
+        $this->hasColumn('region_id', 'integer', null, array(
+             'type' => 'integer',
+             ));
     }
 
     public function setUp()
     {
         parent::setUp();
+        $this->hasOne('Region', array(
+             'local' => 'region_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
         $this->hasMany('Answer', array(
              'local' => 'id',
              'foreign' => 'team_id'));

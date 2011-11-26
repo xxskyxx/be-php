@@ -18,12 +18,14 @@ abstract class BaseTeamForm extends BaseFormDoctrine
       'id'        => new sfWidgetFormInputHidden(),
       'name'      => new sfWidgetFormInputText(),
       'full_name' => new sfWidgetFormInputText(),
+      'region_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Region'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
       'id'        => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'name'      => new sfValidatorString(array('max_length' => 32)),
       'full_name' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'region_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Region'), 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('team[%s]');

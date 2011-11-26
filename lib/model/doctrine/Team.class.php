@@ -10,7 +10,7 @@
  * @author     VozdvIN
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class Team extends BaseTeam implements IStored, IAuth
+class Team extends BaseTeam implements IStored, IAuth, IRegion
 {
 
   //// IStored ////
@@ -44,6 +44,18 @@ class Team extends BaseTeam implements IStored, IAuth
     || $account->can(Permission::TEAM_SHOW, $this->id);
   }
 
+  //// IRegion ////
+
+  public static function byRegion($region)
+  {
+    return Utils::byRegion('Team', $region);
+  }
+  
+  public function getRegionSafe()
+  {
+    return Region::byIdSafe($this->region_id);
+  }
+  
   //// Public ////
 
   /**

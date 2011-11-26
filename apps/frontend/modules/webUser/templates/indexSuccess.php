@@ -1,13 +1,14 @@
 <?php render_breadcombs(array('Люди')); ?>
 
+<h2>Люди</h2>
+
 <?php if ($_currentRegion->id == Region::DEFAULT_REGION): ?>
-<h2>Люди из всех регионов</h2>
+<h3>Все</h3>
 <?php else: ?>
-<h2>Люди в регионе <?php echo $_currentRegion->name ?></h2>
+<h3>Из региона <?php echo $_currentRegion->name ?></h3>
 <?php endif ?>
 
 <?php include_partial('region/setRegion', array('retUrl' => 'webUser/index'))?>
-<div class="hr"></div>
 
 <ul>
   <?php foreach ($_webUsers as $webUser): ?>
