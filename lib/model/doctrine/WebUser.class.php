@@ -88,23 +88,7 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES ('1', '666');
 
   public static function byRegion($region)
   {
-    if ( ( ! ($region instanceof Region))
-         || ($region->id == Region::DEFAULT_REGION) )
-    {
-      return Doctrine::getTable('WebUser')
-        ->createQuery('wu')
-        ->select()->orderBy('wu.login')
-        ->execute();
-    }
-    else
-    {
-      return Doctrine::getTable('WebUser')
-        ->createQuery('wu')
-        ->select()
-        ->where('region_id = ?', $region->id)
-        ->orderBy('wu.login')
-        ->execute();
-    }
+    return Utils::byRegion('WebUser', $region, 'login');
   }
   
   public function getRegionSafe()

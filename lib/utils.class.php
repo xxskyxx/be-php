@@ -308,6 +308,35 @@ class Utils
   }
 
   /**
+   * Возвращает все экземпляры класса, которые относятся к указанному региону.
+   * Если регион не указан, то возвращает все экземпляры.
+   *
+   * @param  string               $className    Имя класса
+   * @param  mixed                $region       Регион или null
+   * @return Doctrine_Collection
+   */
+  public static function byRegion($className, $region, $orderField = 'name')
+  {
+    if ( ( ! ($region instanceof Region))
+         || ($region->id <= Region::DEFAULT_REGION) )
+    {
+      return Doctrine::getTable($className)
+        ->createQuery('c')
+        ->select()->orderBy('c.'.$orderField)
+        ->execute();
+    }
+    else
+    {
+      return Doctrine::getTable($className)
+        ->createQuery('c')
+        ->select()
+        ->where('c.region_id = ?', $region->id)
+        ->select()->orderBy('c.'.$orderField)
+        ->execute();
+    }  
+  }
+
+  /**
    * Готовит сообщение о нехватке прав по указанным параметрам.
    *
    * @param   string  $userName       Имя пользователя

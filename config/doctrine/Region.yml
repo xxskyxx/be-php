@@ -4,7 +4,7 @@ Region:
   columns:
     id: { type: integer, notnull: true, primary: true, autoincrement: true }
     # Название
-    name: { type: string(32), notnull: true } 
+    name: { type: string(32), notnull: true, default: '(Любой)' } 
     # Пользователи из данного региона
     #webUsers: Doctrine_Collection<WebUser>
   indexes:

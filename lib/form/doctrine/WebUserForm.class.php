@@ -25,6 +25,8 @@ class WebUserForm extends BaseWebUserForm
 
     //Значение активности пользователя - обязательно.
     $this->setValidator('enabled', new sfValidatorPass(array('required' => true)));
+    //Регион - обязателен
+    $this->getWidget('region_id')->setOption('add_empty', false);
 
     //Русифицируем:
     $this->getWidgetSchema()->setLabels(array(
