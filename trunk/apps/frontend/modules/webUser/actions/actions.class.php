@@ -67,6 +67,13 @@ class webUserActions extends MyActions
       $object = $form->updateObject();
       $this->errorRedirectUnless($object->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'изменять анкету'));
       $object = $form->save();
+      
+      //Если сменился регион текущего пользователя, то надо его изменить в сессии.
+      if ($object->id == $this->sessionWebUser->id)
+      {
+        $this->session->setAttribute('region_id', $object->region_id);
+        $this->session->setFlash('warning', 'Текущий регион изменен на '.$object->getRegionSafe()->name);
+      }
       $this->successRedirect('Анкета '.$object->login.' успешно сохранена.', 'webUser/show?id='.$object->id);
     }
     else

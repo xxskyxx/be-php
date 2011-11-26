@@ -116,6 +116,7 @@ class authActions extends MyActions
         $webUser->full_name = $formData['full_name'];
         $webUser->pwd_hash = Utils::saltedPwdHash($formData['password']);
         $webUser->email = $formData['email'];
+        $webUser->region_id = Region::DEFAULT_REGION;
         $webUser->is_enabled = false;
         $webUser->tag = Utils::generateActivationKey();
         if (SystemSettings::getInstance()->fast_user_register)
