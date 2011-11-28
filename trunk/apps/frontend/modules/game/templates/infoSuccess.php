@@ -1,70 +1,15 @@
 <?php
 render_breadcombs(array(
     link_to('Игры', 'game/index'),
-    link_to($_game->name, 'game/show?id='.$_game->id)
+    link_to($_game->name, 'game/show?id='.$_game->id),
+    'Афиша'
 ));
 $retUrlRaw = Utils::encodeSafeUrl('game/info?id='.$_game->id)
 ?>
 
-<?php
-if ($_game->team_id > 0)
-{
-  $authors = $_game->Team->getLeaders();
-  $authorsStr = '';
-  if ($authors)
-  {
-    foreach ($authors as $author)
-    {
-      if ($authorsStr !== '')
-      {
-        $authorsStr .= ', ';
-      }
-      $authorsStr .= $author->WebUser->login;
-    }
-    if ($authors->count() > 1)
-    {
-      $authorsStr .= ' представляют';
-    }
-    else
-    {
-      $authorsStr .= ' представляет';
-    }
-?>
-<h3 style="border: none"><?php echo $authorsStr ?></h3>
-<?php    
-  }
-}
-?>
-
 <h1><?php echo $_game->name ?></h1>
 
-<?php if ($_game->team_id > 0): ?>
-<h5>При содействии команды <?php echo $_game->Team->full_name ?></h5>
-<?php
-$actors = $_game->Team->getPlayersStrict();
-$actorsStr = '';
-if ($actors)
-{
-  foreach ($actors as $actor)
-  {
-    if ($actorsStr !== '')
-    {
-      $actorsStr .= ', ';
-    }    
-    $actorsStr .= $actor->WebUser->login;
-  }
-?>
-<h5>В главных ролях: <?php echo $actorsStr ?></h5>
-<?php
-}
-?>
-<?php else: ?>
-<h5 style="color: SkyBlue">It was along time ago in a galaxy far far away...</h5>
-<?php endif; ?>
-
-<p>
-  <?php echo Utils::decodeBB($_game->description) ?>
-</p>
+<?php echo Utils::decodeBB($_game->description) ?>
 
 <div class="hr"></div>
 <?php if (($_canPostJoin) && ($_game->status < Game::GAME_ARCHIVED)): ?>
@@ -73,9 +18,13 @@ if ($actors)
 </p>
 <?php endif ?>
 
-<h4>Регламент</h4>
 <?php
 $width = get_text_block_size_ex('Планируется заданий:');
+render_named_line($width, 'Организаторы:', ($_game->team_id !== null) ? $_game->Team->name : $_game->getTeamBackupName());
+render_named_line($width, 'Регион:', $_game->getRegionSafe()->name);
+?>
+<h4>Регламент</h4>
+<?php
 render_named_line($width, 'Брифинг:', $_game->start_briefing_datetime);
 render_named_line($width, 'Старт игры:', $_game->start_datetime);
 render_named_line($width, 'Длительность игры:', Timing::intervalToStr($_game->time_per_game*60));

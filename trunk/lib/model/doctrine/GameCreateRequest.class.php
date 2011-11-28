@@ -40,6 +40,7 @@ class GameCreateRequest extends BaseGameCreateRequest implements IStored
     $game->name = $gameCreateRequest->name;
     $game->team_id = $gameCreateRequest->team_id;
     $game->initDefaults();
+    $game->region_id = $gameCreateRequest->Team->getRegionSafe()->id;
     $game->save();
     
     $gameCreateRequest->delete();

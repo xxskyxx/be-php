@@ -9,6 +9,8 @@ Region:
     #webUsers: Doctrine_Collection<WebUser>
     # Команды из данного региона
     #teams: Doctrine_Collection<Team>
+    # Игры в данном регионе
+    #games: Doctrine_Collection<Game>
   indexes:
     # Каждый регион уникален
     ui_state_value:

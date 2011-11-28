@@ -11,6 +11,8 @@ Game:
     team_id: { type: integer }
     # Резервное поле для хранения имени команды-организатора на момент начала игры, используется в архивных целях.
     team_name_backup: { type: string(255) }
+    # Регион игры
+    region_id: { type: integer }
     # Дата стартового брифинга
     start_briefing_datetime: { type: datetime, notnull: true }
     # Дата начала игры
@@ -55,4 +57,7 @@ Game:
     Team:
       foreignAlias: games
       # При удалении команды-организатора игра должна сохраниться
+      onDelete: SET NULL
+    Region:
+      foreignAlias: games
       onDelete: SET NULL

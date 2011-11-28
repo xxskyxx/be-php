@@ -10,7 +10,7 @@
  * @author     VozdvIN
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class Game extends BaseGame implements IStored, IAuth
+class Game extends BaseGame implements IStored, IAuth, IRegion
 {
   const GAME_PLANNED = 0; //Запланирована
   const GAME_VERIFICATION = 100; //Игра на предстартовой проверке
@@ -69,6 +69,18 @@ class Game extends BaseGame implements IStored, IAuth
           || $account->can(Permission::GAME_MODER, $this->id);
     }
     return $res;
+  }
+
+  //// IRegion ////
+
+  public static function byRegion($region)
+  {
+    return Utils::byRegion('Game', $region);
+  }
+  
+  public function getRegionSafe()
+  {
+    return Region::byIdSafe($this->region_id);
   }
 
   //// Public ////

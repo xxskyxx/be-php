@@ -23,6 +23,7 @@ render_named_line_if($_sessionIsModerator,
                      $width, 'Id:', $_game->id);
 render_named_line   ($width, 'Организаторы:', ($_game->team_id <= 0) ? $_game->getTeamBackupName() : link_to($_game->Team->name, 'team/show?id='.$_game->Team->id, array ('target' => 'new')));
 render_named_line   ($width, 'Название:', $_game->name);
+render_named_line   ($width, 'Регион:', $_game->getRegionSafe()->name);
 render_named_line   ($width, 'Описание:', 'см.&nbsp;'.link_to('афишу', 'game/info?id='.$_game->id, array ('target' => 'new')));
 ?>
 <h4>Регламент</h4>

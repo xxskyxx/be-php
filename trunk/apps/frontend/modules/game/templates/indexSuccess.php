@@ -15,8 +15,28 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
   <?php endif; ?>
 </div>
 
+<?php if ($_currentRegion->id == Region::DEFAULT_REGION): ?>
+<h3>Все</h3>
+<?php else: ?>
+<h3>В регионе <?php echo $_currentRegion->name ?></h3>
+<?php endif ?>
+
+<?php include_partial('region/setRegion', array('retUrl' => 'game/index'))?>
+
+<?php
+if ( !
+     (   ($_plannedGames->count() > 0)
+      || ($_activeGames->count() > 0)
+      || ($_archivedGames->count() > 0)
+     )
+   )
+{
+  echo decorate_div('info', 'В этом регионе нет игр.');  
+}
+?>
+
 <?php if ($_activeGames->count() > 0): ?>
-<h3>Проходят сейчас</h3>
+<h4>Проходят сейчас</h4>
 <ul>
   <?php foreach ($_activeGames as $game): ?>
   <li>
@@ -39,7 +59,7 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
           echo ' (старт '.$game->start_datetime.')';
           break;
         case Game::GAME_ACTIVE:
-          echo ' (окончание в '.$game->start_briefing_datetime.', итоги '.$game->start_datetime.')';
+          echo ' (окончание '.$game->start_briefing_datetime.', итоги '.$game->start_datetime.')';
           break;
         case Game::GAME_FINISHED:
           echo ' (финишировала, итоги '.$game->start_datetime.')';
@@ -55,7 +75,7 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
 <?php endif; ?>
 
 <?php if ($_plannedGames->count() > 0): ?>
-<h3>Запланированы</h3>
+<h4>Запланированы</h4>
 <ul>
   <?php foreach ($_plannedGames as $game): ?>
   <li>
@@ -77,7 +97,7 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
 <?php endif; ?>
 
 <?php if ($_archivedGames->count() > 0): ?>
-<h3>Завершены</h3>
+<h4>Завершены</h4>
 <ul>
   <?php foreach ($_archivedGames as $game): ?>
   <li>
@@ -98,7 +118,11 @@ $this->_retUrlRaw = Utils::encodeSafeUrl(url_for('game/index'));
 <?php endif; ?>
 
 <?php if ($_gameCreateRequests->count() > 0): ?>
-<h3>Заявки на создание</h3>
+<?php   if ($_sessionIsGameModerator): ?>
+<h3>Заявки на создание (все регионы)</h3>
+<?php   else: ?>
+<h3>Заявки на создание (ваши)</h3>
+<?php   endif ?>
 <ul>
   <?php foreach ($_gameCreateRequests as $gameCreateRequest): ?>
   <li>
