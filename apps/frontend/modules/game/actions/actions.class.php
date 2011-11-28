@@ -24,6 +24,8 @@ class gameActions extends MyActions
         Utils::cannotMessage($this->sessionWebUser->login, 'просматривать список игр')
     );
 
+    $this->_currentRegion = Region::byIdSafe($this->session->getAttribute('region_id'));    
+
     $this->_retUrlRaw = Utils::encodeSafeUrl('game/index');
     $this->_sessionIsGameModerator = Game::isModerator($this->sessionWebUser);
 
@@ -33,10 +35,22 @@ class gameActions extends MyActions
     $this->_sessionPlayIndex = array();
     $this->_sessionIsActorIndex = array();
 
-    $games = Doctrine::getTable('Game')
-        ->createQuery('g')->leftJoin('g.teamStates')
-        ->select()->orderBy('g.name')
-        ->execute();
+    if ($this->_currentRegion->id == Region::DEFAULT_REGION)
+    {    
+      $games = Doctrine::getTable('Game')
+          ->createQuery('g')->leftJoin('g.teamStates')
+          ->select()->orderBy('g.name')
+          ->execute();
+    }
+    else
+    {
+      $games = Doctrine::getTable('Game')
+          ->createQuery('g')->leftJoin('g.teamStates')
+          ->select()->orderBy('g.name')
+          ->where('region_id = ?', $this->_currentRegion->id)
+          ->execute();      
+    }
+    
     foreach ($games as $game)
     {
       switch ($game->status)

@@ -10,6 +10,7 @@
  * @property clob $description
  * @property integer $team_id
  * @property string $team_name_backup
+ * @property integer $region_id
  * @property datetime $start_briefing_datetime
  * @property datetime $start_datetime
  * @property datetime $stop_datetime
@@ -28,6 +29,7 @@
  * @property integer $finished_at
  * @property integer $game_last_update
  * @property Team $Team
+ * @property Region $Region
  * @property Doctrine_Collection $gameCandidates
  * @property Doctrine_Collection $tasks
  * @property Doctrine_Collection $teamStates
@@ -37,6 +39,7 @@
  * @method clob                getDescription()              Returns the current record's "description" value
  * @method integer             getTeamId()                   Returns the current record's "team_id" value
  * @method string              getTeamNameBackup()           Returns the current record's "team_name_backup" value
+ * @method integer             getRegionId()                 Returns the current record's "region_id" value
  * @method datetime            getStartBriefingDatetime()    Returns the current record's "start_briefing_datetime" value
  * @method datetime            getStartDatetime()            Returns the current record's "start_datetime" value
  * @method datetime            getStopDatetime()             Returns the current record's "stop_datetime" value
@@ -55,6 +58,7 @@
  * @method integer             getFinishedAt()               Returns the current record's "finished_at" value
  * @method integer             getGameLastUpdate()           Returns the current record's "game_last_update" value
  * @method Team                getTeam()                     Returns the current record's "Team" value
+ * @method Region              getRegion()                   Returns the current record's "Region" value
  * @method Doctrine_Collection getGameCandidates()           Returns the current record's "gameCandidates" collection
  * @method Doctrine_Collection getTasks()                    Returns the current record's "tasks" collection
  * @method Doctrine_Collection getTeamStates()               Returns the current record's "teamStates" collection
@@ -63,6 +67,7 @@
  * @method Game                setDescription()              Sets the current record's "description" value
  * @method Game                setTeamId()                   Sets the current record's "team_id" value
  * @method Game                setTeamNameBackup()           Sets the current record's "team_name_backup" value
+ * @method Game                setRegionId()                 Sets the current record's "region_id" value
  * @method Game                setStartBriefingDatetime()    Sets the current record's "start_briefing_datetime" value
  * @method Game                setStartDatetime()            Sets the current record's "start_datetime" value
  * @method Game                setStopDatetime()             Sets the current record's "stop_datetime" value
@@ -81,6 +86,7 @@
  * @method Game                setFinishedAt()               Sets the current record's "finished_at" value
  * @method Game                setGameLastUpdate()           Sets the current record's "game_last_update" value
  * @method Game                setTeam()                     Sets the current record's "Team" value
+ * @method Game                setRegion()                   Sets the current record's "Region" value
  * @method Game                setGameCandidates()           Sets the current record's "gameCandidates" collection
  * @method Game                setTasks()                    Sets the current record's "tasks" collection
  * @method Game                setTeamStates()               Sets the current record's "teamStates" collection
@@ -115,6 +121,9 @@ abstract class BaseGame extends sfDoctrineRecord
         $this->hasColumn('team_name_backup', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
+             ));
+        $this->hasColumn('region_id', 'integer', null, array(
+             'type' => 'integer',
              ));
         $this->hasColumn('start_briefing_datetime', 'datetime', null, array(
              'type' => 'datetime',
@@ -203,6 +212,11 @@ abstract class BaseGame extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('Team', array(
              'local' => 'team_id',
+             'foreign' => 'id',
+             'onDelete' => 'SET NULL'));
+
+        $this->hasOne('Region', array(
+             'local' => 'region_id',
              'foreign' => 'id',
              'onDelete' => 'SET NULL'));
 

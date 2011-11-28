@@ -13,6 +13,7 @@
   <?php
   render_form_field_using_div($form['team_id'], $width);
   render_form_field_using_div($form['name'], $width);
+  render_form_field_using_div($form['region_id'], $width);
   render_form_field_using_div($form['description'], $width);
   ?>
   <h4>Регламент</h4>

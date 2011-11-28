@@ -10,5 +10,9 @@
   <span class="info">Игра будет создана после проверки заявки модератором.</span>
 </p>
 <?php endif ?>
+<div>
+  <div><span class="warn">При подтверждении заявки игра будет создана в регионе команды-организатора.</span></div>
+  <div><span class="info">Позже руководитель игры может сменить регион.</span></div>
+</div>
     
 <?php include_partial('form', array('form' => $form)) ?>
