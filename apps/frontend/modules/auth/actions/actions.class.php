@@ -107,7 +107,7 @@ class authActions extends MyActions
         //Длину пароля надо проверять вручную, так как при проверке на форме он может быть непреднамеренно показан
         if (strlen($formData['password']) < WebUser::MIN_PWD_LENGTH)
         {
-          $this->errorMessage('Регистрация не удалась. Пароль слишком короткий.');
+          $this->errorMessage('Регистрация не удалась. Пароль слишком короткий, должен быть не менее '.WebUser::MIN_PWD_LENGTH.' знаков.');
           return;
         }
 
@@ -145,8 +145,7 @@ class authActions extends MyActions
           
           if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
           {
-            $webUser->save();
-            $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
+            $this->afterRegistration($webUser);
           }
           else
           {
@@ -156,8 +155,7 @@ class authActions extends MyActions
         else
         {
           //Пользователь не указал координаты, пусть прыгает с активацией как хочет.
-          $webUser->save();
-          $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
+          $this->afterRegistration($webUser);
         }
       }
       else
@@ -357,6 +355,25 @@ class authActions extends MyActions
       );
     }
 
+  }
+  
+  protected function afterRegistration(WebUser $webUser)
+  {
+    $webUser->save();
+    $settings = SystemSettings::getInstance();
+    $notify = Swift_Message::newInstance('Уведомление о новом пользователе на '.$settings->site_name)
+              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+              ->setTo($webUser->email)
+              ->setBody(
+                   "Здравствуйте!\n\n"
+                  ."Вы получили это письмо, так как являетесь администратором сайта ".$settings->site_name.".\n"
+                  ."Если Вы слышите об этом впервые, просто проигнорируйте это письмо.\n\n"
+                  ."На сайте зарегистрировался новый пользователь: ".$webUser->login.(($webUser->login !== '') ? ' ('.$webUser->full_name.')' : '')."\n"
+                  ."Его анкета: http://".$settings->site_domain."/webUser/show/?id=".$webUser->id."\n\n"
+                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
+              );
+    Utils::sendEmailSafe($notify, Utils::getReadyMailer());
+    $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
   }
   
 }
