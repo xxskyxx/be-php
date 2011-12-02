@@ -79,15 +79,18 @@ class teamCreateRequestActions extends MyActions
           
           if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
           {
+            $this->newTeamCreateRequestNotify($object);
             $this->successRedirect('Заявка на создание команды '.$object->name.' принята. Вам отправлено письмо для ее подтверждения.', 'team/index');
           }
           else
           {
+            // Тут посылать письмо админам смысла нет...
             $this->warningRedirect('Заявка на создание команды '.$object->name.' принята, но не удалось отправить письмо для ее подтверждения. Обратитесь к администрации сайта.', 'team/index');
           }        
         }
         else
         {
+          $this->newTeamCreateRequestNotify($object);
           $this->successRedirect('Заявка на создание команды '.$object->name.' принята. Ожидайте, пока она пройдет модерацию.', 'team/index');
         }        
       }
@@ -138,5 +141,26 @@ class teamCreateRequestActions extends MyActions
         'Команда '.$team->name.' успешно создана.',
         $fastTeamCreate ? 'team/show?id='.$team->id : 'team/index'
     );
+  }
+  
+  protected function newTeamCreateRequestNotify(TeamCreateRequest $teamCreateRequest)
+  {
+    $settings = SystemSettings::getInstance();
+    $message = Swift_Message::newInstance('Уведомление о новой команде на '.$settings->site_name)
+              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+              ->setTo($settings->contact_email_addr)
+              ->setBody(
+                   "Здравствуйте!\n\n"
+                  ."Вы получили это письмо, так как являетесь администратором сайта ".$settings->site_name.".\n"
+                  ."Если Вы слышите об этом впервые, просто проигнорируйте это письмо.\n\n"
+                  ."На сайте подана заявка на создание команды:\n"
+                  ."- название: ".$teamCreateRequest->name."\n"
+                  ."- полное название: ".$teamCreateRequest->full_name."\n"
+                  ."- автор заявки: ".$teamCreateRequest->WebUser->login.(($teamCreateRequest->WebUser->email !== '') ? ' ('.$teamCreateRequest->WebUser->email.')' : '')."\n"
+                  ."- сообщение: ".$teamCreateRequest->description."\n\n"
+                  ."Утвердить или оклонить заявку можно здесь: http://".$settings->site_domain."/team/index \n\n"
+                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
+              );
+    Utils::sendEmailSafe($message, Utils::getReadyMailer());
   }
 }
