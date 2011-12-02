@@ -363,12 +363,12 @@ class authActions extends MyActions
     $settings = SystemSettings::getInstance();
     $notify = Swift_Message::newInstance('Уведомление о новом пользователе на '.$settings->site_name)
               ->setFrom(array($settings->notify_email_addr => $settings->site_name))
-              ->setTo($webUser->email)
+              ->setTo($settings->contact_email_addr)
               ->setBody(
                    "Здравствуйте!\n\n"
                   ."Вы получили это письмо, так как являетесь администратором сайта ".$settings->site_name.".\n"
                   ."Если Вы слышите об этом впервые, просто проигнорируйте это письмо.\n\n"
-                  ."На сайте зарегистрировался новый пользователь: ".$webUser->login.(($webUser->login !== '') ? ' ('.$webUser->full_name.')' : '')."\n"
+                  ."На сайте зарегистрировался новый пользователь: ".$webUser->login.(($webUser->full_name !== '') ? ' ('.$webUser->full_name.')' : '')."\n"
                   ."Его анкета: http://".$settings->site_domain."/webUser/show/?id=".$webUser->id."\n\n"
                   ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
               );
