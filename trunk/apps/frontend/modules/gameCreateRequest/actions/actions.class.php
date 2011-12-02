@@ -82,15 +82,18 @@ class gameCreateRequestActions extends MyActions
           
           if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
           {
+            $this->newGameCreateRequestNotify($object);
             $this->successRedirect('Заявка на создание игры '.$object->name.' принята. Вам отправлено письмо для ее подтверждения.', 'game/index');
           }
           else
           {
+            // Писать админам смысла нет.
             $this->warningRedirect('Заявка на создание игры '.$object->name.' принята, но не удалось отправить письмо для ее подтверждения. Обратитесь к администрации сайта.', 'game/index');
           }        
         }
         else
         {
+          $this->newGameCreateRequestNotify($object);
           $this->successRedirect('Заявка на создание игры '.$object->name.' принята. Ожидайте, пока она пройдет модерацию.', 'game/index');
         }
       }
@@ -146,5 +149,24 @@ class gameCreateRequestActions extends MyActions
     $this->successRedirect('Игра '.$game->name.' успешно создана.', 'game/index');
   }
 
+  protected function newGameCreateRequestNotify(GameCreateRequest $gameCreateRequest)
+  {
+    $settings = SystemSettings::getInstance();
+    $message = Swift_Message::newInstance('Уведомление о новой игре на '.$settings->site_name)
+              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+              ->setTo($settings->contact_email_addr)
+              ->setBody(
+                   "Здравствуйте!\n\n"
+                  ."Вы получили это письмо, так как являетесь администратором сайта ".$settings->site_name.".\n"
+                  ."Если Вы слышите об этом впервые, просто проигнорируйте это письмо.\n\n"
+                  ."На сайте подана заявка на создание игры:\n"
+                  ."- название: ".$gameCreateRequest->name."\n"
+                  ."- команда-организатор: ".$gameCreateRequest->Team->name."\n"
+                  ."- сообщение: ".$gameCreateRequest->description."\n\n"
+                  ."Утвердить или отклонить заявку можно здесь: http://".$settings->site_domain."/game/index \n\n"
+                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
+              );
+    Utils::sendEmailSafe($message, Utils::getReadyMailer());
+  }  
 }
 ?>

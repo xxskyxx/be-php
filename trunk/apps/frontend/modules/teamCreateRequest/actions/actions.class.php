@@ -158,7 +158,7 @@ class teamCreateRequestActions extends MyActions
                   ."- полное название: ".$teamCreateRequest->full_name."\n"
                   ."- автор заявки: ".$teamCreateRequest->WebUser->login.(($teamCreateRequest->WebUser->email !== '') ? ' ('.$teamCreateRequest->WebUser->email.')' : '')."\n"
                   ."- сообщение: ".$teamCreateRequest->description."\n\n"
-                  ."Утвердить или оклонить заявку можно здесь: http://".$settings->site_domain."/team/index \n\n"
+                  ."Утвердить или отклонить заявку можно здесь: http://".$settings->site_domain."/team/index \n\n"
                   ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
               );
     Utils::sendEmailSafe($message, Utils::getReadyMailer());
