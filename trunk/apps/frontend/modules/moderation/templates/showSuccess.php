@@ -23,6 +23,7 @@ render_named_line($width, 'Адрес администраторов:', $_settin
 ?>
 <h4>Модерация</h4>
 <?php
+render_named_line($width, 'Интервал анонса игр:', $_settings->games_announce_interval.'&nbsp;дней.');
 render_named_line($width, 'Создание команд по почте:', $_settings->email_team_create ? decorate_span('info', 'Разрешено') : 'Не разрешено');
 render_named_line($width, 'Создание игр по почте:', $_settings->email_game_create ? decorate_span('info', 'Разрешено') : 'Не разрешено');
 render_named_line($width, 'Быстрое создание команд:', $_settings->fast_team_create ? decorate_span('warn', 'Разрешено') : 'Не разрешено');

@@ -298,6 +298,70 @@ class Game extends BaseGame implements IStored, IAuth, IRegion
     return $teamList;
   }
 
+  /**
+   * Возвращает список игр с активными анонсами (максимальный интервал анонса указывается).
+   * 
+   * @param   integer   $maxDaysBeforeGame  Число дней до игры, когда открывается анонс.
+   * @param   Region    $region             Регион, в котором отбирать игры.
+   */
+  public static function getGamesForAnnounce($maxDaysBeforeGame, Region $region)
+  {
+    $daysBefore = ($maxDaysBeforeGame > 1) ? $maxDaysBeforeGame : 31;
+    $timeMinus = $daysBefore * 24 * 60 * 60; // Интервал анонса в секундах.
+    if ($region->id == Region::DEFAULT_REGION)
+    {
+      $games = Doctrine::getTable('Game')
+          ->createQuery('g')
+          ->select()
+          ->where('g.status <= ?', Game::GAME_ACTIVE)
+          ->andWhere('g.short_info_enabled = ?', true)
+          ->orderBy('g.name')
+          ->execute();
+    }
+    else
+    {
+      $games = Doctrine::getTable('Game')
+          ->createQuery('g')
+          ->select()
+          ->where('g.status <= ?', Game::GAME_ACTIVE)
+          ->andWhere('g.short_info_enabled = ?', true)
+          ->andWhere('g.region_id = ?', $region->id)
+          ->orderBy('g.name')
+          ->execute();
+    }
+    $result = new Doctrine_Collection('Game');
+    foreach ($games as $game)
+    {
+      $now = time();
+      switch ($game->status)
+      {
+        case (Game::GAME_PLANNED):
+          $gameStartMoment = Timing::strToDate($game->start_briefing_datetime);
+          if (
+                 ($now < $gameStartMoment)
+              && (($now + $timeMinus) > $gameStartMoment)
+             )
+          {
+            $result->add($game);
+          }
+          break;
+        case (Game::GAME_VERIFICATION):
+        case (Game::GAME_READY):
+        case (Game::GAME_STEADY):
+          $gameStartMoment = Timing::strToDate($game->start_datetime);
+          if (true)
+          {
+            $result->add($game);
+          }
+          break;
+        case (Game::GAME_ACTIVE):
+          $result->add($game);
+          break;
+      }
+    }
+    return $result;
+  }
+  
   // Action
 
   /**

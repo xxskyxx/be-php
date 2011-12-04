@@ -16,6 +16,7 @@ class SystemSettingsForm extends BaseSystemSettingsForm
       'id'                 => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'site_name'          => new sfValidatorString(array('max_length' => 255, 'required' => true)),
       'site_domain'        => new sfValidatorString(array('max_length' => 255, 'required' => true)),
+      'games_announce_interval' => new sfValidatorInteger(array('required' => true)),
       'fast_user_register' => new sfValidatorBoolean(array('required' => false)),
       'email_team_create'  => new sfValidatorBoolean(array('required' => false)),
       'fast_team_create'   => new sfValidatorBoolean(array('required' => false)),
@@ -31,6 +32,7 @@ class SystemSettingsForm extends BaseSystemSettingsForm
     $this->getWidgetSchema()->setLabels(array(
       'site_name'          => 'Название сайта:',
       'site_domain'        => 'Домен сайта:',
+      'games_announce_interval' => 'Интервал анонса игр:',
       'email_team_create'  => 'Cоздание команд по почте:',
       'email_game_create'  => 'Cоздание игр по почте:',
       'fast_team_create'   => 'Быстрое создание команд:',
@@ -46,6 +48,7 @@ class SystemSettingsForm extends BaseSystemSettingsForm
     $this->getWidgetSchema()->setHelps(array(
       'site_name'          => 'Показано в заголовке страницы, на главной странице и указывается в письмах-уведомлениях.',
       'site_domain'        => '<span class="warn">Обязательно без "http://".</span>',
+      'games_announce_interval' => 'дней.|Анонсы игр будут публиковаться не ранее, чем за указанное число дней до игры.',
       'email_team_create'  => 'переходом по ссылке из письма.',
       'email_game_create'  => 'переходом по ссылке из письма.',
       'fast_team_create'   => 'самостоятельным утверждением заявки без подтверждения по почте.|<span class="warn">Использовать c осторожноcтью!</span>',

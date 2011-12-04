@@ -24,6 +24,7 @@ render_named_line_if($_sessionIsModerator,
 render_named_line   ($width, 'Организаторы:', ($_game->team_id <= 0) ? $_game->getTeamBackupName() : link_to($_game->Team->name, 'team/show?id='.$_game->Team->id, array ('target' => 'new')));
 render_named_line   ($width, 'Название:', $_game->name);
 render_named_line   ($width, 'Регион:', $_game->getRegionSafe()->name);
+render_named_line   ($width, 'Анонс:', (($_game->short_info_enabled) ? decorate_span('info', 'Опубликован') : decorate_span('warn', 'Не&nbsp;опубликован') ).', см.&nbsp;ниже');
 render_named_line   ($width, 'Описание:', 'см.&nbsp;'.link_to('афишу', 'game/info?id='.$_game->id, array ('target' => 'new')));
 ?>
 <h4>Регламент</h4>
@@ -48,3 +49,8 @@ render_named_line   ($width, 'Автоматический пересчет:', '
 render_named_line   ($width, 'Максимальный интервал:', $_game->update_interval_max.'&nbsp;c');
 render_named_line   ($width, 'Пересчет командами:', ($_game->teams_can_update) ? decorate_span('warn', 'Разрешен') : 'Не разрешен');
 ?>
+
+<h3>Анонс игры</h3>
+<div>
+  <?php echo Utils::decodeBB($_game->short_info) ?>
+</div>

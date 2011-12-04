@@ -17,6 +17,8 @@ abstract class BaseGameForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'                       => new sfWidgetFormInputHidden(),
       'name'                     => new sfWidgetFormInputText(),
+      'short_info'               => new sfWidgetFormTextarea(),
+      'short_info_enabled'       => new sfWidgetFormInputCheckbox(),
       'description'              => new sfWidgetFormTextarea(),
       'team_id'                  => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Team'), 'add_empty' => true)),
       'team_name_backup'         => new sfWidgetFormInputText(),
@@ -43,6 +45,8 @@ abstract class BaseGameForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'                       => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'name'                     => new sfValidatorString(array('max_length' => 16)),
+      'short_info'               => new sfValidatorString(array('max_length' => 2048)),
+      'short_info_enabled'       => new sfValidatorBoolean(array('required' => false)),
       'description'              => new sfValidatorString(),
       'team_id'                  => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Team'), 'required' => false)),
       'team_name_backup'         => new sfValidatorString(array('max_length' => 255, 'required' => false)),
