@@ -12,4 +12,4 @@
  * может нарушиться автоматическая интеграция.
  */
 ?>
-<li><?php echo link_to_static('Инструкции', 'help/index.php') ?></li>
+<li><?php echo link_to('Статьи', 'article/indeх') ?></li>

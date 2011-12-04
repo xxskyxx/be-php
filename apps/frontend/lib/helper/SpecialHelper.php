@@ -1,17 +1,6 @@
 <?php
 
 /**
- * Формирует HTML-код ссылки на статическую страницу
- *
- * @param   string  $text   текст ссылки
- * @param   string  $url    адрес страницы
- */
-function link_to_static($text, $url)
-{
-  echo link_to($text, 'static/view?pageUrl='.Utils::encodeSafeUrl($url));
-}
-
-/**
  * Рассчитывает ширину блока (в ex) для размещения текста указанной длины.
  *
  * @param   mixed   $value  (Число) - длина строки, (Строка) - как есть.
