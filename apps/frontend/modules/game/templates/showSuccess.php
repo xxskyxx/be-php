@@ -10,7 +10,8 @@ $retUrlRaw = Utils::encodeSafeUrl(url_for('game/show?id='.$_game->id.'&tab='.$_t
 <h2>Игра <?php echo $_game->name ?></h2>
 
 <p>
-  <span class="safeAction"><?php echo link_to('Состояние и управление игрой', 'gameControl/pilot?id='.$_game->id) ?></span>
+  <span class="indentAction"><?php echo link_to('Афиша', 'game/info?id='.$_game->id) ?></span>
+  <span class="info"><?php echo link_to('Состояние и управление', 'gameControl/pilot?id='.$_game->id) ?></span>
 </p>
 
 <table cellspacing="0" class="tabControl">

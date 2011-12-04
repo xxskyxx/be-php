@@ -5,6 +5,10 @@ Game:
     id: { type: integer, primary: true, notnull: true, autoincrement: true }
     # Название
     name: { type: string(16), notnull: true }
+    # Краткое описание
+    short_info: { type: string(2048), notnull: true }
+    # Разрешение на публикацию анонса
+    short_info_enabled: { type: boolean, notnull: true, default: false }
     # Подробное описание
     description: { type: clob, notnull: true }
     # Команда организаторов

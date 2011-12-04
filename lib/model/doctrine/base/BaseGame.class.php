@@ -7,6 +7,8 @@
  * 
  * @property integer $id
  * @property string $name
+ * @property string $short_info
+ * @property boolean $short_info_enabled
  * @property clob $description
  * @property integer $team_id
  * @property string $team_name_backup
@@ -36,6 +38,8 @@
  * 
  * @method integer             getId()                       Returns the current record's "id" value
  * @method string              getName()                     Returns the current record's "name" value
+ * @method string              getShortInfo()                Returns the current record's "short_info" value
+ * @method boolean             getShortInfoEnabled()         Returns the current record's "short_info_enabled" value
  * @method clob                getDescription()              Returns the current record's "description" value
  * @method integer             getTeamId()                   Returns the current record's "team_id" value
  * @method string              getTeamNameBackup()           Returns the current record's "team_name_backup" value
@@ -64,6 +68,8 @@
  * @method Doctrine_Collection getTeamStates()               Returns the current record's "teamStates" collection
  * @method Game                setId()                       Sets the current record's "id" value
  * @method Game                setName()                     Sets the current record's "name" value
+ * @method Game                setShortInfo()                Sets the current record's "short_info" value
+ * @method Game                setShortInfoEnabled()         Sets the current record's "short_info_enabled" value
  * @method Game                setDescription()              Sets the current record's "description" value
  * @method Game                setTeamId()                   Sets the current record's "team_id" value
  * @method Game                setTeamNameBackup()           Sets the current record's "team_name_backup" value
@@ -110,6 +116,16 @@ abstract class BaseGame extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'length' => 16,
+             ));
+        $this->hasColumn('short_info', 'string', 2048, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 2048,
+             ));
+        $this->hasColumn('short_info_enabled', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => false,
              ));
         $this->hasColumn('description', 'clob', null, array(
              'type' => 'clob',

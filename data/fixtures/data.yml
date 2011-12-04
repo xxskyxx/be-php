@@ -67,10 +67,12 @@ Answer:
 Game:
   Game_1:
     name: Случайная
+    short_info: 'Пример игры со случайным порядком прохождения заданий.'
+    short_info_enabled: true
     description: "Пример игры со случайным порядком прохождения заданий.\r\n\r\nТакже демонстрируется:\r\n- влияние приоритетов на порядок заданий\r\n- задание с персональными ответами для каждой команды\r\n- задание с подсказкой, активируемой ответом.\r\n- задание с ограничением на число одновременно выполняющих его команд.\r\n- задание с паузой перед его стартом.\r\n- задание с ответом, содержащим русские буквы"
     Team: Team_1
     team_name_backup: TestAuthors
-    region_id: null
+    Region: Region_2
     start_briefing_datetime: '2011-01-01 00:00:00'
     start_datetime: '2011-01-01 00:00:01'
     stop_datetime: '2011-12-31 23:59:58'
@@ -84,10 +86,85 @@ Game:
     update_interval_max: '15'
     task_define_default_name: Загадка
     task_tip_prefix: Подсказка
-    status: '400'
-    started_at: '1321622215'
+    status: '0'
+    started_at: '0'
     finished_at: '0'
-    game_last_update: '1321623422'
+    game_last_update: '1323005516'
+  Game_2:
+    name: '1'
+    short_info: '1'
+    short_info_enabled: true
+    description: '1'
+    Team: Team_1
+    team_name_backup: TestAuthors
+    Region: Region_2
+    start_briefing_datetime: '2011-12-10 00:00:00'
+    start_datetime: '2011-12-10 00:00:01'
+    stop_datetime: '2011-12-31 23:59:58'
+    finish_briefing_datetime: '2011-12-31 23:59:59'
+    time_per_game: '540'
+    time_per_task: '90'
+    time_per_tip: '30'
+    try_count: '10'
+    update_interval: '5'
+    teams_can_update: false
+    update_interval_max: '600'
+    task_define_default_name: Загадка
+    task_tip_prefix: Подсказка
+    status: '0'
+    started_at: '0'
+    finished_at: '0'
+    game_last_update: '1323007719'
+  Game_3:
+    name: '2'
+    short_info: '2'
+    short_info_enabled: true
+    description: '2'
+    Team: Team_1
+    team_name_backup: TestAuthors
+    Region: Region_2
+    start_briefing_datetime: '2011-12-20 00:00:00'
+    start_datetime: '2011-12-20 00:00:01'
+    stop_datetime: '2011-12-31 23:59:58'
+    finish_briefing_datetime: '2011-12-31 23:59:59'
+    time_per_game: '540'
+    time_per_task: '90'
+    time_per_tip: '30'
+    try_count: '10'
+    update_interval: '5'
+    teams_can_update: false
+    update_interval_max: '600'
+    task_define_default_name: Загадка
+    task_tip_prefix: Подсказка
+    status: '0'
+    started_at: '0'
+    finished_at: '0'
+    game_last_update: '0'
+  Game_4:
+    name: '3'
+    short_info: '3'
+    short_info_enabled: true
+    description: '3'
+    Team: Team_1
+    team_name_backup: TestAuthors
+    Region: Region_2
+    start_briefing_datetime: '2011-12-30 00:00:00'
+    start_datetime: '2011-12-30 00:00:01'
+    stop_datetime: '2011-12-31 23:59:58'
+    finish_briefing_datetime: '2011-12-31 23:59:59'
+    time_per_game: '540'
+    time_per_task: '90'
+    time_per_tip: '30'
+    try_count: '10'
+    update_interval: '5'
+    teams_can_update: false
+    update_interval_max: '600'
+    task_define_default_name: Загадка
+    task_tip_prefix: Подсказка
+    status: '0'
+    started_at: '0'
+    finished_at: '0'
+    game_last_update: '0'
 GrantedPermission:
   GrantedPermission_1:
     WebUser: WebUser_1
@@ -123,35 +200,6 @@ Permission:
     description: 'управлять игрой'
   Permission_14:
     description: 'модерировать блог'
-PostedAnswer:
-  PostedAnswer_1:
-    TaskState: TaskState_1
-    value: '0000'
-    post_time: '1321622596'
-    WebUser: WebUser_2
-    Answer: Answer_7
-    status: '200'
-  PostedAnswer_2:
-    TaskState: TaskState_1
-    value: '1111'
-    post_time: '1321622596'
-    WebUser: WebUser_2
-    Answer: Answer_11
-    status: '200'
-  PostedAnswer_3:
-    TaskState: TaskState_1
-    value: '2222'
-    post_time: '1321622596'
-    WebUser: WebUser_2
-    Answer: Answer_12
-    status: '200'
-  PostedAnswer_4:
-    TaskState: TaskState_5
-    value: '0000'
-    post_time: '1321623076'
-    WebUser: WebUser_1
-    Answer: Answer_8
-    status: '200'
 Region:
   Region_1:
     name: '(Не задан)'
@@ -175,8 +223,8 @@ SystemSettings:
     smtp_host: smtp.somehost.inf
     smtp_port: '25'
     smtp_security: ''
-    smtp_login: ''
-    smtp_password: ''
+    smtp_login: login
+    smtp_password: password
 Task:
   Task_1:
     name: ПерсональныеОтветы
@@ -258,91 +306,6 @@ TaskConstraint:
     Task: Task_2
     target_task_id: '7'
     priority_shift: '520'
-TaskState:
-  TaskState_1:
-    TeamState: TeamState_1
-    Task: Task_2
-    given_at: '1321622456'
-    started_at: '1321622566'
-    accepted_at: '1321622575'
-    task_idle_time: '36'
-    done_at: '1321622596'
-    task_time_spent: '-15'
-    closed: true
-    status: '910'
-    task_last_update: '1321622626'
-  TaskState_2:
-    TeamState: TeamState_2
-    Task: Task_2
-    given_at: '1321622567'
-    started_at: '1321622626'
-    accepted_at: '0'
-    task_idle_time: '0'
-    done_at: '0'
-    task_time_spent: '0'
-    closed: false
-    status: '100'
-    task_last_update: '1321623421'
-  TaskState_3:
-    TeamState: TeamState_3
-    Task: Task_2
-    given_at: '1321622626'
-    started_at: '1321622636'
-    accepted_at: '0'
-    task_idle_time: '0'
-    done_at: '0'
-    task_time_spent: '0'
-    closed: false
-    status: '100'
-    task_last_update: '1321623421'
-  TaskState_4:
-    TeamState: TeamState_4
-    Task: Task_2
-    given_at: '1321622636'
-    started_at: '1321622650'
-    accepted_at: '0'
-    task_idle_time: '0'
-    done_at: '0'
-    task_time_spent: '0'
-    closed: false
-    status: '100'
-    task_last_update: '1321623422'
-  TaskState_5:
-    TeamState: TeamState_1
-    Task: Task_3
-    given_at: '1321622650'
-    started_at: '1321623050'
-    accepted_at: '1321623070'
-    task_idle_time: '0'
-    done_at: '1321623076'
-    task_time_spent: '6'
-    closed: true
-    status: '910'
-    task_last_update: '1321623079'
-  TaskState_6:
-    TeamState: TeamState_5
-    Task: Task_2
-    given_at: '1321623050'
-    started_at: '1321623056'
-    accepted_at: '0'
-    task_idle_time: '0'
-    done_at: '0'
-    task_time_spent: '0'
-    closed: false
-    status: '100'
-    task_last_update: '1321623422'
-  TaskState_7:
-    TeamState: TeamState_1
-    Task: Task_1
-    given_at: '1321623292'
-    started_at: '1321623420'
-    accepted_at: '1321623425'
-    task_idle_time: '0'
-    done_at: '0'
-    task_time_spent: '0'
-    closed: false
-    status: '200'
-    task_last_update: '1321623425'
 Team:
   Team_1:
     name: TestAuthors
@@ -364,8 +327,8 @@ Team:
     name: Testers5
     full_name: ''
   Team_7:
-    name: '1234'
-    full_name: '1234'
+    name: test
+    full_name: test
     Region: Region_3
 TeamCandidate:
   TeamCandidate_1:
@@ -430,46 +393,46 @@ TeamState:
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '1321622231'
+    started_at: '0'
     finished_at: '0'
-    status: '300'
-    team_last_update: '1321623420'
+    status: '0'
+    team_last_update: '0'
   TeamState_2:
     Team: Team_3
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '1321622231'
+    started_at: '0'
     finished_at: '0'
-    status: '300'
-    team_last_update: '1321623421'
+    status: '0'
+    team_last_update: '0'
   TeamState_3:
     Team: Team_4
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '1321622231'
+    started_at: '0'
     finished_at: '0'
-    status: '300'
-    team_last_update: '1321623421'
+    status: '0'
+    team_last_update: '0'
   TeamState_4:
     Team: Team_5
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '1321622231'
+    started_at: '0'
     finished_at: '0'
-    status: '300'
-    team_last_update: '1321623422'
+    status: '0'
+    team_last_update: '0'
   TeamState_5:
     Team: Team_6
     Game: Game_1
     start_delay: '0'
     ai_enabled: true
-    started_at: '1321622231'
+    started_at: '0'
     finished_at: '0'
-    status: '300'
-    team_last_update: '1321623422'
+    status: '0'
+    team_last_update: '0'
 Tip:
   Tip_1:
     Task: Task_1
@@ -501,42 +464,6 @@ Tip:
     name: Подсказка1
     define: Подсказка1_к_заданию_!Стартовое
     delay: '1'
-UsedTip:
-  UsedTip_1:
-    TaskState: TaskState_1
-    Tip: Tip_2
-    status: '900'
-    used_since: '1321622566'
-  UsedTip_2:
-    TaskState: TaskState_2
-    Tip: Tip_2
-    status: '900'
-    used_since: '1321622626'
-  UsedTip_3:
-    TaskState: TaskState_3
-    Tip: Tip_2
-    status: '900'
-    used_since: '1321622636'
-  UsedTip_4:
-    TaskState: TaskState_4
-    Tip: Tip_2
-    status: '900'
-    used_since: '1321622650'
-  UsedTip_5:
-    TaskState: TaskState_5
-    Tip: Tip_3
-    status: '900'
-    used_since: '1321623050'
-  UsedTip_6:
-    TaskState: TaskState_6
-    Tip: Tip_2
-    status: '900'
-    used_since: '1321623056'
-  UsedTip_7:
-    TaskState: TaskState_7
-    Tip: Tip_1
-    status: '900'
-    used_since: '1321623420'
 WebUser:
   WebUser_1:
     login: admin
@@ -642,3 +569,11 @@ WebUser:
     email: vozdvin@mail.ru
     tag: 4b75920616026ce4
     is_enabled: true
+  WebUser_15:
+    login: tester
+    pwd_hash: e8c1459ea6c939634919be9a209b679d
+    full_name: 'tester tester'
+    Region: Region_1
+    email: vozdvin@mail.ru
+    tag: db00bf20996d8ff4
+    is_enabled: false

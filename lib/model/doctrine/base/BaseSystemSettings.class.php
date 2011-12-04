@@ -8,6 +8,7 @@
  * @property integer $id
  * @property string $site_name
  * @property string $site_domain
+ * @property integer $games_announce_interval
  * @property boolean $fast_user_register
  * @property boolean $fast_team_create
  * @property boolean $email_team_create
@@ -20,34 +21,36 @@
  * @property string $smtp_login
  * @property string $smtp_password
  * 
- * @method integer        getId()                 Returns the current record's "id" value
- * @method string         getSiteName()           Returns the current record's "site_name" value
- * @method string         getSiteDomain()         Returns the current record's "site_domain" value
- * @method boolean        getFastUserRegister()   Returns the current record's "fast_user_register" value
- * @method boolean        getFastTeamCreate()     Returns the current record's "fast_team_create" value
- * @method boolean        getEmailTeamCreate()    Returns the current record's "email_team_create" value
- * @method boolean        getEmailGameCreate()    Returns the current record's "email_game_create" value
- * @method string         getNotifyEmailAddr()    Returns the current record's "notify_email_addr" value
- * @method string         getContactEmailAddr()   Returns the current record's "contact_email_addr" value
- * @method string         getSmtpHost()           Returns the current record's "smtp_host" value
- * @method integer        getSmtpPort()           Returns the current record's "smtp_port" value
- * @method string         getSmtpSecurity()       Returns the current record's "smtp_security" value
- * @method string         getSmtpLogin()          Returns the current record's "smtp_login" value
- * @method string         getSmtpPassword()       Returns the current record's "smtp_password" value
- * @method SystemSettings setId()                 Sets the current record's "id" value
- * @method SystemSettings setSiteName()           Sets the current record's "site_name" value
- * @method SystemSettings setSiteDomain()         Sets the current record's "site_domain" value
- * @method SystemSettings setFastUserRegister()   Sets the current record's "fast_user_register" value
- * @method SystemSettings setFastTeamCreate()     Sets the current record's "fast_team_create" value
- * @method SystemSettings setEmailTeamCreate()    Sets the current record's "email_team_create" value
- * @method SystemSettings setEmailGameCreate()    Sets the current record's "email_game_create" value
- * @method SystemSettings setNotifyEmailAddr()    Sets the current record's "notify_email_addr" value
- * @method SystemSettings setContactEmailAddr()   Sets the current record's "contact_email_addr" value
- * @method SystemSettings setSmtpHost()           Sets the current record's "smtp_host" value
- * @method SystemSettings setSmtpPort()           Sets the current record's "smtp_port" value
- * @method SystemSettings setSmtpSecurity()       Sets the current record's "smtp_security" value
- * @method SystemSettings setSmtpLogin()          Sets the current record's "smtp_login" value
- * @method SystemSettings setSmtpPassword()       Sets the current record's "smtp_password" value
+ * @method integer        getId()                      Returns the current record's "id" value
+ * @method string         getSiteName()                Returns the current record's "site_name" value
+ * @method string         getSiteDomain()              Returns the current record's "site_domain" value
+ * @method integer        getGamesAnnounceInterval()   Returns the current record's "games_announce_interval" value
+ * @method boolean        getFastUserRegister()        Returns the current record's "fast_user_register" value
+ * @method boolean        getFastTeamCreate()          Returns the current record's "fast_team_create" value
+ * @method boolean        getEmailTeamCreate()         Returns the current record's "email_team_create" value
+ * @method boolean        getEmailGameCreate()         Returns the current record's "email_game_create" value
+ * @method string         getNotifyEmailAddr()         Returns the current record's "notify_email_addr" value
+ * @method string         getContactEmailAddr()        Returns the current record's "contact_email_addr" value
+ * @method string         getSmtpHost()                Returns the current record's "smtp_host" value
+ * @method integer        getSmtpPort()                Returns the current record's "smtp_port" value
+ * @method string         getSmtpSecurity()            Returns the current record's "smtp_security" value
+ * @method string         getSmtpLogin()               Returns the current record's "smtp_login" value
+ * @method string         getSmtpPassword()            Returns the current record's "smtp_password" value
+ * @method SystemSettings setId()                      Sets the current record's "id" value
+ * @method SystemSettings setSiteName()                Sets the current record's "site_name" value
+ * @method SystemSettings setSiteDomain()              Sets the current record's "site_domain" value
+ * @method SystemSettings setGamesAnnounceInterval()   Sets the current record's "games_announce_interval" value
+ * @method SystemSettings setFastUserRegister()        Sets the current record's "fast_user_register" value
+ * @method SystemSettings setFastTeamCreate()          Sets the current record's "fast_team_create" value
+ * @method SystemSettings setEmailTeamCreate()         Sets the current record's "email_team_create" value
+ * @method SystemSettings setEmailGameCreate()         Sets the current record's "email_game_create" value
+ * @method SystemSettings setNotifyEmailAddr()         Sets the current record's "notify_email_addr" value
+ * @method SystemSettings setContactEmailAddr()        Sets the current record's "contact_email_addr" value
+ * @method SystemSettings setSmtpHost()                Sets the current record's "smtp_host" value
+ * @method SystemSettings setSmtpPort()                Sets the current record's "smtp_port" value
+ * @method SystemSettings setSmtpSecurity()            Sets the current record's "smtp_security" value
+ * @method SystemSettings setSmtpLogin()               Sets the current record's "smtp_login" value
+ * @method SystemSettings setSmtpPassword()            Sets the current record's "smtp_password" value
  * 
  * @package    sf
  * @subpackage model
@@ -66,7 +69,7 @@ abstract class BaseSystemSettings extends sfDoctrineRecord
         $this->hasColumn('site_name', 'string', 255, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => 'Beaver\'s Engine v0.13.0b',
+             'default' => 'Beaver\'s Engine v0.14.0b',
              'length' => 255,
              ));
         $this->hasColumn('site_domain', 'string', 255, array(
@@ -74,6 +77,11 @@ abstract class BaseSystemSettings extends sfDoctrineRecord
              'notnull' => true,
              'default' => 'localhost',
              'length' => 255,
+             ));
+        $this->hasColumn('games_announce_interval', 'integer', null, array(
+             'type' => 'integer',
+             'notnull' => true,
+             'default' => 31,
              ));
         $this->hasColumn('fast_user_register', 'boolean', null, array(
              'type' => 'boolean',

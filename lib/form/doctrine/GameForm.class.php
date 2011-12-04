@@ -43,6 +43,8 @@ class GameForm extends BaseGameForm
         'name' => 'Название:',
         'team_id' => 'Организаторы:',
         'description' => 'Описание:',
+        'short_info' => 'Анонс:',
+        'short_info_enabled' => 'Публиковать анонс:',
         'region_id' => 'Регион:',
         //Регламент
         'start_briefing_datetime' => 'Брифинг:',
@@ -67,6 +69,8 @@ class GameForm extends BaseGameForm
         'name' => '',
         'team_id' => 'Команда организаторов.|<span class="warn">Если Вы измените это поле, то можете потерять возможность редактирования игры!</span>',
         'description' => 'Разрешен BBCode.',
+        'short_info' => 'Разрешен BBCode.|Краткий анонс игры, для публикации в общем списке.',
+        'short_info_enabled' => 'Анонс будет опубликован в списке только если дано это разрешение.',
         'region_id' => 'Регион проведения игры.|<span class="info">Не препятствует участию команд из других регионов.</span>',
         //Регламент
         'start_briefing_datetime' => 'ГГГГ-ММ-ДД ЧЧ:ММ:СС.',
