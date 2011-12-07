@@ -14,7 +14,11 @@
     <h1>
       503... Service Unavailable
     </h1>
-    <h3>- Ну и запросы у вас! - сказала база данных и повесилась.</h3>
+    <h3>
+      Однажды в студеную зимнюю пору<br />
+      Зашел я на сервер. Был сильный DDoS.<br />
+      <span style="font-style:italic;font-size:70%">&copy;&nbsp;<a href="http://bash.org.ru/quote/414535">bash.org.ru</a></span>
+    </h3>
     <p>
       Вы отправляете запросы слишком часто!
     </p>

@@ -5,8 +5,7 @@ class homeActions extends MyActions
 
   public function executeIndex(sfWebRequest $request)
   {
-    $this->_page = $request->getParameter('page', 0);
-    $this->_expandPostId = $request->getParameter('expandPostId', 0);
+    $this->_userAuthenticated = $this->session->isAuthenticated();
     $announce_interval = SystemSettings::getInstance()->games_announce_interval;
     $this->_currentRegion = Region::byIdSafe($this->session->getAttribute('region_id'));
     if ($this->session->isAuthenticated())

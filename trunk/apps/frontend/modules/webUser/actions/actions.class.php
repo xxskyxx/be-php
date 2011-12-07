@@ -72,7 +72,7 @@ class webUserActions extends MyActions
       if ($object->id == $this->sessionWebUser->id)
       {
         $this->session->setAttribute('region_id', $object->region_id);
-        $this->session->setFlash('warning', 'Текущий регион изменен на '.$object->getRegionSafe()->name);
+        $this->session->setFlash('warning', 'Назначен текущий регион: '.$object->getRegionSafe()->name);
       }
       $this->successRedirect('Анкета '.$object->login.' успешно сохранена.', 'webUser/show?id='.$object->id);
     }
