@@ -6,7 +6,7 @@
 class antiDosFilter extends sfFilter
 {
   const INTEGRATION_INTERVAL = 5; //Интервал подсчета запросов, сек
-  const REQUESTS_TRESHOLD = 20; //Максимально допустимое число запросов за интервал
+  const REQUESTS_TRESHOLD = 15; //Максимально допустимое число запросов за интервал
   const BLOCK_INTERVAL = 30; //Интервал, на который блокируется доступ при превышении числа, сек
 
   public function execute($filterChain)

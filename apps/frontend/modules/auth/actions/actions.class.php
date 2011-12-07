@@ -38,6 +38,7 @@ class authActions extends MyActions
               $this->session->setAttribute('id', $webUser->getId());
               $this->session->setAttribute('region_id', $webUser->getRegionSafe()->id);
               $this->session->setAuthenticated(true);
+              $this->session->setFlash('warning', 'Вы сейчас находитесь в этом регионе: '.$webUser->getRegionSafe()->name);
               $this->successRedirect('Вход выполнен. Добро пожаловать!');
             }
             else
