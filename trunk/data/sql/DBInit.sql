@@ -18,6 +18,7 @@ INSERT INTO permissions (id, description) VALUES (10, 'просматриват�
 INSERT INTO permissions (id, description) VALUES (11, 'участвовать в проведении игры');
 INSERT INTO permissions (id, description) VALUES (12, 'руководить игрой');
 INSERT INTO permissions (id, description) VALUES (13, 'управлять игрой');
-INSERT INTO permissions (id, description) VALUES (14, 'модерировать блог');
+INSERT INTO permissions (id, description) VALUES (14, 'писать любое количество статей');
+INSERT INTO permissions (id, description) VALUES (15, 'модерировать статью');
 
 INSERT INTO granted_permissions(web_user_id, permission_id) VALUES (1, 1);

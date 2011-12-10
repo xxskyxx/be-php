@@ -33,8 +33,9 @@ class Permission extends BasePermission implements IStored
   const GAME_ACTOR = '11';
   const GAME_AUTHOR = '12';
   const GAME_MODER = '13';
-  //Блоги
-  const BLOG_MODER = '14';
+  //Статьи
+  const ARTICLE_MANIAC = '14';
+  const ARTICLE_MODER = '15';
 
   //// IStored ////
 

@@ -72,8 +72,36 @@ class moderationActions extends myActions
       }
       else
       {
-        //Пользователь не модерирует ни одну команду, нужна заглушка пустой коллекцией.
+        //Пользователь не модерирует ни одну игру, нужна заглушка пустой коллекцией.
         $this->_gamesUnderModeration = new Doctrine_Collection('Game');
+      }
+    }
+
+    $this->_isFullArticleModer = $this->sessionWebUser->can(Permission::ARTICLE_MODER, 0);
+    if ( ! $this->_isFullArticleModer)
+    {
+      $articleModerationPermissions = Doctrine::getTable('GrantedPermission')
+          ->createQuery('gp')->select('gp.filter_id')
+          ->where('web_user_id = ?', $this->sessionWebUser->id)
+          ->andWhere('permission_id = ?', Permission::ARTICLE_MODER)
+          ->andWhere('deny <= 0')
+          ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+      $articleModerationIds = array();
+      foreach ($articleModerationPermissions as $value)
+      {
+        array_push($articleModerationIds, $value['filter_id']);
+      }
+      if (count($articleModerationIds) > 0)
+      {
+        $this->_teamsUnderModeration = Doctrine::getTable('Article')
+            ->createQuery('a')->select()
+            ->whereIn('a.id', $articleModerationIds)
+            ->execute();
+      }
+      else
+      {
+        //Пользователь не модерирует ни одну статью, нужна заглушка пустой коллекцией.
+        $this->_articlesUnderModeration = new Doctrine_Collection('Team');
       }
     }
 
@@ -81,7 +109,9 @@ class moderationActions extends myActions
         || $this->_isFullTeamModer
         || ($this->_teamsUnderModeration->count() > 0)
         || $this->_isFullGameModer
-        || ($this->_gamesUnderModeration->count() > 0);
+        || ($this->_gamesUnderModeration->count() > 0)
+        || $this->_isFullArticleModer
+        || ($this->_articlesUnderModeration->count() > 0);
 
     if ( ! $hasSomeModerRights)
     {

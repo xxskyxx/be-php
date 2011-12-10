@@ -357,10 +357,13 @@ class Utils
    */
   public static function decodeBB($text, $monospaced = false)
   {
+    //TODO: Переделать так, чтобы можно было использовать вложенные тэги.
     $res = $text;
     //Принудительные пробелы
     $res = preg_replace('/\[_\]/', '&nbsp;', $res);
-    $res = preg_replace('/\[tab\]/', '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $res);
+    $res = preg_replace('/\[tab\]/', '<div style="display:inline-block;width:4ex"></div>', $res);
+    //Черта
+    $res = preg_replace('/\[hr\]/', '<div class="hr"></div>', $res);
     //Формат текста
     $res = preg_replace('/\[b\]([^\]]+)\[\/b\]/', '<span style="font-weight:bold">$1</span>', $res);
     $res = preg_replace('/\[i\]([^\]]+)\[\/i\]/', '<span style="font-style:italic">$1</span>', $res);
@@ -370,7 +373,9 @@ class Utils
     $res = preg_replace('/\[color=(#[0-9a-fA-F]{6}|[a-z-]+)]([^\]]+)\[\/color\]/', '<span style="color:$1">$2</span>', $res);
     $res = preg_replace('/\[back=(#[0-9a-fA-F]{6}|[a-z-]+)]([^\]]+)\[\/back\]/', '<span style="background-color:$1">$2</span>', $res);
     //Формат текста предопределенный
-    $res = preg_replace('/\[rem\]([^\]]+)\[\/rem\]/', '<span class="info">$1</span>', $res);
+    $res = preg_replace('/\[h1\]([^\]]+)\[\/h1\]/', '<h3 style="border:none">$1</h3>', $res);
+    $res = preg_replace('/\[h2\]([^\]]+)\[\/h2\]/', '<h4>$1</h4>', $res);
+    $res = preg_replace('/\[h3\]([^\]]+)\[\/h3\]/', '<h5>$1</h5>', $res);
     $res = preg_replace('/\[info\]([^\]]+)\[\/info\]/', '<span class="info">$1</span>', $res);
     $res = preg_replace('/\[warn\]([^\]]+)\[\/warn\]/', '<span class="warn">$1</span>', $res);
     $res = preg_replace('/\[danger\]([^\]]+)\[\/danger\]/', '<span class="danger">$1</span>', $res);
@@ -380,10 +385,13 @@ class Utils
     //Картинки
     $res = preg_replace('/\[img\]([^\]]+)\[\/img\]/', '<img src="$1" alt="$1" />', $res);
     $res = preg_replace('/\[img=([^\]]+)]/', '<img src="$1" alt="$1" />', $res);
+    //Cсылки на статьи по названию
+    $res = preg_replace('/\[\[([^\]]+)\]\]/', '<a href="/article/by/name/$1">$1</a>', $res);
+    
     //Оформление переносов строк
     $res = preg_replace('/\n\r|\r\n/', '</div><div>', $res);
     //Оформление пустых строк
-    $res = preg_replace('/<div><\/div>/', '<div style="margin-top: 0.5em"></div>', $res);
+    $res = preg_replace('/<div><\/div>/', '<div style="height:0.75em"></div>', $res);
     //Усё...
     return $monospaced
         ? '<div style="font-family:monospace">'.$res.'</div>'
@@ -464,7 +472,6 @@ class Utils
     }
     return $isSent;
   }
-  
 }
 
 ?>

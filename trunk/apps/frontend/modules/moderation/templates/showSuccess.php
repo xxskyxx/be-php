@@ -95,4 +95,19 @@ if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
 </ul>
 <?php   endif ?>
 
+<?php   if ($_isFullArticleModer): ?>
+<h3>Статьи</h3>
+<p>
+  Вы можете редактировать <?php echo link_to('любую статью', 'article/index', array('target' => 'new'))?>.
+</p>
+<?php   endif ?>
+<?php   if (( ! $_isFullArticleModer) && ($_articlesUnderModeration->count() > 0)): ?>
+<h3>Игры</h3>
+<ul>
+  <?php   foreach ($_articlesUnderModeration as $article): ?>
+  <li><?php echo link_to($game->name, 'article/show?id='.$article->id) ?></li>
+  <?php   endforeach ?>
+</ul>
+<?php   endif ?>
+
 <?php endif; ?>

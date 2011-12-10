@@ -1,6 +1,52 @@
 <?php
 
 /**
+ * Возвращает ссылку, по которой можно перейти к указанной статье.
+ *
+ * @param   Article   $article  Статья
+ * 
+ * @return  string;
+ */
+function link_to_article(Article $article)
+{
+  return link_to($article->name, 'article/show?id='.$article->id);
+}
+
+/**
+ * Оформляет ссылку на статью, заданную именем.
+ *
+ * @param   string   $articleName  Статья
+ * 
+ * @return  string;
+ */
+function link_to_article_name($articleName)
+{
+  return link_to($articleName, 'article/by?name='.$articleName);
+}
+
+/**
+ * Возвращает мыссив ссылок на статьи, согласно пути указанной статьи.
+ * 
+ * @param   Article   $article  Статья
+ * 
+ * @return  array<string>   Список ссылок (HTML-код) или False, если путь не указан.
+ */
+function get_path_to_article(Article $article)
+{
+  if ($article->path === "" || $article->path === null)
+  {
+    return false;
+  }
+  $pathNames = explode('\\', $article->path);
+  $result = array();
+  foreach ($pathNames as $pathName)
+  {
+    array_push($result, link_to_article_name($pathName));
+  }
+  return $result;
+}
+
+/**
  * Рассчитывает ширину блока (в ex) для размещения текста указанной длины.
  *
  * @param   mixed   $value  (Число) - длина строки, (Строка) - как есть.

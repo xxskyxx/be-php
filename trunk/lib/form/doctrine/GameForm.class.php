@@ -68,8 +68,8 @@ class GameForm extends BaseGameForm
         //Общее
         'name' => '',
         'team_id' => 'Команда организаторов.|<span class="warn">Если Вы измените это поле, то можете потерять возможность редактирования игры!</span>',
-        'description' => 'Разрешен BBCode.',
-        'short_info' => 'Разрешен BBCode.|Краткий анонс игры, для публикации в общем списке.',
+        'description' => Article::BBCODE_HELP_LINK,
+        'short_info' => Article::BBCODE_HELP_LINK.'|Краткий анонс игры, для публикации в общем списке.',
         'short_info_enabled' => 'Анонс будет опубликован в списке только если дано это разрешение.',
         'region_id' => 'Регион проведения игры.|<span class="info">Не препятствует участию команд из других регионов.</span>',
         //Регламент
