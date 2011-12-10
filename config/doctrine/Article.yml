@@ -1,0 +1,26 @@
+# Статья
+Article:
+  tableName: articles
+  columns:
+    id: { type: integer, primary: true, notnull: true, autoincrement: true }
+    # Путь до статьи
+    path: { type: string(1024) }
+    # Название
+    name: { type: string(256), notnull: true }
+    # Собственно текст статьи
+    text: { type: clob, notnull: true }
+    # Автор статьи
+    web_user_id: { type: integer }
+    # Дата создания, Unix время
+    created_at: { type: integer, notnull: true }
+  relations:
+    WebUser:
+      foreignAlias: articles
+      onDelete: SET NULL
+  indexes:
+    # Ответы не могут повторяться в рамках задания
+    ui_id_name:
+      type: unique
+      fields:
+        - id
+        - name(128)

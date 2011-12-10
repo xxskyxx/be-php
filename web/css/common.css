@@ -32,7 +32,7 @@ h1 { color: White;         font-size: 150%; padding-left: 20% }
 h2 { color: AliceBlue;     font-size: 130%; padding-left: 15% }
 h3 { color: PaleTurquoise; font-size: 115%; padding-left: 10%; border-top: Solid 1px DodgerBlue }
 h4 { color: Turquoise;     font-size: 105%; padding-left: 5% }
-h5 { color: DarkTurquoise }
+h5 { color: DarkTurquoise;                  padding-left: 3% }
 
 ul, ol { padding: 0 0 0 0; margin: 0 0 0 0 }
 ul { padding-left: 2ex }

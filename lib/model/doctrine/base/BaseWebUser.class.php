@@ -14,6 +14,7 @@
  * @property string $tag
  * @property boolean $is_enabled
  * @property Region $Region
+ * @property Doctrine_Collection $articles
  * @property Doctrine_Collection $grantedPermissions
  * @property Doctrine_Collection $postedAnswers
  * @property Doctrine_Collection $TeamCandidate
@@ -29,6 +30,7 @@
  * @method string              getTag()                Returns the current record's "tag" value
  * @method boolean             getIsEnabled()          Returns the current record's "is_enabled" value
  * @method Region              getRegion()             Returns the current record's "Region" value
+ * @method Doctrine_Collection getArticles()           Returns the current record's "articles" collection
  * @method Doctrine_Collection getGrantedPermissions() Returns the current record's "grantedPermissions" collection
  * @method Doctrine_Collection getPostedAnswers()      Returns the current record's "postedAnswers" collection
  * @method Doctrine_Collection getTeamCandidate()      Returns the current record's "TeamCandidate" collection
@@ -43,6 +45,7 @@
  * @method WebUser             setTag()                Sets the current record's "tag" value
  * @method WebUser             setIsEnabled()          Sets the current record's "is_enabled" value
  * @method WebUser             setRegion()             Sets the current record's "Region" value
+ * @method WebUser             setArticles()           Sets the current record's "articles" collection
  * @method WebUser             setGrantedPermissions() Sets the current record's "grantedPermissions" collection
  * @method WebUser             setPostedAnswers()      Sets the current record's "postedAnswers" collection
  * @method WebUser             setTeamCandidate()      Sets the current record's "TeamCandidate" collection
@@ -104,6 +107,10 @@ abstract class BaseWebUser extends sfDoctrineRecord
              'local' => 'region_id',
              'foreign' => 'id',
              'onDelete' => 'SET NULL'));
+
+        $this->hasMany('Article as articles', array(
+             'local' => 'id',
+             'foreign' => 'web_user_id'));
 
         $this->hasMany('GrantedPermission as grantedPermissions', array(
              'local' => 'id',
