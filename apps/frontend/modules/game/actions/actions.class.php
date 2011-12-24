@@ -251,6 +251,23 @@ class gameActions extends MyActions
     }
     else
     {
+      if ($this->game->team_id > 0)
+      {
+        Utils::sendNotifyGroup(
+            'Заявка '.$this->team->name.' на игру '.$this->game->name,
+            'Команда "'.$this->team->name.'" подала заявку на вашу игру "'.$this->game->name.'".'."\n"
+            .'Утвердить или отклонить: http://'.SystemSettings::getInstance()->site_domain.'/game/show?id='.$this->game->id.'&tab=teams',
+            $this->game->Team->getLeadersRaw()
+        );
+      }
+      else
+      {
+        Utils::sendNotifyAdmin(
+            'Заявка '.$this->team->name.' на игру '.$this->game->name,
+            'Команда "'.$this->team->name.'" подала заявку на игру "'.$this->game->name.'", которой не назначена команда-организатор.'."\n"
+            .'Утвердить или отклонить: http://'.SystemSettings::getInstance()->site_domain.'/game/show?id='.$this->game->id.'&tab=teams'
+        );
+      }
       $this->successRedirect('Заявка команды '.$this->team->name.' на игру '.$this->game->name.' принята.');
     }
   }
@@ -264,6 +281,12 @@ class gameActions extends MyActions
     }
     else
     {
+      Utils::sendNotifyGroup(
+          'Отклонена регистрация '.$this->team->name.' на игру '.$this->game->name,
+          'Заявка вашей команды "'.$this->team->name.'" на участие в игре "'.$this->game->name.'" отклонена.',
+          $this->team->getLeadersRaw()
+      );
+      
       $this->successRedirect('Отменена заявка команды '.$this->team->name.' на игру '.$this->game->name.'.');
     }
   }
@@ -277,6 +300,13 @@ class gameActions extends MyActions
     }
     else
     {
+      Utils::sendNotifyGroup(
+          'Регистрация '.$this->team->name.' на игру '.$this->game->name,
+          'Ваша команда "'.$this->team->name.'" принята к участию в игре "'.$this->game->name.'"'."\n"
+          .'Афиша игры: http://'.SystemSettings::getInstance()->site_domain.'/game/info?id='.$this->game->id,
+          $this->team->getLeadersRaw()
+      );      
+    
       $this->successRedirect('Команда '.$this->team->name.' зарегистрирована на игру '.$this->game->name.'.');
     }
   }
@@ -290,6 +320,12 @@ class gameActions extends MyActions
     }
     else
     {
+      Utils::sendNotifyGroup(
+          'Команда '.$this->team->name.' снята с игры '.$this->game->name,
+          'Ваша команда "'.$this->team->name.'" снята с игры "'.$this->game->name.'".',
+          $this->team->getLeadersRaw()
+      );
+      
       $this->successRedirect('Команда '.$this->team->name.' снята с игры '.$this->game->name.'.');
     }
   }

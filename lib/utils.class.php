@@ -472,6 +472,94 @@ class Utils
     }
     return $isSent;
   }
+  
+  /**
+   * Отправляет уведомление стандартного вида на один адрес.
+   * 
+   * @param   string    $topic    тема письма
+   * @param   string    $body     сообщение
+   * @param   string    $addrTo   адресат
+   * @return  boolean             Удачна ли была отправка
+   */
+  public static function sendNotify($topic, $body, $addrTo)
+  {
+    if (    !is_string($topic)
+         || !is_string($body)
+         || !is_string($addrTo) )
+    {
+      return false;
+    }
+    $settings = SystemSettings::getInstance();
+    $bodyAll =
+        "Здравствуйте!\n\n"
+        .$body."\n\n"
+        ."Вы получили это письмо, так как зарегистрированы на сайте \"".$settings->site_name."\".\n"
+        ."Если Вы не регистрировались на указанном сайте, просто проигнорируйте это письмо.\n"
+        ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
+        ."Для связи с администрацией сайта используйте адрес: ".$settings->contact_email_addr;
+    $message = Swift_Message::newInstance($topic.' ('.$settings->site_name.')')
+        ->setFrom(array($settings->notify_email_addr => $settings->site_name))
+        ->setTo($addrTo)
+        ->setBody($bodyAll);
+    return Utils::sendEmailSafe($message, Utils::getReadyMailer());
+  }
+ 
+  /**
+   * Отправляет уведомление стандартного вида пользователю.
+   * Если у пользователя нет e-mail-адреса в анкете - вернет false.
+   * 
+   * @param   string    $topic    тема письма
+   * @param   string    $body     сообщение
+   * @param   WebUser   $webUser  адресат
+   * @return  boolean             Удачна ли была отправка
+   */
+  public static function sendNotifyUser($topic, $body, WebUser $webUser)
+  {
+    if ($webUser->email !== "")
+    {
+      return Utils::sendNotify($topic, $body, $webUser->email);
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
+  /**
+   * Отправляет уведомление стандартного вида группе.
+   * Вернет true если хотя бы одна отправка удачна.
+   * 
+   * @param   string                        $topic  тема письма
+   * @param   string                        $body   сообщение
+   * @param   Doctrine_Collection<WebUser>  $group  адресаты
+   */ 
+  public static function sendNotifyGroup($topic, $body, Doctrine_Collection $group)
+  {
+    $res = false;
+    foreach ($group as $webUser)
+    {
+      if ($webUser instanceof WebUser)
+      {
+        //В одну строку следующие две не собирать,
+        //иначе отправится только одному адресату.
+        $try = Utils::sendNotifyUser($topic, $body, $webUser);
+        $res = $try || $res;
+      }
+    }
+    return $res;
+  }
+  
+  /**
+   * Отправляет уведомление стандартного вида администратору.
+   * 
+   * @param   string    $topic  тема письма
+   * @param   string    $body   сообщение
+   * @return  boolean           Удачна ли была отправка
+   */
+  public static function sendNotifyAdmin($topic, $body)
+  {
+    $settings = SystemSettings::getInstance();
+    Utils::sendNotify($topic, $body, $settings->contact_email_addr);
+  }
 }
-
 ?>
