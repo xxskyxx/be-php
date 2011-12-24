@@ -131,20 +131,13 @@ class authActions extends MyActions
         {
           //Пользователь указал координаты, надо ему отправить письмо.
           $settings = SystemSettings::getInstance();
-          $message = Swift_Message::newInstance('Регистрация на '.$settings->site_name)
-              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
-              ->setTo($webUser->email)
-              ->setBody(
-                   "Здравствуйте!\n\n"
-                  ."Вы получили это письмо, так как зарегистрировались на сайте ".$settings->site_name.".\n"
-                  ."Если Вы не регистрировались на указанном сайте, просто проигнорируйте это письмо.\n\n"
-                  ."Для активации Вашей учетной записи перейдите по указанной ссылке:\n"
-                  ."http://".$settings->site_domain."/auth/activate?login=".$webUser->login."&key=".$webUser->tag."\n\n"
-                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
-                  ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
-              );
-          
-          if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
+          $notifyResult = Utils::sendNotifyUser(
+              'Регистрация',
+              'Для активации Вашей учетной записи перейдите по ссылке:'."\n"
+              .'http://'.$settings->site_domain.'/auth/activate?login='.$webUser->login.'&key='.$webUser->tag,
+              $webUser
+          );
+          if ($notifyResult)
           {
             $this->afterRegistration($webUser);
           }
@@ -301,7 +294,15 @@ class authActions extends MyActions
     
     if (strcmp($key, $teamCreateRequest->tag) == 0)
     {
+      $webUser = $teamCreateRequest->WebUser;
       $team = TeamCreateRequest::doCreate($teamCreateRequest);
+      Utils::sendNotify(
+          'Команда создана - '.$team->name,
+          'Ваша заявка на создание команды "'.$team->name.'" утверждена, команда создана.'."\n"
+          .'Страница команды: http://'.SystemSettings::getInstance()->site_domain.'/team/show?id='.$team->id,
+          $webUser->email
+      );
+
       $this->successRedirect(
           'Команда '.$team->name.' успешно создана.',
           $retUrl
@@ -342,9 +343,17 @@ class authActions extends MyActions
     
     if (strcmp($key, $gameCreateRequest->tag) == 0)
     {
-      $team = GameCreateRequest::doCreate($gameCreateRequest);
+      $team = $gameCreateRequest->Team;
+      $game = GameCreateRequest::doCreate($gameCreateRequest);
+      Utils::sendNotifyGroup(
+          'Игра создана - '.$game->name,
+          'Заявка вашей команды "'.$team->name.'" на создание игры "'.$game->name.'" утверждена, игра создана.'."\n"
+          .'Страница игры: http://'.$settings->site_domain.'/game/show?id='.$game->id,
+          $team->getLeadersRaw()
+      );
+      
       $this->successRedirect(
-          'Игра '.$team->name.' успешно создана.',
+          'Игра '.$game->name.' успешно создана.',
           $retUrl
       );    
     }
@@ -362,18 +371,10 @@ class authActions extends MyActions
   {
     $webUser->save();
     $settings = SystemSettings::getInstance();
-    $notify = Swift_Message::newInstance('Уведомление о новом пользователе на '.$settings->site_name)
-              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
-              ->setTo($settings->contact_email_addr)
-              ->setBody(
-                   "Здравствуйте!\n\n"
-                  ."Вы получили это письмо, так как являетесь администратором сайта ".$settings->site_name.".\n"
-                  ."Если Вы слышите об этом впервые, просто проигнорируйте это письмо.\n\n"
-                  ."На сайте зарегистрировался новый пользователь: ".$webUser->login.(($webUser->full_name !== '') ? ' ('.$webUser->full_name.')' : '')."\n"
-                  ."Его анкета: http://".$settings->site_domain."/webUser/show/?id=".$webUser->id."\n\n"
-                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
-              );
-    Utils::sendEmailSafe($notify, Utils::getReadyMailer());
+    Utils::sendNotifyAdmin(
+        'Новый пользователь - '.$webUser->login,
+        'Зарегистрировался новый пользователь: '.$webUser->login."\n"        
+        .'Его анкета: http://'.$settings->site_domain.'/webUser/show/?id='.$webUser->id);
     $this->successRedirect('Вы успешно зарегистрированы. Активируйте учетную запись.', 'auth/activateManual');
   }
   

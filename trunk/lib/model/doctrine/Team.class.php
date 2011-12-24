@@ -199,9 +199,24 @@ class Team extends BaseTeam implements IStored, IAuth, IRegion
   }
   
   /**
-   * Возвращает список рядовых игроков. Если есть только капитаны также вернет false.
+   * Возвращает список капитанов в виде списка WebUser.
    *
-   * @return  Doctrine_Collection   Или false, если радовых нет.
+   * @return  Doctrine_Collection<WebUser>
+   */
+  public function getLeadersRaw()
+  {
+    $result = new Doctrine_Collection('WebUser');
+    foreach ($this->getLeaders() as $teamPlayer)
+    {
+      $result->add($teamPlayer->WebUser);
+    }
+    return $result;
+  }
+
+  /**
+   * Возвращает список рядовых игроков. Если есть только капитаны вернет false.
+   *
+   * @return  Doctrine_Collection   Или false, если рядовых нет.
    */
   public function getPlayersStrict()
   {

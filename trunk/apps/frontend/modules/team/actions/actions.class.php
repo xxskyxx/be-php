@@ -159,6 +159,14 @@ class teamActions extends MyActions
     {
       $this->errorRedirect('Зарегистрировать заявку в состав команды '.$this->team->name.' не удалось: '.$res);
     }
+    
+    Utils::sendNotifyGroup(
+        'Заявка в '.$this->team->name.' от '.$this->candidate->login,
+        'В состав вашей команды "'.$this->team->name.'" попросился '.$this->candidate->login.".\n"
+        .'Принять или отклонить: http://'.SystemSettings::getInstance()->site_domain.'/team/show?id='.$this->team->id,
+        $this->team->getLeadersRaw()
+    );
+    
     $this->successRedirect($this->candidate->login.' подал заявку в состав команды '.$this->team->name.'.');
   }
 
@@ -170,6 +178,13 @@ class teamActions extends MyActions
     {
       $this->errorRedirect('Отменить заявку в состав команды '.$this->team->name.' не удалось: '.$res);
     }
+
+    Utils::sendNotifyUser(
+        'Отклонена заявка в команду '.$this->team->name,
+        'Ваша заявка в состав команды '.$this->team->name.' отклонена.',
+        $this->candidate
+    );
+    
     $this->successRedirect('Заявка от '.$this->candidate->login.' в состав команды '.$this->team->name.' отменена.');
   }
 
@@ -182,13 +197,24 @@ class teamActions extends MyActions
     
     if (is_string($res = $this->team->registerPlayer($this->candidate, ($this->team->teamPlayers->count() == 0), $this->sessionWebUser)))
     {
-      $this->errorRedirect('Назначить '.$this->candidate->login.' рядовым игроком команды '.$this->team->name.' не удалось: '.$res);
+      $this->errorRedirect('Назначить '.$this->candidate->login.' игроком команды '.$this->team->name.' не удалось: '.$res);
     }
+    
+    Utils::sendNotifyUser(
+        ($willBeLeader
+        ? ('Вы капитан '.$this->team->name)
+        : ('Вы рядовой в '.$this->team->name)),
+        ($willBeLeader
+        ? ('Вы назначены капитаном команды "'.$this->team->name."\".\n")
+        : ('Вы приняты рядовым в команду "'.$this->team->name."\".\n"))
+        .'Страница команды: http://'.SystemSettings::getInstance()->site_domain.'/team/show?id='.$this->team->id,
+        $this->candidate
+    );
     
     $this->successRedirect(
         $willBeLeader
             ? $this->candidate->login.' назначен капитаном команды '.$this->team->name.'.'
-            : $this->candidate->login.' назначен рядовым в команде '.$this->team->name.'.'
+            : $this->candidate->login.' принят рядовым в команду '.$this->team->name.'.'
     );
   }
 
@@ -199,6 +225,14 @@ class teamActions extends MyActions
     {
       $this->errorRedirect('Назначить '.$this->candidate->login.' капитаном команды '.$this->team->name.' не удалось: '.$res);
     }
+
+    Utils::sendNotifyUser(
+        'Вы в команде '.$this->team->name,
+        'Вы назначены капитаном команды "'.$this->team->name."\"\n"
+        .'Страница команды: http://'.SystemSettings::getInstance()->site_domain.'/team/show?id='.$this->team->id,
+        $this->candidate
+    );
+    
     $this->successRedirect($this->candidate->login.' назначен капитаном команды '.$this->team->name.'.');
   }
 
@@ -209,6 +243,13 @@ class teamActions extends MyActions
     {
       $this->errorRedirect('Исключить '.$this->candidate->login.' из состава команды '.$this->team->name.' не удалось: '.$res);
     }
+
+    Utils::sendNotifyUser(
+        'Исключение из команды '.$this->team->name,
+        'Вы исключены из состава команды '.$this->team->name,
+        $this->candidate
+    );
+ 
     $this->successRedirect($this->candidate->login.' исключен из состава команды '.$this->team->name.'.');
   }
 
@@ -224,7 +265,7 @@ class teamActions extends MyActions
     {
       if ((!$team->isPlayer($webUser)) && (!$team->isCandidate($webUser)))
       {
-        $this->webUsers->add($webUser);
+        $this->webUsers->add($webUser);        
       }
     }
     $this->team = $team;

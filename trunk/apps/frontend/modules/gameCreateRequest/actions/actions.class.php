@@ -47,7 +47,15 @@ class gameCreateRequestActions extends MyActions
         'Отменить заявку на создание игры может только капитан команды организаторов или модератор игр.'
     );
     
+    $team = $gameCreateRequest->Team;
+    $gameName = $gameCreateRequest->name;
     $gameCreateRequest->delete();
+    Utils::sendNotifyGroup(
+        'Заявка отклонена - '.$gameName,
+        'Заявка вашей команды "'.$team->name.'" на создание игры "'.$gameName.'" отклонена.',
+        $team->getLeadersRaw()
+    );    
+    
     $this->successRedirect('Заявка на создание игры успешно отменена.', 'game/index');
   }
   
@@ -66,21 +74,16 @@ class gameCreateRequestActions extends MyActions
         $settings = SystemSettings::getInstance();
         if ($settings->email_game_create)
         {
-          $message = Swift_Message::newInstance('Создание игры '.$object->name.' ('.$settings->site_name.')')
-              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
-              ->setTo($this->sessionWebUser->email)
-              ->setBody(
-                   "Здравствуйте!\n\n"
-                  ."Вы получили это письмо, так как запросили создание игры \"".$object->name."\" на сайте ".$settings->site_name.".\n"
-                  ."Если Вы не создавали игру, просто проигнорируйте это письмо.\n\n"
-                  ."Для подтверждения создания игры перейдите по указанной ссылке:\n"
-                  ."http://".$settings->site_domain."/auth/createGame?id=".$object->id."&key=".$object->tag."\n\n"
-                  ."Отменить заявку можно на странице игр:\nhttp://".$settings->site_domain."/game/index\n\n"
-                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом.\n"
-                  ."Для связи с администрацией сайта используйте адрес ".$settings->contact_email_addr
-          );          
+          $notifyResult = Utils::sendNotifyGroup(
+              'Создание игры '.$object->name,
+              'Ваша команда "'.$object->Team->name.'" запросила создание игры "'.$object->name.'"'."\n"
+              .'Для подтверждения создания игры перейдите по ссылке:'."\n"
+              .'http://'.$settings->site_domain.'/auth/createGame?id='.$object->id.'&key='.$object->tag."\n"
+              .'Отменить заявку можно здесь: http://'.$settings->site_domain.'/game/index',
+              $object->Team->getLeadersRaw()
+          );
           
-          if (Utils::sendEmailSafe($message, Utils::getReadyMailer()))
+          if ($notifyResult)
           {
             $this->newGameCreateRequestNotify($object);
             $this->successRedirect('Заявка на создание игры '.$object->name.' принята. Вам отправлено письмо для ее подтверждения.', 'game/index');
@@ -138,35 +141,28 @@ class gameCreateRequestActions extends MyActions
         'team/index'
     );
     
-/*    $game = new Game;
-    $game->name = $gameCreateRequest->name;
-    $game->team_id = $gameCreateRequest->team_id;
-    $game->save(); //Требуется, так как иначе не удастся включить капитана.
-    $gameCreateRequest->delete();*/
-    
+    $team = $gameCreateRequest->Team;
     $game = GameCreateRequest::doCreate($gameCreateRequest);
+    Utils::sendNotifyGroup(
+        'Игра создана - '.$game->name,
+        'Заявка вашей команды "'.$team->name.'" на создание игры "'.$game->name.'" утверждена, игра создана.'."\n"
+        .'Страница игры: http://'.SystemSettings::getInstance()->site_domain.'/game/show?id='.$game->id.'&tab=props',
+        $team->getLeadersRaw()
+    );
     
     $this->successRedirect('Игра '.$game->name.' успешно создана.', 'game/index');
   }
 
   protected function newGameCreateRequestNotify(GameCreateRequest $gameCreateRequest)
   {
-    $settings = SystemSettings::getInstance();
-    $message = Swift_Message::newInstance('Уведомление о новой игре на '.$settings->site_name)
-              ->setFrom(array($settings->notify_email_addr => $settings->site_name))
-              ->setTo($settings->contact_email_addr)
-              ->setBody(
-                   "Здравствуйте!\n\n"
-                  ."Вы получили это письмо, так как являетесь администратором сайта ".$settings->site_name.".\n"
-                  ."Если Вы слышите об этом впервые, просто проигнорируйте это письмо.\n\n"
-                  ."На сайте подана заявка на создание игры:\n"
-                  ."- название: ".$gameCreateRequest->name."\n"
-                  ."- команда-организатор: ".$gameCreateRequest->Team->name."\n"
-                  ."- сообщение: ".$gameCreateRequest->description."\n\n"
-                  ."Утвердить или отклонить заявку можно здесь: http://".$settings->site_domain."/game/index \n\n"
-                  ."Не отвечайте на это письмо! Оно было отправлено почтовым роботом."
-              );
-    Utils::sendEmailSafe($message, Utils::getReadyMailer());
+    Utils::sendNotifyAdmin(
+        'Новая игра - '.$gameCreateRequest->name,
+        'Подана заявка на создание игры:'."\n"
+        .'- название: '.$gameCreateRequest->name."\n"
+        .'- команда-организатор: '.$gameCreateRequest->Team->name."\n"
+        .'- сообщение: '.$gameCreateRequest->description."\n"
+        .'Утвердить или отклонить: http://'.SystemSettings::getInstance()->site_domain.'/game/index'
+    );    
   }  
 }
 ?>
