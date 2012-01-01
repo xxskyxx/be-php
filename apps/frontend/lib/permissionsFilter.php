@@ -12,7 +12,8 @@ class permissionsFilter extends sfFilter
       //На эти модули у всех всегда есть право
       if ( ! (($moduleName === 'home')
               || ($moduleName === 'auth')
-              || ($moduleName === 'article')) )
+              || ($moduleName === 'article')
+              || ($moduleName === 'region')) )
       {
         $session = $this->getContext()->getUser();
         $controller = $this->getContext()->getController();

@@ -49,7 +49,7 @@ class articleActions extends MyActions
     $this->errorRedirectUnless($this->session->isAuthenticated(), 'Вы не можете править статьи, пока не войдете.');
     $article = Article::byId($request->getParameter('id'));
     $this->errorRedirectUnless($article, 'Статья не найдена.', 'article/index');
-    $this->errorRedirectUnless($article->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser, 'править статью', 'article/show?id='.$article->id));
+    $this->errorRedirectUnless($article->canBeManaged($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'править статью', 'article/show?id='.$article->id));
     $this->form = new ArticleForm($article);
   }
 

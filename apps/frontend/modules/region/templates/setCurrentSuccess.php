@@ -5,9 +5,11 @@
 <div class="hr"></div>
 
 <ul>
+  <?php if ($_selfRegionId != Region::DEFAULT_REGION): ?>
   <li>
     <span class="info"><?php echo link_to('Свой регион (из анкеты)', 'region/setCurrent?id='.$_selfRegionId.'&returl='.$_retUrlRaw, array('method' => 'post')); ?></span>
   </li>
+  <?php endif ?>
   <?php foreach($_regions as $region): ?>
   <li>
     <?php

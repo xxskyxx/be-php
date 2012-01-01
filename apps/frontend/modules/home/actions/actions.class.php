@@ -8,14 +8,15 @@ class homeActions extends MyActions
     $this->_userAuthenticated = $this->session->isAuthenticated();
     $announce_interval = SystemSettings::getInstance()->games_announce_interval;
     $this->_currentRegion = Region::byIdSafe($this->session->getAttribute('region_id'));
-    if ($this->session->isAuthenticated())
-    {
-      $this->_games = Game::getGamesForAnnounce($announce_interval, $this->_currentRegion);
-    }
-    else
-    {
-      $this->_games = Game::getGamesForAnnounce($announce_interval, Region::byId(Region::DEFAULT_REGION));
-    }
+    $this->_games = Game::getGamesForAnnounce($announce_interval, $this->_currentRegion);    
+    $localNewsName = 'Новости-'.(
+        ($this->_currentRegion->id != Region::DEFAULT_REGION)
+        ? $this->_currentRegion->name
+        : '(Общие)'
+    );
+    $this->_localNews = Article::byName($localNewsName);
+    $this->_canEditNews = $this->_userAuthenticated
+        && ($this->sessionWebUser->can(Permission::ARTICLE_MODER, $this->_currentRegion->id));            
   }
-
+  
 }
