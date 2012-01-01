@@ -3,3 +3,4 @@ all:
     title: <?php echo SystemSettings::getInstance()->site_name."\n" ?>
   has_layout: true  
   layout:     homeLayout
+  stylesheets:    [common.css, highlights.css, special.css, home.css]

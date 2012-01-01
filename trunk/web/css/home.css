@@ -1,0 +1,54 @@
+/* 
+    Document   : homr
+    Created on : 20.12.2011, 21:44:48
+    Author     : brain
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+div.columns {
+  vertical-align: top;
+}
+
+div.leftColumn {
+  vertical-align: inherit;
+  display: inline-block;
+  width: 29%;
+  height: inherit;
+  text-align: left;
+}
+
+div.centerColumn {
+  vertical-align: inherit;
+  display: inline-block;
+  width: 42%;
+  height: inherit;
+  text-align: justify;
+}
+
+div.rightColumn {
+  vertical-align: inherit;
+  display: inline-block;
+  width: 29%;
+  height: inherit;
+  text-align: right;
+}
+
+div.rightPadded {
+  margin-right: 7px;
+  border-right: Solid 1px DodgerBlue;
+  padding-right: 7px;
+}
+div.leftPadded {
+  margin-left: 7px;
+  border-left: Solid 1px DodgerBlue;
+  padding-left: 7px;
+}
+div.bothPadded {
+  padding-right: 7px;
+  padding-left: 7px;
+}
