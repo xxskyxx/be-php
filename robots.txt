@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /apps/
+Disallow: /cache/
+Disallow: /config/
+Disallow: /css/
+Disallow: /customization/
+Disallow: /data/
+Disallow: /images/
+Disallow: /js/
+Disallow: /lib/
+Disallow: /log/
+Disallow: /plugins/
+Disallow: /sf/
+Disallow: /test/
+Disallow: /uploads/
+Disallow: /Deploy.txt
+Disallow: /symfony
