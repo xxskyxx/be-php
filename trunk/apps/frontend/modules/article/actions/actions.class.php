@@ -13,6 +13,10 @@ class articleActions extends MyActions
 
   public function executeIndex(sfWebRequest $request)
   {
+    if ( ! $this->session->isAuthenticated() )
+    {
+      $this->errorRedirect('Список статей доступен только после входа.', 'auth/login');
+    }
     $this->_articles = Doctrine_Core::getTable('Article')
       ->createQuery('a')
       ->orderBy('name')
