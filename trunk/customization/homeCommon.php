@@ -10,3 +10,11 @@
   <h2>Бесплатный движок для интерактивных игр</h2>
   <h4>типа Дозор (Dozor, Dzzzr), Схватка (Encounter), Квест (Quest) и похожих</h4>
 </div>
+<div class="hr">
+  <?php
+  if ($homeArticle = Article::byName('Шаблонные-Главная'))
+  {
+    echo Utils::decodeBB($homeArticle->text);
+  }
+  ?>
+</div>

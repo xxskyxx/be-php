@@ -67,7 +67,7 @@ class authActions extends MyActions
   {
     if ($this->session->isAuthenticated())
     {
-      $this->session->errorRedirect('Регистрация невозможна. Сначала выйдите.');
+      $this->errorRedirect('Регистрация невозможна. Сначала выйдите.');
     }
 
     $this->form = new AuthRegisterForm();
