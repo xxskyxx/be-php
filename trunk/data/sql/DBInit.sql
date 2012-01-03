@@ -27,4 +27,5 @@ INSERT INTO granted_permissions(web_user_id, permission_id) VALUES (1, 1);
 
 INSERT INTO articles (id, name, path, text, web_user_id) VALUES (1, 'Разделы', '', "[_]\r\n[url=/article/index]Все статьи[/url] в алфавитном порядке\r\n\r\n[[Новости]]\r\n\r\n[[Инструкции]]\r\n[_]", 1);
 INSERT INTO articles (id, name, path, text, web_user_id) VALUES (2, 'Новости', 'Разделы', '[[Новости-(Общие)]]', 1);
-INSERT INTO articles (id, name, path, text, web_user_id) VALUES (3, 'Новости-(Общие)', 'Разделы\Новости', 'Здесь будут общие новости.', 1);
+INSERT INTO articles (id, name, path, text, web_user_id) VALUES (3, 'Новости-(Общие)', 'Разделы\\Новости', 'Здесь будут общие новости.', 1);
+INSERT INTO articles (id, name, path, text, web_user_id) VALUES (4, 'Инструкции', 'Разделы', "[_]\r\nИнструкции в процессе разработки.\r\n[_]", 1);
