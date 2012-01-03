@@ -24,5 +24,9 @@
     }
     ?>
   </li>
-  <?php endforeach; ?>
+  <?php endforeach; ?> 
 </ul>
+
+<p>
+  <span class="info">Если нужного Вам региона нет в списке,</span> <?php echo mail_to(SystemSettings::getInstance()->contact_email_addr, 'напишите администраторам') ?>.
+</p>
