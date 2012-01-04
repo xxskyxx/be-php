@@ -12,7 +12,8 @@
  */
 class GameCreateRequest extends BaseGameCreateRequest implements IStored
 {
-
+  const MAX_REQUESTS_PER_TEAM = 3; // Максимальное число активных заявок от одной команды.
+  
   //// IStored ////
   
   static function all()

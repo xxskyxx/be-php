@@ -21,6 +21,10 @@ class gameCreateRequestActions extends MyActions
         $team = Team::byId($request->getParameter('teamId')),
         'Не указана команда, которая организует игру'
     );
+    $this->errorRedirectUnless(
+        $this->canCrateNewRequest($team->id),
+        'От имени одной команды нельзя подавать более '.GameCreateRequest::MAX_REQUESTS_PER_TEAM.' заявок на создание игры. Отзовите предыдущие заявки или дождитесь их утверждения.'
+    );
     $gameCreateRequest = new gameCreateRequest();
     $gameCreateRequest->team_id = $team->id;
     $this->form = new GameCreateRequestForm($gameCreateRequest);
@@ -68,6 +72,11 @@ class gameCreateRequestActions extends MyActions
       if ((Utils::byField('Game', 'name', $object->name) === false)
           && (Utils::byField('GameCreateRequest', 'name', $object->name) === false))
       {
+        $this->errorRedirectUnless(
+            $this->canCrateNewRequest($object->team_id),
+            'От имени одной команды нельзя подавать более '.GameCreateRequest::MAX_REQUESTS_PER_TEAM.' заявок на создание игры.'
+        );
+        
         $object->tag = Utils::generateActivationkey();
         $object = $form->save();
         
@@ -163,6 +172,16 @@ class gameCreateRequestActions extends MyActions
         .'- сообщение: '.$gameCreateRequest->description."\n"
         .'Утвердить или отклонить: http://'.SystemSettings::getInstance()->site_domain.'/game/index'
     );    
-  }  
+  }
+  
+  protected function canCrateNewRequest($teamId)
+  {
+    $requests = Doctrine::getTable('GameCreateRequest')
+        ->createQuery('gcr')
+        ->select()
+        ->where('team_id = ?', $teamId)
+        ->execute();
+    return $requests->count() < GameCreateRequest::MAX_REQUESTS_PER_TEAM;
+  }
 }
 ?>
