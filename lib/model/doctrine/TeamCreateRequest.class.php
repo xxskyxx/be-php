@@ -12,7 +12,8 @@
  */
 class TeamCreateRequest extends BaseTeamCreateRequest implements IStored
 {
-
+  const MAX_REQUESTS_PER_USER = 3; // Максимальное число активных заявок от одного пользователя.
+ 
   //// IStored ////
   
   static function all()

@@ -20,6 +20,10 @@ class teamCreateRequestActions extends MyActions
   {
     $teamCreateRequest = new TeamCreateRequest();
     $teamCreateRequest->web_user_id = $this->sessionWebUser;
+    $this->errorRedirectUnless(
+        $this->canCrateNewRequest($teamCreateRequest->web_user_id),
+        'От имени одного человека нельзя подавать более '.GameCreateRequest::MAX_REQUESTS_PER_TEAM.' заявок на создание команды. Отзовите предыдущие заявки или дождитесь их утверждения.'
+    );
     $this->form = new TeamCreateRequestForm($teamCreateRequest);
   }
 
@@ -65,6 +69,12 @@ class teamCreateRequestActions extends MyActions
       if ((Utils::byField('Team', 'name', $object->name) === false)
           && (Utils::byField('TeamCreateRequest', 'name', $object->name) === false))
       {
+
+        $this->errorRedirectUnless(
+            $this->canCrateNewRequest($object->web_user_id),
+            'От имени одного человека нельзя подавать более '.GameCreateRequest::MAX_REQUESTS_PER_TEAM.' заявок на создание команды. Отзовите предыдущие заявки или дождитесь их утверждения.'
+        );
+        
         $object->tag = Utils::generateActivationKey();
         $object = $form->save();
         
@@ -164,5 +174,15 @@ class teamCreateRequestActions extends MyActions
         .'Утвердить или отклонить: http://'.SystemSettings::getInstance()->site_domain.'/team/index'
     );      
   }
+  
+  protected function canCrateNewRequest($userId)
+  {
+    $requests = Doctrine::getTable('TeamCreateRequest')
+        ->createQuery('tcr')
+        ->select()
+        ->where('web_user_id = ?', $userId)
+        ->execute();
+    return $requests->count() < TeamCreateRequest::MAX_REQUESTS_PER_USER;
+  }  
 }
 ?>
