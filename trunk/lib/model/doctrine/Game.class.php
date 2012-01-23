@@ -213,10 +213,24 @@ class Game extends BaseGame implements IStored, IAuth, IRegion
 
   /**
    * Проверяет, находится ли игра в активной фазе.
-   *
+   * 
    * @return  boolean
    */
   public function isActive()
+  {
+    /* Состояние GAME_FINISHED еще считается активным, так как не все команды
+     * сразу узнают об окончании игры. После остановки игры нужно еще несколько
+     * тактов пересчета на закрытие всех заданий.
+     */
+    return ($this->status >= Game::GAME_ACTIVE) && ($this->status <= Game::GAME_FINISHED);
+  }
+
+  /**
+   * Проверяет, имеет ли смысл обновлять состояние игры.
+   * 
+   * @return  boolean
+   */
+  public function isUpdateValuable()
   {
     /* Состояние GAME_FINISHED еще считается активным, так как не все команды
      * сразу узнают об окончании игры. После остановки игры нужно еще несколько
@@ -501,8 +515,9 @@ class Game extends BaseGame implements IStored, IAuth, IRegion
    */
   public function updateState(WebUser $actor)
   {
-    if (!Timing::isExpired(time(), Game::MIN_UPDATE_INERVAL, $this->game_last_update)
-        || !$this->isActive())
+    if ( ! (Timing::isExpired(time(), Game::MIN_UPDATE_INERVAL, $this->game_last_update)
+            &&
+            $this->isUpdateValuable()) )
     {
       return true;
     }
