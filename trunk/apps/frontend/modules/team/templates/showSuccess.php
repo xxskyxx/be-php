@@ -160,7 +160,7 @@ render_h3_inline_end();
             echo '&nbsp-&nbsp;проводится&nbsp;сейчас';
             if ($_sessionIsPlayer)
             {
-              echo ', '.link_to('перейти&nbsp;к&nbsp;состоянию', 'gameControl/status?id='.$game->id, array('target' => 'new'));
+              echo ', '.link_to('перейти&nbsp;к&nbsp;состоянию', 'gameControl/pilot?id='.$game->id, array('target' => 'new'));
             }
             break;
           case Game::GAME_STEADY:
