@@ -102,10 +102,10 @@ if (($_settings->smtp_login !== null) && ($_settings->smtp_login !== ''))
 </p>
 <?php   endif ?>
 <?php   if (( ! $_isFullArticleModer) && ($_articlesUnderModeration->count() > 0)): ?>
-<h3>Игры</h3>
+<h3>Статьи</h3>
 <ul>
   <?php   foreach ($_articlesUnderModeration as $article): ?>
-  <li><?php echo link_to($game->name, 'article/show?id='.$article->id) ?></li>
+  <li><?php echo link_to($article->name, 'article/show?id='.$article->id) ?></li>
   <?php   endforeach ?>
 </ul>
 <?php   endif ?>
