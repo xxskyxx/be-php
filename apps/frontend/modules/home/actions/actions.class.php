@@ -16,7 +16,7 @@ class homeActions extends MyActions
     
     $this->_canEditNews =
         $this->_userAuthenticated
-        && ($this->_localNews !== null)
+        && ($this->_localNews !== false)
         && ($this->sessionWebUser->can(Permission::ARTICLE_MODER, $this->_localNews->id));
   }
   

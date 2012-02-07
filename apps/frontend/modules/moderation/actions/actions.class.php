@@ -93,7 +93,7 @@ class moderationActions extends myActions
       }
       if (count($articleModerationIds) > 0)
       {
-        $this->_teamsUnderModeration = Doctrine::getTable('Article')
+        $this->_articlesUnderModeration = Doctrine::getTable('Article')
             ->createQuery('a')->select()
             ->whereIn('a.id', $articleModerationIds)
             ->execute();
