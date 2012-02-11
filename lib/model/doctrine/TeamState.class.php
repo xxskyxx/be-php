@@ -440,6 +440,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
             {
               // У команды нет доступных заданий, значит она завершила игру.
               // Ничего не делаем, руководство игры само решит финишировать или нет.
+              $res = true;
             }
             else
             {
