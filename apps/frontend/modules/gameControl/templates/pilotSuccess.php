@@ -34,8 +34,8 @@ include_partial('header', array(
             ?><div style="display: inline-block"><?php
             echo include_partial('taskState/taskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $currentTaskState->id, 'retUrl' => $retUrlRaw));
             ?></div><?php
+            include_component('taskState', 'answersForGameManager', array('taskStateId' => $currentTaskState->id));
           }
-          include_partial('taskState/taskAnswers', array('taskState' => $currentTaskState, 'compact' => true, 'describe' => true));
         }
         else
         {

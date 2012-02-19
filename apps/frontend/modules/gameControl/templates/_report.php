@@ -107,7 +107,7 @@ $tasks = Doctrine::getTable('Task')
       <?php   if (!$taskState): ?>
       <td class="bottomWeakBorder">&nbsp;</td>
       <?php   else: ?>
-      <td class="bottomWeakBorder"><?php include_partial('reportPostedAnswers', array('taskState' => $taskState, 'withTime' => true, 'withSender' => true, 'highlight' => true)) ?></td>
+      <td class="bottomWeakBorder"><?php include_component('taskState', 'answersForReport', array('taskStateId' => $taskState->id)) ?></td>
       <?php   endif; ?>
       <?php endforeach; ?>
     </tr>
