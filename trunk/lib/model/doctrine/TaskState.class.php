@@ -249,7 +249,76 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     return true;
   }
 
-  // Action
+  /**
+   * Проверяет, можно ли сейчас вводить ответы.
+   *
+   * @return  boolean
+   */
+  public function canAcceptAnswers()
+  {
+    return $this->status == TaskState::TASK_ACCEPTED;
+  }
+
+  /**
+   * Возвращает список ответов, которые предстоит ввести
+   * 
+   * @return Doctrine_Collection<Answer>
+   */
+  public function getRestAnswers()
+  {
+    $res = new Doctrine_Collection("Answer");
+    //Построим индекс ответов $accceptedAnswersIndex с признаком того, что они приняты:
+    $targetAnswers = $this->Task->getTargetAnswersForTeam($this->TeamState->Team);
+    $acceptedAnswersIndex = array();
+    foreach ($targetAnswers as $answer)
+    {
+      $acceptedAnswersIndex[$answer->id] = false;
+    }
+    foreach ($this->getPostedAnswersByStatus(PostedAnswer::ANSWER_OK) as $postedAnswer)
+    {
+      $acceptedAnswersIndex[$postedAnswer->answer_id] = true;
+    }
+    foreach ($targetAnswers as $answer)
+    {
+      if ( ! $acceptedAnswersIndex[$answer->id])
+      {
+        $res->add($answer);
+      }
+    }
+    return $res;
+  }
+  
+  /**
+   * Возвращает список введенных правильных ответов.
+   * 
+   * @return Doctrine_Collection<PostedAnswer>
+   */
+  public function getGoodPostedAnswers()
+  {
+    return $this->getPostedAnswersByStatus(PostedAnswer::ANSWER_OK);
+  }
+  
+  /**
+   * Возвращает список введенных ответов, ожидающих проверки.
+   * 
+   * @return Doctrine_Collection<PostedAnswer>
+   */
+  public function getBeingVerifiedPostedAnswers()
+  {
+    return $this->getPostedAnswersByStatus(PostedAnswer::ANSWER_POSTED);
+  }
+  
+  /**
+   * Возвращает список введенных неверных ответов.
+   * 
+   * @return Doctrine_Collection<PostedAnswer>
+   */
+  public function getBadPostedAnswers()
+  {
+    return $this->getPostedAnswersByStatus(PostedAnswer::ANSWER_BAD);
+  }
+  
+// Action
 
   /**
    * Обновляет состояние задания (сохраняет в БД).
@@ -1060,5 +1129,24 @@ class TaskState extends BaseTaskState implements IStored, IAuth
       }
     }
   }
-  
+ 
+  /**
+   * Возвращает список введенных ответов с указанным статусом.
+   * 
+   * @param  integer              $status
+   * 
+   * @return Doctrine_Collection 
+   */
+  protected function getPostedAnswersByStatus($status)
+  {
+    $res = new Doctrine_Collection("PostedAnswer");
+    foreach ($this->postedAnswers as $postedAnswer)
+    {
+      if ($postedAnswer->status == $status)
+      {
+        $res->add($postedAnswer);
+      }
+    }
+    return $res;
+  }
 }

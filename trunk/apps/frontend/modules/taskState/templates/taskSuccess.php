@@ -50,7 +50,8 @@ $sessionIsPlayer = $_taskState->TeamState->Team->isPlayer($sessionWebUser);
 $sessionIsLeader = $_taskState->TeamState->Team->isLeader($sessionWebUser);
 $sessionIsGameManager = $_taskState->TeamState->Game->canBeManaged($sessionWebUser);
 
-include_partial('taskAnswers', array('taskState' => $_taskState));
+include_component('taskState', 'answersForTeam', array('taskStateId' => $_taskState->id));
+
 if ($sessionIsPlayer || $sessionIsGameManager)
 {
   include_partial('taskState/taskAnswerPostedForm', array('form' => new SimpleAnswerForm, 'id' => $_taskState->id, 'retUrl' => Utils::encodeSafeUrl(url_for('taskState/task?id='.$_taskState->id))));
@@ -64,7 +65,7 @@ include_partial('taskStats', array('taskState' => $_taskState));
 ?>
 
 <?php elseif ($_taskState->status == TaskState::TASK_CHEAT_FOUND): ?>
-<?php include_partial('taskAnswers', array('taskState' => $_taskState)) ?>
+<?php include_component('taskState', 'answersForTeam', array('taskStateId' => $_taskState->id)) ?>
 <div class="danger">
   <p>
     Задание дисквалифицировано. Вы больше не можете вводить ответы.
