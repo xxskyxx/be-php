@@ -125,19 +125,21 @@ class TaskState extends BaseTaskState implements IStored, IAuth
     //- еще не начат ввод ответов
     //- задание уже начато
     //- задание еще не завершено
+    //- задание не дисквалифицировано
     //- время на задание еще не закончилось
     return
            (
              ($this->usedTips->count() > 1)
              ||
              (
-               ($this->Task->tips->count() == 1)
+               ($this->Task->tips->count() <= 1)
                &&
                (Timing::isExpired($this->getTaskSpentTimeCurrent(), $this->Task->Game->time_per_tip*60, 0))
              )
            ) 
         && ($this->postedAnswers->count() == 0)
         && ($this->status >= TaskState::TASK_ACCEPTED)
+        && ($this->status != TaskState::TASK_CHEAT_FOUND)
         && ($this->status < TaskState::TASK_DONE)
         && ( ! Timing::isExpired($this->getTaskSpentTimeCurrent(), $this->Task->time_per_task_local*60, 0));
   }
@@ -743,6 +745,10 @@ class TaskState extends BaseTaskState implements IStored, IAuth
         && !$this->canBeManaged($actor))
     {
       return 'Отправлять коды могут только участники команды или организаторы игры.';
+    }
+    if ($this->status != TaskState::TASK_ACCEPTED)
+    {
+      return 'Отправлять коды можно только после старта задания до его завершения, и когда оно не дисквалифицировано.';
     }
 
     $sourceAnswers = explode(' ', trim($answers));

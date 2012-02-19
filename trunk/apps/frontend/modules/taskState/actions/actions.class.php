@@ -21,6 +21,7 @@ class taskStateActions extends MyActions
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->forward404Unless($taskState = TaskState::byId($request->getParameter('id')), 'Состояние задания не найдено.');
     $this->errorRedirectUnless($taskState->canBeObserved($this->sessionWebUser), Utils::cannotMessage($this->sessionWebUser->login, 'отправлять ответы команды'));
+    $this->errorRedirectUnless($taskState->status != TaskState::TASK_ACCEPTED, 'Для этого задания сейчас нельзя отправлять ответы.');
 
     $form = new SimpleAnswerForm();
     $form->bind($request->getParameter('simpleAnswer'));
