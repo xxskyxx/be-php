@@ -4,13 +4,8 @@
   <body style="width:auto">
     <?php include_partial('global/flashes'); ?>
     <?php echo $sf_content; ?>
-    <div>
-      <p>
-        <?php
-        echo link_to('Главная', 'home/index').', ';
-        echo link_to('Выйти', 'auth/logout');
-        ?>
-      </p>
+    <div class="hr">
+      <?php echo link_to('Главная', 'home/index').', '.link_to('Выйти', 'auth/logout'); ?>
     </div>
   </body>
 </html>

@@ -7,6 +7,17 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+/* Неотображаемые фрагметы, например коды счетчиков */
+div.hidden { display: none }
+
+/* Картинка-ссылка, вокруг которой не нужна разметка ссылки */
+a.banner, a.banner:link, a.banner:visited, a.banner:hover, a.banner:active { 
+  border: none; 
+  margin: 0 0 0 0; 
+  padding: 0 0 0 0; 
+  text-decoration: none
+}
+
 /* Комментарии на страницах */
 div.comment, p.comment { font-style: italic; font-size: small }
 
@@ -156,5 +167,4 @@ div.tabSheet {
   border-top: none;
   padding: 3px 1ex 0.5em 1ex; 
 }
-
 

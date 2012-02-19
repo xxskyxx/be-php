@@ -8,12 +8,16 @@
  * следующим образом:
  *   SystemSettings::getInstance()->contact_email_addr
  * Пример ниже.
- * 
- * Здесь же следует размещать коды статистических анализаторов,
- * вроде Яндекс.Метрики и Google.Analitics.
  */
 ?>
 
-<div style="margin-top: 1ex; text-align: right; font-style: italic; font-size: smaller">
-  <div>&copy;&nbsp;Илья <?php echo mail_to(SystemSettings::getInstance()->contact_email_addr, 'Ключ')?> Воздвиженский</div>
+<div style="width:100%; border: none; padding: 0 0 0 0; margin: 0 0 0 0"> 
+  <div style="width:70%; display:inline-block;">
+
+    <!-- Коды информеров и прочих баннеров -->
+
+  </div><div style="width:30%; display:inline-block;">
+    <span style="text-align: right; font-style: italic; font-size: smaller">&copy;&nbsp;Илья <?php echo mail_to(SystemSettings::getInstance()->contact_email_addr, 'Ключ')?> Воздвиженский</span>
+  </div>
 </div>
+
