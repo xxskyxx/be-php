@@ -5,13 +5,15 @@
  */
 ?>
 <h4>Статистика:</h4>
-<div>Сейчас:&nbsp;<?php echo Timing::timeToStr($taskState->task_last_update) ?></div>
+<div>
+  Сейчас: <span id="serverTime">--:--:--</span>
+</div>
 <div>
   Задание:
   <ul>
+    <li>обновлено <?php echo Timing::timeToStr($taskState->task_last_update) ?></li>
     <li>идет уже <?php echo Timing::intervalToStr($taskState->getTaskSpentTimeCurrent()) ?></li>
-    <li>завершение <?php echo Timing::timeToStr($taskState->getTaskStopTime()) ?>
-    </li>
+    <li>завершение <?php echo Timing::timeToStr($taskState->getTaskStopTime()) ?></li>
   </ul>
 </div>
 <div>

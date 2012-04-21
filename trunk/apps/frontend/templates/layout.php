@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <?php include_partial('global/metas'); ?>
-  <body>
+  <body onload="startTime()">
     <?php include_partial('global/header'); ?>
     <?php include_partial('global/flashes'); ?>
     <?php echo $sf_content; ?>
