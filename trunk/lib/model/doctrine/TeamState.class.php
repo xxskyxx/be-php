@@ -439,7 +439,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
             if ($availableTasks->count() <= 0)
             {
               // У команды нет доступных заданий, значит она завершила игру.
-              // Ничего не делаем, руководство игры само решит финишировать или нет.
+              $this->finish($actor);
               $res = true;
             }
             else
