@@ -822,7 +822,7 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     //Проинициализируем maxPriority реальным значением,
     //а то что-то сравнение с null норовит отбросить знак
     //и отрицательные приоритеты считать положительными.
-    $maxPriority = $this->getPriorityOfTask($this->Game->tasks->getFirst());
+    $maxPriority = $this->getPriorityOfTask($availableTasks->getFirst());
     foreach ($availableTasks as $task)
     {
       $candidate = array();
