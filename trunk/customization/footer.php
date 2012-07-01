@@ -13,7 +13,7 @@
 
 <div style="width:100%; border: none; padding: 0 0 0 0; margin: 0 0 0 0"> 
   <div style="width:30%; display:inline-block; font-size: smaller">
-    Серверное время: <span id="serverTime">--:--:--</span>.
+    Время сервера: <span id="serverTime">--:--:--</span>.
   </div><div style="width:40%; display:inline-block;">
 
     <!-- Коды информеров и прочих баннеров -->
