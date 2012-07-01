@@ -14,7 +14,7 @@ $retUrlRaw = Utils::encodeSafeUrl(url_for('task/show?id='.$_task->id));
 <?php
 render_h3_inline_begin('Cвойства');
 if ($_isManager || $_isModerator) echo ' '.decorate_span('safeAction', link_to('Редактировать', 'task/edit?id='.$_task->id));
-if ($_isModerator) echo '&nbsp;'.decorate_span('dangerAction', link_to('Удалить задание', 'task/delete?id='.$_task->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить задание '.$_task->name.'?')));
+if ($_isManager || $_isModerator) echo '&nbsp;'.decorate_span('dangerAction', link_to('Удалить задание', 'task/delete?id='.$_task->id.'&returl='.$retUrlRaw, array('method' => 'delete', 'confirm' => 'Вы точно хотите удалить задание '.$_task->name.'?')));
 render_h3_inline_end();
 ?>
 <h4>Основные</h4>
