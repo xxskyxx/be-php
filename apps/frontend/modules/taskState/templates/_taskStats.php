@@ -6,7 +6,7 @@
 ?>
 <h4>Статистика:</h4>
 <div>
-  Сейчас: <span id="serverTime">--:--:--</span>
+  Время сервера: <span id="serverTime">--:--:--</span>
 </div>
 <div>
   Задание:

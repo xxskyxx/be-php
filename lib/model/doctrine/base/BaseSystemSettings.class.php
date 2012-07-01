@@ -69,7 +69,7 @@ abstract class BaseSystemSettings extends sfDoctrineRecord
         $this->hasColumn('site_name', 'string', 255, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => 'Beaver\'s Engine v0.15.11b',
+             'default' => 'Beaver\'s Engine v0.15.12b',
              'length' => 255,
              ));
         $this->hasColumn('site_domain', 'string', 255, array(

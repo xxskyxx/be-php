@@ -4,7 +4,7 @@ SystemSettings:
   columns:
     id: { type: integer, primary: true, notnull: true }
     # Название сайта, отображается в заголовке и указывается в письмах-уведомлениях
-    site_name: { type: string(255), notnull: true, default: 'Beaver''s Engine v0.15.11b' }
+    site_name: { type: string(255), notnull: true, default: 'Beaver''s Engine v0.15.12b' }
     # Домен сайта, требуется для формирования писем-уведомлений
     site_domain: { type: string(255), notnull: true, default: localhost }
     # Число дней до игры, когда открывается анонс
