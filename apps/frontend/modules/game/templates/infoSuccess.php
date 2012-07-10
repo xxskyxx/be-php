@@ -24,6 +24,7 @@ render_named_line($width, 'Организаторы:', ($_game->team_id !== null
 render_named_line($width, 'Регион:', $_game->getRegionSafe()->name);
 ?>
 <h4>Регламент</h4>
+<div class="comment info">Время соответствует серверному</div>
 <?php
 render_named_line($width, 'Брифинг:', $_game->start_briefing_datetime);
 render_named_line($width, 'Старт игры:', $_game->start_datetime);
