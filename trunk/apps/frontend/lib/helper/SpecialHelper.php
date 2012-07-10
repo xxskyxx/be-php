@@ -365,7 +365,7 @@ function render_column_value($value, $width = 0, $align = '')
 
 function render_timer_script()
 {
-  $decodedTime = localtime(time(), true);
+  $decodedTime = localtime(Timing::getActualTime(), true);
   $s = $decodedTime['tm_sec'];
   $m = $decodedTime['tm_min'];
   $h = $decodedTime['tm_hour'];
@@ -373,12 +373,20 @@ function render_timer_script()
   echo 'var m = '.$m.';';
   echo 'var s = '.$s.';';
   echo 'function startTime() {';
-  echo   's = s + 1;';
-  echo   'if (s >= 59) { s = 0; m = m + 1; }';
-  echo   'if (m >= 59) { m = 0; h = h + 1; }';
-  echo   'if (h >= 23) { h = 0; }';
-  echo   'document.getElementById("serverTime").innerHTML = ((h>9) ? h : "0"+h) + ":" + ((m>9) ? m : "0"+m) + ":" + ((s>9)? s : "0"+s);';
-  echo   'html = setTimeout("startTime()",999);';
+  echo '  s = s + 1;';
+  echo '  if (s >= 59) {';
+  echo '    s = 0;';
+  echo '    m = m + 1;';
+  echo '    if (m >= 59) {';
+  echo '      m = 0;';
+  echo '      h = h + 1;';
+  echo '      if (h >= 23) {';
+  echo '        h = 0;';
+  echo '      }';
+  echo '    }';
+  echo '  }';
+  echo '  document.getElementById("serverTime").innerHTML = ((h>9) ? h : "0"+h) + ":" + ((m>9) ? m : "0"+m) + ":" + ((s>9)? s : "0"+s);';
+  echo '  html = setTimeout("startTime()",999);';
   echo '}';
 }
 ?>

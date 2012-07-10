@@ -2,8 +2,24 @@
 
 class Timing
 {
+  // Сдвиг времени сервера относительно времени хостинга (!), сек
+  // В одном часе 3600 секунд.
+  // Для хостинга, работающего по московскому времени:
+  // - Калининград = -3600
+  // - Москва = 0
+  // - Владивосток = +25200
+  const SERVER_TIME_SHIFT = 0;
+  
   const NO_DATE = '____:__:__';
   const NO_TIME = '--:--:--';
+
+  /**
+   * Возвращает время сайта с учетом сдвига относительно времени хостера. 
+   */
+  public static function getActualTime()
+  {
+    return time() + Timing::SERVER_TIME_SHIFT;
+  }
 
   /**
    * Проверяет, отстоит ли $testTime от $baseTime не менее чем на $interval секунд.
@@ -30,7 +46,7 @@ class Timing
     {
       return Timing::NO_DATE.' '.Timing::NO_TIME;
     }
-    return date('Y-m-d H:i:s', $timeDate);
+    return date('Y-m-d H:i:s', $timeDate + Timing::SERVER_TIME_SHIFT);
   }
 
   /**
@@ -45,7 +61,7 @@ class Timing
     {
       return Timing::NO_TIME;
     }
-    return date('H:i:s', $time);
+    return date('H:i:s', $time + Timing::SERVER_TIME_SHIFT);
   }
 
   /**
@@ -81,7 +97,7 @@ class Timing
       $parts = split(' ', $dateStr);
       $date = split('-', $parts[0]);
       $time = split(':', $parts[1]);
-      return mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
+      return mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]) - Timing::SERVER_TIME_SHIFT;
     }
     catch (Exception $exc)
     {

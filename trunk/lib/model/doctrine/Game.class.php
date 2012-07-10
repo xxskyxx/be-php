@@ -561,6 +561,7 @@ class Game extends BaseGame implements IStored, IAuth, IRegion
         if (time() > $this->getGameStopTime())
         {
           $this->stop($actor);
+          $this->save();
         }
         //Обновим состояние команд.
         $res = $this->updateTeamStates($actor);
