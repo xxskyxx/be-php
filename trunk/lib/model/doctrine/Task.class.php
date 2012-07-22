@@ -247,7 +247,7 @@ class Task extends BaseTask implements IStored, IAuth
     }
     foreach ($this->Game->tasks as $task)
     {
-      if (($this->id != $task->id) && ( ! $this->hasTransitionToTask($task)))
+      if (($this->id != $task->id) && ($this->findTransitionToTask($task)) === false)
       {
         $newTransition = new TaskTransition();
         $newTransition->task_id = $this->id;
@@ -258,6 +258,26 @@ class Task extends BaseTask implements IStored, IAuth
     $this->save();
   }
 
+  /**
+   * Проверяет, допустимо ли указанное задание в качестве следующего за данным.
+   * 
+   * @param   Task      $targetTask           проверяемое задание
+   * @param   boolean   $currentTaskSuccess   результат текущего задания
+   * @param   boolean   $forManualSelectOnly  выбирать только для ручного перехода
+   * 
+   * @return  boolean
+   */
+  public function isAvailableAsNext($targetTask, $currentTaskSuccess, $forManualSelectOnly)
+  {
+    $taskTransition = $this->findTransitionToTask($targetTask);
+    if ($taskTransition === false)
+    {
+      return false;
+    }
+    
+    return $taskTransition->isTransitionPass($currentTaskSuccess, $forManualSelectOnly);
+  }
+  
   /**
    * Возвращает список заданий доступных для перехода,
    * если успешность выполнения данного задания равна указанному значению.
@@ -374,13 +394,13 @@ class Task extends BaseTask implements IStored, IAuth
   //// Self ////
   
   /**
-   * Проверяет, задан ли фильтр перехода на указанное задание.
+   * Ищет фильтр перехода на указанное задание, вернет false если не найдено.
    * 
    * @param   Task  $task 
    * 
-   * @return  boolean
+   * @return  TaskTransition
    */
-  protected function hasTransitionToTask(Task $task)
+  protected function findTransitionToTask(Task $task)
   {
     foreach ($this->taskTransitions as $taskTransition)
     {
@@ -389,7 +409,7 @@ class Task extends BaseTask implements IStored, IAuth
       {
         if ($targetTask->id == $task->id)
         {
-          return true;
+          return $taskTransition;
         }
       }
     }

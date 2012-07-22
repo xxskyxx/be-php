@@ -331,8 +331,18 @@ class TeamState extends BaseTeamState implements IStored, IAuth
     }
     return $result;
   }
-
-    // Action
+  
+  /**
+   * Проверяет, может ли команда финишировать автоматически.
+   * 
+   * @return  Boolean
+   */
+  public function canAutoFinish()
+  {
+    return $this->Game->tasks->Count() == $this->getKnownTasks()->Count();
+  }
+  
+  // Action
 
   /**
    * Обновляет состояние команды (сохраняет в БД).
@@ -438,8 +448,11 @@ class TeamState extends BaseTeamState implements IStored, IAuth
             $availableTasks = $this->getTasksAvailableAll();
             if ($availableTasks->count() <= 0)
             {
-              // У команды нет доступных заданий, значит она завершила игру.
-              $this->finish($actor);
+              // У команды нет доступных заданий, возможно она завершила игру.
+              if ($this->canAutoFinish())
+              {
+                $this->finish($actor);
+              }
               $res = true;
             }
             else
@@ -893,10 +906,8 @@ class TeamState extends BaseTeamState implements IStored, IAuth
    */
   protected function getAvailableTasks($forManualSelectOnly)
   {
-    $empty = new Doctrine_Collection('Task');
-    $allTasks = $this->Game->tasks;
-    $knownTasks = $this->getKnownTasks();
-    $unknownTasks = Task::excludeTasks($allTasks, $knownTasks);
+    $result = new Doctrine_Collection('Task');
+    $unknownTasks = Task::excludeTasks($this->Game->tasks, $this->getKnownTasks());
 
     $lastKnownTaskState = $this->getLastKnownTaskState();
     if ( ! $lastKnownTaskState )
@@ -904,22 +915,27 @@ class TeamState extends BaseTeamState implements IStored, IAuth
       // Команда еще не делала ни одного задания.
       if ($forManualSelectOnly)
       {
-        return $empty; // Первое задание не может быть выбрано вручную.
+        return $result; // Первое задание не может быть выбрано вручную.
       }
       return $unknownTasks;
     }
-    $isLastKnownTaskSucceeded = $lastKnownTaskState->status == TaskState::TASK_DONE_SUCCESS;
-    $tasksPassedTransitionsFilter = $lastKnownTaskState->Task->getNextTasks($isLastKnownTaskSucceeded, $forManualSelectOnly);
-    if (($tasksPassedTransitionsFilter->count() == 0)
-        && ( ! $forManualSelectOnly)) // Ручной выбор может быть только на основе фильтров
-    {
-      $result = $unknownTasks;
-    }
-    else
-    {
-      $result = Task::excludeTasks($tasksPassedTransitionsFilter, $knownTasks);
-    }
-    return ($result->count() > 0) ? $result : $empty;
-  }
 
+    $isLastTaskSuccesful = $lastKnownTaskState->status == TaskState::TASK_DONE_SUCCESS;
+    foreach ($unknownTasks as $unknownTask)
+    {
+      if ($lastKnownTaskState->Task->isAvailableAsNext($unknownTask, $isLastTaskSuccesful, $forManualSelectOnly))
+      {
+        $result->add($unknownTask);
+      }
+    }
+    
+    // Если подходящий заданий нет, но выбираются они для автоматического
+    // перехода, то нужно вернуть все неизвестные.
+    if (($result->Count() == 0) && ( ! $forManualSelectOnly))
+    {
+      return $unknownTasks;
+    }
+    
+    return $result;
+  }
 }

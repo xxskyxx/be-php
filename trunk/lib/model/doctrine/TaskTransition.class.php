@@ -67,4 +67,20 @@ class TaskTransition extends BaseTaskTransition implements IStored, IAuth
            || ($this->allow_on_success && $currentTaskResult)
            || ($this->allow_on_fail && (! $currentTaskResult));
   }
+  
+  /**
+   * Проверяет, разрешен ли переход,
+   * если результат задания равен указанному,
+   * а также с учетом ручного выбора
+   *
+   * @param   boolean   $currentTaskSuccess 
+   * @param   boolean   $forManualSelectOnly
+   * 
+   * @return  boolean
+   */
+  public function isTransitionPass($currentTaskResult, $forManualSelectOnly)
+  {
+    return $this->isTransitionPassForResult($currentTaskResult)
+           && ($this->manual_selection == $forManualSelectOnly);
+  }  
 }

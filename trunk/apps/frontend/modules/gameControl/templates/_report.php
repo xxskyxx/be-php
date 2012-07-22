@@ -41,9 +41,9 @@ $tasks = Doctrine::getTable('Task')
     // Построим индекс колонок, чтобы не сопоставлять каждый раз задание с состоянием.
     $index = array();
     $column = 0;
-    foreach ($teamState->Game->tasks as $task)
+    foreach ($tasks as $task)
     {
-      $index[$column] = $teamState->findKnownTaskState($task->getRawValue());
+      $index[$column] = $teamState->findKnownTaskState($task);
       $column++;
     }
     ?>
