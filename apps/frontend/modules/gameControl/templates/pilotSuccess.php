@@ -116,10 +116,7 @@ include_partial('header', array(
               if ($teamState->status == TeamState::TEAM_WAIT_TASK)
               {
                 $htmlLink = link_to('Финишировать','teamState/forceFinish?id='.$teamState->id.'&returl='.$retUrlRaw, array('method' => 'post', 'confirm' => 'Отправить команду '.$teamState->Team->name.' на финиш?'));
-                $availableTasks = $teamState->getTasksAvailableAll(false);
-                echo ($availableTasks->count() == 0)
-                  ? ' '.decorate_span('safeAction', $htmlLink)
-                  : ' '.decorate_span('dangerAction', $htmlLink);
+                echo ' '.decorate_span('dangerAction', $htmlLink);
               }
             }
             ?>
