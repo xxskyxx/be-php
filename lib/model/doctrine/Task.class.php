@@ -96,7 +96,7 @@ class Task extends BaseTask implements IStored, IAuth
     else
     {
       // Задание выдано по крайней мере одной команде
-      $res = $this->priority_busy + ($this->taskStates->count() * $this->priority_per_team);
+      $res = $this->priority_busy + ($this->getNotDoneTaskStates()->count() * $this->priority_per_team);
       if ($this->isFilled())
       {
         $res += $this->priority_filled;
